@@ -67,7 +67,7 @@ export class Nano {
     for (const p in props) {
       if (p === 'ref') ref = props[p]
       else if (events.find((e) => e === p)) element.addEventListener(p.toLowerCase().substring(2), (e) => props[p](e))
-      else if (/className/i.test(p)) console.warn('You use "class" instead of "className".')
+      else if (/className/i.test(p)) console.warn('You can use "class" instead of "className".')
       else element.setAttribute(p, props[p])
     }
 
