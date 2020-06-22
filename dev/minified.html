@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="../bundle/nano.dev.min.js"></script>
+  </head>
+  <body>
+    <style>
+      body {
+        width: fit-content;
+        background-color: #21222c;
+        color: #6ce3fd;
+        font-size: large;
+        font-family: sans-serif;
+        padding: 2em;
+        margin: 0 auto;
+      }
+    </style>
+    <div id="root"></div>
+
+    <script>
+      const { Nano, Component } = nano
+      const h = Nano.createElement
+
+      class Test extends Component {
+        didMount() {
+          this.list = document.getElementById('list')
+          this.list.addEventListener('click', () => {
+            const listElement = h('li', null, 'some more text')
+            this.list.appendChild(listElement)
+          })
+        }
+
+        render() {
+          const listElement = h('li', null, 'some text')
+          const list = h('ul', { id: 'list' }, listElement)
+          const header = h('h1', null)
+          const div = h('div', null, list, header)
+
+          return div
+        }
+      }
+
+      Nano.render(Test, document.getElementById('root'))
+    </script>
+  </body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <style>
+      body {
+        width: fit-content;
+        background-color: #21222c;
+        color: #6ce3fd;
+        font-size: large;
+        font-family: sans-serif;
+        padding: 2em;
+        margin: 0 auto;
+      }
+      .button.is-primary {
+        border: none;
+        background-color: #a86ec8;
+        color: white;
+        padding: 16px 32px;
+        border-radius: 8px;
+        font-size: 20px;
+        cursor: pointer;
+        outline: none;
+      }
+      .button.is-primary:hover {
+        background-color: #904cb5;
+      }
+      .button.is-primary:active {
+        background-color: #842bb4;
+      }
+      #toaster {
+        position: absolute;
+        bottom: 16px;
+        left: 16px;
+      }
+      p.toast {
+        background-color: #0f0f12;
+        padding: 16px;
+        border-radius: 4px;
+
+        transition: opacity 0.5s;
+      }
+      p.toast.visible {
+        opacity: 1;
+      }
+      p.toast.transparent {
+        opacity: 0;
+      }
+    </style>
+    <div id="root"></div>
+    <div id="list"></div>
+    <div id="input"></div>
+    <div id="toaster"></div>
+    <div id="nested"></div>
+    <script src="../lib/dev.js" type="module"></script>
+  </body>
+</html>
