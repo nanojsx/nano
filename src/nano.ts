@@ -3,10 +3,19 @@ export class Nano {
     return props.children
   }
 
-  static render(component: any, parent: HTMLElement | null = null) {
+  static removeAllChildNodes = (parent: HTMLElement) => {
+    while (parent.firstChild) {
+      parent.removeChild(parent.firstChild)
+    }
+  }
+
+  static render(component: any, parent: HTMLElement | null = null, removeAllChildNodes = true) {
     let el = Nano.renderComponent(component)
-    if (!!parent) parent.appendChild(el)
-    else return el
+    if (!!parent) {
+      if (removeAllChildNodes) Nano.removeAllChildNodes(parent)
+      parent.appendChild(el)
+    }
+    return el
   }
 
   static renderComponent(componentP: { component: any; props?: any }): any {
