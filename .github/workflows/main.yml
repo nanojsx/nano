@@ -25,6 +25,7 @@ jobs:
       - name: npm install, build, and test
         run: |
           npm install
+          npm run build
           npm test
       - uses: codecov/codecov-action@v1
         env:
