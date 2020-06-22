@@ -9,7 +9,7 @@ test('should render without errors', async (done) => {
       return <div>test</div>
     }
   }
-  const res = Nano.render(Test)
+  const res = Nano.render(<Test />)
 
   await wait()
   expect(res.outerHTML).toBe('<div>test</div>')

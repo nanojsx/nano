@@ -23,7 +23,10 @@ export class Nano {
     let props = { children: [] }
     let component
 
-    if (typeof componentP === 'function') component = componentP
+    // @ts-ignore // if it is already a jsx element, simply return it
+    if (componentP.tagName) {
+      return componentP
+    }
 
     if (componentP?.component) component = componentP.component
     if (componentP?.props) props = componentP.props
