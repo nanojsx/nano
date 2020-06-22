@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="./readme/nano-jsx-logo.png" width="230"/>
+<img src="readme/nano-jsx-logo.png" alt="Nano JSX Logo" width="230"/>
 
 </div>
 
