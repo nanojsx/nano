@@ -208,4 +208,4 @@ class Toaster extends Component {
   }
 }
 
-Nano.render(Toaster, document.getElementById('toaster'))
+Nano.render(<Toaster />, document.getElementById('toaster'))
