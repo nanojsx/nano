@@ -1,0 +1,10 @@
+.github
+bundle
+coverage
+dev
+node_modules
+src
+test
+webpack
+tsconfig.json
+tsconfig.dev.json
