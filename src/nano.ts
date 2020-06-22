@@ -90,7 +90,7 @@ export class Nano {
       return element
     }
 
-    const appendChild = (child: any) => {
+    const appendChild = (child: HTMLElement) => {
       element.appendChild(child.nodeType == null ? document.createTextNode(child.toString()) : child)
     }
 
@@ -101,7 +101,7 @@ export class Nano {
           appendChild(child)
         })
       } else {
-        let child = Nano.renderComponent({ component: arguments[i] })
+        let child = Nano.renderComponent({ component: arguments[i] }) as HTMLElement
         if (Array.isArray(child)) {
           child.forEach((c) => {
             appendChild(c)
