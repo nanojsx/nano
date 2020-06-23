@@ -109,13 +109,14 @@ export class Nano {
     }
 
     const appendChild = (child: HTMLElement) => {
+      // @ts-ignore
+      if (child.component) child = Nano.renderComponent({ ...child })
       element.appendChild(child.nodeType == null ? document.createTextNode(child.toString()) : child)
     }
 
     for (let i = 2; i < arguments.length; i++) {
       if (Array.isArray(arguments[i])) {
         arguments[i].forEach((child: any) => {
-          if (child.component) child = Nano.renderComponent({ ...child })
           appendChild(child)
         })
       } else {
@@ -124,7 +125,9 @@ export class Nano {
           child.forEach((c) => {
             appendChild(c)
           })
-        } else appendChild(child)
+        } else {
+          appendChild(child)
+        }
       }
     }
 
