@@ -11,29 +11,31 @@ test('should render without errors', async (done) => {
       return (
         <MyContext.Consumer>
           {(value: any) => {
-            return <div>{value}</div>
+            return <p>{value}</p>
           }}
         </MyContext.Consumer>
       )
     }
   }
 
-  class Root extends Component {
+  class Parent extends Component {
     render() {
       return (
-        <div>
-          <MyContext.Provider value={this.props.name}>
-            <Child />
-          </MyContext.Provider>
-        </div>
+        <MyContext.Provider value={this.props.name}>
+          <Child />
+        </MyContext.Provider>
       )
     }
   }
 
-  const res = Nano.render(<Root name="suzanne" />)
+  const res = Nano.render(
+    <div id="root">
+      <Parent name="suzanne" />
+    </div>
+  )
 
   await wait()
-  expect(nodeToString(res)).toBe('<div><div>suzanne</div></div>')
+  expect(nodeToString(res)).toBe('<div id="root"><p>suzanne</p></div>')
   expect(spy).not.toHaveBeenCalled()
   done()
 })
@@ -45,26 +47,28 @@ test('should render without errors', async (done) => {
     return (
       <MyContext.Consumer>
         {(value: any) => {
-          return <div>{value}</div>
+          return <p>{value}</p>
         }}
       </MyContext.Consumer>
     )
   }
 
-  const Root = (props: any) => {
+  const Parent = (props: any) => {
     return (
-      <div>
-        <MyContext.Provider value={props.name}>
-          <Child />
-        </MyContext.Provider>
-      </div>
+      <MyContext.Provider value={props.name}>
+        <Child />
+      </MyContext.Provider>
     )
   }
 
-  const res = Nano.render(<Root name="suzanne" />)
+  const res = Nano.render(
+    <div id="root">
+      <Parent name="suzanne" />
+    </div>
+  )
 
   await wait()
-  expect(nodeToString(res)).toBe('<div><div>suzanne</div></div>')
+  expect(nodeToString(res)).toBe('<div id="root"><p>suzanne</p></div>')
   expect(spy).not.toHaveBeenCalled()
   done()
 })
