@@ -18,7 +18,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yandeu/nano-jsx-dev.git"
+    "url": "git+https://github.com/yandeu/nano-jsx.git"
   },
   "keywords": [
     "mini",
@@ -32,9 +32,9 @@
   "author": "Yannick Deubel (https://github.com/yandeu)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/yandeu/nano-jsx-dev/issues"
+    "url": "https://github.com/yandeu/nano-jsx/issues"
   },
-  "homepage": "https://github.com/yandeu/nano-jsx-dev#readme",
+  "homepage": "https://github.com/yandeu/nano-jsx#readme",
   "devDependencies": {
     "@types/jest": "^26.0.0",
     "jest": "^26.0.1",
