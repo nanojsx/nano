@@ -19,3 +19,26 @@ Written in TypeScript, super Lightweight, simply Awesome!</h4>
 <hr>
 
 The documentation will be available soon.
+
+## Features
+
+- **SSR**  
+  (Out of the box, very simple to use)
+
+- **Hydration**  
+  (Render your app on the server and hydrate it on the client)
+
+- **Partial Hydration**  
+  (Hydrate and only the parts you need)
+
+- **CSS in JS**  
+  (Use JavaScript objects for styling)
+
+- **No JSX build tools required**  
+  (Uses Tagged Templates instead of JSX if you prefer)
+
+- **Props, Ref, Context and Events**  
+  (Use Props, Ref, Context API and Events as your are used to in react)
+
+- **1KB (gzip)**  
+  (All of this in only ~1KB)
