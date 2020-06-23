@@ -9,6 +9,18 @@ export class Nano {
     }
   }
 
+  static createContext(value: any) {
+    return {
+      Provider: (props: any) => {
+        if (props.value) value = props.value
+        return props.children
+      },
+      Consumer: (props: any) => {
+        return { component: props.children[0](value), props: { ...props, context: value } }
+      },
+    }
+  }
+
   static render(component: any, parent: HTMLElement | null = null, removeAllChildNodes = true) {
     let el = Nano.renderComponent(component)
 
@@ -119,19 +131,19 @@ export class Nano {
       for (let i = 2; i < arg.length; i++) {
         if (Array.isArray(arg[i])) {
           arg[i].forEach((child: any) => {
-          appendChild(child)
-        })
-      } else {
-          let child = Nano.renderComponent({ component: arg[i] }) as HTMLElement
-        if (Array.isArray(child)) {
-          child.forEach((c) => {
-            appendChild(c)
+            appendChild(child)
           })
         } else {
-          appendChild(child)
+          let child = Nano.renderComponent({ component: arg[i] }) as HTMLElement
+          if (Array.isArray(child)) {
+            child.forEach((c) => {
+              appendChild(c)
+            })
+          } else {
+            appendChild(child)
+          }
         }
       }
-    }
     }
 
     renderAndAppend(...arguments)
