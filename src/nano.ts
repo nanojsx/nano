@@ -11,6 +11,7 @@ export class Nano {
 
   static render(component: any, parent: HTMLElement | null = null, removeAllChildNodes = true) {
     let el = Nano.renderComponent(component)
+
     if (!!parent) {
       if (removeAllChildNodes) Nano.removeAllChildNodes(parent)
       parent.appendChild(el)
@@ -21,7 +22,7 @@ export class Nano {
   static renderComponent(componentP: { component: any; props?: any }): any {
     let el
     let props = { children: [] }
-    let component
+    let component = componentP as any
 
     // @ts-ignore // if it is already a jsx element, simply return it
     if (componentP.tagName) {
@@ -31,9 +32,13 @@ export class Nano {
     if (componentP?.component) component = componentP.component
     if (componentP?.props) props = componentP.props
     // @ts-ignore
-    else props = componentP?.prototype?.props || {}
+    // else props = componentP?.prototype?.props || {}
 
-    try {
+    // TODO(yandeu) This looks very unsafe, is there a better way to detect if it is a function or class?
+    // does only work in > ES2015
+    const isClass = (fn) => /^class/.test(fn?.toString())
+
+    if (isClass(component)) {
       const c = new component()
 
       c.willMount?.()
@@ -46,7 +51,7 @@ export class Nano {
       }
 
       if (c.didMount) setTimeout(() => c.didMount(), 0)
-    } catch (error) {
+    } else {
       if (typeof component === 'function') el = component(props)
       else el = component
 
@@ -58,7 +63,10 @@ export class Nano {
       }
     }
 
-    if (typeof el === 'undefined') throw new Error()
+    if (typeof el === 'undefined') {
+      console.warn('Do all classes extend Component?')
+      throw new Error()
+    }
     return el
   }
 

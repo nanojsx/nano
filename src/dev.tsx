@@ -2,7 +2,6 @@ import { Nano } from './nano.js'
 import { Component } from './component.js'
 
 const Button = (props: any) => {
-  console.log('Button props', props)
   return (
     <button
       class="button is-primary"
@@ -45,7 +44,6 @@ const MoreText = () => {
 
 const ChildrenTest = (props: any) => {
   const { children } = props
-  console.log('ChildrenTest', props)
   return <p>{children}</p>
 }
 
@@ -76,7 +74,6 @@ const Bla2 = (props: any) => {
 
 class Hello extends Component {
   render() {
-    console.log('Hello props', this.props)
     return (
       <div id="wrapper">
         <ChildrenTest id="1">This is a child (1)</ChildrenTest>
@@ -126,7 +123,7 @@ class List extends Component {
   }
 }
 
-class ListWrapper {
+class ListWrapper extends Component {
   render() {
     return (
       <div class="some-test-class">
