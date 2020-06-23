@@ -7,7 +7,7 @@ module.exports = {
     filename: 'nano.min.js',
     path: path.resolve(__dirname, '../bundle'),
     library: 'nano',
-    libraryTarget: 'umd',
+    libraryExport: 'default',
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js'],
