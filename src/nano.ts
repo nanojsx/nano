@@ -31,15 +31,15 @@ export class Nano {
 
     if (componentP?.component) component = componentP.component
     if (componentP?.props) props = componentP.props
-    // @ts-ignore
-    // else props = componentP?.prototype?.props || {}
 
     // TODO(yandeu) This looks very unsafe, is there a better way to detect if it is a function or class?
     // does only work in > ES2015
-    const isClass = (fn) => /^class/.test(fn?.toString())
+    const isClass = (fn: any) => /^class/.test(fn?.toString())
 
     if (isClass(component)) {
       const c = new component()
+      // apply props
+      c.props = props
 
       c.willMount?.()
 
