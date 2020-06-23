@@ -4,15 +4,17 @@ import { wait } from './helpers.js'
 const spy = jest.spyOn(global.console, 'error')
 
 test('should render without errors', async (done) => {
+  const rootElement = <div id="root"></div>
+
   class Test extends Component {
     render() {
       return <div>test</div>
     }
   }
-  const res = Nano.render(<Test />)
+  const res = Nano.render(<Test />, rootElement)
 
   await wait()
-  expect(res.outerHTML).toBe('<div>test</div>')
+  expect(rootElement.outerHTML).toBe('<div id="root"><div>test</div></div>')
   expect(spy).not.toHaveBeenCalled()
   done()
 })

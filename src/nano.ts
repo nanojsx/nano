@@ -25,11 +25,17 @@ export const render = (component: any, parent: HTMLElement | null = null, remove
 
   if (!!parent) {
     if (removeChildNodes) removeAllChildNodes(parent)
-    // render top level fragment
-    if (Array.isArray(el)) el = renderComponent(el[0])
-    // append element to the parent
-    parent.appendChild(el)
+
+    // append element(s) to the parent
+    if (Array.isArray(el)) {
+      el.forEach((e) => {
+        parent.appendChild(renderComponent(e))
+      })
+    } else {
+      parent.appendChild(el)
+    }
   }
+
   return el
 }
 
