@@ -20,22 +20,28 @@ export const createContext = (value: any) => {
   }
 }
 
+/** Returns one child or an array of children */
 export const render = (component: any, parent: HTMLElement | null = null, removeChildNodes = true) => {
   let el = renderComponent(component)
+
+  if (Array.isArray(el)) {
+    el = el.map((e) => {
+      return renderComponent(e)
+    })
+  }
 
   if (!!parent) {
     if (removeChildNodes) removeAllChildNodes(parent)
 
     // append element(s) to the parent
-    if (Array.isArray(el)) {
-      el.forEach((e) => {
+    if (Array.isArray(el))
+      el.forEach((e: any) => {
         parent.appendChild(renderComponent(e))
       })
-    } else {
-      parent.appendChild(el)
-    }
+    else parent.appendChild(renderComponent(el))
   }
 
+  // returning one child or an array of children
   return el
 }
 
