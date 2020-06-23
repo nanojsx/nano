@@ -1,4 +1,4 @@
-import { Nano } from './nano.js'
+import * as Nano from './nano.js'
 import { Component } from './component.js'
 
 const Button = (props: any) => {
@@ -82,6 +82,15 @@ class Hello extends Component {
         </ChildrenTest>
         <ChildrenTest id="3">
           <Bla0>This is a child (3)</Bla0>
+        </ChildrenTest>
+        <ChildrenTest id="3.1">
+          <Bla0>
+            <Bla2>
+              <div class="deep-test">
+                <Bla2>This is a child (3.1)</Bla2>
+              </div>
+            </Bla2>
+          </Bla0>
         </ChildrenTest>
         <ChildrenTest id="4">
           <Bla1>This is a child (4)</Bla1>

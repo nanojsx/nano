@@ -1,10 +1,10 @@
-import Nano, { Component } from '../lib/index.js'
+import Nano, { Component, Fragment } from '../lib/index.js'
 import { wait } from './helpers.js'
 
 const spy = jest.spyOn(global.console, 'error')
 
 test('should render without errors', async (done) => {
-  const Test = () => <Nano.Fragment>test</Nano.Fragment>
+  const Test = () => <Fragment>test</Fragment>
   const Root = () => (
     <div>
       <Test />

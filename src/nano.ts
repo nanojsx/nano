@@ -1,15 +1,14 @@
-export class Nano {
-  static Fragment = (props: any) => {
+export const Fragment = (props: any) => {
     return props.children
   }
 
-  static removeAllChildNodes = (parent: HTMLElement) => {
+export const removeAllChildNodes = (parent: HTMLElement) => {
     while (parent.firstChild) {
       parent.removeChild(parent.firstChild)
     }
   }
 
-  static createContext(value: any) {
+export const createContext = (value: any) => {
     return {
       Provider: (props: any) => {
         if (props.value) value = props.value
@@ -21,17 +20,17 @@ export class Nano {
     }
   }
 
-  static render(component: any, parent: HTMLElement | null = null, removeAllChildNodes = true) {
-    let el = Nano.renderComponent(component)
+export const render = (component: any, parent: HTMLElement | null = null, removeChildNodes = true) => {
+  let el = renderComponent(component)
 
     if (!!parent) {
-      if (removeAllChildNodes) Nano.removeAllChildNodes(parent)
+    if (removeChildNodes) removeAllChildNodes(parent)
       parent.appendChild(el)
     }
     return el
   }
 
-  static renderComponent(componentP: { component: any; props?: any }): any {
+export const renderComponent = (componentP: { component: any; props?: any }): any => {
     let el
     let props = { children: [] }
     let component = componentP as any
@@ -59,7 +58,7 @@ export class Nano {
       el = c.element
 
       if (!el.tagName) {
-        el = Nano.renderComponent(el)
+      el = renderComponent(el)
       }
 
       if (c.didMount) setTimeout(() => c.didMount(), 0)
@@ -71,7 +70,7 @@ export class Nano {
       if (Array.isArray(el)) return el
 
       if (el && !el.tagName) {
-        el = Nano.renderComponent(el)
+      el = renderComponent(el)
       }
     }
 
@@ -83,7 +82,7 @@ export class Nano {
   }
 
   // https://stackoverflow.com/a/42405694/12656855
-  static createElement(tagNameOrComponent: any, props: any = {}, ...children: any) {
+export const createElement = (tagNameOrComponent: any, props: any = {}, ...children: any) => {
     // if tagNameOrComponent is a component
     if (typeof tagNameOrComponent !== 'string') {
       const p = { ...props, children: children }
@@ -151,4 +150,3 @@ export class Nano {
     if (ref) ref(element)
     return element
   }
-}
