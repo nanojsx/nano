@@ -25,6 +25,9 @@ export const render = (component: any, parent: HTMLElement | null = null, remove
 
   if (!!parent) {
     if (removeChildNodes) removeAllChildNodes(parent)
+    // render top level fragment
+    if (Array.isArray(el)) el = renderComponent(el[0])
+    // append element to the parent
     parent.appendChild(el)
   }
   return el
