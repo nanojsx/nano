@@ -1,3 +1,5 @@
+import './types'
+
 import { Fragment, createContext, createElement, render } from './nano'
 import { Component } from './component'
 
