@@ -33,12 +33,17 @@ export const render = (component: any, parent: HTMLElement | null = null, remove
   if (!!parent) {
     if (removeChildNodes) removeAllChildNodes(parent)
 
-    // append element(s) to the parent
-    if (Array.isArray(el))
-      el.forEach((e: any) => {
-        parent.appendChild(renderComponent(e))
-      })
-    else parent.appendChild(renderComponent(el))
+    // if parent and child are the same, we replace the parent instead of appending to it
+    if (parent.id === el.id) {
+      parent.parentElement?.replaceChild(el, parent)
+    } else {
+      // append element(s) to the parent
+      if (Array.isArray(el))
+        el.forEach((e: any) => {
+          parent.appendChild(renderComponent(e))
+        })
+      else parent.appendChild(renderComponent(el))
+    }
   }
 
   // returning one child or an array of children
