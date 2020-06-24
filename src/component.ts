@@ -1,10 +1,6 @@
 export class Component {
   element: HTMLElement
   props: any
-  // parent: HTMLElement
-  // willMount() {}
-
-  // didMount() {}
 
   render(): HTMLElement | void {}
 

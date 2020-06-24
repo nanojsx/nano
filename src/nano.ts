@@ -2,7 +2,7 @@ export const Fragment = (props: any) => {
   return props.children
 }
 
-export const removeAllChildNodes = (parent: HTMLElement) => {
+const removeAllChildNodes = (parent: HTMLElement) => {
   while (parent.firstChild) {
     parent.removeChild(parent.firstChild)
   }
@@ -45,54 +45,32 @@ export const render = (component: any, parent: HTMLElement | null = null, remove
   return el
 }
 
-export const renderComponent = (componentP: { component: any; props?: any }): any => {
+const renderComponent = (component: { component: any; props?: any; tagName?: any } | any): any => {
+  // if it is already a dom element, simply return it
+  if (component.tagName) return component
+
   let el
-  let props = { children: [] }
-  let component = componentP as any
-
-  // @ts-ignore // if it is already a jsx element, simply return it
-  if (componentP.tagName) {
-    return componentP
-  }
-
-  if (componentP?.component) component = componentP.component
-  if (componentP?.props) props = componentP.props
+  let props = component?.props || { children: [] }
+  component = component?.component || component
 
   // TODO(yandeu) This looks very unsafe, is there a better way to detect if it is a function or class?
   // does only work in > ES2015
   const isClass = (fn: any) => /^class/.test(fn?.toString())
 
   if (isClass(component)) {
-    const c = new component()
-    // apply props
-    c.props = props
-
-    c.willMount?.()
-
-    c.element = c.render()
-    el = c.element
-
-    if (!el.tagName) {
-      el = renderComponent(el)
-    }
-
-    if (c.didMount) setTimeout(() => c.didMount(), 0)
+    const Component = new component()
+    Component.props = props
+    Component.willMount?.()
+    Component.element = Component.render()
+    el = Component.element
+    if (Component.didMount) setTimeout(() => Component.didMount(), 0)
+  } else if (typeof component === 'function') {
+    el = component(props)
   } else {
-    if (typeof component === 'function') el = component(props)
-    else el = component
-
-    // for the fragment
-    if (Array.isArray(el)) return el
-
-    if (el && !el.tagName) {
-      el = renderComponent(el)
-    }
+    el = component
   }
 
-  if (typeof el === 'undefined') {
-    console.warn('Do all classes extend Component?')
-    throw new Error()
-  }
+  if (el.component) return renderComponent(el) as HTMLElement
   return el
 }
 
@@ -134,42 +112,22 @@ export const createElement = (tagNameOrComponent: any, props: any = {}, ...child
     return element
   }
 
-  const append = (child: any) => {
-    element.appendChild(child.nodeType == null ? document.createTextNode(child.toString()) : child)
-  }
-
-  const appendChild = (child: HTMLElement) => {
-    // @ts-ignore
-    if (child.component) child = renderComponent(child)
-
-    if (Array.isArray(child)) {
-      child.forEach((c) => {
-        if (c.component) c = renderComponent(c)
-        append(c)
-      })
-    } else append(child)
-  }
-
-  const renderAndAppend = (args: any) => {
-    args.forEach((arg: any) => {
-      if (Array.isArray(arg)) {
-        arg.forEach((child: any) => {
-          appendChild(child)
-        })
-      } else {
-        let child = renderComponent(arg) as HTMLElement
-        if (Array.isArray(child)) {
-          child.forEach((c) => {
-            appendChild(c)
-          })
-        } else {
-          appendChild(child)
-        }
+  const appendChildren = (children: any) => {
+    children.forEach((child: any) => {
+      // if child is an array of children, append them instead
+      if (Array.isArray(child)) appendChildren(child)
+      else {
+        // render the component
+        let c = renderComponent(child) as HTMLElement
+        // if c is an array of children, append them instead
+        if (Array.isArray(c)) appendChildren(c)
+        // apply the component to parent element
+        else element.appendChild(c.nodeType == null ? document.createTextNode(c.toString()) : c)
       }
     })
   }
 
-  renderAndAppend(children)
+  appendChildren(children)
 
   if (ref) ref(element)
   return element
