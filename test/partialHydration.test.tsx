@@ -3,9 +3,12 @@ import { wait, nodeToString } from './helpers.js'
 
 const spy = jest.spyOn(global.console, 'error')
 
+const root = document.createElement('div')
+root.id = 'root'
+document.body.appendChild(root)
+
 test('should render without errors', async (done) => {
   let PRE_RENDERED = false
-  const dom = <div id="root"></div>
 
   class Menu extends Component {
     render() {
@@ -23,29 +26,30 @@ test('should render without errors', async (done) => {
   const Root = () => {
     return (
       <Fragment>
-        <Content>This is the Content.</Content>
         <div id="menu">
           <Menu />
         </div>
+        <Content>This is the Content.</Content>
       </Fragment>
     )
   }
 
-  await wait()
-
   // render the whole app
-  const menu = Nano.render(<Root />, dom)[1]
+  const res1 = Nano.render(<Root />, document.getElementById('root'))
+  expect(nodeToString(res1)).toBe(
+    '<div id="root"><div id="menu"><p>The Menu</p></div><div id="content">This is the Content.</div></div>'
+  )
   PRE_RENDERED = true
-  expect(nodeToString(menu)).toBe('<div id="menu"><p>The Menu</p></div>')
-
-  await wait()
 
   // hydrate only the menu part of the app
-  Nano.render(<Menu />, menu)
+  let res2 = Nano.render(<Menu />, document.getElementById('menu'))
+  expect(nodeToString(res2)).toBe('<div id="menu"><p>The Menu [HYDRATED]</p></div>')
 
-  await wait()
+  // verify that the whole app is correctly displayed on the client
+  expect(nodeToString(document.getElementById('root'))).toBe(
+    '<div id="root"><div id="menu"><p>The Menu [HYDRATED]</p></div><div id="content">This is the Content.</div></div>'
+  )
 
-  expect(nodeToString(menu)).toBe('<div id="menu"><p>The Menu [HYDRATED]</p></div>')
   expect(spy).not.toHaveBeenCalled()
   done()
 })
