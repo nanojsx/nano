@@ -48,8 +48,8 @@ The documentation will be available soon.
 
 - **1KB (gzip)**  
   All of this in only ~1KB  
-  _(Well, the core module is about ~1KB,_  
-  _together with all the cool features it's ~2.2KB)_
+  _(Well, the core module is only about ~1KB,_  
+  _together with all the cool features it's ~2.3KB)_
 
 ## Why
 
@@ -59,7 +59,9 @@ Nowadays, I prefer to pre-render the JSX on the server and only hydrate the part
 
 Of course with this new approach, the client does not have a router and must thus fetch each new site on navigating to it. But, this is not really a problem since the static html is usually very small and we can easily prefetch pages using `<link rel="prefetch" href="index.html" as="document">` on page load or on hovering over a link.
 
-Nano JSX provides a fancy **link component** for this purpose.
+## \<Link />
+
+Nano JSX provides a fancy **link component** for prefetching pages.
 
 ```html
 // prefetch the link on page load
@@ -67,13 +69,34 @@ Nano JSX provides a fancy **link component** for this purpose.
   Link to geckos.io
 </Link>
 
-// prefetch the link if user hovers it
+// prefetch the link if user hovers over it
 <Link prefetch="hover" href="https://geckosio.github.io/">
   Link to geckos.io
 </Link>
 
-// prefetch the link it is visible
+// prefetch the link if it is visible
 <Link prefetch="visible" href="https://geckosio.github.io/">
   Link to geckos.io
 </Link>
+```
+
+## \<Visible />
+
+This children of Visible will only be rendered and added to the dom, if they are visible. This is useful, for example, for a comment section. (Does not work to lazy load images)
+
+```html
+// some lazy loaded component
+<Visible>
+  <div>
+    <p>Will be rendered once in the visible area.</p>
+    <script>
+      console.log('visible!')
+    </script>
+  </div>
+</Visible>
+
+// the comments section
+<Visible>
+  <Comments />
+</Visible>
 ```
