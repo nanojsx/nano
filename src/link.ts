@@ -16,8 +16,8 @@ export class Link extends Component {
       (entries, observer) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            this.addPrefetch()
             observer.disconnect()
+            this.addPrefetch()
           }
         })
       },
@@ -39,10 +39,7 @@ export class Link extends Component {
     }
 
     if (!doesAlreadyExist) {
-      const prefetch = document.createElement('link')
-      prefetch.setAttribute('rel', 'prefetch')
-      prefetch.setAttribute('href', this.props.href)
-      prefetch.setAttribute('as', 'document')
+      const prefetch = createElement('link', { rel: 'prefetch', href: this.props.href, as: 'document' }) as HTMLElement
       document.head.appendChild(prefetch)
     }
   }
@@ -62,7 +59,7 @@ export class Link extends Component {
 
     // some warning messages
     if (!this.props.href) console.warn('Please add "href" to <Link>')
-    if (children.length === 0) console.warn('Please add a child to <Link> (<Link>your child</Link>)')
+    if (children.length !== 1) console.warn('Please add ONE child to <Link> (<Link>child</Link>)')
 
     return createElement('a', { ...rest }, ...children) as any
   }
