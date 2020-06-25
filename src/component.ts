@@ -14,7 +14,10 @@ export class Component {
     parent.removeChild(this.element)
 
     // render component root
-    const element = this.render() as HTMLElement
+    let element = this.render() as HTMLElement
+
+    // if it is a fragment, element will be an array
+    if (Array.isArray(element)) element = element[0]
 
     // set new component root element
     this.element = element

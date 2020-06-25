@@ -8,6 +8,22 @@ const removeAllChildNodes = (parent: HTMLElement) => {
   }
 }
 
+/**
+ * A simple component for rendering SVGs
+ */
+const SVG = (props: any) => {
+  const child = props.children[0] as SVGElement
+  const attrs = child.attributes
+
+  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg') as SVGElement
+  for (let i = attrs.length - 1; i >= 0; i--) {
+    svg.setAttribute(attrs[i].name, attrs[i].value)
+  }
+  svg.innerHTML = child.innerHTML
+
+  return svg as any
+}
+
 export const createContext = (value: any) => {
   return {
     Provider: (props: any) => {
@@ -51,6 +67,11 @@ export const render = (component: any, parent: HTMLElement | null = null, remove
 }
 
 const renderComponent = (component: { component: any; props?: any; tagName?: any } | any): any => {
+  // if it is a SVG, we render the custom SVG HOC
+  if (component?.tagName?.toLowerCase() === 'svg') {
+    return SVG({ children: [component] })
+  }
+
   // if it is already a dom element, simply return it
   if (component.tagName) return component
 
@@ -67,7 +88,11 @@ const renderComponent = (component: { component: any; props?: any; tagName?: any
     Component.props = props
     Component.willMount?.()
     Component.element = Component.render()
+
+    // if it is a fragment, Component.element will be an array
+    if (Array.isArray(Component.element)) Component.element = Component.element[0]
     el = Component.element
+
     if (Component.didMount) setTimeout(() => Component.didMount(), 0)
   } else if (typeof component === 'function') {
     el = component(props)
@@ -87,8 +112,12 @@ export const createElement = (tagNameOrComponent: any, props: any = {}, ...child
     return { component: tagNameOrComponent, props: p }
   }
 
-  const element = document.createElement(tagNameOrComponent) as HTMLElement
   let ref
+
+  const element =
+    tagNameOrComponent === 'svg'
+      ? (document.createElementNS('http://www.w3.org/2000/svg', 'svg') as SVGElement)
+      : (document.createElement(tagNameOrComponent) as HTMLElement)
 
   // simply add more if needed in the future
   const events = ['onInput', 'onClick', 'onChange', 'onSubmit']

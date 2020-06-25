@@ -38,7 +38,10 @@ The documentation will be available soon.
   (Uses Tagged Templates instead of JSX if you prefer)
 
 - **Props, Ref, Context and Events**  
-  (Use Props, Ref, Context API and Events as your are used to in react)
+  (Use Props, Ref, Context API and Events as you are used to in react)
+
+- **Inline SVG**
+  (No problem)
 
 - **1KB (gzip)**  
   (All of this in only ~1KB)
