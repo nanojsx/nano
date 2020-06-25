@@ -8,6 +8,25 @@ const removeAllChildNodes = (parent: HTMLElement) => {
   }
 }
 
+
+export const appendChildren = (element: any, children: any) => {
+  // htmlCollection to array
+  if (typeof children === 'object') children = Array.prototype.slice.call(children)
+
+  children.forEach((child: any) => {
+    // if child is an array of children, append them instead
+    if (Array.isArray(child)) appendChildren(element, child)
+    else {
+      // render the component
+      let c = renderComponent(child) as HTMLElement
+      // if c is an array of children, append them instead
+      if (Array.isArray(c)) appendChildren(element, c)
+      // apply the component to parent element
+      else element.appendChild(c.nodeType == null ? document.createTextNode(c.toString()) : c)
+    }
+  })
+}
+
 /**
  * A simple component for rendering SVGs
  */
@@ -95,7 +114,8 @@ const renderComponent = (component: { component: any; props?: any; tagName?: any
     Component.element = Component.render()
 
     // if it is a fragment, Component.element will be an array
-    if (Array.isArray(Component.element)) Component.element = Component.element[0]
+    // if (Array.isArray(Component.element)) Component.element = Component.element[0]
+
     el = Component.element
 
     if (Component.didMount) setTimeout(() => Component.didMount(), 0)
@@ -151,22 +171,7 @@ export const createElement = (tagNameOrComponent: any, props: any = {}, ...child
     return element
   }
 
-  const appendChildren = (children: any) => {
-    children.forEach((child: any) => {
-      // if child is an array of children, append them instead
-      if (Array.isArray(child)) appendChildren(child)
-      else {
-        // render the component
-        let c = renderComponent(child) as HTMLElement
-        // if c is an array of children, append them instead
-        if (Array.isArray(c)) appendChildren(c)
-        // apply the component to parent element
-        else element.appendChild(c.nodeType == null ? document.createTextNode(c.toString()) : c)
-      }
-    })
-  }
-
-  appendChildren(children)
+  appendChildren(element, children)
 
   if (ref) ref(element)
   return element
