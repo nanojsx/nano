@@ -67,6 +67,10 @@ export const render = (component: any, parent: HTMLElement | null = null, remove
 }
 
 const renderComponent = (component: { component: any; props?: any; tagName?: any } | any): any => {
+  // handle undefined and null
+  if (typeof component === 'undefined') component = 'undefined'
+  else if (component === null) component = 'null'
+
   // if it is a SVG, we render the custom SVG HOC
   if (component?.tagName?.toLowerCase() === 'svg') {
     return SVG({ children: [component] })
