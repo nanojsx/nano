@@ -11,6 +11,21 @@ export class Link extends Component {
     this.element.addEventListener('mouseover', () => this.addPrefetch(), { once: true })
   }
 
+  prefetchOnVisible() {
+    const observer = new IntersectionObserver(
+      (entries, observer) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            this.addPrefetch()
+            observer.disconnect()
+          }
+        })
+      },
+      { threshold: 1.0 }
+    )
+    observer.observe(this.element)
+  }
+
   addPrefetch() {
     let doesAlreadyExist = false
 
@@ -36,6 +51,7 @@ export class Link extends Component {
     const { prefetch } = this.props
     if (prefetch) {
       if (prefetch === 'hover') this.prefetchOnHover()
+      else if (prefetch === 'visible') this.prefetchOnVisible()
       else this.addPrefetch()
     }
   }

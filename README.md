@@ -65,8 +65,13 @@ Nano JSX provides a fancy **link component** for this purpose.
   Link to geckos.io
 </Link>
 
-// prefetch the link on hover
+// prefetch the link if user hovers it
 <Link prefetch="hover" href="https://geckosio.github.io/">
+  Link to geckos.io
+</Link>
+
+// prefetch the link it is visible
+<Link prefetch="visible" href="https://geckosio.github.io/">
   Link to geckos.io
 </Link>
 ```
