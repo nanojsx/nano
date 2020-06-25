@@ -24,7 +24,7 @@ export class Visible extends Component {
           }
         })
       },
-      { threshold: 1.0 }
+      { threshold: 0 }
     )
     observer.observe(this.element)
   }
