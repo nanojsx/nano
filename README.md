@@ -40,8 +40,16 @@ The documentation will be available soon.
 - **Props, Ref, Context and Events**  
   (Use Props, Ref, Context API and Events as you are used to in react)
 
-- **Inline SVG**
+- **Inline SVG**  
   (No problem)
 
 - **1KB (gzip)**  
   (All of this in only ~1KB)
+
+## Why
+
+Well, in the past, I did a lot of websites using Isomorphic React (Pre-Rendering on the Server and Hydrating it on the client). Once the website did load all scripts, the website was very fast (not so much on mobile though). But the script where always _way_ too big.
+
+Nowadays, I prefer to pre-render the JSX on the server and only hydrate the parts that are needed. The client now only gets few kilobytes and uses much less CPU.
+
+Of course with this new approach, the client does not have a router and must thus fetch each new site on navigating to it. But, this is not really a problem since the static html is usually very small and we can easily prefetch pages using `<link rel="prefetch" href="index.html" as="document">` on page load or on hovering over a link.
