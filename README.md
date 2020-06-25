@@ -43,6 +43,9 @@ The documentation will be available soon.
 - **Inline SVG**  
   (No problem)
 
+- **Prefetch**  
+  (Use the built-in Link Component)
+
 - **1KB (gzip)**  
   (All of this in only ~1KB)
 
@@ -53,3 +56,17 @@ Well, in the past, I did a lot of websites using Isomorphic React (Pre-Rendering
 Nowadays, I prefer to pre-render the JSX on the server and only hydrate the parts that are needed. The client now only gets few kilobytes and uses much less CPU.
 
 Of course with this new approach, the client does not have a router and must thus fetch each new site on navigating to it. But, this is not really a problem since the static html is usually very small and we can easily prefetch pages using `<link rel="prefetch" href="index.html" as="document">` on page load or on hovering over a link.
+
+Nano JSX provides a fancy **link component** for this purpose.
+
+```html
+// prefetch the link on page load
+<Link prefetch href="https://geckosio.github.io/">
+  Link to geckos.io
+</Link>
+
+// prefetch the link on hover
+<Link prefetch="hover" href="https://geckosio.github.io/">
+  Link to geckos.io
+</Link>
+```
