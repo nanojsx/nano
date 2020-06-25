@@ -2,12 +2,17 @@ export const Fragment = (props: any) => {
   return props.children
 }
 
-const removeAllChildNodes = (parent: HTMLElement) => {
+export const removeAllChildNodes = (parent: HTMLElement) => {
   while (parent.firstChild) {
     parent.removeChild(parent.firstChild)
   }
 }
 
+export const nodeToString = (node: any) => {
+  const tmpNode = document.createElement('div')
+  tmpNode.appendChild(node.cloneNode(true))
+  return tmpNode.innerHTML
+}
 
 export const appendChildren = (element: any, children: any) => {
   // htmlCollection to array
