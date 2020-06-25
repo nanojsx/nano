@@ -6,8 +6,10 @@ export class Component {
 
   /** Will forceRender the component */
   update() {
+    if (!this.element) return
+
     // get parent
-    const parent = this.element?.parentElement
+    const parent = this.element.parentElement
     if (!parent) return
 
     // remove component root

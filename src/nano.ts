@@ -72,7 +72,7 @@ const renderComponent = (component: { component: any; props?: any; tagName?: any
   else if (component === null) component = 'null'
 
   // if it is a SVG, we render the custom SVG HOC
-  if (component?.tagName?.toLowerCase() === 'svg') {
+  if (component.tagName?.toLowerCase() === 'svg') {
     return SVG({ children: [component] })
   }
 
@@ -80,12 +80,12 @@ const renderComponent = (component: { component: any; props?: any; tagName?: any
   if (component.tagName) return component
 
   let el
-  let props = component?.props || { children: [] }
-  component = component?.component || component
+  let props = component.props || { children: [] }
+  component = component.component || component
 
   // TODO(yandeu) This looks very unsafe, is there a better way to detect if it is a function or class?
   // does only work in > ES2015
-  const isClass = (fn: any) => /^class/.test(fn?.toString())
+  const isClass = (fn: any) => /^class/.test(fn.toString())
 
   if (isClass(component)) {
     const Component = new component()
