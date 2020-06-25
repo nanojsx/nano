@@ -1,5 +1,5 @@
-import * as Nano from './nano.js'
-import { Component } from './component.js'
+import * as Nano from './nano'
+import { Component } from './component'
 
 const Button = (props: any) => {
   return (
