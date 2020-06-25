@@ -23,31 +23,33 @@ The documentation will be available soon.
 ## Features
 
 - **SSR**  
-  (Out of the box, very simple to use)
+  Out of the box, very simple to use
 
 - **Hydration**  
-  (Render your app on the server and hydrate it on the client)
+  Render your app on the server and hydrate it on the client
 
 - **Partial Hydration**  
-  (Hydrate and only the parts you need)
+  Hydrate and only the parts you need
 
 - **CSS in JS**  
-  (Use JavaScript objects for styling)
+  Use JavaScript objects for styling
 
 - **No JSX build tools required**  
-  (Uses Tagged Templates instead of JSX if you prefer)
+  Uses Tagged Templates instead of JSX if you prefer
 
 - **Props, Ref, Context and Events**  
-  (Use Props, Ref, Context API and Events as you are used to in react)
+  Use Props, Ref, Context API and Events as you are used to in react
 
 - **Inline SVG**  
-  (No problem)
+  No problem
 
 - **Prefetch**  
-  (Use the built-in Link Component)
+  Use the built-in Link Component
 
 - **1KB (gzip)**  
-  (All of this in only ~1KB)
+  All of this in only ~1KB  
+  _(Well, the core module is about ~1KB,_  
+  _together with all the cool features it's ~2.2KB)_
 
 ## Why
 
