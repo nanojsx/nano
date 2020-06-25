@@ -36,7 +36,7 @@ export const createContext = (value: any) => {
   }
 }
 
-/** Returns one child or an array of children */
+/** Returns the populated parent if available else  one child or an array of children */
 export const render = (component: any, parent: HTMLElement | null = null, removeChildNodes = true) => {
   let el = renderComponent(component)
 
@@ -60,10 +60,11 @@ export const render = (component: any, parent: HTMLElement | null = null, remove
         })
       else parent.appendChild(renderComponent(el))
     }
-  }
 
+    return parent
+  }
   // returning one child or an array of children
-  return el
+  else return el
 }
 
 const renderComponent = (component: { component: any; props?: any; tagName?: any } | any): any => {
