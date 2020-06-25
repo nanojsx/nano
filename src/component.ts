@@ -6,11 +6,17 @@ export class Component {
 
   /** Will forceRender the component */
   update() {
-    if (!this.element) return
+    if (!this.element) {
+      console.warn('"this.element" is not yet defined in update()')
+      return
+    }
 
     // get parent
     const parent = this.element.parentElement
-    if (!parent) return
+    if (!parent) {
+      console.warn('"this.element.parentElement" is not yet defined in update()')
+      return
+    }
 
     // remove component root
     parent.removeChild(this.element)
