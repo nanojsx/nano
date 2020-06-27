@@ -80,3 +80,26 @@ test('should render without errors', async (done) => {
   expect(spy).not.toHaveBeenCalled()
   done()
 })
+
+test('should render without errors', async (done) => {
+  class Test extends Component {
+    didMount() {
+      this.update()
+    }
+
+    render() {
+      return (
+        <Fragment>
+          <p>p one</p>
+          <p>p two</p>
+        </Fragment>
+      )
+    }
+  }
+  const res = Nano.render(<Test />, <div id="root"></div>)
+
+  await wait()
+  expect(res.outerHTML).toBe('<div id="root"><p>p one</p><p>p two</p></div>')
+  expect(spy).not.toHaveBeenCalled()
+  done()
+})

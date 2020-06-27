@@ -41,7 +41,7 @@ test('should render without errors', async (done) => {
 })
 
 test('should render without errors', async (done) => {
-  const MyContext = Nano.createContext('john')
+  const MyContext = Nano.createContext('suzanne')
 
   const Child = () => {
     return (
@@ -63,12 +63,12 @@ test('should render without errors', async (done) => {
 
   const res = Nano.render(
     <div id="root">
-      <Parent name="suzanne" />
+      <Parent name="john" />
     </div>
   )
 
   await wait()
-  expect(nodeToString(res)).toBe('<div id="root"><p>suzanne</p></div>')
+  expect(nodeToString(res)).toBe('<div id="root"><p>john</p></div>')
   expect(spy).not.toHaveBeenCalled()
   done()
 })

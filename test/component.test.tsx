@@ -22,7 +22,7 @@ test('should render without errors', async (done) => {
 test('should render without errors', async (done) => {
   class Test extends Component {
     test() {
-      return 'yeah'
+      return <span>yeah</span>
     }
   }
   const test = new Test()
@@ -31,8 +31,8 @@ test('should render without errors', async (done) => {
   // @ts-ignore
   expect(test.render()).toBe(undefined)
   // @ts-ignore
-  expect(test.update()).toBe(undefined)
+  expect(test.update()).toBe('<div>[NOTHING TO RENDER]</div>')
   expect(test.test()).toBe('yeah')
-  expect(spy).not.toHaveBeenCalled()
+  expect(spy).toHaveBeenCalled()
   done()
 })
