@@ -15,6 +15,12 @@ export const nodeToString = (node: any) => {
 }
 
 export const appendChildren = (element: any, children: any) => {
+  // if the child is an html element
+  if (!Array.isArray(children)) {
+    appendChildren(element, [children])
+    return
+  }
+
   // htmlCollection to array
   if (typeof children === 'object') children = Array.prototype.slice.call(children)
 
@@ -80,9 +86,10 @@ export const render = (component: any, parent: HTMLElement | null = null, remove
       // append element(s) to the parent
       if (Array.isArray(el))
         el.forEach((e: any) => {
-          parent.appendChild(renderComponent(e))
+          appendChildren(parent, renderComponent(e))
+          //parent.appendChild(renderComponent(e))
         })
-      else parent.appendChild(renderComponent(el))
+      else appendChildren(parent, renderComponent(el))
     }
 
     return parent
@@ -92,6 +99,8 @@ export const render = (component: any, parent: HTMLElement | null = null, remove
 }
 
 const renderComponent = (component: { component: any; props?: any; tagName?: any } | any): any => {
+  // if (Array.isArray(component)) component = component[0]
+
   // handle undefined and null
   if (typeof component === 'undefined') component = 'undefined'
   else if (component === null) component = 'null'
@@ -116,7 +125,11 @@ const renderComponent = (component: { component: any; props?: any; tagName?: any
     const Component = new component()
     Component.props = props
     Component.willMount?.()
-    Component.element = Component.render()
+
+    const res = Component.render()
+    if (!res) console.error('Component did not render anything!', component)
+
+    Component.element = res //!!res.props ? res.props?.children : res
 
     // if it is a fragment, Component.element will be an array
     // if (Array.isArray(Component.element)) Component.element = Component.element[0]
@@ -129,6 +142,9 @@ const renderComponent = (component: { component: any; props?: any; tagName?: any
   } else {
     el = component
   }
+
+  // nothing to render
+  if (!el) return createElement('div', null, '[NOTHING TO RENDER]')
 
   if (el.component) return renderComponent(el) as HTMLElement
   return el
