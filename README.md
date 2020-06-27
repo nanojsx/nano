@@ -63,7 +63,7 @@ Of course with this new approach, the client does not have a router and must thu
 
 Nano JSX provides a fancy **link component** for prefetching pages.
 
-```html
+```jsx
 // prefetch the link on page load
 <Link prefetch href="https://geckosio.github.io/">
   Link to geckos.io
@@ -84,7 +84,7 @@ Nano JSX provides a fancy **link component** for prefetching pages.
 
 This children of Visible will only be rendered and added to the dom, if they are visible. This is useful, for example, for a comment section. (Does not work to lazy load images)
 
-```html
+```jsx
 // some lazy loaded component
 <Visible>
   <div>
@@ -99,4 +99,24 @@ This children of Visible will only be rendered and added to the dom, if they are
 <Visible>
   <Comments />
 </Visible>
+```
+
+## \<Img />
+
+Lazy Loading Images.
+
+```jsx
+// lazy load an image
+<img src="imageURL" />
+
+// lazy load an image, displays a blue box while loading
+<div style={{width:100, height:100, backgroundColor: 'blue'}}>
+  <img src="imageURL" />
+</div>
+
+// lazy load an image with a placeholder image
+<img src="imageURL" placeholder="placeholderURL" />
+
+// lazy load an image with a placeholder component
+<img src="imageURL" placeholder={Placeholder} />
 ```

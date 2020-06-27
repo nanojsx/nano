@@ -15,8 +15,6 @@ export class Visible extends Component {
     const observer = new IntersectionObserver(
       (entries, observer) => {
         entries.forEach((entry) => {
-          console.log(entry)
-          console.log(entry.isIntersecting)
           if (entry.isIntersecting) {
             observer.disconnect()
             this.isVisible = true
