@@ -107,16 +107,16 @@ Lazy Loading Images.
 
 ```jsx
 // lazy load an image
-<img src="imageURL" />
+<Img src="imageURL" />
 
 // lazy load an image, displays a blue box while loading
 <div style={{width:100, height:100, backgroundColor: 'blue'}}>
-  <img src="imageURL" />
+  <Img src="imageURL" />
 </div>
 
 // lazy load an image with a placeholder image
-<img src="imageURL" placeholder="placeholderURL" />
+<Img src="imageURL" placeholder="placeholderURL" />
 
 // lazy load an image with a placeholder component
-<img src="imageURL" placeholder={Placeholder} />
+<Img src="imageURL" placeholder={Placeholder} />
 ```
