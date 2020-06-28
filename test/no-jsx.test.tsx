@@ -12,7 +12,7 @@ test('should render without errors', async (done) => {
   class Test extends Component {
     // @ts-ignore
     render() {
-      const listElement1 = h('li', { className: 'test' }, 'some text')
+      const listElement1 = h('li', { class: 'test' }, 'some text')
       const listElement2 = h('li', null, 'more text')
       const list = h('ul', { id: 'list' }, [listElement1, listElement2, <ListElement />])
       const header = h('h1', null)
@@ -26,7 +26,7 @@ test('should render without errors', async (done) => {
 
   await wait()
   expect(res.outerHTML).toBe(
-    '<div><ul id="list"><li>some text</li><li>more text</li><li>even more text</li></ul><h1></h1></div>'
+    '<div><ul id="list"><li class="test">some text</li><li>more text</li><li>even more text</li></ul><h1></h1></div>'
   )
   expect(spy).not.toHaveBeenCalled()
   done()

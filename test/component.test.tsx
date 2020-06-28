@@ -1,6 +1,5 @@
 import Nano, { Component } from '../lib/index.js'
-import { wait } from './helpers.js'
-import { nodeToString } from '../lib/nano.js'
+import { wait, nodeToString } from './helpers.js'
 
 const spy = jest.spyOn(global.console, 'error')
 
@@ -32,7 +31,7 @@ test('should render without errors', async (done) => {
   // @ts-ignore
   expect(test.render()).toBe(undefined)
   // @ts-ignore
-  expect(nodeToString(test.update())).toBe('<div>[NOTHING TO RENDER]</div>')
+  expect(test.update()).toStrictEqual([])
   expect(test.test()).toBe('yeah')
   expect(spy).not.toHaveBeenCalled()
   done()
