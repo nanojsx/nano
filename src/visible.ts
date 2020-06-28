@@ -1,4 +1,4 @@
-import { removeAllChildNodes, appendChildren } from './nano'
+import { removeAllChildNodes, appendChildren } from './core'
 import { Component } from './component'
 
 export class Visible extends Component {

@@ -6,9 +6,11 @@
   "scripts": {
     "start": "npm run dev",
     "build": "npm run clean && tsc --project tsconfig.json",
-    "bundle": "npm run build && webpack --config webpack/webpack.bundle.prod.js",
+    "bundle": "npm run clean && tsc --project tsconfig.es2015.json && npm-run-all bundle:*",
+    "bundle:prod": "webpack --config webpack/webpack.bundle.prod.js",
+    "bundle:core": "webpack --config webpack/webpack.bundle.core.js",
     "dev": "npm run build && npm-run-all --parallel dev:*",
-    "dev:tsc": "tsc --project tsconfig.dev.json --watch",
+    "dev:tsc": "tsc --project tsconfig.es2015.json --watch",
     "dev:serve": "live-server --open=dev",
     "dev:bundle": " webpack --config webpack/webpack.bundle.dev.js --watch",
     "dev:script": "webpack --config webpack/webpack.dev.js --watch",
@@ -47,8 +49,8 @@
     "rimraf": "^3.0.2",
     "ts-loader": "^7.0.5",
     "typescript": "^3.9.5",
-    "webpack": "^4.43.0",
-    "webpack-cli": "^3.3.12"
+    "webpack": "^5.0.0-beta.18",
+    "webpack-cli": "^4.0.0-beta.8"
   },
   "funding": {
     "url": "https://github.com/sponsors/yandeu"

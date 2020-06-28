@@ -2,9 +2,9 @@ const path = require('path')
 
 module.exports = {
   mode: 'production',
-  entry: './lib/bundle.js',
+  entry: './lib/bundle.core.js',
   output: {
-    filename: 'nano.min.js',
+    filename: 'nano.core.min.js',
     path: path.resolve(__dirname, '../bundle'),
     library: 'nano',
     libraryExport: 'default',

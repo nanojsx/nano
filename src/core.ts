@@ -1,17 +1,9 @@
-export const Fragment = (props: any) => {
-  return props.children
-}
+export const Empty = []
 
 export const removeAllChildNodes = (parent: HTMLElement) => {
   while (parent.firstChild) {
     parent.removeChild(parent.firstChild)
   }
-}
-
-export const nodeToString = (node: any) => {
-  const tmpNode = document.createElement('div')
-  tmpNode.appendChild(node.cloneNode(true))
-  return tmpNode.innerHTML
 }
 
 export const appendChildren = (element: any, children: any) => {
@@ -45,25 +37,13 @@ const SVG = (props: any) => {
   const child = props.children[0] as SVGElement
   const attrs = child.attributes
 
-  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg') as SVGElement
+  const svg = createElementNS('svg') as SVGElement
   for (let i = attrs.length - 1; i >= 0; i--) {
     svg.setAttribute(attrs[i].name, attrs[i].value)
   }
   svg.innerHTML = child.innerHTML
 
   return svg as any
-}
-
-export const createContext = (value: any) => {
-  return {
-    Provider: (props: any) => {
-      if (props.value) value = props.value
-      return props.children
-    },
-    Consumer: (props: any) => {
-      return { component: props.children[0](value), props: { ...props, context: value } }
-    },
-  }
 }
 
 /** Returns the populated parent if available else  one child or an array of children */
@@ -127,9 +107,10 @@ const renderComponent = (component: { component: any; props?: any; tagName?: any
     Component.willMount?.()
 
     const res = Component.render()
-    if (!res) console.error('Component did not render anything!', component)
+    // if (!res) console.error('Component did not render anything!', component)
 
-    Component.element = res //!!res.props ? res.props?.children : res
+    // Component.element = !!res.props ? res.props?.children : res
+    Component.element = res
 
     // if it is a fragment, Component.element will be an array
     // if (Array.isArray(Component.element)) Component.element = Component.element[0]
@@ -143,11 +124,14 @@ const renderComponent = (component: { component: any; props?: any; tagName?: any
     el = component
   }
 
-  // nothing to render
-  if (!el) return createElement('div', null, '[NOTHING TO RENDER]')
+  if (!el) return Empty
 
   if (el.component) return renderComponent(el) as HTMLElement
   return el
+}
+
+export const createElementNS = (tag: string) => {
+  return document.createElementNS('http://www.w3.org/2000/svg', tag)
 }
 
 // https://stackoverflow.com/a/42405694/12656855
@@ -162,7 +146,7 @@ export const createElement = (tagNameOrComponent: any, props: any = {}, ...child
 
   const element =
     tagNameOrComponent === 'svg'
-      ? (document.createElementNS('http://www.w3.org/2000/svg', 'svg') as SVGElement)
+      ? (createElementNS('svg') as SVGElement)
       : (document.createElement(tagNameOrComponent) as HTMLElement)
 
   // simply add more if needed in the future
@@ -181,7 +165,7 @@ export const createElement = (tagNameOrComponent: any, props: any = {}, ...child
 
     if (p === 'ref') ref = props[p]
     else if (events.find((e) => e === p)) element.addEventListener(p.toLowerCase().substring(2), (e) => props[p](e))
-    else if (/className/i.test(p)) console.warn('You can use "class" instead of "className".')
+    // else if (/className/i.test(p)) console.warn('You can use "class" instead of "className".')
     else element.setAttribute(p, props[p])
   }
 

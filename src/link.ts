@@ -1,5 +1,5 @@
 import { Component } from './component'
-import { createElement } from './nano'
+import { createElement } from './core'
 
 /**
  * A simple Link component

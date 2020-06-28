@@ -1,4 +1,4 @@
-import { removeAllChildNodes, appendChildren, createElement } from './nano'
+import { removeAllChildNodes, appendChildren, Empty } from './core'
 
 export class Component {
   element: HTMLElement
@@ -15,20 +15,20 @@ export class Component {
     let el = Array.isArray(this.element) ? this.element[0] : this.element
 
     // nothing to render
-    if (!el) return createElement('div', null, '[NOTHING TO RENDER]')
+    if (!el) return Empty
 
     el = !!el.props ? el.props?.children[0] : el
 
     if (!el) {
-      console.warn('"this.element" is not defined in update()')
+      // console.warn('"this.element" is not defined in update()')
       return
     }
 
     // get parent
     const parent = el.parentElement
     if (!parent) {
-      console.warn('"this.element.parentElement" is not defined in update()')
-      el.replaceWith(this.render(update) as any)
+      // console.warn('"this.element.parentElement" is not defined in update()')
+      // el.replaceWith(this.render(update) as any)
       return
     }
 

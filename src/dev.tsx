@@ -1,5 +1,6 @@
-import * as Nano from './nano'
+import * as Nano from './core'
 import { Component } from './component'
+import { Fragment } from './helpers'
 
 const Button = (props: any) => {
   return (
@@ -33,12 +34,12 @@ const MuchMoreText = () => {
 
 const MoreText = () => {
   return (
-    <Nano.Fragment>
+    <Fragment>
       <p class="testClass">from fragment 1!!</p>
       <p class="testClass">from fragment 2!!</p>
       <p class="testClass">from fragment 3!!</p>
       <p class="testClass">from fragment 4!!</p>
-    </Nano.Fragment>
+    </Fragment>
   )
 }
 
