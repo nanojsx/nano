@@ -61,7 +61,8 @@ export const render = (component: any, parent: HTMLElement | null = null, remove
 
     // if parent and child are the same, we replace the parent instead of appending to it
     if (parent.id === el.id) {
-      parent.parentElement?.replaceChild(el, parent)
+      // @ts-ignore
+      parent.parentElement.replaceChild(el, parent)
     } else {
       // append element(s) to the parent
       if (Array.isArray(el))
@@ -79,19 +80,11 @@ export const render = (component: any, parent: HTMLElement | null = null, remove
 }
 
 const renderComponent = (component: { component: any; props?: any; tagName?: any } | any): any => {
-  // if (Array.isArray(component)) component = component[0]
-
-  // handle undefined and null
-  if (typeof component === 'undefined') component = 'undefined'
-  else if (component === null) component = 'null'
-
-  // if it is a SVG, we render the custom SVG HOC
-  if (component.tagName?.toLowerCase() === 'svg') {
-    return SVG({ children: [component] })
-  }
-
-  // if it is already a dom element, simply return it
-  if (component.tagName) return component
+  // handle undefined, null and svg, and jsx element
+  if (typeof component === 'undefined') return 'undefined'
+  else if (component === null) return 'null'
+  else if (component.tagName?.toLowerCase() === 'svg') return SVG({ children: [component] })
+  else if (component.tagName) return component
 
   let el
   let props = component.props || { children: [] }
@@ -99,21 +92,14 @@ const renderComponent = (component: { component: any; props?: any; tagName?: any
 
   // TODO(yandeu) This looks very unsafe, is there a better way to detect if it is a function or class?
   // does only work in > ES2015
-  const isClass = (fn: any) => /^class/.test(fn.toString())
+  // const isClass = (fn: any) => /^class/.test(fn.toString())
 
-  if (isClass(component)) {
+  if (/^class/.test(component.toString())) {
     const Component = new component()
     Component.props = props
     Component.willMount?.()
 
-    const res = Component.render()
-    // if (!res) console.error('Component did not render anything!', component)
-
-    // Component.element = !!res.props ? res.props?.children : res
-    Component.element = res
-
-    // if it is a fragment, Component.element will be an array
-    // if (Array.isArray(Component.element)) Component.element = Component.element[0]
+    Component.element = Component.render()
 
     el = Component.element
 
@@ -124,7 +110,7 @@ const renderComponent = (component: { component: any; props?: any; tagName?: any
     el = component
   }
 
-  if (!el) return Empty
+  // if (!el) return Empty
 
   if (el.component) return renderComponent(el) as HTMLElement
   return el
@@ -135,12 +121,10 @@ export const createElementNS = (tag: string) => {
 }
 
 // https://stackoverflow.com/a/42405694/12656855
-export const createElement = (tagNameOrComponent: any, props: any = {}, ...children: any) => {
+export const createElement = (tagNameOrComponent: any, props: any, ...children: any) => {
   // if tagNameOrComponent is a component
-  if (typeof tagNameOrComponent !== 'string') {
-    const p = { ...props, children: children }
-    return { component: tagNameOrComponent, props: p }
-  }
+  if (typeof tagNameOrComponent !== 'string')
+    return { component: tagNameOrComponent, props: { ...props, children: children } }
 
   let ref
 
@@ -170,11 +154,11 @@ export const createElement = (tagNameOrComponent: any, props: any = {}, ...child
   }
 
   // child is text
-  if (children.length === 1 && typeof children[0] === 'string') {
-    element.innerHTML = children[0]
-    if (ref) ref(element)
-    return element
-  }
+  // if (children.length === 1 && typeof children[0] === 'string') {
+  //   element.innerHTML = children[0]
+  //   if (ref) ref(element)
+  //   return element
+  // }
 
   appendChildren(element, children)
 

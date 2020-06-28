@@ -19,3 +19,14 @@ test('should render without errors', async (done) => {
   expect(spy).not.toHaveBeenCalled()
   done()
 })
+
+test('should render without errors', async (done) => {
+  const Hello = (props: any) => <p>Hello String</p>
+
+  const res = Nano.render(<Hello name="John" />)
+
+  await wait()
+  expect(nodeToString(res)).toBe('<p>Hello String</p>')
+  expect(spy).not.toHaveBeenCalled()
+  done()
+})

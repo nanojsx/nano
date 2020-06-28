@@ -31,7 +31,7 @@ test('should render without errors', async (done) => {
   // @ts-ignore
   expect(test.render()).toBe(undefined)
   // @ts-ignore
-  expect(test.update()).toStrictEqual([])
+  expect(() => test.update()).toThrow()
   expect(test.test()).toBe('yeah')
   expect(spy).not.toHaveBeenCalled()
   done()

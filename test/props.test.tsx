@@ -25,7 +25,6 @@ test('should render without errors', async (done) => {
 
   await wait()
 
-  console.log('res', res)
   expect(res.outerHTML).toBe(
     '<div id="name-list"><h1>List of all names:</h1><ul><li>Doe - Doe</li><li>Suzanne - Suzanne</li></ul></div>'
   )
