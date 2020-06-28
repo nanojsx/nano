@@ -1,5 +1,5 @@
-import { removeAllChildNodes, appendChildren } from './core'
-import { Component } from './component'
+import { removeAllChildNodes, appendChildren } from '../core'
+import { Component } from '../component'
 
 export class Visible extends Component {
   isVisible = false

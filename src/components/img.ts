@@ -1,5 +1,5 @@
-import { Component } from './component'
-import { createElement } from './core'
+import { Component } from '../component'
+import { createElement } from '../core'
 
 export class Img extends Component {
   isLoaded = false

@@ -3,7 +3,7 @@ const path = require('path')
 module.exports = {
   mode: 'development',
   devtool: 'inline-source-map',
-  entry: './src/bundle.ts',
+  entry: './src/bundles/bundle.ts',
   output: {
     filename: 'nano.dev.min.js',
     path: path.resolve(__dirname, '../bundle'),
