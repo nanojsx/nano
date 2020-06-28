@@ -5,6 +5,10 @@ import { Link } from '../components/link'
 import { Img } from '../components/img'
 import { Visible } from '../components/visible'
 
+// @ts-ignore
+import htm from 'htm/dist/htm.js'
+const jsx = htm.bind(createElement)
+
 export default {
   Nano: { createContext, createElement, render, removeAllChildNodes, nodeToString },
   Fragment,
@@ -12,4 +16,5 @@ export default {
   Link,
   Img,
   Visible,
+  jsx,
 }

@@ -49,7 +49,7 @@ The documentation will be available soon.
 - **1KB (gzip)**  
   All of this in only ~1KB  
   _(Well, the core module is only about ~1KB,_  
-  _together with all the cool features it's ~2.3KB)_
+  _together with all the cool features it's ~2.8KB)_
 
 ## Why
 
@@ -58,6 +58,45 @@ Well, in the past, I did a lot of websites using Isomorphic React (Pre-Rendering
 Nowadays, I prefer to pre-render the JSX on the server and only hydrate the parts that are needed. The client now only gets few kilobytes and uses much less CPU.
 
 Of course with this new approach, the client does not have a router and must thus fetch each new site on navigating to it. But, this is not really a problem since the static html is usually very small and we can easily prefetch pages using `<link rel="prefetch" href="index.html" as="document">` on page load or on hovering over a link.
+
+## Tagged Template Literals
+
+You can use jsx without any build tools, if you want.
+
+The example below will render:
+
+```console
+List of names
+  • joe
+  • suzanne
+```
+
+```js
+<script>
+  const { Nano, jsx } = nano
+
+  const names = ['joe', 'suzanne']
+
+  const Names = () => {
+    return jsx`
+      <ul>
+        ${names.map((name) => {
+          return jsx`<li>${name}</li>`
+        })}
+      </ul>`
+  }
+
+  const App = () => {
+    return jsx`
+    <div>
+      <h2>List of names</h2>
+      ${Names}
+    </div>`
+  }
+
+  Nano.render(App, document.getElementById('root'))
+</script>
+```
 
 ## \<Link />
 

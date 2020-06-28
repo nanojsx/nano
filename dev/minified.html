@@ -21,29 +21,31 @@
     <div id="root"></div>
 
     <script>
-      const { Nano, Component } = nano
-      const h = Nano.createElement
+      const { Nano, Component, jsx, Link } = nano
 
-      class Test extends Component {
-        didMount() {
-          this.list = document.getElementById('list')
-          this.list.addEventListener('click', () => {
-            const listElement = h('li', null, 'some more text')
-            this.list.appendChild(listElement)
-          })
-        }
+      const names = ['joe', 'suzanne']
 
-        render() {
-          const listElement = h('li', null, 'some text')
-          const list = h('ul', { id: 'list' }, listElement)
-          const header = h('h1', null)
-          const div = h('div', null, list, header)
-
-          return div
-        }
+      const Names = () => {
+        return jsx`
+      <ul>
+        ${names.map((name) => {
+          return jsx`
+            <li>
+              ${name}
+            </li>`
+        })}
+      </ul>`
       }
 
-      Nano.render(Test, document.getElementById('root'))
+      const App = () => {
+        return jsx`
+    <div>
+      <h2>List of names</h2>
+      ${Names}
+    </div>`
+      }
+
+      Nano.render(App, document.getElementById('root'))
     </script>
   </body>
 </html>
