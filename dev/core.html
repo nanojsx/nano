@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="../bundle/nano.core.min.js"></script>
+  </head>
+  <body>
+    <style>
+      body {
+        width: fit-content;
+        background-color: #21222c;
+        color: #6ce3fd;
+        font-size: large;
+        font-family: sans-serif;
+        padding: 2em;
+        margin: 0 auto;
+      }
+    </style>
+    <div id="root"></div>
+
+    <script>
+      const { Nano, Component } = nano
+      const h = Nano.createElement
+
+      const App = () => {
+        const text = h('p', { class: 'cool-text' }, 'Simple Text')
+        return h('div', null, text)
+      }
+
+      const node = Nano.render(App, document.getElementById('root'))
+      console.log(Nano.nodeToString(node))
+    </script>
+  </body>
+</html>
