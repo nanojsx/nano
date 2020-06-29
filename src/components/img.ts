@@ -6,14 +6,14 @@ export class Img extends Component {
   image: HTMLImageElement
 
   didMount() {
-    const { src = '', srcset = '', ...rest } = this.props
+    const { placeholder, children, ...rest } = this.props
 
     const observer = new IntersectionObserver(
       (entries, observer) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             observer.disconnect()
-            this.image = createElement('img', { src, srcset, ...rest }) as HTMLImageElement
+            this.image = createElement('img', { ...rest }) as HTMLImageElement
             this.image.onload = () => {
               this.isLoaded = true
               this.update()
@@ -26,7 +26,7 @@ export class Img extends Component {
     observer.observe(this.element)
   }
   render() {
-    const { placeholder = '', ...rest } = this.props
+    const { src, placeholder, children, ...rest } = this.props
 
     // if it is visible and loaded, show the image
     if (this.isLoaded) {
