@@ -1,5 +1,5 @@
 import { Component } from '../component'
-import { appendChildren } from '../core'
+import { appendChildren, createElement } from '../core'
 
 export class Helmet extends Component {
   didMount() {
@@ -21,7 +21,11 @@ export class Helmet extends Component {
         }
         return
       } else if (tag === 'TITLE') {
-        const titleTag = document.getElementsByTagName('TITLE')[0] as HTMLElement
+        let titleTag = document.getElementsByTagName('TITLE')[0] as HTMLElement
+        if (!titleTag) {
+          titleTag = createElement('title', null, '') as HTMLElement
+          document.head.appendChild(titleTag)
+        }
         titleTag.innerText = element.innerText
         return
       }
