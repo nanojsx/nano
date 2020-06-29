@@ -1,4 +1,4 @@
-bundle/nano.dev.min.js
+bundles/nano.dev.min.js
 coverage
 dev/dev.js
 node_modules

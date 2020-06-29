@@ -5,7 +5,7 @@ module.exports = {
   entry: './lib/bundles/bundle.js',
   output: {
     filename: 'nano.min.js',
-    path: path.resolve(__dirname, '../bundle'),
+    path: path.resolve(__dirname, '../bundles'),
     library: 'nano',
     libraryExport: 'default',
   },
