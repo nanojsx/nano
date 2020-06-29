@@ -69,15 +69,16 @@ The example below will render:
 List of names
   • joe
   • suzanne
+  Link
 ```
 
 ```js
 <script>
-  const { Nano, jsx } = nano
+  const { Nano, Link, jsx } = nano
 
   const names = ['joe', 'suzanne']
 
-  const Names = () => {
+  const Names = (props) => {
     return jsx`
       <ul>
         ${names.map((name) => {
@@ -89,8 +90,18 @@ List of names
   const App = () => {
     return jsx`
     <div>
+
+      <!-- Listen for the click event -->
       <h2 onClick="${() => console.log('click')}">List of names</h2>
-      ${Names}
+
+      <!-- Render the Names component -->
+      <${Names} />
+
+      <!-- Use the built-in Link component -->
+      <${Link} prefetch="hover" href="https://geckosio.github.io/">
+        Link
+      </${Link}>
+
     </div>`
   }
 
@@ -98,7 +109,9 @@ List of names
 </script>
 ```
 
-## \<Link />
+## Built-in Components
+
+### \<Link />
 
 Nano JSX provides a fancy **link component** for prefetching pages.
 
@@ -119,7 +132,7 @@ Nano JSX provides a fancy **link component** for prefetching pages.
 </Link>
 ```
 
-## \<Visible />
+### \<Visible />
 
 This children of Visible will only be rendered and added to the dom, if they are visible. This is useful, for example, for a comment section. (Does not work to lazy load images)
 
@@ -140,7 +153,7 @@ This children of Visible will only be rendered and added to the dom, if they are
 </Visible>
 ```
 
-## \<Img />
+### \<Img />
 
 Lazy Loading Images.
 
@@ -160,7 +173,7 @@ Lazy Loading Images.
 <Img src="imageURL" placeholder={Placeholder} />
 ```
 
-## \<Helmet />
+### \<Helmet />
 
 Works just like react-helmet. Works client-side and SSR.
 

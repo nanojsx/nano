@@ -21,28 +21,35 @@
     <div id="root"></div>
 
     <script>
-      const { Nano, Component, jsx, Link } = nano
+      const { Nano, Link, jsx } = nano
 
       const names = ['joe', 'suzanne']
 
-      const Names = () => {
+      const Names = (props) => {
         return jsx`
-      <ul>
-        ${names.map((name) => {
-          return jsx`
-            <li>
-              ${name}
-            </li>`
-        })}
-      </ul>`
+          <ul>
+            ${names.map((name) => {
+              return jsx`<li>${name}</li>`
+            })}
+          </ul>`
       }
 
       const App = () => {
         return jsx`
-          <div>
-            <h2 onClick="${() => console.log('click')}">List of names</h2>
-            ${Names}
-          </div>`
+        <div>
+
+          <!-- Listen for the click event -->
+          <h2 onClick="${() => console.log('click')}">List of names</h2>
+
+          <!-- Render the Names component -->
+          <${Names} />
+          
+          <!-- Use the built-in Link component -->
+          <${Link} prefetch="hover" href="https://geckosio.github.io/">
+            Link
+          </${Link}>
+
+        </div>`
       }
 
       Nano.render(App, document.getElementById('root'))
