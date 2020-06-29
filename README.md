@@ -49,7 +49,7 @@ The documentation will be available soon.
 - **1KB (gzip)**  
   All of this in only ~1KB  
   _(Well, the core module is only about ~1KB,_  
-  _together with all the cool features it's ~2.8KB)_
+  _together with all the cool features it's ~3KB)_
 
 ## Why
 
@@ -158,4 +158,58 @@ Lazy Loading Images.
 
 // lazy load an image with a placeholder component
 <Img src="imageURL" placeholder={Placeholder} />
+```
+
+## \<Helmet />
+
+Works just like react-helmet. Works client-side and SSR.
+
+```jsx
+<Helmet>
+  {/* html attributes */}
+  <html lang="en" amp />
+
+  {/* body attributes */}
+  <body class="root" />
+
+  {/* title element */}
+  <title>My Plain Title or {dynamic} title</title>
+
+  {/* meta elements */}
+  <meta name="description" content="Nano-JSX application" />
+
+  {/* link elements */}
+  <link rel="canonical" href="http://mysite.com/example" />
+
+  {/* inline style elements */}
+  <style type="text/css">{`
+    body {
+      background-color: blue;
+    }
+  `}</style>
+
+  {/* inline script elements */}
+  <script>console.log("Hello");</script>
+
+  {/* noscript elements */}
+  <noscript>{`
+    <link rel="stylesheet" type="text/css" href="foo.css" />
+  `}</noscript>
+
+  {/* JSON-LD */}
+  <script type="application/ld+json">{`
+    {
+      "@context": "https://schema.org/",
+      "@type": "Recipe",
+      "name": "Party Coffee Cake",
+      "author": {
+        "@type": "Person",
+        "name": "Mary Stone"
+      },
+      "datePublished": "2018-03-10",
+      "description": "This coffee cake is awesome and perfect for parties.",
+      "prepTime": "PT20M"
+    }
+  `}</script>
+</Helmet>
 ```
