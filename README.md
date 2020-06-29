@@ -59,6 +59,24 @@ Nowadays, I prefer to pre-render the JSX on the server and only hydrate the part
 
 Of course with this new approach, the client does not have a router and must thus fetch each new site on navigating to it. But, this is not really a problem since the static html is usually very small and we can easily prefetch pages using `<link rel="prefetch" href="index.html" as="document">` on page load or on hovering over a link.
 
+## How
+
+npm
+
+```console
+npm i nano-jsx
+```
+
+bundle
+
+```html
+<!-- Nano JSX Core -->
+<script src="https://unpkg.com/nano-jsx/bundles/nano.core.min.js"></script>
+
+<!-- Nano JSX Full -->
+<script src="https://unpkg.com/nano-jsx/bundles/nano.min.js"></script>
+```
+
 ## Tagged Template Literals
 
 You can use jsx without any build tools, if you want.
