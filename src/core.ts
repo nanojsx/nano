@@ -83,8 +83,10 @@ const renderComponent = (component: { component: any; props?: any; tagName?: any
   // handle undefined, null and svg, and jsx element
   if (typeof component === 'undefined') return 'undefined'
   else if (component === null) return 'null'
-  else if (component.tagName?.toLowerCase() === 'svg') return SVG({ children: [component] })
-  else if (component.tagName) return component
+  else if (component.tagName) {
+    if (component.tagName.toLowerCase() === 'svg') return SVG({ children: [component] })
+    else return component
+  }
 
   let el
   let props = component.props || { children: [] }
@@ -97,13 +99,13 @@ const renderComponent = (component: { component: any; props?: any; tagName?: any
   if (/^class/.test(component.toString())) {
     const Component = new component()
     Component.props = props
-    Component.willMount?.()
+    Component.willMount()
 
     Component.element = Component.render()
 
     el = Component.element
 
-    if (Component.didMount) setTimeout(() => Component.didMount(), 0)
+    setTimeout(() => Component.didMount(), 0)
   } else if (typeof component === 'function') {
     el = component(props)
   } else {
