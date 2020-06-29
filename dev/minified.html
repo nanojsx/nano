@@ -39,10 +39,10 @@
 
       const App = () => {
         return jsx`
-    <div>
-      <h2>List of names</h2>
-      ${Names}
-    </div>`
+          <div>
+            <h2 onClick="${() => console.log('click')}">List of names</h2>
+            ${Names}
+          </div>`
       }
 
       Nano.render(App, document.getElementById('root'))

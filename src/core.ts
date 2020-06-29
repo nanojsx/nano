@@ -135,9 +135,6 @@ export const createElement = (tagNameOrComponent: any, props: any, ...children: 
       ? (createElementNS('svg') as SVGElement)
       : (document.createElement(tagNameOrComponent) as HTMLElement)
 
-  // simply add more if needed in the future
-  const events = ['onInput', 'onClick', 'onChange', 'onSubmit']
-
   for (const p in props) {
     // https://stackoverflow.com/a/45205645/12656855
     // style object to style string
@@ -149,8 +146,10 @@ export const createElement = (tagNameOrComponent: any, props: any, ...children: 
       props[p] = styles + ';'
     }
 
+    // handel ref
     if (p === 'ref') ref = props[p]
-    else if (events.find((e) => e === p)) element.addEventListener(p.toLowerCase().substring(2), (e) => props[p](e))
+    // handle events
+    else if (/^on[A-Z]\w+$/gm.test(p)) element.addEventListener(p.toLowerCase().substring(2), (e) => props[p](e))
     // else if (/className/i.test(p)) console.warn('You can use "class" instead of "className".')
     else element.setAttribute(p, props[p])
   }

@@ -89,7 +89,7 @@ List of names
   const App = () => {
     return jsx`
     <div>
-      <h2>List of names</h2>
+      <h2 onClick="${() => console.log('click')}">List of names</h2>
       ${Names}
     </div>`
   }
