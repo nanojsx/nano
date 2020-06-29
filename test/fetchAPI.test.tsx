@@ -4,27 +4,37 @@ import { nodeToString, wait } from './helpers.js'
 const spy = jest.spyOn(global.console, 'error')
 
 test('should render without errors', async (done) => {
+  // mock fetch api
   const fetchMock = (_url: string) => {
     return new Promise((resolve) => {
       setTimeout(() => {
         resolve({ data: [{ name: 'John' }, { name: 'Suzanne' }] })
-      }, 100)
+      }, 1000)
     })
   }
 
+  // the dom
   const parentElement = <div id="root"></div>
+
+  // store all promises
+  const promises: Promise<any>[] = []
 
   class Names extends Component {
     data: any
+    promise: any
+
+    willMount() {
+      // keep track of all promises
+      this.promise = fetchMock('/api/names')
+      promises.push(this.promise)
+    }
 
     async didMount() {
-      const res: any = await fetchMock('/api/names')
+      const res = (await this.promise) as any
+
       if (res) {
         this.data = res.data
         this.update()
-        // emit a custom event to the parent node
-        const event = new CustomEvent('dataLoaded')
-        parentElement.dispatchEvent(event)
       }
     }
 
@@ -46,9 +56,10 @@ test('should render without errors', async (done) => {
   // NOTE: The component "Names" needs at least one parent to be able to update.
   const res = Nano.render(<Names />, parentElement)
 
-  parentElement.addEventListener('dataLoaded', () => {
-    expect(nodeToString(res)).toBe('<div id="root"><ul><li>John</li><li>Suzanne</li></ul></div>')
-    expect(spy).not.toHaveBeenCalled()
-    done()
-  })
+  // wait for all promises to be resolved
+  await Promise.all(promises)
+
+  expect(nodeToString(res)).toBe('<div id="root"><ul><li>John</li><li>Suzanne</li></ul></div>')
+  expect(spy).not.toHaveBeenCalled()
+  done()
 })
