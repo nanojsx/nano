@@ -21,12 +21,14 @@ export class Helmet extends Component {
         }
         return
       } else if (tag === 'TITLE') {
-        let titleTag = document.getElementsByTagName('TITLE')[0] as HTMLElement
-        if (!titleTag) {
-          titleTag = createElement('title', null, '') as HTMLElement
+        const titleTags = document.getElementsByTagName('TITLE') as HTMLCollectionOf<HTMLTitleElement>
+        if (titleTags.length > 0) {
+          let e = element as HTMLTitleElement
+          titleTags[0].text = e.text
+        } else {
+          let titleTag = createElement('title', null, element.innerHTML) as HTMLTitleElement
           document.head.appendChild(titleTag)
         }
-        titleTag.innerText = element.innerText
         return
       }
 

@@ -1,7 +1,14 @@
 import Nano, { Helmet } from '../../lib/index.js'
-import { wait } from '../helpers.js'
+import { wait, nodeToString } from '../helpers.js'
 
 const spy = jest.spyOn(global.console, 'error')
+
+afterEach(async () => {
+  // reset jsdom document
+  document.body.innerHTML = ''
+  document.head.innerHTML = ''
+  await wait()
+})
 
 test('should render without errors', async (done) => {
   const dynamic = 'dynamic'
@@ -20,19 +27,54 @@ test('should render without errors', async (done) => {
 
         {/* meta elements */}
         <meta name="description" content="Nano-JSX application" />
+
+        {/* meta elements */}
+        <link rel="canonical" href="http://mysite.com/example" />
       </Helmet>
     </div>
   )
 
   const root = Nano.createElement('div', { id: 'root' }) as HTMLElement
+  const desc = Nano.createElement('meta', { name: 'description', content: 'Nano-JSX application' }) as HTMLElement
+  document.head.appendChild(desc)
   document.body.appendChild(root)
 
   Nano.render(<Root />, document.getElementById('root'))
 
   await wait()
   expect(document.getElementsByTagName('HTML')[0].getAttribute('lang')).toBe('en')
-  expect(document.head.innerHTML).toBe('<title></title><meta name="description" content="Nano-JSX application">')
+  expect(document.head.innerHTML).toBe(
+    '<meta name="description" content="Nano-JSX application"><title>My Plain Title or dynamic title</title><link rel="canonical" href="http://mysite.com/example">'
+  )
   expect(document.body.innerHTML).toBe('<div id="root"></div>')
+  expect(spy).not.toHaveBeenCalled()
+  done()
+})
+
+test('should render without errors', async (done) => {
+  const Root = () => (
+    <div>
+      <Helmet>
+        <title>new title tag</title>
+      </Helmet>
+    </div>
+  )
+
+  const root = Nano.createElement('div', { id: 'root' }) as HTMLElement
+  const title = Nano.createElement('title', null, 'old title tag') as HTMLElement
+  document.head.appendChild(title)
+  document.body.appendChild(root)
+
+  await wait()
+
+  expect(nodeToString(document.head)).toBe('<head><title>old title tag</title></head>')
+
+  await wait()
+
+  Nano.render(<Root />, document.getElementById('root'))
+
+  await wait()
+  expect(nodeToString(document.head)).toBe('<head><title>new title tag</title></head>')
   expect(spy).not.toHaveBeenCalled()
   done()
 })
