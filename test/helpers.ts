@@ -22,7 +22,7 @@ export const mockIntersectionObserver = () => {
 
       setTimeout(() => {
         this.fnc(entries, observer)
-      }, 100)
+      }, 80)
     }
 
     disconnect() {}
