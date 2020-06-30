@@ -1,5 +1,6 @@
 import { removeAllChildNodes, appendChildren } from '../core'
 import { Component } from '../component'
+import { nodeToString } from '../helpers'
 
 export class Visible extends Component {
   isVisible = false
@@ -31,7 +32,8 @@ export class Visible extends Component {
     if (this.props.children.length !== 1) console.warn('Please add ONE child to <Visible> (<Visible>child</Visible>)')
 
     if (this.isVisible) {
-      const children = this.props.children[0].children as HTMLElement[]
+      const children = this.props.children as HTMLElement[]
+      this.element.removeAttribute('visibility')
       appendChildren(this.element, children)
       this.element
     } else return this.element
