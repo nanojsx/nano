@@ -42,7 +42,7 @@ export class Img extends Component {
       const style: any = {}
       if (rest.width) style.width = rest.width + 'px'
       if (rest.height) style.height = rest.height + 'px'
-      return createElement('div', { style, ...rest })
+      return createElement('div', { ...style, ...rest })
     }
   }
 }
