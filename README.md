@@ -7,6 +7,8 @@
 <h4 align="center">
 Written in TypeScript, super Lightweight, simply Awesome!</h4>
 
+<h3 align="center">Designed to build blazing fast Multi-Page Apps (MPAs). Faster than any SPA could ever be. Using isomorphic JavaScript. Perfect for your next PWA.</h3>
+
 <p align="center">  
   <a href="https://www.npmjs.com/package/nano-jsx"><img src="https://img.shields.io/npm/v/nano-jsx?style=flat-square" alt="NPM version"></a>
   <img src="https://badgen.net/badgesize/gzip/yandeu/nano-jsx/master/bundles/nano.core.min.js?style=flat-square" alt="gzip size">
