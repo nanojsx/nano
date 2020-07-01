@@ -45,7 +45,16 @@ export class Link extends Component {
   }
 
   didMount() {
-    const { prefetch } = this.props
+    const { href, prefetch, delay = 0 } = this.props
+
+    if (delay > 0)
+      this.element.addEventListener('click', (e) => {
+        e.preventDefault()
+        setTimeout(() => {
+          window.location.href = href
+        }, delay)
+      })
+
     if (prefetch) {
       if (prefetch === 'hover') this.prefetchOnHover()
       else if (prefetch === 'visible') this.prefetchOnVisible()

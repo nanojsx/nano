@@ -1,6 +1,7 @@
 import * as Nano from './core'
 import { Component } from './component'
 import { Fragment } from './helpers'
+import { Link } from '.'
 
 const Button = (props: any) => {
   return (
@@ -72,11 +73,39 @@ const Bla2 = (props: any) => {
     </p>
   )
 }
+class FadeOnClick extends Component {
+  fadeOut() {
+    const body = document.body
+    body.classList.add('transparent')
+    console.log('fadeout')
+  }
+
+  mouseover() {
+    console.log('mouseover')
+  }
+
+  render() {
+    return (
+      <div>
+        <Link
+          onClick={() => this.fadeOut()}
+          onMouseover={() => this.mouseover()}
+          prefetch="hover"
+          delay="100"
+          href="core.html"
+        >
+          view core example
+        </Link>
+      </div>
+    )
+  }
+}
 
 class Hello extends Component {
   render() {
     return (
       <div id="wrapper">
+        <FadeOnClick />
         <ChildrenTest id="1">This is a child (1)</ChildrenTest>
         <ChildrenTest id="2">
           <span>This is a child (2)</span>

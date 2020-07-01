@@ -15,7 +15,23 @@
         font-family: sans-serif;
         padding: 2em;
         margin: 0 auto;
+        /* opacity: 1; */
+        animation: fadein 0.25s;
+        transition: opacity 0.1s;
       }
+
+      @keyframes fadein {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+      .transparent {
+        opacity: 0;
+      }
+
       .button.is-primary {
         border: none;
         background-color: #a86ec8;
@@ -49,6 +65,9 @@
       }
       p.toast.transparent {
         opacity: 0;
+      }
+      a {
+        color: white;
       }
     </style>
     <div id="root"></div>

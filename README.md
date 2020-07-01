@@ -151,6 +151,13 @@ Nano JSX provides a fancy **link component** for prefetching pages.
 <Link prefetch="visible" href="https://geckosio.github.io/">
   Link to geckos.io
 </Link>
+
+// wait for 150ms before navigating
+// (useful if, for example, you want to fadeOut the content before navigating)
+// (together with "prefetch", your MPA will just look like a SPA ❤️)
+<Link delay="150" href="https://geckosio.github.io/">
+  Link to geckos.io
+</Link>
 ```
 
 ### \<Visible />
