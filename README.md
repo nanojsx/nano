@@ -80,55 +80,9 @@ bundle
 <script src="https://unpkg.com/nano-jsx/bundles/nano.min.js"></script>
 ```
 
-## Tagged Template Literals
+## Documentation
 
-You can use jsx without any build tools, if you want.
-
-The example below will render:
-
-```console
-List of names
-  • joe
-  • suzanne
-  Link
-```
-
-```js
-<script>
-  const { Nano, Link, jsx } = nano
-
-  const names = ['joe', 'suzanne']
-
-  const Names = (props) => {
-    return jsx`
-      <ul>
-        ${names.map((name) => {
-          return jsx`<li>${name}</li>`
-        })}
-      </ul>`
-  }
-
-  const App = () => {
-    return jsx`
-    <div>
-
-      <!-- Listen for the click event -->
-      <h2 onClick="${() => console.log('click')}">List of names</h2>
-
-      <!-- Render the Names component -->
-      <${Names} />
-
-      <!-- Use the built-in Link component -->
-      <${Link} prefetch="hover" href="https://geckosio.github.io/">
-        Link
-      </${Link}>
-
-    </div>`
-  }
-
-  Nano.render(App, document.getElementById('root'))
-</script>
-```
+Will be available soon.
 
 ## Built-in Components
 
@@ -253,4 +207,54 @@ Works just like react-helmet. Works client-side and SSR.
     }
   `}</script>
 </Helmet>
+```
+
+## Tagged Template Literals
+
+You can use jsx without any build tools, if you want.
+
+The example below will render:
+
+```console
+List of names
+  • joe
+  • suzanne
+  Link
+```
+
+```js
+<script>
+  const { Nano, Link, jsx } = nano
+
+  const names = ['joe', 'suzanne']
+
+  const Names = (props) => {
+    return jsx`
+      <ul>
+        ${names.map((name) => {
+          return jsx`<li>${name}</li>`
+        })}
+      </ul>`
+  }
+
+  const App = () => {
+    return jsx`
+    <div>
+
+      <!-- Listen for the click event -->
+      <h2 onClick="${() => console.log('click')}">List of names</h2>
+
+      <!-- Render the Names component -->
+      <${Names} />
+
+      <!-- Use the built-in Link component -->
+      <${Link} prefetch="hover" href="https://geckosio.github.io/">
+        Link
+      </${Link}>
+
+    </div>`
+  }
+
+  Nano.render(App, document.getElementById('root'))
+</script>
 ```
