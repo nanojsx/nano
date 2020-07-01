@@ -66,18 +66,45 @@ Of course with this new approach, the client does not have a router and must thu
 
 npm
 
-```console
+```bash
+# install nano-jsx
 npm i nano-jsx
+```
+
+```tsx
+// import nano-jsx
+import { Nano, Component, Link, more... } from 'nano-jsx'
+
+// create your components
+const App = (props) => <h1>Hello from {props.name}!</h1>
+
+// render the app to the root element
+Nano.render(<App name="Nano" />, document.getElementById('root'))
 ```
 
 bundle
 
 ```html
-<!-- Nano JSX Core -->
-<script src="https://unpkg.com/nano-jsx/bundles/nano.core.min.js"></script>
-
-<!-- Nano JSX Full -->
+<!-- Nano JSX -->
 <script src="https://unpkg.com/nano-jsx/bundles/nano.min.js"></script>
+
+<!-- Use (with build tools (Babel/TypeScript))-->
+<script>
+  const { Nano, Component, Link, more... } = nano
+
+  const App = (props) => <h1>Hello from {props.name}!</h1>
+
+  Nano.render(<App name="Nano" />, document.getElementById('root'))
+</script>
+
+<!-- Use (without build tools (purse JavaScript))-->
+<script>
+  const { Nano, Component, Link, jsx } = nano
+
+  const App = (props) => jsx`<h1>Hello from ${props.name}!</h1>`
+
+  Nano.render(jsx`<${App} name="Nano" />`, document.getElementById('root'))
+</script>
 ```
 
 ## Documentation
