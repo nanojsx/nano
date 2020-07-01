@@ -1,6 +1,6 @@
 {
   "name": "nano-jsx",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Lightweight 1KB JSX library",
   "main": "lib/index.js",
   "scripts": {

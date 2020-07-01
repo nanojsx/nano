@@ -1,7 +1,7 @@
 import * as Nano from './core'
 import { Component } from './component'
 import { Fragment } from './helpers'
-import { Link } from '.'
+import { Link } from './components/link'
 
 const Button = (props: any) => {
   return (
