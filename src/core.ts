@@ -60,7 +60,7 @@ export const render = (component: any, parent: HTMLElement | null = null, remove
     if (removeChildNodes) removeAllChildNodes(parent)
 
     // if parent and child are the same, we replace the parent instead of appending to it
-    if (parent.id === el.id) {
+    if (parent.id && parent.id === el.id) {
       // @ts-ignore
       parent.parentElement.replaceChild(el, parent)
     } else {
