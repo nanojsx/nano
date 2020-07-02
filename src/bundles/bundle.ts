@@ -1,5 +1,7 @@
-import { createElement, render, removeAllChildNodes } from '../core'
+import { h, render, removeAllChildNodes } from '../core'
 import { Fragment, createContext, nodeToString } from '../helpers'
+import { renderSSR } from '../ssr'
+
 import { Component } from '../component'
 import { Helmet } from '../components/helmet'
 import { Link } from '../components/link'
@@ -8,10 +10,10 @@ import { Visible } from '../components/visible'
 
 // @ts-ignore
 import htm from 'htm/dist/htm.js'
-const jsx = htm.bind(createElement)
+const jsx = htm.bind(h)
 
 export default {
-  Nano: { createContext, createElement, render, removeAllChildNodes, nodeToString },
+  Nano: { createContext, h, render, renderSSR, removeAllChildNodes, nodeToString },
   Fragment,
   Component,
   Helmet,
@@ -19,4 +21,5 @@ export default {
   Img,
   Visible,
   jsx,
+  h,
 }

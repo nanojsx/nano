@@ -1,5 +1,5 @@
 import { Component } from '../component'
-import { createElement } from '../core'
+import { h } from '../core'
 
 export class Img extends Component {
   isLoaded = false
@@ -13,7 +13,7 @@ export class Img extends Component {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             observer.disconnect()
-            this.image = createElement('img', { ...rest }) as HTMLImageElement
+            this.image = h('img', { ...rest }) as HTMLImageElement
             this.image.onload = () => {
               this.isLoaded = true
               this.update()
@@ -33,7 +33,7 @@ export class Img extends Component {
       return this.image
       // if the placeholder is an image src
     } else if (placeholder && typeof placeholder === 'string') {
-      return createElement('img', { src: placeholder, ...rest })
+      return h('img', { src: placeholder, ...rest })
       // if the placeholder is an JSX element
     } else if (placeholder && typeof placeholder === 'function') {
       return placeholder()
@@ -42,7 +42,7 @@ export class Img extends Component {
       const style: any = {}
       if (rest.width) style.width = rest.width + 'px'
       if (rest.height) style.height = rest.height + 'px'
-      return createElement('div', { ...style, ...rest })
+      return h('div', { ...style, ...rest })
     }
   }
 }

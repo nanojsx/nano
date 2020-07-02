@@ -5,6 +5,7 @@
   "main": "lib/index.js",
   "scripts": {
     "start": "npm run dev",
+    "ssr": "npm run dev & nodemon lib/devSSR.js",
     "build": "npm run clean && tsc --project tsconfig.json",
     "bundle": "npm run clean && tsc --project tsconfig.es2015.json && npm-run-all bundle:*",
     "bundle:prod": "webpack --config webpack/webpack.bundle.prod.js",
@@ -54,6 +55,10 @@
     "webpack": "^5.0.0-beta.18",
     "webpack-cli": "^4.0.0-beta.8"
   },
+  "engines": {
+    "node": ">=12"
+  },
+  "engineStrict": true,
   "funding": {
     "url": "https://github.com/sponsors/yandeu"
   }

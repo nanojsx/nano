@@ -19,7 +19,7 @@ test('should render without errors', async (done) => {
     )
   }
 
-  const root = Nano.createElement('div', { id: 'root' }) as HTMLElement
+  const root = Nano.h('div', { id: 'root' }) as HTMLElement
   document.body.appendChild(root)
 
   Nano.render(<App />, document.getElementById('root'))

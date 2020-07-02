@@ -34,8 +34,8 @@ test('should render without errors', async (done) => {
     </div>
   )
 
-  const root = Nano.createElement('div', { id: 'root' }) as HTMLElement
-  const desc = Nano.createElement('meta', { name: 'description', content: 'Nano-JSX application' }) as HTMLElement
+  const root = Nano.h('div', { id: 'root' }) as HTMLElement
+  const desc = Nano.h('meta', { name: 'description', content: 'Nano-JSX application' }) as HTMLElement
   document.head.appendChild(desc)
   document.body.appendChild(root)
 
@@ -60,8 +60,8 @@ test('should render without errors', async (done) => {
     </div>
   )
 
-  const root = Nano.createElement('div', { id: 'root' }) as HTMLElement
-  const title = Nano.createElement('title', null, 'old title tag') as HTMLElement
+  const root = Nano.h('div', { id: 'root' }) as HTMLElement
+  const title = Nano.h('title', null, 'old title tag') as HTMLElement
   document.head.appendChild(title)
   document.body.appendChild(root)
 

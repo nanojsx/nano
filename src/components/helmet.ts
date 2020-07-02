@@ -1,7 +1,25 @@
 import { Component } from '../component'
-import { appendChildren, createElement } from '../core'
+import { appendChildren, h } from '../core'
 
 export class Helmet extends Component {
+  static SSR(body: string) {
+    const reg = /(<helmet\b[^>]*>)(.*?)(<\/helmet>)/gm
+
+    // collect all headers
+    let head = []
+
+    let result
+    while ((result = reg.exec(body)) !== null) {
+      const res = result[2]
+      // ignore if the same element already exists
+      if (head.indexOf(res) === -1) head.push(res)
+    }
+
+    // remove all matches
+    const cleaned = body.replace(reg, '')
+    return { body: cleaned, head }
+  }
+
   didMount() {
     this.props.children.forEach((element: HTMLElement) => {
       let tag = element.tagName
@@ -26,7 +44,7 @@ export class Helmet extends Component {
           let e = element as HTMLTitleElement
           titleTags[0].text = e.text
         } else {
-          let titleTag = createElement('title', null, element.innerHTML) as HTMLTitleElement
+          let titleTag = h('title', null, element.innerHTML) as HTMLTitleElement
           document.head.appendChild(titleTag)
         }
         return
@@ -54,6 +72,9 @@ export class Helmet extends Component {
   }
 
   render() {
-    return [] as any
+    const isSSR = !(typeof window !== 'undefined' && window.document)
+
+    if (isSSR) return h('helmet', { 'data-ssr': true }, this.props.children)
+    else return [] as any
   }
 }

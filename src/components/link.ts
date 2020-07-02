@@ -1,5 +1,5 @@
 import { Component } from '../component'
-import { createElement } from '../core'
+import { h } from '../core'
 
 /**
  * A simple Link component
@@ -39,7 +39,7 @@ export class Link extends Component {
     }
 
     if (!doesAlreadyExist) {
-      const prefetch = createElement('link', { rel: 'prefetch', href: this.props.href, as: 'document' }) as HTMLElement
+      const prefetch = h('link', { rel: 'prefetch', href: this.props.href, as: 'document' }) as HTMLElement
       document.head.appendChild(prefetch)
     }
   }
@@ -70,6 +70,6 @@ export class Link extends Component {
     if (!this.props.href) console.warn('Please add "href" to <Link>')
     if (children.length !== 1) console.warn('Please add ONE child to <Link> (<Link>child</Link>)')
 
-    return createElement('a', { ...rest }, ...children) as any
+    return h('a', { ...rest }, ...children) as any
   }
 }

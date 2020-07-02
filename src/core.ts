@@ -37,7 +37,7 @@ const SVG = (props: any) => {
   const child = props.children[0] as SVGElement
   const attrs = child.attributes
 
-  const svg = createElementNS('svg') as SVGElement
+  const svg = hNS('svg') as SVGElement
   for (let i = attrs.length - 1; i >= 0; i--) {
     svg.setAttribute(attrs[i].name, attrs[i].value)
   }
@@ -73,10 +73,16 @@ export const render = (component: any, parent: HTMLElement | null = null, remove
       else appendChildren(parent, renderComponent(el))
     }
 
+    // @ts-ignore
+    if (parent.ssr) return parent.ssr
     return parent
   }
   // returning one child or an array of children
-  else return el
+  else {
+    // @ts-ignore
+    if (el.ssr) return el.ssr
+    return el
+  }
 }
 
 const renderComponent = (component: { component: any; props?: any; tagName?: any } | any): any => {
@@ -105,7 +111,8 @@ const renderComponent = (component: { component: any; props?: any; tagName?: any
 
     el = Component.element
 
-    setTimeout(() => Component.didMount(), 0)
+    // @ts-ignore
+    if (typeof isSSR === 'undefined') setTimeout(() => Component.didMount(), 0)
   } else if (typeof component === 'function') {
     el = component(props)
   } else {
@@ -118,12 +125,12 @@ const renderComponent = (component: { component: any; props?: any; tagName?: any
   return el
 }
 
-export const createElementNS = (tag: string) => {
-  return document.createElementNS('http://www.w3.org/2000/svg', tag)
+export const hNS = (tag: string) => {
+  return document.createElementNS('http://www.w3.org/2000/svg', tag) as SVGElement
 }
 
 // https://stackoverflow.com/a/42405694/12656855
-export const createElement = (tagNameOrComponent: any, props: any, ...children: any) => {
+export const h = (tagNameOrComponent: any, props: any, ...children: any) => {
   // if tagNameOrComponent is a component
   if (typeof tagNameOrComponent !== 'string')
     return { component: tagNameOrComponent, props: { ...props, children: children } }
@@ -132,7 +139,7 @@ export const createElement = (tagNameOrComponent: any, props: any, ...children: 
 
   const element =
     tagNameOrComponent === 'svg'
-      ? (createElementNS('svg') as SVGElement)
+      ? (hNS('svg') as SVGElement)
       : (document.createElement(tagNameOrComponent) as HTMLElement)
 
   for (const p in props) {
@@ -164,5 +171,7 @@ export const createElement = (tagNameOrComponent: any, props: any, ...children: 
   appendChildren(element, children)
 
   if (ref) ref(element)
+  // @ts-ignore
+  if (element.ssr) return element.ssr
   return element
 }

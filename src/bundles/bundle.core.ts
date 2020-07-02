@@ -1,8 +1,9 @@
-import { render, createElement } from '../core'
+import { render, h } from '../core'
 import { nodeToString } from '../helpers'
 import { Component } from '../component'
 
 export default {
-  Nano: { render, createElement, nodeToString },
+  Nano: { render, h, nodeToString },
   Component,
+  h,
 }

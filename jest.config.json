@@ -1,4 +1,4 @@
 {
   "collectCoverage": true,
-  "collectCoverageFrom": ["lib/**/*.js", "!lib/**/dev.js", "!lib/bundles/*"]
+  "collectCoverageFrom": ["lib/**/*.js", "!lib/**/dev.js", "!lib/**/devSSR.js", "!lib/bundles/*"]
 }

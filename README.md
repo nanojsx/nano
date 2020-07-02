@@ -17,6 +17,7 @@ Written in TypeScript, super Lightweight, simply Awesome!</h4>
   <a href="https://github.com/prettier/prettier"><img src="https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square" alt="code style: prettier"></a>
   <a href="https://www.typescriptlang.org/"><img src="https://img.shields.io/badge/built%20with-TypeScript-blue?style=flat-square"></a>
   <a href="https://codecov.io/gh/yandeu/nano-jsx"><img src="https://img.shields.io/codecov/c/github/yandeu/nano-jsx?logo=codecov&style=flat-square" alt="Codecov"/></a>
+  <img src="https://img.shields.io/node/v/nano-jsx.svg?style=flat-square" alt="Node version"/>
 </p>
 
 <hr>

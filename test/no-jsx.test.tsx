@@ -1,11 +1,9 @@
-import Nano, { Component } from '../lib/index.js'
+import Nano, { Component, h } from '../lib/index.js'
 import { wait } from './helpers.js'
 
 const spy = jest.spyOn(global.console, 'error')
 
 test('should render without errors', async (done) => {
-  const h = Nano.createElement
-
   // we put this in, just to test it as well
   const ListElement = () => <li>even more text</li>
 
