@@ -21,7 +21,7 @@ export class Link extends Component {
           }
         })
       },
-      { threshold: 1.0 }
+      { threshold: [0, 1] }
     )
     observer.observe(this.element)
   }
