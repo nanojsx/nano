@@ -3,7 +3,7 @@ import { appendChildren, h } from '../core'
 
 export class Helmet extends Component {
   static SSR(body: string) {
-    const reg = /(<helmet\b[^>]*>)(.*?)(<\/helmet>)/gms
+    const reg = /(<helmet\b[^>]*>)((.|\n)*?)(<\/helmet>)/gm
 
     // collect all elements
     let head: string[] = []
