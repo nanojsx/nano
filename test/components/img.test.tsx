@@ -91,7 +91,7 @@ test('should render without errors', async (done) => {
   const res = Nano.render(<App />)
 
   await wait(50)
-  expect(nodeToString(res)).toBe('<div><div width="250" height="250"></div></div>')
+  expect(nodeToString(res)).toBe('<div><div style="width:250px;height:250px;" width="250" height="250"></div></div>')
 
   await wait(200)
   expect(nodeToString(res)).toBe('<div><img width="250" height="250" src="https://via.placeholder.com/250"></div>')

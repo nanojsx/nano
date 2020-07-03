@@ -37,6 +37,8 @@ export class Helmet extends Component {
       for (let attr = 0; attr < element.attributes.length; attr++) {
         attrs.push(element.attributes.item(attr)?.name.toLowerCase() as string)
         attrs.push(element.attributes.item(attr)?.value.toLowerCase() as string)
+        // and the inner text
+        attrs.push(element.innerText as string)
       }
 
       // handle special tags
@@ -68,10 +70,13 @@ export class Helmet extends Component {
         for (let attr = 0; attr < el[i].attributes.length; attr++) {
           attrs2.push(el[i].attributes.item(attr)?.name.toLowerCase() as string)
           attrs2.push(el[i].attributes.item(attr)?.value.toLowerCase() as string)
+          // and the inner text
+          // @ts-ignore
+          attrs2.push(el[i].innerText as string)
         }
         attrs2 = attrs2.sort()
 
-        if (JSON.stringify(attrs) === JSON.stringify(attrs2)) exists = true
+        if (attrs.length > 0 && attrs2.length > 0 && JSON.stringify(attrs) === JSON.stringify(attrs2)) exists = true
       }
 
       // add to dom

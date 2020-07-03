@@ -217,7 +217,7 @@ const App = () => {
         <script src="/this/belongs/to/the/footer.js"></script>
       </Helmet>
 
-      <Img src="some-url" placeholder="placeholder-url" />
+      <Img width="280" height="160" src="some-url" placeholder="placeholder-url" />
     </div>
   )
 }
@@ -304,15 +304,15 @@ This children of Visible will only be rendered and added to the dom, if they are
 
 ### \<Img />
 
-Lazy Loading Images.
+Lazy Loading Images. You should add a height and width if possible.
 
 ```tsx
 // lazy load an image
 <Img src="imageURL" />
 
 // lazy load an image, displays a blue box while loading
-<div style={{width:100, height:100, backgroundColor: 'blue'}}>
-  <Img src="imageURL" />
+<div style={{width:'100px', height:'100px', backgroundColor: 'blue'}}>
+  <Img height="100" src="imageURL" />
 </div>
 
 // lazy load an image with a placeholder image
