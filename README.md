@@ -74,7 +74,7 @@ npm i nano-jsx
 
 ```tsx
 // import nano-jsx
-import { Nano, Component, Link, more... } from 'nano-jsx'
+import Nano, { Component, Link, more... } from 'nano-jsx'
 
 // create your components
 const App = (props) => <h1>Hello from {props.name}!</h1>
@@ -117,11 +117,14 @@ You can simply pass props to children as you are used to in other JSX libraries.
 ### Lifecycle
 
 If you extend from `Component` you will have `willMount()`, `render()` and `didMount()`.
+
 If you use SSR, you should only manipulate the DOM inside `didMount()`, since `didMount()` will not get executed on the server-side.
 
 ### Update/Re-render Component
 
-Nano-JSX does _never_ update the component automatically. You have to call `update()` or `render()`. There is not `this.state`, you can simply use any name you want ("data" in the example below).
+Nano-JSX does _never_ update the component automatically. You have to call `update()`.
+
+Also, there is no `this.state`, you can simply use any name you want ("data" in the example below).
 
 ```tsx
 import Nano, { Component } from 'nano-jsx'
