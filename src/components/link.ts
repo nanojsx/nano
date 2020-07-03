@@ -48,7 +48,7 @@ export class Link extends Component {
     const { href, prefetch, delay = 0 } = this.props
 
     if (delay > 0)
-      this.element.addEventListener('click', (e) => {
+      this.element.addEventListener('click', (e: any) => {
         e.preventDefault()
         setTimeout(() => {
           window.location.href = href

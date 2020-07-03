@@ -9,13 +9,13 @@ mockIntersectionObserver()
 test('should render without errors', async (done) => {
   const App = () => {
     return (
-      <Visible>
-        <div id="comment-section">
+      <div id="comment-section">
+        <Visible>
           <h2>Comment Section</h2>
           <p>Comment 1</p>
           <p>Comment 2</p>
-        </div>
-      </Visible>
+        </Visible>
+      </div>
     )
   }
 
@@ -23,11 +23,13 @@ test('should render without errors', async (done) => {
   document.body.appendChild(root)
 
   Nano.render(<App />, document.getElementById('root'))
-  expect(document.body.innerHTML).toBe('<div id="root"><div id="comment-section" visibility="hidden"></div></div>')
+  expect(document.body.innerHTML).toBe(
+    '<div id="root"><div id="comment-section"><div data-visible="false" visibility="hidden"></div></div></div>'
+  )
 
   await wait()
   expect(document.body.innerHTML).toBe(
-    '<div id="root"><div id="comment-section"><div id="comment-section"><h2>Comment Section</h2><p>Comment 1</p><p>Comment 2</p></div></div></div>'
+    '<div id="root"><div id="comment-section"><h2>Comment Section</h2><p>Comment 1</p><p>Comment 2</p></div></div>'
   )
   expect(spy).not.toHaveBeenCalled()
   done()
