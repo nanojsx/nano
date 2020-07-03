@@ -265,6 +265,12 @@ Nano JSX provides a fancy **link component** for prefetching pages.
   Link to geckos.io
 </Link>
 
+// back will use window.history.back(), if last page matches href
+// (this will navigate faster by serving the last page from the browser caches)
+<Link back href="https://geckosio.github.io/">
+  Link to geckos.io
+</Link>
+
 // wait for 150ms before navigating
 // (useful if, for example, you want to fadeOut the content before navigating)
 // (together with "prefetch", your MPA will just look like a SPA ❤️)

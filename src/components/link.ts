@@ -45,7 +45,15 @@ export class Link extends Component {
   }
 
   didMount() {
-    const { href, prefetch, delay = 0 } = this.props
+    const { href, prefetch, delay = 0, back = false } = this.props
+
+    if (back)
+      this.element.addEventListener('click', (e: any) => {
+        e.preventDefault()
+        const target = e.target as HTMLLinkElement
+        if (target.href === document.referrer) window.history.back()
+        else window.location.href = target.href
+      })
 
     if (delay > 0)
       this.element.addEventListener('click', (e: any) => {
