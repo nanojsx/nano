@@ -5,23 +5,29 @@ export class Helmet extends Component {
   static SSR(body: string) {
     const reg = /(<helmet\b[^>]*>)(.*?)(<\/helmet>)/gms
 
-    // collect all headers
-    let head = []
+    // collect all elements
+    let head: string[] = []
+    let footer: string[] = []
 
     let result
     while ((result = reg.exec(body)) !== null) {
-      const res = result[2]
-      // ignore if the same element already exists
-      if (head.indexOf(res) === -1) head.push(res)
+      const first = result[1]
+      const second = result[2]
+
+      const toHead = first.includes('data-placement="head"')
+
+      if (toHead && head.indexOf(second) === -1) head.push(second)
+      if (!toHead && footer.indexOf(second) === -1) footer.push(second)
     }
 
-    // remove all matches
-    const cleaned = body.replace(reg, '')
-    return { body: cleaned, head }
+    // clean the body from all matches
+    const cleanBody = body.replace(reg, '')
+    return { body: cleanBody, head, footer }
   }
 
   didMount() {
     this.props.children.forEach((element: HTMLElement) => {
+      let parent = this.props.footer ? document.body : document.head
       let tag = element.tagName
       let attrs: string[] = []
 
@@ -45,7 +51,7 @@ export class Helmet extends Component {
           titleTags[0].text = e.text
         } else {
           let titleTag = h('title', null, element.innerHTML) as HTMLTitleElement
-          document.head.appendChild(titleTag)
+          parent.appendChild(titleTag)
         }
         return
       }
@@ -67,14 +73,16 @@ export class Helmet extends Component {
       }
 
       // add to dom
-      if (!exists) appendChildren(document.head, element)
+      if (!exists) appendChildren(parent, element)
     })
   }
 
   render() {
     const isSSR = !(typeof window !== 'undefined' && window.document)
 
-    if (isSSR) return h('helmet', { 'data-ssr': true }, this.props.children)
+    const placement = this.props.footer ? 'footer' : 'head'
+
+    if (isSSR) return h('helmet', { 'data-ssr': true, 'data-placement': placement }, this.props.children)
     else return [] as any
   }
 }
