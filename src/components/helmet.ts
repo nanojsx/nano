@@ -16,8 +16,10 @@ export class Helmet extends Component {
 
       const toHead = first.includes('data-placement="head"')
 
-      if (toHead && head.indexOf(second) === -1) head.push(second)
-      if (!toHead && footer.indexOf(second) === -1) footer.push(second)
+      // TODO(yandeu) check if an element is double
+
+      if (toHead) head.push(second)
+      else footer.push(second)
     }
 
     // clean the body from all matches
