@@ -199,7 +199,7 @@ const List = () => (
 )
 ```
 
-### SRR (with the built-in Helmet component)
+### SSR (with the built-in Helmet component)
 
 ```tsx
 // server.tsx
@@ -217,7 +217,7 @@ const App = () => {
         <script src="/this/belongs/to/the/footer.js"></script>
       </Helmet>
 
-      <Img href="some-url" placeholder="placeholder-url" />
+      <Img src="some-url" placeholder="placeholder-url" />
     </div>
   )
 }
