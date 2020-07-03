@@ -110,7 +110,135 @@ bundle
 
 ## Documentation
 
-Will be available soon.
+### Props
+
+You can simply pass props to children as you are used to in other JSX libraries.
+
+### Lifecycle
+
+If you extend from `Component` you will have `willMount()`, `render()` and `didMount()`.
+If you use SSR, you should only manipulate the DOM inside `didMount()`, since `didMount()` will not get executed on the server-side.
+
+### Update/Re-render Component
+
+Nano-JSX does _never_ update the component automatically. You have to call `update()` or `render()`. There is not `this.state`, you can simply use any name you want ("data" in the example below).
+
+```tsx
+import Nano, { Component } from 'nano-jsx'
+
+class Names extends Component {
+  data: any
+
+  async didMount() {
+    const res = (await fetchMock('/api/names')) as any
+
+    if (res) {
+      this.data = res.data
+      this.update()
+    }
+  }
+
+  render() {
+    if (this.data) {
+      return (
+        <ul>
+          {this.data.map((d: any) => {
+            return <li>{d.name}</li>
+          })}
+        </ul>
+      )
+    } else {
+      return <div>...loading</div>
+    }
+  }
+}
+```
+
+### Context API
+
+```tsx
+import Nano from 'nano-jsx'
+
+const MyContext = Nano.createContext('suzanne')
+
+const Child = () => {
+  return (
+    <MyContext.Consumer>
+      {(value: any) => {
+        return <p>{value}</p>
+      }}
+    </MyContext.Consumer>
+  )
+}
+
+const Parent = (props: any) => {
+  return (
+    <MyContext.Provider value={props.name}>
+      <Child />
+    </MyContext.Provider>
+  )
+}
+
+Nano.render(<Parent name="john" />, document.getElementById('root'))
+```
+
+### Fragment
+
+```tsx
+import Nano, { Fragment } from 'nano-jsx'
+
+const List = () => (
+  <Fragment>
+    <p>first</p>
+    <p>second</p>
+    <p>third</p>
+  </Fragment>
+)
+```
+
+### SRR (with the built-in Helmet component)
+
+```tsx
+// server.tsx
+import Nano, { Img, Helmet } from 'nano-jsx'
+
+const App = () => {
+  return (
+    <div>
+      <Helmet>
+        <title>Nano JSX Helmet SSR</title>
+        <meta name="description" content="Nano-JSX application" />
+      </Helmet>
+
+      <Helmet footer>
+        <script src="/this/belongs/to/the/footer.js"></script>
+      </Helmet>
+
+      <Img href="some-url" placeholder="placeholder-url" />
+    </div>
+  )
+}
+
+const app = Nano.renderSSR(<App />)
+const { body, head, footer } = Helmet.SSR(app)
+
+const html = `
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    ${head.join('\n')}
+  </head>
+  <body>
+    ${body}
+    ${footer.join('\n')}
+  </body>
+</html>
+`
+
+// now send the html to the client
+```
 
 ## Built-in Components
 
@@ -118,7 +246,7 @@ Will be available soon.
 
 Nano JSX provides a fancy **link component** for prefetching pages.
 
-```jsx
+```tsx
 // prefetch the link on page load
 <Link prefetch href="https://geckosio.github.io/">
   Link to geckos.io
@@ -146,7 +274,7 @@ Nano JSX provides a fancy **link component** for prefetching pages.
 
 This children of Visible will only be rendered and added to the dom, if they are visible. This is useful, for example, for a comment section. (Does not work to lazy load images)
 
-```jsx
+```tsx
 // some lazy loaded component
 <Visible>
   <div>
@@ -167,7 +295,7 @@ This children of Visible will only be rendered and added to the dom, if they are
 
 Lazy Loading Images.
 
-```jsx
+```tsx
 // lazy load an image
 <Img src="imageURL" />
 
@@ -187,7 +315,7 @@ Lazy Loading Images.
 
 Works just like react-helmet. Works client-side and SSR.
 
-```jsx
+```tsx
 <Helmet>
   {/* html attributes */}
   <html lang="en" amp />
