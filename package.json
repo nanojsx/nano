@@ -2,12 +2,13 @@
   "name": "nano-jsx",
   "version": "0.0.7",
   "description": "Lightweight 1KB JSX library",
-  "main": "lib/index.js",
+  "main": "lib/cjs/index.js",
   "scripts": {
     "start": "npm run dev",
-    "ssr": "npm run dev & nodemon lib/devSSR.js",
-    "build": "npm run clean && tsc --project tsconfig.json",
-    "bundle": "npm run clean && tsc --project tsconfig.es2015.json && npm-run-all bundle:*",
+    "ssr": "npm run dev & nodemon lib/cjs/devSSR.js",
+    "tsc": "tsc --project tsconfig.json && tsc --project tsconfig.es2015.json",
+    "build": "npm run tsc",
+    "bundle": "npm-run-all bundle:*",
     "bundle:prod": "webpack --config webpack/webpack.bundle.prod.js",
     "bundle:core": "webpack --config webpack/webpack.bundle.core.js",
     "dev": "npm run build && npm-run-all --parallel dev:*",
@@ -17,7 +18,7 @@
     "dev:script": "webpack --config webpack/webpack.dev.js --watch",
     "clean": "rimraf lib",
     "clean:test": "rimraf \"test/**/*.js\"",
-    "prepublishOnly": "npm run build && npm test",
+    "prepublishOnly": "npm run clean && npm run build && npm run bundle  && npm test",
     "test": "npm run clean:test && tsc --project test/tsconfig.json && jest \"test/.+\\.test.js$\"  && npm run clean:test"
   },
   "repository": {

@@ -2,7 +2,7 @@
  * @jest-environment node
  */
 
-import Nano, { Img, Helmet } from '../lib/index.js'
+import Nano, { Img, Helmet } from '../lib/cjs/index.js'
 
 const spy = jest.spyOn(global.console, 'error')
 

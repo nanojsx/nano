@@ -1,4 +1,4 @@
-import Nano, { Helmet } from '../../lib/index.js'
+import Nano, { Helmet } from '../../lib/cjs/index.js'
 import { wait, nodeToString } from '../helpers.js'
 
 const spy = jest.spyOn(global.console, 'error')
