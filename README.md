@@ -22,7 +22,10 @@ Written in TypeScript, super Lightweight, simply Awesome!</h4>
 
 <hr>
 
-The documentation will be available soon.
+## Demo App
+
+Take a look at the [demo app](https://nano-jsx-demo.herokuapp.com/).  
+_It's hosted on a free heroku dyno, so it might take a while to spin up the server and load the app_
 
 ## Features
 
