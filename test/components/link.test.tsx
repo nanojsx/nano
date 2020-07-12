@@ -1,6 +1,6 @@
 import Nano, { Link } from '../../lib/index.js'
 import { wait, mockIntersectionObserver } from '../helpers.js'
-import { nodeToString, Fragment } from '../../lib/helpers.js'
+import { Fragment } from '../../lib/fragment.js'
 
 const spy = jest.spyOn(global.console, 'error')
 

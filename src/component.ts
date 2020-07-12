@@ -1,5 +1,3 @@
-import { removeAllChildNodes, appendChildren, Empty } from './core'
-
 export class Component {
   element: any
   props: any

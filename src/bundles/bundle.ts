@@ -1,8 +1,11 @@
 import { h, render, removeAllChildNodes } from '../core'
-import { Fragment, createContext, nodeToString } from '../helpers'
+import { nodeToString } from '../helpers'
 import { renderSSR } from '../ssr'
 
 import { Component } from '../component'
+import { Fragment } from '../fragment'
+import { createContext } from '../context'
+
 import { Helmet } from '../components/helmet'
 import { Link } from '../components/link'
 import { Img } from '../components/img'

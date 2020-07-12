@@ -5,7 +5,6 @@
   "main": "lib/index.js",
   "scripts": {
     "start": "npm run dev",
-    "ssr": "npm run dev & nodemon lib/devSSR.js",
     "tsc": "tsc --project tsconfig.json",
     "build": "npm run tsc",
     "bundle": "npm-run-all bundle:*",
@@ -16,6 +15,9 @@
     "dev:serve": "live-server --open=dev",
     "dev:bundle": " webpack --config webpack/webpack.bundle.dev.js --watch",
     "dev:script": "webpack --config webpack/webpack.dev.js --watch",
+    "ssr": "tsc --project tsconfig.json && npm-run-all --parallel ssr:*",
+    "ssr:tsc": "tsc --project tsconfig.json --watch",
+    "ssr:nodemon": "nodemon lib/dev/devSSR.js",
     "clean": "rimraf lib",
     "clean:test": "rimraf \"test/**/*.js\"",
     "prepublishOnly": "npm run clean && npm run build && npm run bundle  && npm test",

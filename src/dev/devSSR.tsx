@@ -1,5 +1,5 @@
-import Nano, { Img, Helmet } from './index'
-import { Fragment } from './helpers'
+import Nano, { Img, Helmet } from '../index'
+import { Fragment } from '../fragment'
 
 const AnotherChild = () => {
   return (
@@ -20,7 +20,7 @@ const AnotherChild = () => {
 const Child = () => {
   return (
     <div>
-      <p>asdfasf</p>
+      <h1>SSR</h1>
       <Helmet>
         <style>
           {`{
