@@ -313,6 +313,9 @@ Lazy Loading Images. You should add a height and width if possible.
 // lazy load an image
 <Img src="imageURL" />
 
+// do not lazy load an image
+<Img src="imageURL" lazy={false} />
+
 // lazy load an image, displays a blue box while loading
 <div style={{width:'100px', height:'100px', backgroundColor: 'blue'}}>
   <Img height="100" src="imageURL" />

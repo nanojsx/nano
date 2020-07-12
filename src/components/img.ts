@@ -26,7 +26,10 @@ export class Img extends Component {
     observer.observe(this.element)
   }
   render() {
-    const { src, placeholder, children, ...rest } = this.props
+    const { src, placeholder, children, lazy = true, ...rest } = this.props
+
+    // return the img tag if not lazy loaded
+    if (typeof lazy === 'boolean' && lazy === false) return h('img', { src, ...rest }) as HTMLImageElement
 
     // if it is visible and loaded, show the image
     if (this.isLoaded) {
