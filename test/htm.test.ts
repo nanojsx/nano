@@ -1,5 +1,5 @@
 import htm from 'htm'
-import Nano, { Component } from '../lib/cjs/index.js'
+import Nano, { Component } from '../lib/index.js'
 import { wait, nodeToString } from './helpers.js'
 
 const spy = jest.spyOn(global.console, 'error')

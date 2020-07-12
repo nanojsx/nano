@@ -1,6 +1,6 @@
-import Nano, { Img } from '../../lib/cjs/index.js'
+import Nano, { Img } from '../../lib/index.js'
 import { wait, mockIntersectionObserver } from '../helpers.js'
-import { nodeToString } from '../../lib/cjs/helpers.js'
+import { nodeToString } from '../../lib/helpers.js'
 
 const spy = jest.spyOn(global.console, 'error')
 
