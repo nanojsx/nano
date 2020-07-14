@@ -1,6 +1,8 @@
 .github
 coverage
 dev
+lib/bundles
+lib/dev
 node_modules
 src
 test
