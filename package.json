@@ -1,6 +1,6 @@
 {
   "name": "nano-jsx",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Lightweight 1KB JSX library",
   "main": "lib/index.js",
   "scripts": {
@@ -20,7 +20,7 @@
     "ssr:nodemon": "nodemon lib/dev/devSSR.js",
     "clean": "rimraf lib",
     "clean:test": "rimraf \"test/**/*.js\"",
-    "prepublishOnly": "npm run clean && npm run build && npm run bundle  && npm test",
+    "prepublishOnly": "npm run clean && npm run build && npm run bundle && npm test",
     "test": "npm run clean:test && tsc --project test/tsconfig.json && jest \"test/.+\\.test.js$\"  && npm run clean:test"
   },
   "repository": {
