@@ -80,7 +80,7 @@ export const render = (component: any, parent: HTMLElement | null = null, remove
   // returning one child or an array of children
   else {
     // @ts-ignore
-    if (el.ssr) return el.ssr
+    if (typeof isSSR === 'boolean' && isSSR === true && !Array.isArray(el)) return [el]
     return el
   }
 }
@@ -119,7 +119,15 @@ const renderComponent = (component: { component: any; props?: any; tagName?: any
     el = component
   }
 
-  // if (!el) return Empty
+  // this fixes some ssr issues when using fragments
+  // @ts-ignore
+  if (typeof isSSR === 'boolean' && isSSR === true && Array.isArray(el)) {
+    el = el
+      .map((e) => {
+        return renderComponent(e)
+      })
+      .join('')
+  }
 
   if (el.component) return renderComponent(el) as HTMLElement
   return el

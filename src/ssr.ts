@@ -9,7 +9,7 @@ const initSSR = () => {
 
 export const renderSSR = (component: any) => {
   initSSR()
-  return render(component, null, true)
+  return render(component, null, true) as string[]
 }
 
 export class HTMLElementSSR {

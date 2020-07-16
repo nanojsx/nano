@@ -60,7 +60,7 @@ const App = () => {
 }
 
 const app = Nano.renderSSR(<App />)
-const { body, head, footer } = Helmet.SSR(app)
+const { body, head, footer } = Helmet.SSR(app.join(''))
 
 const html = `
 <!DOCTYPE html>
