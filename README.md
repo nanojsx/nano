@@ -27,6 +27,10 @@ Written in TypeScript, super Lightweight, simply Awesome!</h4>
 Take a look at the [demo app](https://nano-jsx-demo.herokuapp.com/).  
 _It's hosted on a free heroku dyno, so it might take a while to spin up the server and load the app_
 
+## Roadmap
+
+At this time, nano-jsx is highly in development. In the near future, I will make a github organization, nice website, a template repository, video tutorials and some example repositories. This project has really become awesome and once finished, I will certainly ues it for many of my future projects. Remember, the whole goal of nano-jsx, is to make your website/app as fast as possible, by only shipping what the client really needs.
+
 ## Features
 
 - **SSR**  
