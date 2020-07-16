@@ -36,6 +36,11 @@ At this time, nano-jsx is highly in development. In the near future, I will make
 - **SSR**  
   Out of the box, very simple to use
 
+- **Pre-Rendering**  
+  Renders your app to static html if you want.  
+  (This is possible, but requires some knowledge.  
+  I plan to make a tutorial soon.)
+
 - **Hydration**  
   Render your app on the server and hydrate it on the client
 
