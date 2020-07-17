@@ -1,7 +1,7 @@
 {
   "name": "nano-jsx",
   "version": "0.0.8",
-  "description": "Lightweight 1KB JSX library",
+  "description": "Lightweight 1KB JSX library. Using JSX (TypeScript/Babel) or Tagged Template Literals. SSR first, partially hydrate later.",
   "main": "lib/index.js",
   "scripts": {
     "start": "npm run dev",
@@ -34,7 +34,10 @@
     "tiny",
     "jsx",
     "react",
-    "preact"
+    "preact",
+    "partial",
+    "hydration",
+    "ssr"
   ],
   "author": "Yannick Deubel (https://github.com/yandeu)",
   "license": "MIT",
