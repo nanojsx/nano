@@ -1,14 +1,34 @@
+import { onNodeRemove } from './helpers'
+
 export class Component {
-  element: any
-  props: any
+  public props: any
+  public element: any
+  private _skipUnmount = false
+
+  private _didMount(): any {
+    this._onNodeRemoveListener(this.element)
+  }
+
+  private _onNodeRemoveListener(element: any) {
+    // check if didUnmount is unused
+    if (/^[^{]+{\s+}$/gm.test(this.didUnmount.toString())) return
+
+    // listen if the root element gets removed
+    onNodeRemove(this.element, () => {
+      if (!this._skipUnmount) this.didUnmount()
+    })
+  }
 
   willMount(): any {}
   didMount(): any {}
+  didUnmount(): any {}
 
   render(update?: any): HTMLElement | void {}
 
   /** Will forceRender the component */
   update(update?: any) {
+    this._skipUnmount = true
+
     const toArray = (el: any) => {
       if (el.props) return el.props.children
       if (!Array.isArray(el)) return [el]
@@ -35,7 +55,11 @@ export class Component {
       parent.removeChild(t)
     })
 
-    // set the newly rendered element as the new root elemen
+    // set the newly rendered element as the new root element
     this.element = r
+
+    this._onNodeRemoveListener(this.element)
+
+    setTimeout(() => (this._skipUnmount = false), 0)
   }
 }

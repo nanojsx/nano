@@ -112,7 +112,11 @@ const renderComponent = (component: { component: any; props?: any; tagName?: any
     el = Component.element
 
     // @ts-ignore
-    if (typeof isSSR === 'undefined') setTimeout(() => Component.didMount(), 0)
+    if (typeof isSSR === 'undefined')
+      setTimeout(() => {
+        Component._didMount()
+        Component.didMount()
+      }, 0)
   } else if (typeof component === 'function') {
     el = component(props)
   } else {

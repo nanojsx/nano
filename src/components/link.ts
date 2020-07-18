@@ -58,9 +58,7 @@ export class Link extends Component {
     if (delay > 0)
       this.element.addEventListener('click', (e: any) => {
         e.preventDefault()
-        setTimeout(() => {
-          window.location.href = href
-        }, delay)
+        setTimeout(() => (window.location.href = href), delay)
       })
 
     if (prefetch) {
