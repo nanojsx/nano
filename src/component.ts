@@ -10,23 +10,26 @@ export class Component {
   }
 
   private _onNodeRemoveListener(element: any) {
+    // if fragment, return first child
+    if (element.props) element = element.props.children[0]
+
     // check if didUnmount is unused
     if (/^[^{]+{\s+}$/gm.test(this.didUnmount.toString())) return
 
     // listen if the root element gets removed
-    onNodeRemove(this.element, () => {
+    onNodeRemove(element, () => {
       if (!this._skipUnmount) this.didUnmount()
     })
   }
 
-  willMount(): any {}
-  didMount(): any {}
-  didUnmount(): any {}
+  public willMount(): any {}
+  public didMount(): any {}
+  public didUnmount(): any {}
 
-  render(update?: any): HTMLElement | void {}
+  public render(update?: any): HTMLElement | void {}
 
   /** Will forceRender the component */
-  update(update?: any) {
+  public update(update?: any) {
     this._skipUnmount = true
 
     const toArray = (el: any) => {
