@@ -134,7 +134,7 @@ If you use SSR, you should only manipulate the DOM inside `didMount()`, since `d
 
 ### Update/Re-render Component
 
-Nano-JSX does _never_ update the component automatically. You have to call `update()`.
+Nano-JSX does _never_ update the component automatically. You have to call `update()`. On every component you call `update()`, the root element needs to be a DOM element.
 
 Also, there is no `this.state`, you can simply use any name you want ("data" in the example below).
 
@@ -293,7 +293,8 @@ Nano JSX provides a fancy **link component** for prefetching pages.
 
 ### \<Visible />
 
-This children of Visible will only be rendered and added to the dom, if they are visible. This is useful, for example, for a comment section. (Does not work to lazy load images)
+This children of Visible will only be rendered and added to the dom, if they are visible. This is useful, for example, for a comment section. The root elements of Visible needs to be DOM elements.  
+(Does not work to lazy load images)
 
 ```tsx
 // some lazy rendered section
@@ -309,7 +310,9 @@ This children of Visible will only be rendered and added to the dom, if they are
 // the comments section
 <div id="comment-section">
   <Visible>
-    <Comments />
+    <div id="comments">
+      <Comments />
+    </div>
   </Visible>
 </div>
 ```
