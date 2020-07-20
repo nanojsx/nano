@@ -33,6 +33,10 @@ At this time, nano-jsx is highly in development. In the near future, I will make
 
 ## Features
 
+The best about nano-jsx is the **small bundle size**. It builds, although is sound crazy, a even smaller bundle size than Svelte!
+
+### More Features
+
 - **SSR**  
   Out of the box, very simple to use
 
