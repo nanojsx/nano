@@ -4,6 +4,7 @@ import { renderSSR } from '../ssr'
 
 import { Component } from '../component'
 import { Fragment } from '../fragment'
+import { Store } from '../store'
 import { createContext } from '../context'
 
 import { Helmet } from '../components/helmet'
@@ -17,8 +18,9 @@ const jsx = htm.bind(h)
 
 export default {
   Nano: { createContext, h, render, renderSSR, removeAllChildNodes, nodeToString },
-  Fragment,
   Component,
+  Fragment,
+  Store,
   Helmet,
   Link,
   Img,

@@ -2,9 +2,10 @@ import './types'
 
 import { h, render, removeAllChildNodes } from './core'
 import { nodeToString } from './helpers'
-import { Component } from './component'
 import { renderSSR } from './ssr'
+import { Component } from './component'
 import { Fragment } from './fragment'
+import { Store } from './store'
 import { createContext } from './context'
 
 import { Helmet } from './components/helmet'
@@ -17,5 +18,5 @@ import htm from 'htm/dist/htm.js'
 const jsx = htm.bind(h)
 
 export default { createContext, h, render, renderSSR, removeAllChildNodes, nodeToString }
-export { Fragment, Component, jsx, h }
+export { Component, Fragment, Store, jsx, h }
 export { Helmet, Img, Link, Visible }

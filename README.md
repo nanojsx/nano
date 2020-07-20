@@ -211,6 +211,62 @@ const List = () => (
 )
 ```
 
+### Store
+
+Use an external store, to store your application's state.
+
+```tsx
+// import Nano, Component and Store
+import Nano, { Component, Store } from '../index'
+
+// initialize the store with a default value
+const myStore = new Store({ name: 'Hulk' })
+
+// set a new state
+myStore.state = { name: 'Thor' }
+
+class Hero extends Component {
+  // use the store in your component
+  store = myStore.use()
+
+  didMount() {
+    // subscribe to store changes
+    this.store.subscribe((newState: any, prevState: any) => {
+      // check if you need to update your component or not
+      if (newState.name !== prevState.name) this.update()
+    })
+  }
+
+  didUnmount() {
+    // cancel the store subscription
+    this.store.cancel()
+  }
+
+  render() {
+    // display the name property of your store's state
+    return <p>Name: {this.store.state.name}</p>
+  }
+}
+
+class App extends Component {
+  // use the store in your component
+  store = myStore.use()
+
+  didMount() {
+    setTimeout(() => {
+      // set a new state after 2 seconds
+      this.store.setState({ name: 'Iron Man' })
+    }, 2000)
+  }
+
+  render() {
+    return <Hero />
+  }
+}
+
+Nano.render(<App />, document.getElementById('root'))
+```
+
 ### SSR (with the built-in Helmet component)
 
 ```tsx

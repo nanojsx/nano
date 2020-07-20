@@ -10,14 +10,14 @@ export class Component {
   }
 
   private _onNodeRemoveListener(element: any) {
-    // if fragment, return first child
-    if (element.props) element = element.props.children[0]
-
     // check if didUnmount is unused
     if (/^[^{]+{\s+}$/gm.test(this.didUnmount.toString())) return
 
+    // if fragment, return first child
+    if (element.props) element = element.props.children[0]
+
     // listen if the root element gets removed
-    onNodeRemove(element, () => {
+    onNodeRemove(this.element, () => {
       if (!this._skipUnmount) this.didUnmount()
     })
   }
