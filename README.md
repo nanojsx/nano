@@ -5,9 +5,9 @@
 </div>
 
 <h4 align="center">
-Written in TypeScript, super Lightweight, simply Awesome!</h4>
+Lightweight 1KB JSX library</h4>
 
-<h3 align="center">Designed to build blazing fast Multi-Page Apps (MPAs). Using isomorphic JavaScript. Perfect for your next PWA.</h3>
+<h3 align="center">Designed to build ultra fast Multi-Page Apps (MPAs), using isomorphic JavaScript. Written in TypeScript. Perfect for your next PWA.</h3>
 
 <p align="center">  
   <a href="https://www.npmjs.com/package/nano-jsx"><img src="https://img.shields.io/npm/v/nano-jsx?style=flat-square" alt="NPM version"></a>
