@@ -7,6 +7,7 @@ import { Component } from './component'
 import { Fragment } from './fragment'
 import { Store } from './store'
 import { createContext } from './context'
+import { withStyles } from './withStyles'
 
 import { Helmet } from './components/helmet'
 import { Img } from './components/img'
@@ -17,6 +18,6 @@ import { Visible } from './components/visible'
 import htm from 'htm/dist/htm.js'
 const jsx = htm.bind(h)
 
-export default { createContext, h, render, renderSSR, removeAllChildNodes, nodeToString }
-export { Component, Fragment, Store, jsx, h }
+export default { h, render, renderSSR, removeAllChildNodes, nodeToString, createContext }
+export { Component, Fragment, Store, jsx, h, withStyles }
 export { Helmet, Img, Link, Visible }

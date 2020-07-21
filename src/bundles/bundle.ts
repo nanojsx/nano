@@ -6,6 +6,7 @@ import { Component } from '../component'
 import { Fragment } from '../fragment'
 import { Store } from '../store'
 import { createContext } from '../context'
+import { withStyles } from '../withStyles'
 
 import { Helmet } from '../components/helmet'
 import { Link } from '../components/link'
@@ -17,7 +18,7 @@ import htm from 'htm/dist/htm.js'
 const jsx = htm.bind(h)
 
 export default {
-  Nano: { createContext, h, render, renderSSR, removeAllChildNodes, nodeToString },
+  Nano: { h, render, renderSSR, removeAllChildNodes, nodeToString, createContext },
   Component,
   Fragment,
   Store,
@@ -27,4 +28,5 @@ export default {
   Visible,
   jsx,
   h,
+  withStyles,
 }
