@@ -21,11 +21,11 @@
     "clean": "rimraf lib",
     "clean:test": "rimraf \"test/**/*.js\"",
     "prepublishOnly": "npm run clean && npm run build && npm run bundle && npm test",
-    "test": "npm run clean:test && tsc --project test/tsconfig.json && jest \"test/.+\\.test.js$\"  && npm run clean:test"
+    "test": "npm run clean:test && tsc --project test/tsconfig.json && jest \"test/.+\\.test.js$\" && npm run clean:test"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yandeu/nano-jsx.git"
+    "url": "git+https://github.com/nanojsx/nano.git"
   },
   "keywords": [
     "mini",
@@ -42,9 +42,9 @@
   "author": "Yannick Deubel (https://github.com/yandeu)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/yandeu/nano-jsx/issues"
+    "url": "https://github.com/nanojsx/nano/issues"
   },
-  "homepage": "https://github.com/yandeu/nano-jsx#readme",
+  "homepage": "https://nanojsx.github.io/",
   "dependencies": {
     "htm": "^3.0.4"
   },
