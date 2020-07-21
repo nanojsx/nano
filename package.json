@@ -64,7 +64,6 @@
   "engines": {
     "node": ">=12"
   },
-  "engineStrict": true,
   "funding": {
     "url": "https://github.com/sponsors/yandeu"
   }
