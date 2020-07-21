@@ -13,12 +13,12 @@ Lightweight 1KB JSX library</h4>
 
 <p align="center">  
   <a href="https://www.npmjs.com/package/nano-jsx"><img src="https://img.shields.io/npm/v/nano-jsx?style=flat-square" alt="NPM version"></a>
-  <img src="https://badgen.net/badgesize/gzip/yandeu/nano-jsx/master/bundles/nano.core.min.js?style=flat-square" alt="gzip size">
-  <a href="https://github.com/yandeu/nano-jsx/actions?query=workflow%3ACI"><img src="https://img.shields.io/github/workflow/status/yandeu/nano-jsx/CI/master?label=github%20build&logo=github&style=flat-square"></a>
-  <a href="https://github.com/yandeu/nano-jsx/commits/master"><img src="https://img.shields.io/github/last-commit/yandeu/nano-jsx.svg?style=flat-square" alt="GitHub last commit"></a>
+  <img src="https://badgen.net/badgesize/gzip/nanojsx/nano/master/bundles/nano.core.min.js?style=flat-square" alt="gzip size">
+  <a href="https://github.com/nanojsx/nano/actions?query=workflow%3ACI"><img src="https://img.shields.io/github/workflow/status/nanojsx/nano/CI/master?label=github%20build&logo=github&style=flat-square"></a>
+  <a href="https://github.com/nanojsx/nano/commits/master"><img src="https://img.shields.io/github/last-commit/nanojsx/nano.svg?style=flat-square" alt="GitHub last commit"></a>
   <a href="https://github.com/prettier/prettier"><img src="https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square" alt="code style: prettier"></a>
   <a href="https://www.typescriptlang.org/"><img src="https://img.shields.io/badge/built%20with-TypeScript-blue?style=flat-square"></a>
-  <a href="https://codecov.io/gh/yandeu/nano-jsx"><img src="https://img.shields.io/codecov/c/github/yandeu/nano-jsx?logo=codecov&style=flat-square" alt="Codecov"/></a>
+  <a href="https://codecov.io/gh/nanojsx/nano"><img src="https://img.shields.io/codecov/c/github/nanojsx/nano?logo=codecov&style=flat-square" alt="Codecov"/></a>
   <img src="https://img.shields.io/node/v/nano-jsx.svg?style=flat-square" alt="Node version"/>
 </p>
 
