@@ -20,7 +20,7 @@ test('should render without errors', async (done) => {
   }
 
   const app = Nano.renderSSR(<App />)
-  const { body, head } = Helmet.SSR(app.join(''))
+  const { body, head } = Helmet.SSR(app)
 
   const html = `
   <!DOCTYPE html>
