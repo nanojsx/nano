@@ -1,5 +1,5 @@
 import { onNodeRemove } from './helpers'
-import { tick } from './core'
+import { tick, renderComponent } from './core'
 
 export class Component {
   public props: any
@@ -51,6 +51,8 @@ export class Component {
 
     // add all new element
     rendered.forEach((r: HTMLElement) => {
+      // @ts-ignore
+      if (r.component) r = renderComponent(r) as HTMLElement
       parent.insertBefore(r, tmpElement[0])
     })
 
