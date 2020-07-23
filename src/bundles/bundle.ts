@@ -1,4 +1,4 @@
-import { h, render, removeAllChildNodes, tick } from '../core'
+import { h, render, removeAllChildNodes, renderComponent, tick } from '../core'
 import { nodeToString } from '../helpers'
 import { renderSSR } from '../ssr'
 
@@ -18,7 +18,7 @@ import htm from 'htm/dist/htm.js'
 const jsx = htm.bind(h)
 
 export default {
-  Nano: { h, render, renderSSR, removeAllChildNodes, tick, nodeToString, createContext },
+  Nano: { h, render, renderSSR, removeAllChildNodes, renderComponent, tick, nodeToString, createContext },
   Component,
   Fragment,
   Store,

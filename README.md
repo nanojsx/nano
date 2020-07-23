@@ -360,23 +360,22 @@ This children of Visible will only be rendered and added to the dom, if they are
 
 ```tsx
 // some lazy rendered section
-<div id="lazy-section">
-  <Visible>
-    <p>Will be rendered once in the visible area.</p>
-    <script>
-      console.log('visible!')
-    </script>
-  </Visible>
-</div>
-
-// the comments section
-<div id="comment-section">
-  <Visible>
+<Visible>
+  {()=>(
     <div id="comments">
-      <Comments />
+      <p>Will be rendered once in the visible area.</p>
+      <script>
+        console.log('visible!')
+      </script>
     </div>
-  </Visible>
-</div>
+  )}
+</Visible>
+
+// or
+<Visible component={Comments} />
+
+// or
+<Visible>{Comments}</Visible>
 ```
 
 ### \<Img />

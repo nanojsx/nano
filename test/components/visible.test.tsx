@@ -7,25 +7,23 @@ const spy = jest.spyOn(global.console, 'error')
 mockIntersectionObserver()
 
 test('should render without errors', async (done) => {
-  const App = () => {
-    return (
-      <div id="comment-section">
-        <Visible>
+  const App = () => (
+    <Visible>
+      {() => (
+        <div id="comment-section">
           <h2>Comment Section</h2>
           <p>Comment 1</p>
           <p>Comment 2</p>
-        </Visible>
-      </div>
-    )
-  }
+        </div>
+      )}
+    </Visible>
+  )
 
   const root = Nano.h('div', { id: 'root' }) as HTMLElement
   document.body.appendChild(root)
 
   Nano.render(<App />, document.getElementById('root'))
-  expect(document.body.innerHTML).toBe(
-    '<div id="root"><div id="comment-section"><div data-visible="false" visibility="hidden"></div></div></div>'
-  )
+  expect(document.body.innerHTML).toBe('<div id="root"><div data-visible="false" visibility="hidden"></div></div>')
 
   await wait()
   expect(document.body.innerHTML).toBe(

@@ -35,7 +35,7 @@ export const appendChildren = (element: any, children: any) => {
 /**
  * A simple component for rendering SVGs
  */
-const SVG = (props: any) => {
+export const SVG = (props: any) => {
   const child = props.children[0] as SVGElement
   const attrs = child.attributes
 
@@ -87,7 +87,7 @@ export const render = (component: any, parent: HTMLElement | null = null, remove
   }
 }
 
-const renderComponent = (component: { component: any; props?: any; tagName?: any } | any): any => {
+export const renderComponent = (component: { component: any; props?: any; tagName?: any } | any): any => {
   // handle undefined, null and svg, and jsx element
   if (typeof component === 'undefined') return 'undefined'
   else if (component === null) return 'null'

@@ -1,6 +1,5 @@
-import { h, removeAllChildNodes, appendChildren } from '../core'
+import { h, renderComponent } from '../core'
 import { Component } from '../component'
-import { nodeToString } from '../helpers'
 
 export class Visible extends Component {
   isVisible = false
@@ -26,7 +25,7 @@ export class Visible extends Component {
       return h('div', { 'data-visible': false, visibility: 'hidden' })
     } else {
       if (this.props.onVisible) this.props.onVisible()
-      return this.props.children
+      return renderComponent(this.props.component || this.props.children[0])
     }
   }
 }
