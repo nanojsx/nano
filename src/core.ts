@@ -48,6 +48,10 @@ export const SVG = (props: any) => {
   return svg as any
 }
 
+export const hydrate = (component: any, parent: HTMLElement | null = null, removeChildNodes = true) => {
+  return render(component, parent, removeChildNodes)
+}
+
 /** Returns the populated parent if available else  one child or an array of children */
 export const render = (component: any, parent: HTMLElement | null = null, removeChildNodes = true) => {
   let el = renderComponent(component)

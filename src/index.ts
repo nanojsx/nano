@@ -1,6 +1,7 @@
 import './types'
 
-import { h, render, removeAllChildNodes, renderComponent, tick } from './core'
+import { h, render, hydrate, removeAllChildNodes, renderComponent, tick } from './core'
+import { hydrateLazy } from './lazy'
 import { nodeToString } from './helpers'
 import { renderSSR } from './ssr'
 import { Component } from './component'
@@ -18,6 +19,16 @@ import { Visible } from './components/visible'
 import htm from 'htm/dist/htm.js'
 const jsx = htm.bind(h)
 
-export default { h, render, renderSSR, removeAllChildNodes, renderComponent, tick, nodeToString, createContext }
-export { Component, Fragment, Store, jsx, h, withStyles }
+export default {
+  h,
+  render,
+  hydrate,
+  renderSSR,
+  removeAllChildNodes,
+  renderComponent,
+  tick,
+  nodeToString,
+  createContext,
+}
+export { Component, Fragment, Store, jsx, h, hydrateLazy, withStyles }
 export { Helmet, Img, Link, Visible }

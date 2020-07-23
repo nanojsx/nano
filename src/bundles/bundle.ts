@@ -1,4 +1,5 @@
-import { h, render, removeAllChildNodes, renderComponent, tick } from '../core'
+import { h, render, hydrate, removeAllChildNodes, renderComponent, tick } from '../core'
+import { hydrateLazy } from '../lazy'
 import { nodeToString } from '../helpers'
 import { renderSSR } from '../ssr'
 
@@ -18,7 +19,7 @@ import htm from 'htm/dist/htm.js'
 const jsx = htm.bind(h)
 
 export default {
-  Nano: { h, render, renderSSR, removeAllChildNodes, renderComponent, tick, nodeToString, createContext },
+  Nano: { h, render, hydrate, renderSSR, removeAllChildNodes, renderComponent, tick, nodeToString, createContext },
   Component,
   Fragment,
   Store,
@@ -28,5 +29,6 @@ export default {
   Visible,
   jsx,
   h,
+  hydrateLazy,
   withStyles,
 }
