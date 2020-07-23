@@ -1,4 +1,5 @@
 import { onNodeRemove } from './helpers'
+import { tick } from './core'
 
 export class Component {
   public props: any
@@ -63,6 +64,6 @@ export class Component {
 
     this._onNodeRemoveListener(this.element)
 
-    setTimeout(() => (this._skipUnmount = false), 0)
+    tick(() => (this._skipUnmount = false))
   }
 }

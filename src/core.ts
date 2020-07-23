@@ -1,5 +1,7 @@
 export const Empty = []
 
+export const tick = typeof Promise == 'function' ? Promise.prototype.then.bind(Promise.resolve()) : setTimeout
+
 export const removeAllChildNodes = (parent: HTMLElement) => {
   while (parent.firstChild) {
     parent.removeChild(parent.firstChild)
@@ -113,10 +115,10 @@ const renderComponent = (component: { component: any; props?: any; tagName?: any
 
     // @ts-ignore
     if (typeof isSSR === 'undefined')
-      setTimeout(() => {
+      tick(() => {
         Component._didMount()
         Component.didMount()
-      }, 0)
+      })
   } else if (typeof component === 'function') {
     el = component(props)
   } else {
