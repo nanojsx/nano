@@ -1,13 +1,12 @@
-<div align="center">
+<p align="center">
+  <a href="https://nanojsx.github.io/">
+    <img src="readme/nano-jsx-logo.svg" alt="Nano JSX Logo" width="350"/>
+  </a>
+</p>
 
-<a href="https://nanojsx.github.io/">
-  <img src="readme/nano-jsx-logo.png" alt="Nano JSX Logo" width="230"/>
-</a>
+<p align="center">Lightweight <b>1kB</b> JSX library.</p>
 
 </div>
-
-<h4 align="center">
-Lightweight 1KB JSX library</h4>
 
 <h3 align="center">Designed to build ultra fast Multi-Page Apps (MPAs), using isomorphic JavaScript. Written in TypeScript. Perfect for your next PWA.</h3>
 
@@ -23,6 +22,10 @@ Lightweight 1KB JSX library</h4>
 </p>
 
 <hr>
+
+## Website
+
+Checkout the [website](https://nanojsx.github.io/) to find out more!
 
 ## Demo App
 
