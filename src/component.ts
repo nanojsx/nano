@@ -1,6 +1,13 @@
 import { onNodeRemove } from './helpers'
 import { tick, renderComponent } from './core'
 
+const filterDomElements = (el: any[]) => {
+  const nodeElements = el.filter((e: any) => {
+    return e.tagName
+  })
+  return nodeElements
+}
+
 export class Component {
   public props: any
   public element: any
@@ -14,8 +21,8 @@ export class Component {
     // check if didUnmount is unused
     if (/^[^{]+{\s+}$/gm.test(this.didUnmount.toString())) return
 
-    // if fragment, return first child
-    if (element.props) element = element.props.children[0]
+    // if fragment, return first child node
+    if (element.props) element = filterDomElements(element.props.children)[0]
 
     // listen if the root element gets removed
     onNodeRemove(this.element, () => {
@@ -39,25 +46,25 @@ export class Component {
       else return el
     }
 
-    // get old child elements as array
-    const tmpElement = toArray(this.element)
+    // get old child node elements as array
+    const nodeElements = filterDomElements(toArray(this.element))
 
     //  get new child elements as array
     const r = this.render(update)
     const rendered = toArray(r)
 
-    // get parent node
-    const parent = tmpElement[0].parentElement as HTMLElement
+    // get valid parent node
+    const parent = nodeElements[0].parentElement as HTMLElement
 
-    // add all new element
+    // add all new node elements
     rendered.forEach((r: HTMLElement) => {
       // @ts-ignore
       if (r.component) r = renderComponent(r) as HTMLElement
-      parent.insertBefore(r, tmpElement[0])
+      parent.insertBefore(r, nodeElements[0])
     })
 
-    // remove all old element
-    tmpElement.forEach((t: HTMLElement) => {
+    // remove all old node elements
+    nodeElements.forEach((t: HTMLElement) => {
       parent.removeChild(t)
     })
 
