@@ -2,11 +2,15 @@ const path = require('path')
 
 module.exports = {
   mode: 'production',
-  entry: './src/bundles/bundle.ts',
+  entry: {
+    core: './src/bundles/bundle.core.ts',
+    slim: './src/bundles/bundle.slim.ts',
+    full: './src/bundles/bundle.full.ts',
+  },
   output: {
-    filename: 'nano.min.js',
+    filename: 'nano.[name].min.js',
     path: path.resolve(__dirname, '../bundles'),
-    library: 'nano',
+    library: 'nanoJSX',
     libraryExport: 'default',
   },
   resolve: {

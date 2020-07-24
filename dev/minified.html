@@ -21,7 +21,7 @@
     <div id="root"></div>
 
     <script>
-      const { Nano, Link, jsx } = nano
+      const { render, Link, jsx } = nanoJSX
 
       const names = ['joe', 'suzanne']
 
@@ -52,7 +52,7 @@
         </div>`
       }
 
-      Nano.render(App, document.getElementById('root'))
+      render(App, document.getElementById('root'))
     </script>
   </body>
 </html>

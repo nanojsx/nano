@@ -3,11 +3,11 @@ const path = require('path')
 module.exports = {
   mode: 'development',
   devtool: 'inline-source-map',
-  entry: './src/bundles/bundle.ts',
+  entry: './src/bundles/bundle.full.ts',
   output: {
     filename: 'nano.dev.min.js',
     path: path.resolve(__dirname, '../bundles'),
-    library: 'nano',
+    library: 'nanoJSX',
     libraryExport: 'default',
   },
   resolve: {

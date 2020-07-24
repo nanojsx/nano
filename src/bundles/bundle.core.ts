@@ -1,5 +1,7 @@
+// core
 import { render, h } from '../core'
 
 export default {
-  Nano: { render, h },
+  render,
+  h,
 }

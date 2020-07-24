@@ -30,15 +30,14 @@
     <div id="root"></div>
 
     <script>
-      const { Nano, Component, h } = nano
+      const { render, h } = nanoJSX
 
       const App = () => {
         const text = h('p', { class: 'cool-text' }, 'Simple Text')
         return h('div', null, text)
       }
 
-      const node = Nano.render(App, document.getElementById('root'))
-      console.log(Nano.nodeToString(node))
+      const node = render(App, document.getElementById('root'))
     </script>
   </body>
 </html>
