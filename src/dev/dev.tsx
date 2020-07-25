@@ -181,7 +181,7 @@ class Input extends Component {
     const target = e.target as HTMLInputElement
     this.text = target.value
 
-    const p = this.element.getElementsByTagName('p')[0]
+    const p = this.elements[0].getElementsByTagName('p')[0]
     p.innerHTML = this.text
   }
 
@@ -235,7 +235,7 @@ class Toaster extends Component {
 
   addToast(id: number, text: string) {
     const el = <p class="toast visible" key={id}>{`${text} - ${id}`}</p>
-    this.element.appendChild(el)
+    this.elements[0].appendChild(el)
     return el
   }
 

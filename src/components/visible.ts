@@ -17,7 +17,7 @@ export class Visible extends Component {
       },
       { threshold: [0, 1] }
     )
-    observer.observe(this.element)
+    observer.observe(this.elements[0])
   }
 
   render() {

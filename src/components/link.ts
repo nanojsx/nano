@@ -8,7 +8,7 @@ import { h } from '../core'
  */
 export class Link extends Component {
   prefetchOnHover() {
-    this.element.addEventListener('mouseover', () => this.addPrefetch(), { once: true })
+    this.elements[0].addEventListener('mouseover', () => this.addPrefetch(), { once: true })
   }
 
   prefetchOnVisible() {
@@ -23,7 +23,7 @@ export class Link extends Component {
       },
       { threshold: [0, 1] }
     )
-    observer.observe(this.element)
+    observer.observe(this.elements[0])
   }
 
   addPrefetch() {
@@ -48,7 +48,7 @@ export class Link extends Component {
     const { href, prefetch, delay = 0, back = false } = this.props
 
     if (back)
-      this.element.addEventListener('click', (e: any) => {
+      this.elements[0].addEventListener('click', (e: any) => {
         e.preventDefault()
         const target = e.target as HTMLLinkElement
         if (target.href === document.referrer) window.history.back()
@@ -56,7 +56,7 @@ export class Link extends Component {
       })
 
     if (delay > 0)
-      this.element.addEventListener('click', (e: any) => {
+      this.elements[0].addEventListener('click', (e: any) => {
         e.preventDefault()
         setTimeout(() => (window.location.href = href), delay)
       })

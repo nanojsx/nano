@@ -113,9 +113,9 @@ export const renderComponent = (component: { component: any; props?: any; tagNam
     Component.props = props
     Component.willMount()
 
-    Component.element = Component.render()
+    el = Component.render()
 
-    el = Component.element
+    Component.elements = el
 
     // @ts-ignore
     if (typeof isSSR === 'undefined')

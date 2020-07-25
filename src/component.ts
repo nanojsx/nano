@@ -2,30 +2,45 @@ import { onNodeRemove } from './helpers'
 import { tick, renderComponent } from './core'
 
 const filterDomElements = (el: any[]) => {
-  const nodeElements = el.filter((e: any) => {
-    return e.tagName
-  })
-  return nodeElements
+  return el.filter((e: any) => e.tagName)
 }
 
 export class Component {
   public props: any
-  public element: any
+  private _elements: HTMLCollection
   private _skipUnmount = false
 
-  private _didMount(): any {
-    this._onNodeRemoveListener(this.element)
+  /** Returns all currently rendered node elements */
+  public get elements(): HTMLCollection {
+    return this._elements
   }
 
-  private _onNodeRemoveListener(element: any) {
+  public set elements(e: HTMLCollection) {
+    // if fragment, return first child node
+    // @ts-ignore
+    if (e.props) e = filterDomElements(e.props.children)
+    // @ts-ignore
+    if (e.tagName) e = [e]
+    this._elements = e
+  }
+
+  /** Returns all currently rendered node elements */
+  public get elementsAll() {
+    if (this.elements.length === 0) console.warn('No Parent Element Found!')
+    // @ts-ignore
+    return Array.prototype.slice.call(this.elements[0].parentNode.children)
+  }
+
+  private _didMount(): any {
+    this._onNodeRemoveListener()
+  }
+
+  private _onNodeRemoveListener() {
     // check if didUnmount is unused
     if (/^[^{]+{\s+}$/gm.test(this.didUnmount.toString())) return
 
-    // if fragment, return first child node
-    if (element.props) element = filterDomElements(element.props.children)[0]
-
-    // listen if the root element gets removed
-    onNodeRemove(this.element, () => {
+    // listen if the root elements gets removed
+    onNodeRemove(this.elements[0], () => {
       if (!this._skipUnmount) this.didUnmount()
     })
   }
@@ -46,8 +61,8 @@ export class Component {
       else return el
     }
 
-    // get old child node elements as array
-    const nodeElements = filterDomElements(toArray(this.element))
+    // get all current rendered node elements
+    const nodeElements = this.elementsAll
 
     //  get new child elements as array
     const r = this.render(update)
@@ -68,10 +83,10 @@ export class Component {
       parent.removeChild(t)
     })
 
-    // set the newly rendered element as the new root element
-    this.element = r
+    // set the newly rendered elements as the new root elements
+    this.elements = r as any
 
-    this._onNodeRemoveListener(this.element)
+    this._onNodeRemoveListener()
 
     tick(() => (this._skipUnmount = false))
   }

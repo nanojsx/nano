@@ -23,7 +23,7 @@ export class Img extends Component {
       },
       { threshold: [0, 1] }
     )
-    observer.observe(this.element)
+    observer.observe(this.elements[0])
   }
   render() {
     const { src, placeholder, children, lazy = true, ...rest } = this.props
