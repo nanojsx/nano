@@ -1,6 +1,6 @@
 {
   "name": "nano-jsx",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "Lightweight 1KB JSX library. Using JSX (TypeScript/Babel) or Tagged Template Literals. SSR first, partially hydrate later.",
   "main": "lib/index.js",
   "scripts": {
