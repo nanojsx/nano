@@ -110,8 +110,8 @@ export const renderComponent = (component: { component: any; props?: any; tagNam
   // const isClass = (fn: any) => /^class/.test(fn.toString())
 
   if (/^class/.test(component.toString())) {
-    const Component = new component()
-    Component.props = props
+    const Component = new component(props)
+
     Component.willMount()
 
     el = Component.render()

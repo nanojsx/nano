@@ -6,9 +6,10 @@ const filterDomElements = (el: any[]) => {
 }
 
 export class Component {
-  public props: any
   private _elements: HTMLCollection
   private _skipUnmount = false
+
+  constructor(public props: any = {}) {}
 
   /** Returns all currently rendered node elements */
   public get elements(): HTMLCollection {
