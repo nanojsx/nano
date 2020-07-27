@@ -2,7 +2,7 @@ import { onNodeRemove } from './helpers'
 import { tick, renderComponent } from './core'
 
 const filterDomElements = (el: any[]) => {
-  return el.filter((e: any) => e.tagName)
+  return el.filter((e: any) => e && e.tagName)
 }
 
 export class Component {
@@ -74,8 +74,8 @@ export class Component {
     // add all new node elements
     rendered.forEach((r: HTMLElement) => {
       // @ts-ignore
-      if (r.component) r = renderComponent(r) as HTMLElement
-      parent.insertBefore(r, nodeElements[0])
+      if (r && r.component) r = renderComponent(r) as HTMLElement
+      if (r && r.tagName) parent.insertBefore(r, nodeElements[0])
     })
 
     // remove all old node elements

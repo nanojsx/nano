@@ -14,7 +14,7 @@ test('should render without errors', async (done) => {
 
   await wait()
   expect(nodeToString(res)).toBe(
-    "<p>Hello John undefined null null [object Object]  undefined Some String 'Another String'</p>"
+    "<p>Hello John undefined null  [object Object]  undefined Some String 'Another String'</p>"
   )
   expect(spy).not.toHaveBeenCalled()
   done()

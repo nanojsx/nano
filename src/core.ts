@@ -94,7 +94,8 @@ export const render = (component: any, parent: HTMLElement | null = null, remove
 export const renderComponent = (component: { component: any; props?: any; tagName?: any } | any): any => {
   // handle undefined, null and svg, and jsx element
   if (typeof component === 'undefined') return 'undefined'
-  else if (component === null) return 'null'
+  else if (component === null) return []
+  else if (component.component === null) return []
   else if (component.tagName) {
     if (component.tagName.toLowerCase() === 'svg') return SVG({ children: [component] })
     else return component
