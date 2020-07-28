@@ -1,5 +1,7 @@
 import { Component } from '../component'
+import { Helmet } from './helmet'
 import { h } from '../core'
+import { Fragment } from '../fragment'
 
 /**
  * A simple Link component
@@ -76,6 +78,19 @@ export class Link extends Component {
     if (!this.props.href) console.warn('Please add "href" to <Link>')
     if (children.length !== 1) console.warn('Please add ONE child to <Link> (<Link>child</Link>)')
 
-    return h('a', { ...rest }, ...children) as any
+    const a = h('a', { ...rest }, ...children) as any
+
+    // if ssr
+    if (prefetch === true && !(typeof window !== 'undefined' && window.document)) {
+      // <link rel="prefetch" href="/index.html" as="document"></link>
+      const link = h('link', { rel: 'prefetch', href: this.props.href, as: 'document' })
+      const helmet = h(Helmet, null, link)
+
+      return h(Fragment, null, [helmet, a])
+    }
+    // if not ssr
+    else {
+      return a
+    }
   }
 }
