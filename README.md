@@ -23,9 +23,11 @@
 
 <hr>
 
-## Website
+## Getting Started
 
-Checkout the [website](https://nanojsx.github.io/) to find out more!
+- Visit the [website](https://nanojsx.github.io/)
+- Download the [template](https://github.com/nanojsx/template)
+- Checkout the [sandbox](https://codepen.io/yandeu/pen/MWKMmbq)
 
 ## Demo App
 
@@ -34,7 +36,7 @@ _It's hosted on a free heroku dyno, so it might take a while to spin up the serv
 
 ## Features
 
-The best about nano-jsx is the **small bundle size**. It builds, although is sound crazy, a even smaller bundle size than Svelte!
+The best about Nano JSX is the **small bundle size**. It builds, although is sound crazy, bundles as small as svelte!
 
 ### More Features
 
@@ -70,14 +72,6 @@ The best about nano-jsx is the **small bundle size**. It builds, although is sou
 - **1KB (gzip)**  
   All of this in only ~1KB  
   _(Well, the core module is only about ~1KB)_
-
-## Why
-
-In the past, I did a lot of websites using Isomorphic React (Pre-Rendering on the Server and Hydrating it on the client). Once the website did load all scripts, the website was very fast (not so much on mobile though). But the script where always _way_ too big.
-
-Nowadays, I prefer to pre-render the JSX on the server and only hydrate the parts that are needed. The client now only gets few kilobytes and uses much less CPU.
-
-Of course with this new approach, the client does not have a router and must thus fetch each new site on navigating to it. But, this is not really a problem since the static html is usually very small and we can easily prefetch pages using `<link rel="prefetch" href="index.html" as="document">` on page load or on hovering over a link.
 
 ## Documentation
 
