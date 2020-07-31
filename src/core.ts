@@ -2,6 +2,18 @@ export const Empty = []
 
 export const tick = typeof Promise == 'function' ? Promise.prototype.then.bind(Promise.resolve()) : setTimeout
 
+// https://stackoverflow.com/a/7616484/12656855
+const strToHash = (s: string) => {
+  let hash = 0
+
+  for (let i = 0; i < s.length; i++) {
+    const chr = s.charCodeAt(i)
+    hash = (hash << 5) - hash + chr
+    hash |= 0 // Convert to 32bit integer
+  }
+  return Math.abs(hash).toString(32)
+}
+
 export const removeAllChildNodes = (parent: HTMLElement) => {
   while (parent.firstChild) {
     parent.removeChild(parent.firstChild)
@@ -105,12 +117,9 @@ export const renderComponent = (component: { component: any; props?: any; tagNam
   let props = component.props || { children: [] }
   component = component.component || component
 
-  // TODO(yandeu) This looks very unsafe, is there a better way to detect if it is a function or class?
-  // does only work in > ES2015
-  // const isClass = (fn: any) => /^class/.test(fn.toString())
-
-  if (/^class/.test(component.toString())) {
-    const Component = new component(props)
+  // is class component
+  if (component.prototype && component.prototype.constructor) {
+    const Component = new component(props, strToHash(component.toString()))
 
     Component.willMount()
 
@@ -124,9 +133,13 @@ export const renderComponent = (component: { component: any; props?: any; tagNam
         Component._didMount()
         Component.didMount()
       })
-  } else if (typeof component === 'function') {
+  }
+  //  is  functional component
+  else if (typeof component === 'function') {
     el = component(props)
-  } else {
+  }
+  // if DOM element
+  else {
     el = component
   }
 

@@ -94,7 +94,7 @@ test('should render without errors', async (done) => {
       return 'yeah'
     }
   }
-  const test = new Test()
+  const test = new Test({ children: [] }, 'some-unique-hash')
 
   await wait()
   // @ts-ignore

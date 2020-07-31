@@ -1,15 +1,48 @@
 import { onNodeRemove } from './helpers'
 import { tick, renderComponent } from './core'
+import { _state } from './state'
 
 const filterDomElements = (el: any[]) => {
   return el.filter((e: any) => e && e.tagName)
 }
 
 export class Component {
+  private _state: any = undefined
   private _elements: HTMLCollection
   private _skipUnmount = false
+  private _id: string
 
-  constructor(public props: any = {}) {}
+  constructor(public props: any, private _hash: string) {
+    this._id = _hash
+  }
+
+  set id(id: string) {
+    this._id = id
+  }
+
+  get id() {
+    return this._id
+  }
+
+  setState(state: any, shouldUpdate: boolean = false) {
+    this._state = state
+    if (this._id) _state.set(this._id, state)
+    if (shouldUpdate) this.update()
+  }
+
+  set state(state: any) {
+    if (!this._id) {
+      console.warn('Please set an id before using state')
+      return
+    }
+
+    if (!_state.has(this._id)) this.setState(state)
+  }
+
+  get state() {
+    if (this._id) return _state.get(this._id)
+    else return this._state
+  }
 
   /** Returns all currently rendered node elements */
   public get elements(): HTMLCollection {

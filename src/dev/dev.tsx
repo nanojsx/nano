@@ -217,13 +217,13 @@ const TestInputs = () => {
 Nano.render(<TestInputs />, document.getElementById('input'))
 
 class Toaster extends Component {
-  id = -1
+  toastId = -1
   event = new Event('toast')
 
   didMount() {
     document.getElementById('toaster')?.addEventListener('toast', (e: any) => {
-      this.id++
-      const el = this.addToast(this.id, e.detail.text) as HTMLElement
+      this.toastId++
+      const el = this.addToast(this.toastId, e.detail.text) as HTMLElement
       setTimeout(() => {
         el.className = 'toast transparent'
       }, 3000)
