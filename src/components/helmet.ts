@@ -33,12 +33,13 @@ export class Helmet extends Component {
       let tag = element.tagName
       let attrs: string[] = []
 
+      // get the inner text
+      attrs.push(element.innerText as string)
+
       // get all attributes
       for (let attr = 0; attr < element.attributes.length; attr++) {
         attrs.push(element.attributes.item(attr)?.name.toLowerCase() as string)
         attrs.push(element.attributes.item(attr)?.value.toLowerCase() as string)
-        // and the inner text
-        attrs.push(element.innerText as string)
       }
 
       // handle special tags
@@ -60,19 +61,21 @@ export class Helmet extends Component {
         return
       }
 
-      // check if the element exists already
+      // check if the element already exists
       let exists = false
       attrs = attrs.sort()
-      const el = document.getElementsByTagName(tag)
+
+      const el: HTMLElement[] = document.getElementsByTagName(tag) as any
 
       for (let i = 0; i < el.length; i++) {
         let attrs2: string[] = []
+
+        // get the inner text
+        attrs2.push(el[i].innerText as string)
+
         for (let attr = 0; attr < el[i].attributes.length; attr++) {
           attrs2.push(el[i].attributes.item(attr)?.name.toLowerCase() as string)
           attrs2.push(el[i].attributes.item(attr)?.value.toLowerCase() as string)
-          // and the inner text
-          // @ts-ignore
-          attrs2.push(el[i].innerText as string)
         }
         attrs2 = attrs2.sort()
 
