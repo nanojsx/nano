@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "ES2015",
     "module": "commonjs",
-    "lib": ["DOM", "ES2015"],
+    "lib": ["DOM", "ES2017"],
     "jsx": "react",
     "jsxFactory": "Nano.h",
     "declaration": true,
