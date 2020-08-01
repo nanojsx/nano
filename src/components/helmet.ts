@@ -44,7 +44,7 @@ export class Helmet extends Component {
       // handle special tags
       if (tag === 'HTML' || tag === 'BODY') {
         const htmlTag = document.getElementsByTagName(tag)[0]
-        for (let attr = 0; attr < attrs.length; attr += 2) {
+        for (let attr = 1; attr < attrs.length; attr += 2) {
           htmlTag.setAttribute(attrs[attr], attrs[attr + 1])
         }
         return
