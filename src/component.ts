@@ -59,10 +59,10 @@ export class Component {
   }
 
   /** Returns all currently rendered node elements */
-  public get elementsAll() {
+  public get elementsArray() {
     if (this.elements.length === 0) console.warn('No Parent Element Found!')
     // @ts-ignore
-    return Array.prototype.slice.call(this.elements[0].parentNode.children)
+    return Array.prototype.slice.call(this.elements)
   }
 
   private _didMount(): any {
@@ -96,7 +96,7 @@ export class Component {
     }
 
     // get all current rendered node elements
-    const nodeElements = this.elementsAll
+    const nodeElements = this.elementsArray
 
     //  get new child elements as array
     const r = this.render(update)
@@ -112,7 +112,7 @@ export class Component {
       if (r && r.tagName) parent.insertBefore(r, nodeElements[0])
     })
 
-    // remove all old node elements
+    // remove all elements
     nodeElements.forEach((t: HTMLElement) => {
       parent.removeChild(t)
     })
