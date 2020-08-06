@@ -17,7 +17,7 @@ export class Component {
   }
 
   set id(id: string) {
-    this._id = id
+    this._id = id.toString()
   }
 
   get id() {
