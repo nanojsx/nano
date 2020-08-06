@@ -105,3 +105,47 @@ test('should render without errors', async (done) => {
   expect(spy).not.toHaveBeenCalled()
   done()
 })
+
+test('should render without errors', async (done) => {
+  class Test extends Component {
+    id = this.props.index
+    state = { number: this.props.index }
+
+    didMount() {
+      setTimeout(() => {
+        this.state = { ...this.state, number: this.state.number += 0.1 }
+        this.update()
+      }, Math.random() * 1000 + 200)
+    }
+
+    render() {
+      return <p>{this.state.number}</p>
+    }
+  }
+
+  class App extends Component {
+    tests = new Array(5).fill(undefined).map((val, idx) => idx)
+
+    render() {
+      return (
+        <div>
+          {this.tests.map((t) => {
+            return <Test index={t} />
+          })}
+        </div>
+      )
+    }
+  }
+
+  const res = Nano.render(<App />, document.body)
+
+  await wait()
+  expect(res.innerHTML).toBe('<div><p>0</p><p>1</p><p>2</p><p>3</p><p>4</p></div>')
+
+  await wait(1500)
+  expect(res.innerHTML).toBe('<div><p>0.1</p><p>1.1</p><p>2.1</p><p>3.1</p><p>4.1</p></div>')
+
+  expect(spy).not.toHaveBeenCalled()
+
+  done()
+})
