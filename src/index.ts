@@ -16,7 +16,7 @@ import { Link } from './components/link'
 import { Visible } from './components/visible'
 
 // @ts-ignore
-import htm from 'htm/dist/htm.js'
+import htm from './htm'
 const jsx = htm.bind(h)
 
 export default {

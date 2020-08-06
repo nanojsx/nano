@@ -43,9 +43,7 @@
     "url": "https://github.com/nanojsx/nano/issues"
   },
   "homepage": "https://nanojsx.github.io/",
-  "dependencies": {
-    "htm": "^3.0.4"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@types/jest": "^26.0.0",
     "jest": "^26.0.1",

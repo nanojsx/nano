@@ -10,7 +10,7 @@ import { createContext } from '../context'
 
 // tagged templates
 //@ts-ignore
-import htm from 'htm/dist/htm.js'
+import htm from '../htm'
 const jsx = htm.bind(h)
 
 export default {
