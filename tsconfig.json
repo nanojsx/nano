@@ -11,10 +11,12 @@
     "outDir": "./lib",
     "rootDir": "./src",
     "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "strictPropertyInitialization": false,
     "typeRoots": [],
     "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true /* Disallow inconsistently-cased references to the same file. */
+    "forceConsistentCasingInFileNames": true
   },
   "include": ["src/**/*"]
 }

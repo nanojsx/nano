@@ -3,7 +3,7 @@ import { Component } from '../component'
 import { Fragment } from '../fragment'
 import { Link } from '../components/link'
 
-const Button = (props: any) => {
+const Button = (_props: any) => {
   return (
     <button
       class="button is-primary"
@@ -18,7 +18,7 @@ const Button = (props: any) => {
           toaster.dispatchEvent(event)
         }
       }}
-      ref={(node: any) => {
+      ref={(_node: any) => {
         // Logs the button
         // console.log(node)
       }}

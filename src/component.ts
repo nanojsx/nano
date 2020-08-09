@@ -12,7 +12,7 @@ export class Component {
   private _skipUnmount = false
   private _id: string
 
-  constructor(public props: any, private _hash: string) {
+  constructor(public props: any, _hash: string) {
     this._id = _hash
   }
 
@@ -65,6 +65,7 @@ export class Component {
     return Array.prototype.slice.call(this.elements)
   }
 
+  // @ts-ignore
   private _didMount(): any {
     this._onNodeRemoveListener()
   }
@@ -83,6 +84,7 @@ export class Component {
   public didMount(): any {}
   public didUnmount(): any {}
 
+  // @ts-ignore
   public render(update?: any): HTMLElement | void {}
 
   /** Will forceRender the component */

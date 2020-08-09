@@ -83,10 +83,12 @@ export class HTMLElementSSR {
     this.ssr = this.ssr.substring(0, index) + append + this.ssr.substring(index)
   }
 
+  // @ts-ignore
   replaceChild(newChild: any, oldChild: any) {
     this.innerText = newChild.ssr
   }
 
+  // @ts-ignore
   addEventListener(type: any, listener: any, options: any) {}
 }
 
@@ -103,6 +105,7 @@ export class DocumentSSR {
     return new HTMLElementSSR(tag)
   }
 
+  // @ts-ignore
   createElementNS(URI: string, tag: string) {
     return new HTMLElementSSR(tag)
   }

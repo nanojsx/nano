@@ -188,7 +188,7 @@ export const h = (tagNameOrComponent: any, props: any, ...children: any) => {
     // handel ref
     if (p === 'ref') ref = props[p]
     // handle events
-    else if (/^on[A-Z]\w+$/gm.test(p)) element.addEventListener(p.toLowerCase().substring(2), (e) => props[p](e))
+    else if (/^on[A-Z]\w+$/gm.test(p)) element.addEventListener(p.toLowerCase().substring(2), (e: any) => props[p](e))
     // else if (/className/i.test(p)) console.warn('You can use "class" instead of "className".')
     else element.setAttribute(p, props[p])
   }
