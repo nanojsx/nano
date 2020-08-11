@@ -5,6 +5,8 @@
   "main": "lib/index.js",
   "scripts": {
     "start": "npm run dev",
+    "deno": "deno run -c tsconfig.json deno-test.tsx",
+    "denoify": "rimraf deno_lib && tsc && denoify",
     "tsc": "tsc --project tsconfig.json",
     "build": "npm run tsc",
     "bundle": "webpack --config webpack/webpack.bundle.prod.js",
@@ -46,6 +48,7 @@
   "dependencies": {},
   "devDependencies": {
     "@types/jest": "^26.0.0",
+    "denoify": "^0.3.8",
     "jest": "^26.0.1",
     "jsdom": "^16.2.2",
     "live-server": "^1.2.1",

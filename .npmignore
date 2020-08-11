@@ -1,5 +1,7 @@
 .github
 coverage
+deno
+deno_lib
 dev
 lib/bundles
 lib/dev
