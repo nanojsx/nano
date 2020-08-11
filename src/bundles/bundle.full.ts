@@ -16,26 +16,24 @@ import { Img } from '../components/img'
 import { Visible } from '../components/visible'
 
 // tagged templates
-//@ts-ignore
-import htm from '../htm'
-const jsx = htm.bind(h)
+import { jsx } from '../jsx'
 
 export default {
+  createContext,
   h,
-  render,
   hydrate,
+  hydrateLazy,
+  jsx,
+  nodeToString,
   removeAllChildNodes,
+  render,
   renderComponent,
   tick,
-  nodeToString,
-  createContext,
   Component,
   Fragment,
-  Store,
   Helmet,
-  Link,
   Img,
+  Link,
+  Store,
   Visible,
-  jsx,
-  hydrateLazy,
 }

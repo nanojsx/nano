@@ -1,34 +1,25 @@
 import './types'
 
-import { h, render, hydrate, removeAllChildNodes, renderComponent, tick } from './core'
-import { hydrateLazy } from './lazy'
-import { nodeToString } from './helpers'
+export { h, render, hydrate, removeAllChildNodes, renderComponent, tick } from './core'
+export { jsx } from './jsx'
+export { hydrateLazy } from './lazy'
+export { nodeToString } from './helpers'
+export { renderSSR } from './ssr'
+
+export { Component } from './component'
+export { Fragment } from './fragment'
+export { Store } from './store'
+export { createContext } from './context'
+export { withStyles } from './withStyles'
+
+// components
+export { Helmet } from './components/helmet'
+export { Img } from './components/img'
+export { Link } from './components/link'
+export { Visible } from './components/visible'
+
+// export default (Nano)
+import { h, render, hydrate } from './core'
 import { renderSSR } from './ssr'
-import { Component } from './component'
-import { Fragment } from './fragment'
-import { Store } from './store'
 import { createContext } from './context'
-import { withStyles } from './withStyles'
-
-import { Helmet } from './components/helmet'
-import { Img } from './components/img'
-import { Link } from './components/link'
-import { Visible } from './components/visible'
-
-// @ts-ignore
-import htm from './htm'
-const jsx = htm.bind(h)
-
-export default {
-  h,
-  render,
-  hydrate,
-  renderSSR,
-  removeAllChildNodes,
-  renderComponent,
-  tick,
-  nodeToString,
-  createContext,
-}
-export { Component, Fragment, Store, jsx, h, hydrateLazy, withStyles }
-export { Helmet, Img, Link, Visible }
+export default { h, render, hydrate, renderSSR, createContext }

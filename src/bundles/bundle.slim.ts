@@ -9,19 +9,17 @@ import { Store } from '../store'
 import { createContext } from '../context'
 
 // tagged templates
-//@ts-ignore
-import htm from '../htm'
-const jsx = htm.bind(h)
+import { jsx } from '../jsx'
 
 export default {
-  h,
-  render,
-  hydrate,
-  tick,
   createContext,
+  h,
+  hydrate,
+  hydrateLazy,
+  jsx,
+  render,
+  tick,
   Component,
   Fragment,
   Store,
-  jsx,
-  hydrateLazy,
 }
