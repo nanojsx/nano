@@ -1,5 +1,6 @@
 import { Component } from '../component'
 import { appendChildren, h } from '../core'
+import { isSSR } from '../helpers'
 
 export class Helmet extends Component {
   static SSR(body: string) {
@@ -87,8 +88,6 @@ export class Helmet extends Component {
   }
 
   render() {
-    const isSSR = !(typeof window !== 'undefined' && window.document)
-
     const placement = this.props.footer ? 'footer' : 'head'
 
     if (isSSR) return h('helmet', { 'data-ssr': true, 'data-placement': placement }, this.props.children)

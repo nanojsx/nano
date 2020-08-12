@@ -1,8 +1,9 @@
 import { render } from './core'
+import { isSSR } from './helpers'
 
 const initSSR = () => {
   // @ts-ignore
-  globalThis.isSSR = !(typeof window !== 'undefined' && window.document)
+  globalThis.isSSR = isSSR
   // @ts-ignore
   globalThis.document = isSSR ? new DocumentSSR() : window.document
 }
