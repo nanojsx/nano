@@ -4,11 +4,11 @@
   </a>
 </p>
 
-<p align="center">Lightweight <b>1kB</b> JSX library.</p>
+<p align="center">SSR first, lightweight <b>1kB</b> JSX library.</p>
 
 </div>
 
-<h3 align="center">Designed to build ultra fast Multi-Page Apps (MPAs), using isomorphic JavaScript. Written in TypeScript. Perfect for your next PWA.</h3>
+<h3 align="center">Designed to build ultra fast Multi-Page Apps (MPAs), using isomorphic JavaScript.<br />Written in TypeScript. Works on Node and Deno.</h3>
 
 <p align="center">  
   <a href="https://www.npmjs.com/package/nano-jsx"><img src="https://img.shields.io/npm/v/nano-jsx?style=flat-square" alt="NPM version"></a>
