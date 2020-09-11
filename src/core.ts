@@ -122,10 +122,7 @@ export const renderComponent = (component: { component: any; props?: any; tagNam
     const Component = new component(props, strToHash(component.toString()))
 
     Component.willMount()
-
-    el = Component.render()
-
-    Component.elements = el
+    el = Component.elements = Component.render()
 
     // @ts-ignore
     if (typeof isSSR === 'undefined')
@@ -157,9 +154,7 @@ export const renderComponent = (component: { component: any; props?: any; tagNam
   return el
 }
 
-export const hNS = (tag: string) => {
-  return document.createElementNS('http://www.w3.org/2000/svg', tag) as SVGElement
-}
+export const hNS = (tag: string) => document.createElementNS('http://www.w3.org/2000/svg', tag) as SVGElement
 
 // https://stackoverflow.com/a/42405694/12656855
 export const h = (tagNameOrComponent: any, props: any, ...children: any) => {
@@ -173,6 +168,14 @@ export const h = (tagNameOrComponent: any, props: any, ...children: any) => {
     tagNameOrComponent === 'svg'
       ? (hNS('svg') as SVGElement)
       : (document.createElement(tagNameOrComponent) as HTMLElement)
+
+  // check if the element includes the event (for example 'oninput')
+  const isEvent = (el: HTMLElement | any, p: string) => {
+    // check if the event begins with 'on'
+    if (0 !== p.indexOf('on')) return false
+    // check if the event is present in the element as object (null) or as function
+    return typeof el[p] === 'object' || typeof el[p] === 'function'
+  }
 
   for (const p in props) {
     // https://stackoverflow.com/a/45205645/12656855
@@ -188,8 +191,9 @@ export const h = (tagNameOrComponent: any, props: any, ...children: any) => {
     // handel ref
     if (p === 'ref') ref = props[p]
     // handle events
-    else if (/^on[A-Z]\w+$/gm.test(p)) element.addEventListener(p.toLowerCase().substring(2), (e: any) => props[p](e))
-    // else if (/className/i.test(p)) console.warn('You can use "class" instead of "className".')
+    else if (isEvent(element, p.toLowerCase()))
+      element.addEventListener(p.toLowerCase().substring(2), (e: any) => props[p](e))
+    else if (/className/i.test(p)) console.warn('You can use "class" instead of "className".')
     else element.setAttribute(p, props[p])
   }
 
