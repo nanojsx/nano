@@ -36,6 +36,14 @@ export class Store {
     Storage.setItem(this._id, JSON.stringify(newState))
   }
 
+  /** Clears the state of the whole store. */
+  public clear() {
+    this._state = this._prevState = undefined
+
+    if (this._storage === 'local') localStorage.removeItem(this._id)
+    else if (this._storage === 'session') sessionStorage.removeItem(this._id)
+  }
+
   public setState(newState: any) {
     this.state = newState
   }
