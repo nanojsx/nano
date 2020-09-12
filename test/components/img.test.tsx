@@ -1,10 +1,16 @@
 import Nano, { Img } from '../../lib/index.js'
 import { wait, mockIntersectionObserver } from '../helpers.js'
 import { nodeToString } from '../../lib/helpers.js'
+import { _clearState } from '../../lib/state.js'
 
 const spy = jest.spyOn(global.console, 'error')
 
 mockIntersectionObserver()
+
+afterEach(async () => {
+  // clear state
+  _clearState()
+})
 
 test('should render without errors', async (done) => {
   const App = () => {
