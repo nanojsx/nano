@@ -14,7 +14,7 @@ test('should render without errors', async (done) => {
           <title>some title</title>
           <meta name="description" content="Nano-JSX application" />
         </Helmet>
-        <Img href="some-url" placeholder="placeholder-url" />
+        <Img src="some-url" placeholder="placeholder-url" />
       </div>
     )
   }
@@ -41,7 +41,7 @@ test('should render without errors', async (done) => {
       <title>some title</title><meta content="Nano-JSX application" name="description" />
     </head>
     <body>
-      <div><img href="some-url" src="placeholder-url" /></div>
+      <div><img src="placeholder-url" /></div>
     </body>
   </html>
   `)
