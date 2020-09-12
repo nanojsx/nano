@@ -12,8 +12,8 @@ export class Component {
   private _skipUnmount = false
   private _id: string
 
-  constructor(public props: any, _hash: string) {
-    this._id = _hash
+  constructor(public props: any, id: string) {
+    this._id = id
   }
 
   set id(id: string) {
