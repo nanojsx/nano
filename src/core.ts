@@ -3,7 +3,7 @@ export const Empty = []
 export const tick = typeof Promise == 'function' ? Promise.prototype.then.bind(Promise.resolve()) : setTimeout
 
 // https://stackoverflow.com/a/7616484/12656855
-const strToHash = (s: string) => {
+export const strToHash = (s: string) => {
   let hash = 0
 
   for (let i = 0; i < s.length; i++) {
