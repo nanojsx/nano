@@ -13,7 +13,7 @@ export class Component {
   private _id: string
 
   constructor(public props: any, id: string) {
-    this._id = id
+    this._id = id.toString()
   }
 
   set id(id: string) {
