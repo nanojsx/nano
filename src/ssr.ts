@@ -90,6 +90,19 @@ export class HTMLElementSSR {
     this.innerText = newChild.ssr
   }
 
+  get children() {
+    const reg = /<([a-z]+)((?!<\/\1).)*<\/\1>/gms
+
+    const array = []
+
+    let match
+
+    while ((match = reg.exec(this.innerHTML)) !== null) {
+      array.push(match[0].replace(/[\s]+/gm, ' '))
+    }
+
+    return array
+  }
 
   addEventListener(_type: any, _listener: any, _options: any) {}
 }
