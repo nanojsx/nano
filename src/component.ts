@@ -6,13 +6,13 @@ const filterDomElements = (el: any[]) => {
   return el.filter((e: any) => e && e.tagName)
 }
 
-export class Component {
+export class Component<P = any, S = any> {
   private _state: any = undefined
   private _elements: HTMLCollection
   private _skipUnmount = false
   private _id: string
 
-  constructor(public props: any, id: string) {
+  constructor(public props: P, id: string) {
     this._id = id.toString()
   }
 
@@ -24,13 +24,13 @@ export class Component {
     return this._id
   }
 
-  setState(state: any, shouldUpdate: boolean = false) {
+  setState(state: S, shouldUpdate: boolean = false) {
     this._state = state
     if (this._id) _state.set(this._id, state)
     if (shouldUpdate) this.update()
   }
 
-  set state(state: any) {
+  set state(state: S) {
     if (!this._id) {
       console.warn('Please set an id before using state')
       return
@@ -40,8 +40,8 @@ export class Component {
   }
 
   get state() {
-    if (this._id) return _state.get(this._id)
-    else return this._state
+    if (this._id) return _state.get(this._id) as S
+    else return this._state as S
   }
 
   /** Returns all currently rendered node elements */
