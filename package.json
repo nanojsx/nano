@@ -48,6 +48,7 @@
   "dependencies": {},
   "devDependencies": {
     "@types/jest": "^26.0.14",
+    "@types/node": "^14.11.1",
     "denoify": "^0.3.8",
     "jest": "^26.4.2",
     "jsdom": "^16.4.0",
