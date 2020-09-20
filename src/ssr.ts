@@ -51,16 +51,18 @@ export class HTMLElementSSR {
   }
 
   get innerHTML() {
-    return 'TODO'
+    const reg = /(^<[a-z]+>)([\s\S]*)(<\/[a-z]+>$)/gm
+    return reg.exec(this.ssr)?.[2] ?? ''
   }
 
   get innerText() {
-    // @ts-ignore
-    return /(^<[^>]+>)(.+)?(<\/[a-z]+>$|\/>$)/gm.exec(this.ssr)[2]
+    const reg = /(^<[^>]+>)(.+)?(<\/[a-z]+>$|\/>$)/gm
+    return reg.exec(this.ssr)?.[2] ?? ''
   }
 
   set innerText(text) {
-    this.ssr = this.ssr.replace(/(^<[^>]+>)(.+)?(<\/[a-z]+>$|\/>$)/gm, `$1${text}$3`)
+    const reg = /(^<[^>]+>)(.+)?(<\/[a-z]+>$|\/>$)/gm
+    this.ssr = this.ssr.replace(reg, `$1${text}$3`)
   }
 
   get attributes() {
@@ -84,13 +86,12 @@ export class HTMLElementSSR {
     this.ssr = this.ssr.substring(0, index) + append + this.ssr.substring(index)
   }
 
-  // @ts-ignore
-  replaceChild(newChild: any, oldChild: any) {
+  replaceChild(newChild: any, _oldChild: any) {
     this.innerText = newChild.ssr
   }
 
-  // @ts-ignore
-  addEventListener(type: any, listener: any, options: any) {}
+
+  addEventListener(_type: any, _listener: any, _options: any) {}
 }
 
 export class DocumentSSR {
@@ -106,12 +107,15 @@ export class DocumentSSR {
     return new HTMLElementSSR(tag)
   }
 
-  // @ts-ignore
-  createElementNS(URI: string, tag: string) {
+  createElementNS(_URI: string, tag: string) {
     return new HTMLElementSSR(tag)
   }
 
   createTextNode(text: string) {
     return text
+  }
+
+  querySelector(_query: any) {
+    return undefined
   }
 }
