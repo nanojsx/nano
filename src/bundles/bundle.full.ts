@@ -1,5 +1,5 @@
 // core
-import { h, render, hydrate, removeAllChildNodes, renderComponent, tick } from '../core'
+import { h, render, hydrate, removeAllChildNodes, renderComponent, tick, task } from '../core'
 import { hydrateLazy } from '../lazy'
 import { nodeToString } from '../helpers'
 
@@ -29,6 +29,7 @@ export default {
   render,
   renderComponent,
   tick,
+  task,
   Component,
   Fragment,
   Helmet,
