@@ -50,11 +50,16 @@ export class Component<P = any, S = any> {
   }
 
   public set elements(e: HTMLCollection) {
+    // if the component has nothing to render
+    if (!e) return
+
     // if fragment, return first child node
     // @ts-ignore
     if (e.props) e = filterDomElements(e.props.children)
+
     // @ts-ignore
     if (e.tagName) e = [e]
+
     this._elements = e
   }
 

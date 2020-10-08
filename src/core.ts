@@ -38,10 +38,13 @@ export const appendChildren = (element: any, children: any) => {
     else {
       // render the component
       let c = renderComponent(child) as HTMLElement
-      // if c is an array of children, append them instead
-      if (Array.isArray(c)) appendChildren(element, c)
-      // apply the component to parent element
-      else element.appendChild(c.nodeType == null ? document.createTextNode(c.toString()) : c)
+
+      if (typeof c !== 'undefined') {
+        // if c is an array of children, append them instead
+        if (Array.isArray(c)) appendChildren(element, c)
+        // apply the component to parent element
+        else element.appendChild(c.nodeType == null ? document.createTextNode(c.toString()) : c)
+      }
     }
   })
 }
@@ -80,7 +83,7 @@ export const render = (component: any, parent: HTMLElement | null = null, remove
     if (removeChildNodes) removeAllChildNodes(parent)
 
     // if parent and child are the same, we replace the parent instead of appending to it
-    if (parent.id && parent.id === el.id) {
+    if (el && parent.id && parent.id === el.id) {
       // @ts-ignore
       parent.parentElement.replaceChild(el, parent)
     } else {
@@ -124,7 +127,7 @@ export const renderComponent = (component: { component: any; props?: any; tagNam
     const Component = new component(props, strToHash(component.toString()))
 
     Component.willMount()
-    el = Component.elements = Component.render()
+    el = Component.elements = Component.render() || []
 
     // @ts-ignore
     if (typeof isSSR === 'undefined')
@@ -152,7 +155,7 @@ export const renderComponent = (component: { component: any; props?: any; tagNam
       .join('')
   }
 
-  if (el.component) return renderComponent(el) as HTMLElement
+  if (el && el.component) return renderComponent(el) as HTMLElement
   return el
 }
 
