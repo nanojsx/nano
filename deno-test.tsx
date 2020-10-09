@@ -1,5 +1,5 @@
-import * as Nano from './mod.ts'
-import { Component, renderSSR, Helmet } from './mod.ts'
+import * as Nano from './deno_lib/mod.ts'
+import { Component, renderSSR, Helmet } from './deno_lib/mod.ts'
 
 class Hello extends Component {
   render() {

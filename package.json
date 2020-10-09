@@ -49,7 +49,7 @@
   "devDependencies": {
     "@types/jest": "^26.0.14",
     "@types/node": "^14.11.8",
-    "denoify": "^0.3.8",
+    "denoify": "^0.5.10",
     "jest": "^26.5.2",
     "jsdom": "^16.4.0",
     "live-server": "^1.2.1",
