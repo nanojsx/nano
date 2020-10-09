@@ -44,7 +44,7 @@
   "bugs": {
     "url": "https://github.com/nanojsx/nano/issues"
   },
-  "homepage": "https://nanojsx.github.io/",
+  "homepage": "http://nanojsx.io/",
   "dependencies": {},
   "devDependencies": {
     "@types/jest": "^26.0.14",

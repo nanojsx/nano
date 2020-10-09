@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://nanojsx.github.io/">
+  <a href="http://nanojsx.io/">
     <img src="readme/nano-jsx-logo.svg" alt="Nano JSX Logo" width="350"/>
   </a>
 </p>
@@ -25,7 +25,7 @@
 
 ## Getting Started
 
-- Visit the [website](https://nanojsx.github.io/)
+- Visit the [website](http://nanojsx.io/)
 - Download the [template](https://github.com/nanojsx/template)
 - Checkout the [sandbox](https://codepen.io/yandeu/pen/MWKMmbq)
 
@@ -75,4 +75,4 @@ The best about Nano JSX is the **small bundle size**. It builds, although is sou
 
 ## Documentation
 
-Checkout the [website](https://nanojsx.github.io/) to find out more!
+Checkout the [website](http://nanojsx.io/) to find out more!
