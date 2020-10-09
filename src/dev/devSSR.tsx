@@ -1,78 +1,65 @@
-import Nano, { Img, Helmet } from '../index'
-import { Fragment } from '../fragment'
+import * as Nano from '../core'
+import { renderSSR } from '../ssr'
+import { Component } from '../component'
+import { Helmet } from '../components/helmet'
 
-const AnotherChild = () => {
-  return (
-    <Fragment>
-      <Helmet>
-        <style>
-          {`
-              .should-be-in-head {
-                yes: please;
-              }
-            `}
-        </style>
-      </Helmet>
-    </Fragment>
-  )
+// @ts-ignore
+import fs from 'fs'
+// @ts-ignore
+import { join } from 'path'
+// @ts-ignore
+import http from 'http'
+
+class App extends Component {
+  render() {
+    return <div>Nano JSX App</div>
+  }
 }
 
-const Child = () => {
-  return (
-    <div>
-      <h1>SSR</h1>
-      <Helmet>
-        <style>
-          {`{
-          .helo {
-            color:red;
-          }}`}
-        </style>
-      </Helmet>
-    </div>
-  )
-}
-
-const App = () => {
-  return (
-    <div>
-      <Helmet>
-        <title>some title</title>
-        <meta name="description" content="Nano-JSX application" />
-        <style>
-          {`thj
-          is
-          on mublitp
-          line`}
-        </style>
-      </Helmet>
-      <AnotherChild />
-      <Img href="some-url" placeholder="placeholder-url" />
-      <Helmet footer>
-        <title>some title</title>
-        <meta name="description" content="Nano-JSX application" />
-      </Helmet>
-      <div>
-        <Child />
-      </div>
-    </div>
-  )
-}
-
-const app = Nano.renderSSR(<App />)
+const app = renderSSR(<App />)
 const { body, head, footer } = Helmet.SSR(app)
 
-const html = `
+let html = `
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      body { 
+        font-family: BlinkMacSystemFont, -apple-system, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      }
+     </style>
     ${head.join('\n')}
   </head>
   <body>
-    ${body}
+    <div id="root">
+      ${body}
+    </div>
   </body>
   ${footer.join('\n')}
 </html>
 `
 
-console.log('html', html)
+// minify
+// html = html.replace(/[\s]+/gm, ' ')
+
+http
+  .createServer((req: any, res: any) => {
+    const { url } = req
+
+    if (/\.html$/.test(url)) return res.end(html)
+
+    // @ts-ignore
+    const path = join(__dirname, '../../', url)
+
+    fs.readFile(path, (err: any, data: any) => {
+      if (err) {
+        res.writeHead(404)
+        return res.end(data)
+      }
+      const type = /\.png$/.test(url) ? 'image/png' : 'image/svg+xml'
+      res.setHeader('Content-Type', type)
+      return res.end(data)
+    })
+  })
+  .listen(8080, () => console.log('open http://localhost:8080/index.html in your browser'))

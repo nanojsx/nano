@@ -6,6 +6,7 @@ module.exports = {
     core: './src/bundles/bundle.core.ts',
     slim: './src/bundles/bundle.slim.ts',
     full: './src/bundles/bundle.full.ts',
+    ui: './src/bundles/bundle.ui.ts'
   },
   output: {
     filename: 'nano.[name].min.js',

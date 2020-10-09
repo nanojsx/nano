@@ -10,5 +10,6 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["/**/*"]
+  // "include": ["/**/*"],
+  "exclude": ["node_modules", "**/*.spec.ts"]
 }

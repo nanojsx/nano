@@ -1,7 +1,9 @@
 export const Empty = []
 
+/** Creates a new microtasks using Promise() */
 export const tick = typeof Promise == 'function' ? Promise.prototype.then.bind(Promise.resolve()) : setTimeout
 
+/** Creates a new Task using setTimeout() */
 export const task = (task: () => void) => setTimeout(task, 0)
 
 // https://stackoverflow.com/a/7616484/12656855
