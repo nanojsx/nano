@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="../bundles/nano.dev.min.js"></script>
+  </head>
+  <body>
+    <style>
+      body {
+        font-family: BlinkMacSystemFont, -apple-system, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Fira Sans',
+          'Droid Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+    <div id="root"></div>
+
+    <script>
+      const { render, Link, jsx, UI } = nanoJSX
+      const { AppBar, Toolbar, Navigation, NavigationAction, Button, List, ListItem } = UI
+
+      const names = ['Tayla', 'Beau', 'Nella', 'Britany', 'Cheryl', 'Aliza', 'Steven', 'Riley']
+
+      const Names = (props) => {
+        return jsx`
+          <${List}>
+            ${names.map((name) => {
+              return jsx`<${ListItem}>${name}</${ListItem}>`
+            })}
+          </${List}>`
+      }
+
+      const App = () => {
+        return jsx`
+        <div>
+          <${AppBar}>
+            <${Toolbar} menu title="Home Page" />
+          </${AppBar}>
+
+          <div style="padding: 16px 16px 64px; margin-top: 56px; margin-bottom: 56px;">
+
+            <!-- Listen for the click event -->
+            <h2 onClick="${() => console.log('click')}">List of names</h2>
+
+            <!-- Render the Names component -->
+            <${Names} />
+            
+            <!-- Use the built-in Link component -->
+            <${Link} prefetch="hover" href="https://geckosio.github.io/">
+              <${Button}>Link</${Button}>
+            </${Link}>
+
+          </div>
+
+          <${Navigation}>
+            <${NavigationAction} label="Home"       icon="/dev/font-awesome/home-solid.svg"  active=${true} />
+            <${NavigationAction} label="About"      icon="/dev/font-awesome/user-solid.svg"  active=${false} />
+            <${NavigationAction} label="Favorites"  icon="/dev/font-awesome/heart-solid.svg" active=${false} />
+         </${Navigation}>
+
+        </div>`
+      }
+
+      render(App, document.getElementById('root'))
+    </script>
+  </body>
+</html>

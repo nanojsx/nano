@@ -34,6 +34,7 @@ export class NavigationAction extends Component<ActionProps> {
     const label = h('span', { class: classes.label }, this.props.label)
 
     const actionClasses = [classes.action]
+    console.log(this.props.active)
     if (this.props.active) actionClasses.push(classes.initialActive)
     else actionClasses.push(classes.inactive)
 

@@ -1,5 +1,6 @@
 // UI Elements
 import { AppBar } from '../ui/appBar'
+import { Toolbar } from '../ui/toolbar'
 import { Navigation, NavigationAction } from '../ui/navigation'
 import { Button } from '../ui/button'
 import { Dialog } from '../ui/dialog'
@@ -11,6 +12,7 @@ import { Snackbar } from '../ui/snackbar'
 
 export default {
   AppBar,
+  Toolbar,
   Navigation,
   NavigationAction,
   Button,

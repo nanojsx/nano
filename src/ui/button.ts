@@ -43,7 +43,6 @@ export const Button = (props: {
       margin: 0px 0px 1em 0px;
       text-align: center;
       cursor: pointer;
-      display: flex;
 
       ${userSelect}
       

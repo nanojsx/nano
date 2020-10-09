@@ -18,6 +18,9 @@ import { Visible } from '../components/visible'
 // tagged templates
 import { jsx } from '../jsx'
 
+// ui
+import * as UI from '../ui/index'
+
 export default {
   createContext,
   h,
@@ -37,4 +40,5 @@ export default {
   Link,
   Store,
   Visible,
+  UI,
 }
