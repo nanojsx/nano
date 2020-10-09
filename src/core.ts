@@ -1,3 +1,5 @@
+import { VERSION } from './version'
+
 export const Empty = []
 
 /** Creates a new microtasks using Promise() */
@@ -222,3 +224,14 @@ export const h = (tagNameOrComponent: any, props: any, ...children: any) => {
   if (element.ssr) return element.ssr
   return element
 }
+
+const info = `Powered by nano JSX v${VERSION}`
+console.log(
+  `%c %c %c %c %c ${info} %c http://nanojsx.io/`,
+  'background: #ff0000',
+  'background: #ffff00',
+  'background: #00ff00',
+  'background: #00ffff',
+  'color: #fff; background: #000000;',
+  'background: none'
+)
