@@ -1,5 +1,5 @@
 import { Component } from '../component'
-import { h, render } from '../core'
+import { h } from '../core'
 
 const classes = {
   bar: 'toolbar_container',
@@ -9,8 +9,9 @@ const classes = {
 }
 interface ToolbarProps {
   menu?: boolean
+  back?: boolean
   title?: string
-  icons?: any
+  children?: any
 }
 
 export class Toolbar extends Component<ToolbarProps> {
@@ -20,9 +21,16 @@ export class Toolbar extends Component<ToolbarProps> {
         padding: 16px;
       }
 
-      .toolbar_container i.toolbar_icon {
+      .toolbar_container .toolbar_text {
+        font-size: 20px;
+        margin-left: 24px;
+      }
+
+      .toolbar_container .toolbar_icon {
         width: 22px;
         height: 22px;
+        margin-left: 24px;
+
         display: inline-block;
         content: '';
 
@@ -44,8 +52,8 @@ export class Toolbar extends Component<ToolbarProps> {
       }
 
       .toolbar_hamburger_button,
-      .toolbar_hamburger_button_hamburger_button::before,
-      .toolbar_hamburger_button_hamburger_button::after {
+      .toolbar_hamburger_button::before,
+      .toolbar_hamburger_button::after {
         position: absolute;
         width: 20px;
         height: 2px;
@@ -88,22 +96,18 @@ export class Toolbar extends Component<ToolbarProps> {
     const styleElement = h('style', {}, styles)
     document.head.appendChild(styleElement)
 
-    // const hamburger = h('div', { class: 'bar_hamburger_button' })
-    const back = h('div', { class: 'toolbar_back_button' })
+    const navigationAction = this.props.menu
+      ? h('div', { class: 'toolbar_hamburger_button' })
+      : this.props.back
+      ? h('div', { class: 'toolbar_back_button' })
+      : null
 
-    const navigation = this.props.menu ? h('div', { class: 'toolbar_navigation_box' }, back) : null
+    const navigation = navigationAction ? h('div', { class: 'toolbar_navigation_box' }, navigationAction) : null
 
     const title = this.props.title ? h('div', { class: 'toolbar_title' }, this.props.title) : null
 
-    const icons = this.props.icons
-      ? Object.keys(this.props.icons).map((key) => {
-          const icon = this.props.icons[key]
-          return render(icon)
-        })
-      : []
-
     const left = h('div', { class: classes.left }, navigation, title)
-    const right = h('div', { class: classes.right }, ...icons)
+    const right = h('div', { class: classes.right }, this.props.children)
 
     const bar = h('div', { class: classes.bar }, left, right)
 

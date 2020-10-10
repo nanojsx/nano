@@ -19,7 +19,7 @@
 
     <script>
       const { render, Link, jsx, UI } = nanoJSX
-      const { AppBar, Toolbar, Navigation, NavigationAction, Button, List, ListItem } = UI
+      const { AppBar, Toolbar, Navigation, NavigationAction, Button, List, ListItem, Icon } = UI
 
       const names = ['Tayla', 'Beau', 'Nella', 'Britany', 'Cheryl', 'Aliza', 'Steven', 'Riley']
 
@@ -36,7 +36,21 @@
         return jsx`
         <div>
           <${AppBar}>
-            <${Toolbar} menu title="Home Page" />
+            <${Toolbar} menu title="Home Page">
+            
+              <div class="toolbar_text">Text</div>
+
+              <${Icon} 
+                onClick=${() => {
+                  console.log('click')
+                }} 
+                class="toolbar_icon" 
+                color="white" 
+                src="/dev/font-awesome/ellipsis-v-solid.svg" />
+              
+              <${Icon} class="toolbar_icon" color="white" src="/dev/font-awesome/heart-solid.svg" />
+
+            </${Toolbar}>
           </${AppBar}>
 
           <div style="padding: 16px 16px 64px; margin-top: 56px; margin-bottom: 56px;">
