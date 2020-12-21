@@ -5,9 +5,10 @@
   "main": "lib/index.js",
   "scripts": {
     "start": "npm run dev",
+    "version": "node scripts/version.js",
     "deno": "deno run -c tsconfig.json deno-test.tsx",
-    "denoify": "rimraf deno_lib && tsc && denoify",
-    "tsc": "tsc --project tsconfig.json",
+    "denoify": "rimraf deno_lib && npm run tsc && denoify",
+    "tsc": "npm run version && tsc --project tsconfig.json",
     "build": "npm run tsc",
     "bundle": "webpack --config webpack/webpack.bundle.prod.js",
     "dev": "npm run build && npm-run-all --parallel dev:*",
