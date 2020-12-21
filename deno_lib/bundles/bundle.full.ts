@@ -1,5 +1,5 @@
 // core
-import { h, render, hydrate, removeAllChildNodes, renderComponent, tick } from '../core.ts'
+import { h, render, hydrate, removeAllChildNodes, renderComponent, tick, task } from '../core.ts'
 import { hydrateLazy } from '../lazy.ts'
 import { nodeToString } from '../helpers.ts'
 
@@ -18,6 +18,9 @@ import { Visible } from '../components/visible.ts'
 // tagged templates
 import { jsx } from '../jsx.ts'
 
+// ui
+import * as UI from '../ui/index.ts'
+
 export default {
   createContext,
   h,
@@ -29,6 +32,7 @@ export default {
   render,
   renderComponent,
   tick,
+  task,
   Component,
   Fragment,
   Helmet,
@@ -36,4 +40,5 @@ export default {
   Link,
   Store,
   Visible,
+  UI,
 }

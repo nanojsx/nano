@@ -1,21 +1,29 @@
 import { Component } from '../component.ts'
-import { h } from '../core.ts'
+import { h, strToHash } from '../core.ts'
 
 export class Img extends Component {
-  isLoaded = false
-  image: HTMLImageElement
+  constructor(props: any) {
+    const { src, key } = props
+    const id = key ? key : src ? src : 'none'
+
+    // key has be be unique, by default key is the image src
+    super(props, strToHash(id))
+
+    // this could also be done in willMount()
+    if (!this.state) this.setState({ isLoaded: false, image: undefined })
+  }
 
   didMount() {
-    const { placeholder, children, ...rest } = this.props
+    const { placeholder, children, key, ...rest } = this.props
 
     const observer = new IntersectionObserver(
       (entries, observer) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             observer.disconnect()
-            this.image = h('img', { ...rest }) as HTMLImageElement
-            this.image.onload = () => {
-              this.isLoaded = true
+            this.state.image = h('img', { ...rest }) as HTMLImageElement
+            this.state.image.onload = () => {
+              this.state.isLoaded = true
               this.update()
             }
           }
@@ -26,14 +34,14 @@ export class Img extends Component {
     observer.observe(this.elements[0])
   }
   render() {
-    const { src, placeholder, children, lazy = true, ...rest } = this.props
+    const { src, placeholder, children, lazy = true, key, ...rest } = this.props
 
     // return the img tag if not lazy loaded
     if (typeof lazy === 'boolean' && lazy === false) return h('img', { src, ...rest }) as HTMLImageElement
 
     // if it is visible and loaded, show the image
-    if (this.isLoaded) {
-      return this.image
+    if (this.state.isLoaded) {
+      return this.state.image
       // if the placeholder is an image src
     } else if (placeholder && typeof placeholder === 'string') {
       return h('img', { src: placeholder, ...rest })

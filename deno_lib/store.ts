@@ -19,23 +19,29 @@ export class Store {
 
     this._state = this._prevState = defaultState as any
 
-    if (storage === 'memory' || typeof localStorage === 'undefined') return
+    if (storage === 'memory' || !storage) return
 
     const Storage = storage === 'local' ? localStorage : sessionStorage
 
-    // get initial state from local or sessionStorage
-    if (storage === 'local') {
-      const item = Storage.getItem(this._id)
-      if (item) {
-        this._state = this._prevState = JSON.parse(item)
-      } else Storage.setItem(this._id, JSON.stringify(defaultState))
-    }
+    // get/set initial state of Storage
+    const item = Storage.getItem(this._id)
+    if (item) {
+      this._state = this._prevState = JSON.parse(item)
+    } else Storage.setItem(this._id, JSON.stringify(defaultState))
   }
 
   private persist(newState: any) {
     if (this._storage === 'memory') return
     const Storage = this._storage === 'local' ? localStorage : sessionStorage
     Storage.setItem(this._id, JSON.stringify(newState))
+  }
+
+  /** Clears the state of the whole store. */
+  public clear() {
+    this._state = this._prevState = undefined
+
+    if (this._storage === 'local') localStorage.removeItem(this._id)
+    else if (this._storage === 'session') sessionStorage.removeItem(this._id)
   }
 
   public setState(newState: any) {

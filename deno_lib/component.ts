@@ -6,14 +6,14 @@ const filterDomElements = (el: any[]) => {
   return el.filter((e: any) => e && e.tagName)
 }
 
-export class Component {
+export class Component<P = any, S = any> {
   private _state: any = undefined
   private _elements: HTMLCollection
   private _skipUnmount = false
   private _id: string
 
-  constructor(public props: any, _hash: string) {
-    this._id = _hash
+  constructor(public props: P, id: string) {
+    this._id = id.toString()
   }
 
   set id(id: string) {
@@ -24,13 +24,13 @@ export class Component {
     return this._id
   }
 
-  setState(state: any, shouldUpdate: boolean = false) {
+  setState(state: S, shouldUpdate: boolean = false) {
     this._state = state
     if (this._id) _state.set(this._id, state)
     if (shouldUpdate) this.update()
   }
 
-  set state(state: any) {
+  set state(state: S) {
     if (!this._id) {
       console.warn('Please set an id before using state')
       return
@@ -40,8 +40,8 @@ export class Component {
   }
 
   get state() {
-    if (this._id) return _state.get(this._id)
-    else return this._state
+    if (this._id) return _state.get(this._id) as S
+    else return this._state as S
   }
 
   /** Returns all currently rendered node elements */
@@ -50,11 +50,16 @@ export class Component {
   }
 
   public set elements(e: HTMLCollection) {
+    // if the component has nothing to render
+    if (!e) return
+
     // if fragment, return first child node
     // @ts-ignore
     if (e.props) e = filterDomElements(e.props.children)
+
     // @ts-ignore
     if (e.tagName) e = [e]
+
     this._elements = e
   }
 
@@ -84,8 +89,7 @@ export class Component {
   public didMount(): any {}
   public didUnmount(): any {}
 
-  // @ts-ignore
-  public render(update?: any): HTMLElement | void {}
+  public render(_update?: any): HTMLElement | void {}
 
   /** Will forceRender the component */
   public update(update?: any) {
@@ -97,11 +101,18 @@ export class Component {
       else return el
     }
 
+    const _objectToComponent = (obj: any) => {
+      if (obj && obj.component) return renderComponent(obj)
+      else return obj
+    }
+
     // get all current rendered node elements
     const nodeElements = this.elementsArray
 
     //  get new child elements as array
-    const r = this.render(update)
+    let r = this.render(update) as any
+    r = _objectToComponent(r)
+
     const rendered = toArray(r)
 
     // get valid parent node
@@ -109,9 +120,8 @@ export class Component {
 
     // add all new node elements
     rendered.forEach((r: HTMLElement) => {
-      // @ts-ignore
-      if (r && r.component) r = renderComponent(r) as HTMLElement
-      if (r && r.tagName) parent.insertBefore(r, nodeElements[0])
+      r = _objectToComponent(r)
+      if (r.tagName) parent.insertBefore(r, nodeElements[0])
     })
 
     // remove all elements

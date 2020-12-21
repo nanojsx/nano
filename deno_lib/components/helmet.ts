@@ -9,6 +9,19 @@ export class Helmet extends Component {
     let head: string[] = []
     let footer: string[] = []
 
+    // get what's in the head
+    if (typeof document !== 'undefined' && document.head) {
+      let children: string[] = []
+      // @ts-ignore
+      children = document.head.children
+      for (let i = 0; i < children.length; i++) {
+        // check if the same element already exists
+        if (head.indexOf(children[i]) === -1) {
+          head.push(children[i])
+        }
+      }
+    }
+
     let result
     while ((result = reg.exec(body)) !== null) {
       const first = result[1]
@@ -87,11 +100,12 @@ export class Helmet extends Component {
   }
 
   render() {
-    const isSSR = !(typeof window !== 'undefined' && window.document)
-
     const placement = this.props.footer ? 'footer' : 'head'
 
-    if (isSSR) return h('helmet', { 'data-ssr': true, 'data-placement': placement }, this.props.children)
+    // @ts-ignore
+    const ssr = globalThis && globalThis.isSSR ? true : false
+
+    if (ssr) return h('helmet', { 'data-ssr': true, 'data-placement': placement }, this.props.children)
     else return [] as any
   }
 }

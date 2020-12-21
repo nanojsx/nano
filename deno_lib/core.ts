@@ -1,9 +1,22 @@
+declare const isSSR: boolean
+
+export interface FC<P = {}> {
+  (props: P): any
+  // (props: P, context?: any): any
+}
+
+import { VERSION } from './version.ts'
+
 export const Empty = []
 
+/** Creates a new microtasks using Promise() */
 export const tick = typeof Promise == 'function' ? Promise.prototype.then.bind(Promise.resolve()) : setTimeout
 
+/** Creates a new Task using setTimeout() */
+export const task = (task: () => void) => setTimeout(task, 0)
+
 // https://stackoverflow.com/a/7616484/12656855
-const strToHash = (s: string) => {
+export const strToHash = (s: string) => {
   let hash = 0
 
   for (let i = 0; i < s.length; i++) {
@@ -36,10 +49,13 @@ export const appendChildren = (element: any, children: any) => {
     else {
       // render the component
       let c = renderComponent(child) as HTMLElement
-      // if c is an array of children, append them instead
-      if (Array.isArray(c)) appendChildren(element, c)
-      // apply the component to parent element
-      else element.appendChild(c.nodeType == null ? document.createTextNode(c.toString()) : c)
+
+      if (typeof c !== 'undefined') {
+        // if c is an array of children, append them instead
+        if (Array.isArray(c)) appendChildren(element, c)
+        // apply the component to parent element
+        else element.appendChild(c.nodeType == null ? document.createTextNode(c.toString()) : c)
+      }
     }
   })
 }
@@ -78,8 +94,7 @@ export const render = (component: any, parent: HTMLElement | null = null, remove
     if (removeChildNodes) removeAllChildNodes(parent)
 
     // if parent and child are the same, we replace the parent instead of appending to it
-    if (parent.id && parent.id === el.id) {
-      // @ts-ignore
+    if (el && parent.id && parent.id === el.id && parent.parentElement) {
       parent.parentElement.replaceChild(el, parent)
     } else {
       // append element(s) to the parent
@@ -97,7 +112,6 @@ export const render = (component: any, parent: HTMLElement | null = null, remove
   }
   // returning one child or an array of children
   else {
-    // @ts-ignore
     if (typeof isSSR === 'boolean' && isSSR === true && !Array.isArray(el)) return [el]
     return el
   }
@@ -122,12 +136,8 @@ export const renderComponent = (component: { component: any; props?: any; tagNam
     const Component = new component(props, strToHash(component.toString()))
 
     Component.willMount()
+    el = Component.elements = Component.render() || []
 
-    el = Component.render()
-
-    Component.elements = el
-
-    // @ts-ignore
     if (typeof isSSR === 'undefined')
       tick(() => {
         Component._didMount()
@@ -144,7 +154,6 @@ export const renderComponent = (component: { component: any; props?: any; tagNam
   }
 
   // this fixes some ssr issues when using fragments
-  // @ts-ignore
   if (typeof isSSR === 'boolean' && isSSR === true && Array.isArray(el)) {
     el = el
       .map((e) => {
@@ -153,13 +162,11 @@ export const renderComponent = (component: { component: any; props?: any; tagNam
       .join('')
   }
 
-  if (el.component) return renderComponent(el) as HTMLElement
+  if (el && el.component) return renderComponent(el) as HTMLElement
   return el
 }
 
-export const hNS = (tag: string) => {
-  return document.createElementNS('http://www.w3.org/2000/svg', tag) as SVGElement
-}
+export const hNS = (tag: string) => document.createElementNS('http://www.w3.org/2000/svg', tag) as SVGElement
 
 // https://stackoverflow.com/a/42405694/12656855
 export const h = (tagNameOrComponent: any, props: any, ...children: any) => {
@@ -173,6 +180,18 @@ export const h = (tagNameOrComponent: any, props: any, ...children: any) => {
     tagNameOrComponent === 'svg'
       ? (hNS('svg') as SVGElement)
       : (document.createElement(tagNameOrComponent) as HTMLElement)
+
+  // check if the element includes the event (for example 'oninput')
+  const isEvent = (el: HTMLElement | any, p: string) => {
+    // check if the event begins with 'on'
+    if (0 !== p.indexOf('on')) return false
+
+    // we return true if SSR, since otherwise it will get rendered
+    if (el.ssr) return true
+
+    // check if the event is present in the element as object (null) or as function
+    return typeof el[p] === 'object' || typeof el[p] === 'function'
+  }
 
   for (const p in props) {
     // https://stackoverflow.com/a/45205645/12656855
@@ -188,8 +207,9 @@ export const h = (tagNameOrComponent: any, props: any, ...children: any) => {
     // handel ref
     if (p === 'ref') ref = props[p]
     // handle events
-    else if (/^on[A-Z]\w+$/gm.test(p)) element.addEventListener(p.toLowerCase().substring(2), (e: any) => props[p](e))
-    // else if (/className/i.test(p)) console.warn('You can use "class" instead of "className".')
+    else if (isEvent(element, p.toLowerCase()))
+      element.addEventListener(p.toLowerCase().substring(2), (e: any) => props[p](e))
+    else if (/className/i.test(p)) console.warn('You can use "class" instead of "className".')
     else element.setAttribute(p, props[p])
   }
 
@@ -207,3 +227,14 @@ export const h = (tagNameOrComponent: any, props: any, ...children: any) => {
   if (element.ssr) return element.ssr
   return element
 }
+
+const info = `Powered by nano JSX v${VERSION}`
+console.log(
+  `%c %c %c %c %c ${info} %c http://nanojsx.io/`,
+  'background: #ff0000',
+  'background: #ffff00',
+  'background: #00ff00',
+  'background: #00ffff',
+  'color: #fff; background: #000000;',
+  'background: none'
+)

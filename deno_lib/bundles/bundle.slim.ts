@@ -1,5 +1,5 @@
 // core
-import { h, render, hydrate, tick } from '../core.ts'
+import { h, render, hydrate, tick, task } from '../core.ts'
 import { hydrateLazy } from '../lazy.ts'
 
 // useful tools
@@ -19,6 +19,7 @@ export default {
   jsx,
   render,
   tick,
+  task,
   Component,
   Fragment,
   Store,
