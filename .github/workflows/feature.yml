@@ -1,10 +1,13 @@
-name: CI
+name: Feature
 
 on:
   push:
-    branches:
+    branches-ignore:
       - main
       - master
+  pull_request:
+    branches:
+      - '**'
 
 jobs:
   build:
@@ -27,6 +30,7 @@ jobs:
           npm install
           npm run build
           npm test
-      - uses: codecov/codecov-action@v1
+        # Don't publish codecov for feature branches
+        # - uses: codecov/codecov-action@v1
         env:
           CI: true
