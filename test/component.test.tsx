@@ -108,12 +108,14 @@ test('should render without errors', async (done) => {
 
 test('should render without errors', async (done) => {
   class Test extends Component {
-    id = this.props.index
-    state = { number: this.props.index }
+    willMount() {
+      this.id = this.props.index
+      this.state = { number: this.props.index }
+    }
 
     didMount() {
       setTimeout(() => {
-        this.state = { ...this.state, number: this.state.number += 0.1 }
+        this.state = { ...this.state, number: (this.state.number += 0.1) }
         this.update()
       }, Math.random() * 1000 + 200)
     }
