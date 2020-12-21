@@ -89,8 +89,7 @@ export class Component<P = any, S = any> {
   public didMount(): any {}
   public didUnmount(): any {}
 
-  // @ts-ignore
-  public render(update?: any): HTMLElement | void {}
+  public render(_update?: any): HTMLElement | void {}
 
   /** Will forceRender the component */
   public update(update?: any) {
