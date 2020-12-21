@@ -1,3 +1,5 @@
+declare const isSSR: boolean
+
 import { VERSION } from './version'
 
 export const Empty = []
@@ -87,8 +89,7 @@ export const render = (component: any, parent: HTMLElement | null = null, remove
     if (removeChildNodes) removeAllChildNodes(parent)
 
     // if parent and child are the same, we replace the parent instead of appending to it
-    if (el && parent.id && parent.id === el.id) {
-      // @ts-ignore
+    if (el && parent.id && parent.id === el.id && parent.parentElement) {
       parent.parentElement.replaceChild(el, parent)
     } else {
       // append element(s) to the parent
@@ -106,7 +107,6 @@ export const render = (component: any, parent: HTMLElement | null = null, remove
   }
   // returning one child or an array of children
   else {
-    // @ts-ignore
     if (typeof isSSR === 'boolean' && isSSR === true && !Array.isArray(el)) return [el]
     return el
   }
@@ -133,7 +133,6 @@ export const renderComponent = (component: { component: any; props?: any; tagNam
     Component.willMount()
     el = Component.elements = Component.render() || []
 
-    // @ts-ignore
     if (typeof isSSR === 'undefined')
       tick(() => {
         Component._didMount()
@@ -150,7 +149,6 @@ export const renderComponent = (component: { component: any; props?: any; tagNam
   }
 
   // this fixes some ssr issues when using fragments
-  // @ts-ignore
   if (typeof isSSR === 'boolean' && isSSR === true && Array.isArray(el)) {
     el = el
       .map((e) => {

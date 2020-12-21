@@ -1,8 +1,3 @@
-// @ts-ignore
-const isDeno = typeof Deno !== 'undefined'
-const hasWindow = typeof window !== 'undefined' && window.document
-export const isSSR = !hasWindow || isDeno
-
 export const nodeToString = (node: any) => {
   const tmpNode = document.createElement('div')
   tmpNode.appendChild(node.cloneNode(true))

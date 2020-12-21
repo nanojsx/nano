@@ -1,7 +1,11 @@
 import { render } from './core'
-import { isSSR } from './helpers'
 
 const initSSR = () => {
+  // @ts-ignore
+  const isDeno = typeof Deno !== 'undefined'
+  const hasWindow = typeof window !== 'undefined' && window.document ? true : false
+  const isSSR = !hasWindow || isDeno
+
   // @ts-ignore
   globalThis.isSSR = isSSR
   // @ts-ignore

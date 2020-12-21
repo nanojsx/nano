@@ -1,6 +1,5 @@
 import { Component } from '../component'
 import { appendChildren, h } from '../core'
-import { isSSR } from '../helpers'
 
 export class Helmet extends Component {
   static SSR(body: string) {
@@ -103,7 +102,10 @@ export class Helmet extends Component {
   render() {
     const placement = this.props.footer ? 'footer' : 'head'
 
-    if (isSSR) return h('helmet', { 'data-ssr': true, 'data-placement': placement }, this.props.children)
+    // @ts-ignore
+    const ssr = globalThis && globalThis.isSSR ? true : false
+
+    if (ssr) return h('helmet', { 'data-ssr': true, 'data-placement': placement }, this.props.children)
     else return [] as any
   }
 }
