@@ -102,11 +102,18 @@ export class Component<P = any, S = any> {
       else return el
     }
 
+    const _objectToComponent = (obj: any) => {
+      if (obj && obj.component) return renderComponent(obj)
+      else return obj
+    }
+
     // get all current rendered node elements
     const nodeElements = this.elementsArray
 
     //  get new child elements as array
-    const r = this.render(update)
+    let r = this.render(update) as any
+    r = _objectToComponent(r)
+
     const rendered = toArray(r)
 
     // get valid parent node
@@ -114,9 +121,8 @@ export class Component<P = any, S = any> {
 
     // add all new node elements
     rendered.forEach((r: HTMLElement) => {
-      // @ts-ignore
-      if (r && r.component) r = renderComponent(r) as HTMLElement
-      if (r && r.tagName) parent.insertBefore(r, nodeElements[0])
+      r = _objectToComponent(r)
+      if (r.tagName) parent.insertBefore(r, nodeElements[0])
     })
 
     // remove all elements
