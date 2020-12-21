@@ -1,5 +1,10 @@
 declare const isSSR: boolean
 
+export interface FC<P = {}> {
+  (props: P): any
+  // (props: P, context?: any): any
+}
+
 import { VERSION } from './version'
 
 export const Empty = []
