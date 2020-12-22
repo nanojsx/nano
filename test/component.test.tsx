@@ -107,9 +107,13 @@ test('should render without errors', async (done) => {
 })
 
 test('should render without errors', async (done) => {
-  class Test extends Component {
-    willMount() {
-      this.id = this.props.index
+  interface TestProps {
+    index: number
+  }
+  class Test extends Component<TestProps> {
+    constructor(props: TestProps) {
+      super(props)
+      this.id = this.props.index.toString()
       this.state = { number: this.props.index }
     }
 

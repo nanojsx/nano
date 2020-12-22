@@ -6,14 +6,14 @@ const filterDomElements = (el: any[]) => {
   return el.filter((e: any) => e && e.tagName)
 }
 
-export class Component<P = any, S = any> {
+export class Component<P extends Object = any, S = any> {
   private _state: any = undefined
   private _elements: HTMLCollection
   private _skipUnmount = false
   private _id: string
 
-  constructor(public props: P, id: string) {
-    this._id = id.toString()
+  constructor(public props: P, id?: string) {
+    if (id) this._id = id.toString()
   }
 
   set id(id: string) {
