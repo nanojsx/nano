@@ -117,11 +117,12 @@ export const render = (component: any, parent: HTMLElement | null = null, remove
   }
 }
 
-export const renderComponent = (component: { component: any; props?: any; tagName?: any } | any): any => {
-  // handle undefined, null and svg, and jsx element
+export const renderComponent = (component: any): any => {
+  // handle undefined, null
   if (typeof component === 'undefined') return 'undefined'
   else if (component === null) return []
   else if (component.component === null) return []
+  // handle svg and html elements
   else if (component.tagName) {
     if (component.tagName.toLowerCase() === 'svg') return SVG({ children: [component] })
     else return component
@@ -144,7 +145,7 @@ export const renderComponent = (component: { component: any; props?: any; tagNam
         Component.didMount()
       })
   }
-  //  is  functional component
+  // is functional component
   else if (typeof component === 'function') {
     el = component(props)
   }
@@ -212,13 +213,6 @@ export const h = (tagNameOrComponent: any, props: any, ...children: any) => {
     else if (/className/i.test(p)) console.warn('You can use "class" instead of "className".')
     else element.setAttribute(p, props[p])
   }
-
-  // child is text
-  // if (children.length === 1 && typeof children[0] === 'string') {
-  //   element.innerHTML = children[0]
-  //   if (ref) ref(element)
-  //   return element
-  // }
 
   appendChildren(element, children)
 
