@@ -141,8 +141,8 @@ export class Dialog {
       to {opacity: 1;}
     }
     `
-    const styleElement = h('style', {}, styles)
-    document.head.appendChild(styleElement)
+
+    document.head.appendChild(h('style', {}, styles))
   }
 
   private getParentElement(parentId: string) {

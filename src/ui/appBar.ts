@@ -124,8 +124,7 @@ export class AppBar extends Component<AppBarProps> {
     }
     `
 
-    const styleElement = h('style', {}, styles)
-    document.head.appendChild(styleElement)
+    document.head.appendChild(h('style', {}, styles))
 
     const mergedClass = this.props.autoMerge ? 'appBar_merged' : ''
 

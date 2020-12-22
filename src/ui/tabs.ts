@@ -1,6 +1,7 @@
 import { Component } from '../component'
 import { h, tick, render, strToHash } from '../core'
 import { userSelect, rippleEffect } from './_config'
+import { addStylesToHead } from './_helpers'
 
 interface TabsProps {
   active?: number
@@ -173,11 +174,7 @@ export class Tabs extends Component<TabsProps> {
       }
       `
 
-    const el = document.querySelector(`[data-css-hash*="${cssHash}"]`)
-    if (!el) {
-      const styleElement = h('style', { 'data-css-hash': cssHash }, styles)
-      document.head.appendChild(styleElement)
-    }
+    addStylesToHead(styles, cssHash)
 
     // set the active tab
     this.props.children?.forEach((c, i) => {

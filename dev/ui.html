@@ -19,7 +19,11 @@
 
     <script>
       const { render, Link, jsx, UI } = nanoJSX
-      const { AppBar, Toolbar, Navigation, NavigationAction, Button, List, ListItem, Icon } = UI
+      const { AppBar, Toolbar, Navigation, NavigationAction, Button, List, ListItem, Icon, Tabs, Tab } = UI
+
+      const Container = (props) => {
+        return jsx`<div style="padding: 24px 16px 64px;">${props.children}</div>`
+      }
 
       const names = ['Tayla', 'Beau', 'Nella', 'Britany', 'Cheryl', 'Aliza', 'Steven', 'Riley']
 
@@ -34,23 +38,30 @@
 
       const App = () => {
         return jsx`
-        <div>
+        <${Container}>
           <${AppBar}>
             <${Toolbar} menu title="Home Page">
-            
+
               <div class="toolbar_text">Text</div>
 
-              <${Icon} 
+              <${Icon}
                 onClick=${() => {
                   console.log('click')
-                }} 
-                class="toolbar_icon" 
-                color="white" 
+                }}
+                class="toolbar_icon"
+                color="white"
                 src="/dev/font-awesome/ellipsis-v-solid.svg" />
-              
+
               <${Icon} class="toolbar_icon" color="white" src="/dev/font-awesome/heart-solid.svg" />
 
             </${Toolbar}>
+
+            <${Tabs}>
+              <${Tab}>first</${Tab}>
+              <${Tab}>second</${Tab}>
+              <${Tab}>third</${Tab}>
+            </${Tabs}>
+
           </${AppBar}>
 
           <div style="padding: 16px 16px 64px; margin-top: 56px; margin-bottom: 56px;">
@@ -60,7 +71,7 @@
 
             <!-- Render the Names component -->
             <${Names} />
-            
+
             <!-- Use the built-in Link component -->
             <${Link} prefetch="hover" href="https://geckosio.github.io/">
               <${Button}>Link</${Button}>
@@ -74,7 +85,7 @@
             <${NavigationAction} label="Favorites"  icon="/dev/font-awesome/heart-solid.svg" active=${false} />
          </${Navigation}>
 
-        </div>`
+        </${Container}>`
       }
 
       render(App, document.getElementById('root'))

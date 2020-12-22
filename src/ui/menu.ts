@@ -1,9 +1,6 @@
 import { h, removeAllChildNodes, render } from '../core'
 import { boxShadow, zIndex } from './_config'
-
-// interface MenuItem {
-//   item: any
-// }
+import { addStylesToHead } from './_helpers'
 
 interface MenuOptions {
   position: { x: number; y: number }
@@ -77,14 +74,12 @@ export class Menu {
     }
 
     `
-
     // remove old styles
     const el = document.querySelector(`[data-css-hash*="${this.cssHash}"]`)
     if (el) el.remove()
 
     // add new styles
-    const styleElement = h('style', { 'data-css-hash': this.cssHash }, styles)
-    document.head.appendChild(styleElement)
+    addStylesToHead(styles, this.cssHash)
 
     const itemsList = h('div', { id: `menu_items_list-${this.cssHash}` }, list)
     const itemsBg = h('div', { onClick: () => this.close(), id: `menu_items_background-${this.cssHash}` }, itemsList)

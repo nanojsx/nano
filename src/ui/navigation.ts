@@ -132,8 +132,8 @@ export class Navigation extends Component<NavigationProps> {
         background-color: ${colors.inactive}
       }
     `
-    const styleElement = h('style', {}, styles)
-    document.head.appendChild(styleElement)
+
+    document.head.appendChild(h('style', {}, styles))
 
     const { parentId, children } = this.props
 

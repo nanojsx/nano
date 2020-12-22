@@ -93,8 +93,7 @@ export class Toolbar extends Component<ToolbarProps> {
       }
     `
 
-    const styleElement = h('style', {}, styles)
-    document.head.appendChild(styleElement)
+    document.head.appendChild(h('style', {}, styles))
 
     const navigationAction = this.props.menu
       ? h('div', { class: 'toolbar_hamburger_button' })

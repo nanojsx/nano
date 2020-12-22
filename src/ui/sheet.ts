@@ -1,6 +1,7 @@
 import { Component } from '../component'
 import { h, strToHash, render } from '../core'
 import { boxShadow, zIndex } from './_config'
+import { addStylesToHead } from './_helpers'
 
 interface SheetProps {
   height?: string
@@ -104,11 +105,7 @@ export class Sheet extends Component<SheetProps> {
         color: #000000b0;
       }`
 
-    const el = document.querySelector(`[data-css-hash*="${cssHash}"]`)
-    if (!el) {
-      const styleElement = h('style', { 'data-css-hash': cssHash }, styles)
-      document.head.appendChild(styleElement)
-    }
+    addStylesToHead(styles, cssHash)
 
     let element: HTMLElement
 

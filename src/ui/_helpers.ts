@@ -1,5 +1,6 @@
-// https://gist.github.com/renancouto/4675192
+import { h } from '../core'
 
+// https://gist.github.com/renancouto/4675192
 export const lightenColor = (color: string, percent: number) => {
   let num = parseInt(color.replace('#', ''), 16),
     amt = Math.round(2.55 * percent),
@@ -17,4 +18,12 @@ export const lightenColor = (color: string, percent: number) => {
       .toString(16)
       .slice(1)
   )
+}
+
+export const addStylesToHead = (styles: string, hash: string) => {
+  const el = document.querySelector(`[data-css-hash*="${hash}"]`)
+  if (!el) {
+    const styleElement = h('style', { 'data-css-hash': hash }, styles)
+    document.head.appendChild(styleElement)
+  }
 }

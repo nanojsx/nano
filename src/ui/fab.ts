@@ -1,6 +1,7 @@
 import { Component } from '../component'
 import { h, strToHash } from '../core'
 import { boxShadow, zIndex, userSelect } from './_config'
+import { addStylesToHead } from './_helpers'
 
 interface FabProps {
   onClick?: (e: MouseEvent) => void
@@ -50,11 +51,8 @@ export class Fab extends Component<FabProps> {
         ${userSelect}
       }
     `
-    const el = document.querySelector(`[data-css-hash*="${cssHash}"]`)
-    if (!el) {
-      const styleElement = h('style', { 'data-css-hash': cssHash }, styles)
-      document.head.appendChild(styleElement)
-    }
+
+    addStylesToHead(styles, cssHash)
 
     const { children } = this.props as any
 
