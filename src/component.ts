@@ -89,7 +89,7 @@ export class Component<P extends Object = any, S = any> {
 
     // add all new node elements
     renderedArray.forEach((r: HTMLElement) => {
-      if (r.tagName) parent.insertBefore(r, nodeElements[0])
+      if (r && r.tagName) parent.insertBefore(r, nodeElements[0])
     })
 
     // remove all elements

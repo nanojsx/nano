@@ -119,7 +119,7 @@ export const render = (component: any, parent: HTMLElement | null = null, remove
 
 export const renderComponent = (component: any): any => {
   // handle undefined, null
-  if (typeof component === 'undefined') return 'undefined'
+  if (typeof component === 'undefined') return []
   else if (component === null) return []
   else if (component.component === null) return []
   // handle svg and html elements
