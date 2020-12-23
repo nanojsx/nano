@@ -12,8 +12,8 @@ export class Component<P extends Object = any, S = any> {
   private _skipUnmount = false
   private _id: string
 
-  constructor(public props: P, id?: string) {
-    if (id) this._id = id.toString()
+  constructor(public props: P) {
+    this.id = this._getHash()
   }
 
   set id(id: string) {
@@ -136,4 +136,6 @@ export class Component<P extends Object = any, S = any> {
 
     tick(() => (this._skipUnmount = false))
   }
+
+  private _getHash(): any {}
 }

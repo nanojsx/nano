@@ -7,7 +7,8 @@ export class Img extends Component {
     const id = key ? key : src ? src : 'none'
 
     // key has be be unique, by default key is the image src
-    super(props, strToHash(id))
+    super(props)
+    this.id = strToHash(id)
 
     // this could also be done in willMount()
     if (!this.state) this.setState({ isLoaded: false, image: undefined })

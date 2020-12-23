@@ -94,7 +94,10 @@ test('should render without errors', async (done) => {
       return 'yeah'
     }
   }
-  const test = new Test({ children: [] }, 'some-unique-hash')
+  // @ts-expect-error // otherwise it does not work
+  Test.prototype._getHash = () => ''
+
+  const test = new Test({ children: [] })
 
   await wait()
   // @ts-ignore

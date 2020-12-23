@@ -134,7 +134,12 @@ export const renderComponent = (component: any): any => {
 
   // is class component
   if (component.prototype && component.prototype.constructor) {
-    const Component = new component(props, strToHash(component.toString()))
+    // calc hash
+    const hash = strToHash(component.toString())
+    // make hash accessible in constructor, without passing it to it
+    component.prototype._getHash = () => hash
+
+    const Component = new component(props)
 
     Component.willMount()
     el = Component.elements = Component.render() || []
