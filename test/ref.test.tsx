@@ -1,7 +1,44 @@
-import Nano, { Component } from '../lib/index.js'
+import { FC } from '../lib/core.js'
+import Nano, { Component, Fragment } from '../lib/index.js'
 import { wait, nodeToString } from './helpers.js'
 
 const spy = jest.spyOn(global.console, 'error')
+
+test('should render without errors', async (done) => {
+  const Child: FC<{ getReference: (el: HTMLElement) => void }> = ({ getReference }) => {
+    return <div ref={(r: any) => getReference(r)}>I'm a child</div>
+  }
+
+  class App extends Component {
+    child: HTMLElement | undefined
+
+    didMount() {
+      const child = this.child
+      this.update(child)
+    }
+
+    render(child: any) {
+      return (
+        <Fragment>
+          <h1>App</h1>
+          <Child getReference={(ref) => (this.child = ref)} />
+          {child}
+        </Fragment>
+      )
+    }
+  }
+
+  let html = Nano.render(
+    <div>
+      <App />
+    </div>
+  )
+
+  await wait()
+  expect(nodeToString(html)).toBe(`<div><h1>App</h1><div>I'm a child</div><div>I'm a child</div></div>`)
+  expect(spy).not.toHaveBeenCalled()
+  done()
+})
 
 test('should render without errors', async (done) => {
   let ref1: string = ''
