@@ -1,4 +1,5 @@
 import { render } from './core'
+import { _state } from './state'
 
 const initSSR = () => {
   // @ts-ignore
@@ -12,7 +13,12 @@ const initSSR = () => {
   globalThis.document = isSSR ? new DocumentSSR() : window.document
 }
 
-export const renderSSR = (component: any) => {
+export const clearState = () => {
+  _state.clear()
+}
+
+export const renderSSR = (component: any, clearState = true) => {
+  if (clearState) _state.clear()
   initSSR()
   return render(component, null, true).join('') as string
 }
