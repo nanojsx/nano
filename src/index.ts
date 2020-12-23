@@ -1,9 +1,9 @@
 import './types'
 
-export { h, render, hydrate, removeAllChildNodes, renderComponent, tick } from './core'
+export { h, render, hydrate, removeAllChildNodes, tick } from './core'
 export { jsx } from './jsx'
 export { hydrateLazy } from './lazy'
-export { nodeToString } from './helpers'
+export { nodeToString, task } from './helpers'
 export { renderSSR } from './ssr'
 
 export { Component } from './component'
@@ -23,3 +23,7 @@ import { h, render, hydrate } from './core'
 import { renderSSR } from './ssr'
 import { createContext } from './context'
 export default { h, render, hydrate, renderSSR, createContext }
+
+// version
+import { logVersion } from './helpers'
+logVersion()

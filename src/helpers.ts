@@ -1,3 +1,8 @@
+import { VERSION } from './version'
+
+/** Creates a new Task using setTimeout() */
+export const task = (task: () => void) => setTimeout(task, 0)
+
 export const nodeToString = (node: any) => {
   const tmpNode = document.createElement('div')
   tmpNode.appendChild(node.cloneNode(true))
@@ -27,4 +32,17 @@ export const onNodeRemove = (element: any, callback: any) => {
     childList: true,
     subtree: true,
   })
+}
+
+export const logVersion = () => {
+  const info = `Powered by nano JSX v${VERSION}`
+  console.log(
+    `%c %c %c %c %c ${info} %c http://nanojsx.io/`,
+    'background: #ff0000',
+    'background: #ffff00',
+    'background: #00ff00',
+    'background: #00ffff',
+    'color: #fff; background: #000000;',
+    'background: none'
+  )
 }

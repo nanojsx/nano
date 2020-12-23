@@ -1,7 +1,7 @@
 // core
-import { h, render, hydrate, removeAllChildNodes, renderComponent, tick, task } from '../core'
+import { h, render, hydrate, removeAllChildNodes, tick } from '../core'
 import { hydrateLazy } from '../lazy'
-import { nodeToString } from '../helpers'
+import { nodeToString, task } from '../helpers'
 
 // useful tools
 import { Component } from '../component'
@@ -30,7 +30,6 @@ export default {
   nodeToString,
   removeAllChildNodes,
   render,
-  renderComponent,
   tick,
   task,
   Component,
@@ -42,3 +41,7 @@ export default {
   Visible,
   UI,
 }
+
+// version
+import { logVersion } from '../helpers'
+logVersion()

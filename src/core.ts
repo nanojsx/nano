@@ -5,15 +5,14 @@ export interface FC<P = {}> {
   // (props: P, context?: any): any
 }
 
-import { VERSION } from './version'
-
-export const Empty = []
-
-/** Creates a new microtasks using Promise() */
+/** Creates a new Microtask using Promise() */
 export const tick = typeof Promise == 'function' ? Promise.prototype.then.bind(Promise.resolve()) : setTimeout
 
-/** Creates a new Task using setTimeout() */
-export const task = (task: () => void) => setTimeout(task, 0)
+export const removeAllChildNodes = (parent: HTMLElement) => {
+  while (parent.firstChild) {
+    parent.removeChild(parent.firstChild)
+  }
+}
 
 // https://stackoverflow.com/a/7616484/12656855
 export const strToHash = (s: string) => {
@@ -25,12 +24,6 @@ export const strToHash = (s: string) => {
     hash |= 0 // Convert to 32bit integer
   }
   return Math.abs(hash).toString(32)
-}
-
-export const removeAllChildNodes = (parent: HTMLElement) => {
-  while (parent.firstChild) {
-    parent.removeChild(parent.firstChild)
-  }
 }
 
 export const appendChildren = (element: any, children: any) => {
@@ -63,7 +56,7 @@ export const appendChildren = (element: any, children: any) => {
 /**
  * A simple component for rendering SVGs
  */
-export const SVG = (props: any) => {
+const SVG = (props: any) => {
   const child = props.children[0] as SVGElement
   const attrs = child.attributes
 
@@ -117,7 +110,7 @@ export const render = (component: any, parent: HTMLElement | null = null, remove
   }
 }
 
-export const renderComponent = (component: any): any => {
+const renderComponent = (component: any): any => {
   // handle undefined, null
   if (typeof component === 'undefined') return []
   else if (component === null) return []
@@ -172,7 +165,7 @@ export const renderComponent = (component: any): any => {
   return el
 }
 
-export const hNS = (tag: string) => document.createElementNS('http://www.w3.org/2000/svg', tag) as SVGElement
+const hNS = (tag: string) => document.createElementNS('http://www.w3.org/2000/svg', tag) as SVGElement
 
 // https://stackoverflow.com/a/42405694/12656855
 export const h = (tagNameOrComponent: any, props: any, ...children: any) => {
@@ -226,14 +219,3 @@ export const h = (tagNameOrComponent: any, props: any, ...children: any) => {
   if (element.ssr) return element.ssr
   return element
 }
-
-const info = `Powered by nano JSX v${VERSION}`
-console.log(
-  `%c %c %c %c %c ${info} %c http://nanojsx.io/`,
-  'background: #ff0000',
-  'background: #ffff00',
-  'background: #00ff00',
-  'background: #00ffff',
-  'color: #fff; background: #000000;',
-  'background: none'
-)
