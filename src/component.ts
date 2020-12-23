@@ -87,6 +87,9 @@ export class Component<P extends Object = any, S = any> {
     // get valid parent node
     const parent = nodeElements[0].parentElement as HTMLElement
 
+    // make sure we have a parent
+    if (!parent) console.warn('Component needs a parent element to get updated!')
+
     // add all new node elements
     renderedArray.forEach((r: HTMLElement) => {
       if (r && r.tagName) parent.insertBefore(r, nodeElements[0])
