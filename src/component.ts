@@ -1,47 +1,29 @@
 import { onNodeRemove } from './helpers'
-import { tick, renderComponent } from './core'
+import { tick, render } from './core'
 import { _state } from './state'
 
-const filterDomElements = (el: any[]) => {
-  return el.filter((e: any) => e && e.tagName)
-}
+const filterDomElements = (el: any[]) => el.filter((e: any) => e && e.tagName)
 
 export class Component<P extends Object = any, S = any> {
-  private _state: any = undefined
+  public id: string
   private _elements: HTMLCollection
   private _skipUnmount = false
-  private _id: string
 
   constructor(public props: P) {
     this.id = this._getHash()
   }
 
-  set id(id: string) {
-    this._id = id.toString()
-  }
-
-  get id() {
-    return this._id
-  }
-
   setState(state: S, shouldUpdate: boolean = false) {
-    this._state = state
-    if (this._id) _state.set(this._id, state)
+    _state.set(this.id, state)
     if (shouldUpdate) this.update()
   }
 
   set state(state: S) {
-    if (!this._id) {
-      console.warn('Please set an id before using state')
-      return
-    }
-
-    if (!_state.has(this._id)) this.setState(state)
+    if (!_state.has(this.id)) this.setState(state)
   }
 
   get state() {
-    if (this._id) return _state.get(this._id) as S
-    else return this._state as S
+    return _state.get(this.id) as S
   }
 
   /** Returns all currently rendered node elements */
@@ -54,10 +36,10 @@ export class Component<P extends Object = any, S = any> {
     if (!e) return
 
     // if fragment, return first child node
-    // @ts-ignore
+    // @ts-expect-error
     if (e.props) e = filterDomElements(e.props.children)
 
-    // @ts-ignore
+    // @ts-expect-error
     if (e.tagName) e = [e]
 
     this._elements = e
@@ -66,12 +48,10 @@ export class Component<P extends Object = any, S = any> {
   /** Returns all currently rendered node elements */
   public get elementsArray() {
     if (this.elements.length === 0) console.warn('No Parent Element Found!')
-    // @ts-ignore
     return Array.prototype.slice.call(this.elements)
   }
 
-  // @ts-ignore
-  private _didMount(): any {
+  protected _didMount(): any {
     this._onNodeRemoveListener()
   }
 
@@ -95,32 +75,20 @@ export class Component<P extends Object = any, S = any> {
   public update(update?: any) {
     this._skipUnmount = true
 
-    const toArray = (el: any) => {
-      if (el.props) return el.props.children
-      if (!Array.isArray(el)) return [el]
-      else return el
-    }
-
-    const _objectToComponent = (obj: any) => {
-      if (obj && obj.component) return renderComponent(obj)
-      else return obj
-    }
-
     // get all current rendered node elements
     const nodeElements = this.elementsArray
 
     //  get new child elements as array
-    let r = this.render(update) as any
-    r = _objectToComponent(r)
+    let rendered = render(this.render(update))
 
-    const rendered = toArray(r)
+    // to array
+    const renderedArray = Array.isArray(rendered) ? rendered : [rendered]
 
     // get valid parent node
     const parent = nodeElements[0].parentElement as HTMLElement
 
     // add all new node elements
-    rendered.forEach((r: HTMLElement) => {
-      r = _objectToComponent(r)
+    renderedArray.forEach((r: HTMLElement) => {
       if (r.tagName) parent.insertBefore(r, nodeElements[0])
     })
 
@@ -130,7 +98,7 @@ export class Component<P extends Object = any, S = any> {
     })
 
     // set the newly rendered elements as the new root elements
-    this.elements = r as any
+    this.elements = rendered as any
 
     this._onNodeRemoveListener()
 
