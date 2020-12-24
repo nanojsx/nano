@@ -1,5 +1,5 @@
 import { onNodeRemove } from './helpers'
-import { tick, render } from './core'
+import { render } from './core'
 import { _state } from './state'
 
 const filterDomElements = (el: any[]) => el.filter((e: any) => e && e.tagName)
@@ -7,7 +7,7 @@ const filterDomElements = (el: any[]) => el.filter((e: any) => e && e.tagName)
 export class Component<P extends Object = any, S = any> {
   public id: string
   private _elements: HTMLCollection
-  private _skipUnmount = false
+  private _observer: MutationObserver | undefined
 
   constructor(public props: P) {
     this.id = this._getHash()
@@ -52,16 +52,23 @@ export class Component<P extends Object = any, S = any> {
   }
 
   protected _didMount(): any {
-    this._onNodeRemoveListener()
+    this._addNodeRemoveListener()
   }
 
-  private _onNodeRemoveListener() {
+  private _removeNodeRemoveListener() {
+    if (this._observer) {
+      this._observer.disconnect()
+      this._observer = undefined
+    }
+  }
+
+  private _addNodeRemoveListener() {
     // check if didUnmount is unused
     if (/^[^{]+{\s+}$/gm.test(this.didUnmount.toString())) return
 
     // listen if the root elements gets removed
-    onNodeRemove(this.elements[0], () => {
-      if (!this._skipUnmount) this.didUnmount()
+    this._observer = onNodeRemove(this.elements[0], () => {
+      this.didUnmount()
     })
   }
 
@@ -73,7 +80,8 @@ export class Component<P extends Object = any, S = any> {
 
   /** Will forceRender the component */
   public update(update?: any) {
-    this._skipUnmount = true
+    // remove observer
+    this._removeNodeRemoveListener()
 
     // get all current rendered node elements
     const nodeElements = this.elementsArray
@@ -103,9 +111,8 @@ export class Component<P extends Object = any, S = any> {
     // set the newly rendered elements as the new root elements
     this.elements = rendered as any
 
-    this._onNodeRemoveListener()
-
-    tick(() => (this._skipUnmount = false))
+    // add observer
+    this._addNodeRemoveListener()
   }
 
   private _getHash(): any {}

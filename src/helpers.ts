@@ -15,7 +15,7 @@ const isDescendant: any = (desc: any, root: any) => {
 
 // https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver
 export const onNodeRemove = (element: any, callback: any) => {
-  var observer = new MutationObserver((mutationsList) => {
+  let observer = new MutationObserver((mutationsList) => {
     mutationsList.forEach((mutation) => {
       mutation.removedNodes.forEach((removed) => {
         if (isDescendant(element, removed)) {
@@ -32,6 +32,7 @@ export const onNodeRemove = (element: any, callback: any) => {
     childList: true,
     subtree: true,
   })
+  return observer
 }
 
 export const logVersion = () => {
