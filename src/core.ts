@@ -8,6 +8,10 @@ export interface FC<P = {}> {
 /** Creates a new Microtask using Promise() */
 export const tick = typeof Promise == 'function' ? Promise.prototype.then.bind(Promise.resolve()) : setTimeout
 
+// const isDOMElement = (element: any) => {
+//   return element && element.tagName && typeof element.tagName === 'string'
+// }
+
 export const removeAllChildNodes = (parent: HTMLElement) => {
   while (parent.firstChild) {
     parent.removeChild(parent.firstChild)
@@ -41,7 +45,7 @@ export const appendChildren = (element: any, children: any) => {
     if (Array.isArray(child)) appendChildren(element, child)
     else {
       // render the component
-      let c = renderComponent(child) as HTMLElement
+      let c = _render(child) as HTMLElement
 
       if (typeof c !== 'undefined') {
         // if c is an array of children, append them instead
@@ -75,13 +79,9 @@ export const hydrate = (component: any, parent: HTMLElement | null = null, remov
 
 /** Returns the populated parent if available else  one child or an array of children */
 export const render = (component: any, parent: HTMLElement | null = null, removeChildNodes = true) => {
-  let el = renderComponent(component)
+  let el = _render(component)
 
-  if (Array.isArray(el)) {
-    el = el.map((e) => {
-      return renderComponent(e)
-    })
-  }
+  if (Array.isArray(el)) el = el.map((e) => _render(e))
 
   if (!!parent) {
     if (removeChildNodes) removeAllChildNodes(parent)
@@ -93,10 +93,10 @@ export const render = (component: any, parent: HTMLElement | null = null, remove
       // append element(s) to the parent
       if (Array.isArray(el))
         el.forEach((e: any) => {
-          appendChildren(parent, renderComponent(e))
-          //parent.appendChild(renderComponent(e))
+          appendChildren(parent, _render(e))
+          //parent.appendChild(_render(e))
         })
-      else appendChildren(parent, renderComponent(el))
+      else appendChildren(parent, _render(el))
     }
 
     // @ts-ignore
@@ -110,59 +110,99 @@ export const render = (component: any, parent: HTMLElement | null = null, remove
   }
 }
 
-const renderComponent = (component: any): any => {
-  // handle undefined, null
-  if (typeof component === 'undefined') return []
-  else if (component === null) return []
-  else if (component.component === null) return []
-  // handle svg and html elements
-  else if (component.tagName) {
-    if (component.tagName.toLowerCase() === 'svg') return SVG({ children: [component] })
-    else return component
-  }
+export const _render = (comp: any): any => {
+  // undefined
+  if (typeof comp === 'undefined') return []
 
-  let el
-  let props = component.props || { children: [] }
-  component = component.component || component
+  // null
+  if (comp == null) return []
 
-  // is class component
-  if (component.prototype && component.prototype.constructor) {
-    // calc hash
-    const hash = strToHash(component.toString())
-    // make hash accessible in constructor, without passing it to it
-    component.prototype._getHash = () => hash
+  // string
+  if (typeof comp === 'string') return comp
 
-    const Component = new component(props)
+  // number
+  if (typeof comp === 'number') return comp.toString()
 
-    Component.willMount()
-    el = Component.elements = Component.render() || []
+  // SVGElement
+  if (comp.tagName && comp.tagName.toLowerCase() === 'svg') return SVG({ children: [comp] })
 
-    if (typeof isSSR === 'undefined')
-      tick(() => {
-        Component._didMount()
-        Component.didMount()
-      })
-  }
-  // is functional component
-  else if (typeof component === 'function') {
-    el = component(props)
-  }
-  // if DOM element
-  else {
-    el = component
-  }
+  // HTMLElement
+  if (comp.tagName) return comp
+
+  // Class Component
+  if (comp.component && comp.component.prototype && comp.component.prototype.constructor)
+    return renderClassComponent(comp)
+
+  // Functional Component
+  if (comp.component && typeof comp.component === 'function') return renderFunctionalComponent(comp)
+
+  // Functional Component
+  if (comp.component && typeof comp.component === 'function') return renderFunctionalComponent(comp)
+
+  // Array (render each child and return the array) (is probably a fragment)
+  if (Array.isArray(comp)) return comp.map((c) => _render(c)).flat()
+
+  // function
+  if (typeof comp === 'function') return _render(comp())
+
+  // if component is a HTMLElement (rare case)
+  if (comp.component && comp.component.tagName && typeof comp.component.tagName === 'string')
+    return _render(comp.component)
+
+  // (rare case)
+  if (Array.isArray(comp.component)) return _render(comp.component)
+
+  // (rare case)
+  if (comp.component) return _render(comp.component)
+
+  // object
+  if (typeof comp === 'object') return [] //_render(comp)
+
+  console.warn('Something unexpected happened with:', comp)
+}
+
+const renderFunctionalComponent = (fncComp: any): any => {
+  const { component, props } = fncComp
+  let el = component(props)
+  return _render(el)
+}
+
+const renderClassComponent = (classComp: any): any => {
+  const { component, props } = classComp
+
+  // calc hash
+  const hash = strToHash(component.toString())
+
+  // make hash accessible in constructor, without passing it to it
+  component.prototype._getHash = () => hash
+
+  const Component = new component(props)
+  Component.willMount()
+
+  let el = Component.render()
+  el = _render(el)
+  Component.elements = el
+
+  if (typeof isSSR === 'undefined')
+    tick(() => {
+      Component._didMount()
+    })
+
+  return el
+}
+
+/** @deprecated renderComponent() is deprecated, use _render() instead! */
+export const renderComponent = (_component: any): any => {
+  console.warn('DEPRECATED: renderComponent() is deprecated, use _render() instead!')
 
   // this fixes some ssr issues when using fragments
-  if (typeof isSSR === 'boolean' && isSSR === true && Array.isArray(el)) {
-    el = el
-      .map((e) => {
-        return renderComponent(e)
-      })
-      .join('')
-  }
-
-  if (el && el.component) return renderComponent(el) as HTMLElement
-  return el
+  // if (typeof isSSR === 'boolean' && isSSR === true && Array.isArray(el)) {
+  //   el = el
+  //     .map((e) => {
+  //       return _render(e)
+  //     })
+  //     .join('')
+  // }
 }
 
 const hNS = (tag: string) => document.createElementNS('http://www.w3.org/2000/svg', tag) as SVGElement

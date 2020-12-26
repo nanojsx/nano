@@ -13,7 +13,7 @@ test('should render without errors', async (done) => {
   const res = Nano.render(<Hello name="John" />)
 
   await wait()
-  expect(nodeToString(res)).toBe("<p>Hello John  null  [object Object]   Some String 'Another String'</p>")
+  expect(nodeToString(res)).toBe("<p>Hello John  null     Some String 'Another String'</p>")
   expect(spy).not.toHaveBeenCalled()
   done()
 })

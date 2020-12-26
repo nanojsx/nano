@@ -13,7 +13,7 @@ test('should render without errors', async (done) => {
     child: HTMLElement | undefined
 
     didMount() {
-      const child = this.child
+      const child = this.child?.cloneNode(true)
       this.update(child)
     }
 

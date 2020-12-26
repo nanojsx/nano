@@ -1,13 +1,11 @@
 import { onNodeRemove } from './helpers'
-import { render } from './core'
+import { tick, _render } from './core'
 import { _state } from './state'
-
-const filterDomElements = (el: any[]) => el.filter((e: any) => e && e.tagName)
 
 export class Component<P extends Object = any, S = any> {
   public id: string
-  private _elements: HTMLCollection
-  private _observer: MutationObserver | undefined
+  private _elements: HTMLElement[] = []
+  private _skipUnmount = false
 
   constructor(public props: P) {
     this.id = this._getHash()
@@ -27,39 +25,21 @@ export class Component<P extends Object = any, S = any> {
   }
 
   /** Returns all currently rendered node elements */
-  public get elements(): HTMLCollection {
+  public get elements(): HTMLElement[] {
     return this._elements
   }
 
-  public set elements(e: HTMLCollection) {
-    // if the component has nothing to render
-    if (!e) return
+  public set elements(elements: HTMLElement[]) {
+    if (!Array.isArray(elements)) elements = [elements]
 
-    // if fragment, return first child node
-    // @ts-expect-error
-    if (e.props) e = filterDomElements(e.props.children)
-
-    // @ts-expect-error
-    if (e.tagName) e = [e]
-
-    this._elements = e
-  }
-
-  /** Returns all currently rendered node elements */
-  public get elementsArray() {
-    if (this.elements.length === 0) console.warn('No Parent Element Found!')
-    return Array.prototype.slice.call(this.elements)
+    elements.forEach((element) => {
+      this._elements.push(element)
+    })
   }
 
   protected _didMount(): any {
     this._addNodeRemoveListener()
-  }
-
-  private _removeNodeRemoveListener() {
-    if (this._observer) {
-      this._observer.disconnect()
-      this._observer = undefined
-    }
+    this.didMount()
   }
 
   private _addNodeRemoveListener() {
@@ -67,8 +47,8 @@ export class Component<P extends Object = any, S = any> {
     if (/^[^{]+{\s+}$/gm.test(this.didUnmount.toString())) return
 
     // listen if the root elements gets removed
-    this._observer = onNodeRemove(this.elements[0], () => {
-      this.didUnmount()
+    onNodeRemove(this.elements[0], () => {
+      if (!this._skipUnmount) this.didUnmount()
     })
   }
 
@@ -80,39 +60,42 @@ export class Component<P extends Object = any, S = any> {
 
   /** Will forceRender the component */
   public update(update?: any) {
-    // remove observer
-    this._removeNodeRemoveListener()
-
+    this._skipUnmount = true
     // get all current rendered node elements
-    const nodeElements = this.elementsArray
+    const oldElements = [...this.elements]
 
-    //  get new child elements as array
-    let rendered = render(this.render(update))
+    // clear
+    this._elements = []
 
-    // to array
-    const renderedArray = Array.isArray(rendered) ? rendered : [rendered]
+    let el = this.render(update)
+    el = _render(el)
+    this.elements = el as any
+
+    // console.log('old: ', oldElements)
+    // console.log('new: ', this.elements)
 
     // get valid parent node
-    const parent = nodeElements[0].parentElement as HTMLElement
+    const parent = oldElements[0].parentElement as HTMLElement
 
     // make sure we have a parent
     if (!parent) console.warn('Component needs a parent element to get updated!')
 
     // add all new node elements
-    renderedArray.forEach((r: HTMLElement) => {
-      if (r && r.tagName) parent.insertBefore(r, nodeElements[0])
+    this.elements.forEach((r: HTMLElement) => {
+      parent.insertBefore(r, oldElements[0])
     })
 
     // remove all elements
-    nodeElements.forEach((t: HTMLElement) => {
+    oldElements.forEach((t: HTMLElement) => {
       parent.removeChild(t)
     })
 
-    // set the newly rendered elements as the new root elements
-    this.elements = rendered as any
-
-    // add observer
-    this._addNodeRemoveListener()
+    tick(() => {
+      this._skipUnmount = false
+      oldElements.forEach((_e: any) => {
+        _e = undefined
+      })
+    })
   }
 
   private _getHash(): any {}

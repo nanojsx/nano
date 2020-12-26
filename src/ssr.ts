@@ -1,25 +1,32 @@
+declare const isSSR: boolean
+
 import { render } from './core'
 import { _state } from './state'
 
-const initSSR = () => {
+const initSSR = (pathname: string) => {
   // @ts-ignore
   const isDeno = typeof Deno !== 'undefined'
   const hasWindow = typeof window !== 'undefined' && window.document ? true : false
-  const isSSR = !hasWindow || isDeno
+  const _isSSR = (typeof isSSR !== 'undefined' && isSSR) || isDeno || !hasWindow
 
   // @ts-ignore
-  globalThis.isSSR = isSSR
+  globalThis.isSSR = _isSSR
   // @ts-ignore
-  globalThis.document = isSSR ? new DocumentSSR() : window.document
+  globalThis.window = _isSSR ? { location: { pathname } } : window
+  // @ts-ignore
+  globalThis.document = _isSSR ? new DocumentSSR() : window.document
 }
 
 export const clearState = () => {
   _state.clear()
 }
 
-export const renderSSR = (component: any, clearState = true) => {
+export const renderSSR = (component: any, options: { pathname?: string; clearState?: boolean } = {}) => {
+  const { pathname = '/', clearState = true } = options
+
+  initSSR(pathname)
   if (clearState) _state.clear()
-  initSSR()
+
   return render(component, null, true).join('') as string
 }
 
