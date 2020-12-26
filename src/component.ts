@@ -37,11 +37,6 @@ export class Component<P extends Object = any, S = any> {
     })
   }
 
-  protected _didMount(): any {
-    this._addNodeRemoveListener()
-    this.didMount()
-  }
-
   private _addNodeRemoveListener() {
     // check if didUnmount is unused
     if (/^[^{]+{\s+}$/gm.test(this.didUnmount.toString())) return
@@ -50,6 +45,11 @@ export class Component<P extends Object = any, S = any> {
     onNodeRemove(this.elements[0], () => {
       if (!this._skipUnmount) this.didUnmount()
     })
+  }
+
+  protected _didMount(): any {
+    this._addNodeRemoveListener()
+    this.didMount()
   }
 
   public willMount(): any {}
@@ -89,6 +89,9 @@ export class Component<P extends Object = any, S = any> {
     oldElements.forEach((t: HTMLElement) => {
       parent.removeChild(t)
     })
+
+    // listen for node removal
+    this._addNodeRemoveListener()
 
     tick(() => {
       this._skipUnmount = false
