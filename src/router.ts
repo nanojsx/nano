@@ -1,7 +1,7 @@
 // inspired by https://codesandbox.io/s/build-own-react-router-v4-mpslz
 
-import { Component } from '../../component'
-import { FC, h, _render } from '../../core'
+import { Component } from './component'
+import { FC, h, _render } from './core'
 
 let instances: any[] = []
 
