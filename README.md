@@ -1,6 +1,6 @@
 <p align="center">
   <a href="http://nanojsx.io/">
-    <img src="readme/nano-jsx-logo.svg" alt="Nano JSX Logo" width="350"/>
+    <img src="https://raw.githubusercontent.com/nanojsx/nano/master/readme/nano-jsx-logo.svg" alt="Nano JSX Logo" width="350"/>
   </a>
 </p>
 
