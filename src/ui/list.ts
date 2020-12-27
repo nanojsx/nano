@@ -9,6 +9,7 @@ interface ListProps {
 }
 
 interface ListItemProps {
+  onClick?: Function
   icon?: string
   avatar?: string
   square?: string
@@ -19,6 +20,7 @@ interface ListItemProps {
 export class ListItem extends Component<ListItemProps> {
   render() {
     const { props: p } = this
+    const { onClick = () => {} } = p
 
     const adjustedMargin = 'margin-right: 16px;'
 
@@ -37,7 +39,7 @@ export class ListItem extends Component<ListItemProps> {
     if (p.icon || p.avatar) style += 'min-height: 56px; '
     if (p.square || p.image) style += 'min-height: 72px; '
 
-    return h('li', { style }, icon, avatar, square, image, text)
+    return h('li', { style, onClick }, icon, avatar, square, image, text)
   }
 }
 

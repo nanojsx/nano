@@ -13,8 +13,13 @@ interface SheetProps {
 }
 
 export class Sheet extends Component<SheetProps> {
-  static Show(sheet: Sheet) {
+  static show(sheet: Sheet) {
     document.body.appendChild(render(sheet))
+  }
+
+  static close() {
+    const el = document.querySelector('[class^=sheet_container]')
+    if (el) el.remove()
   }
 
   render() {
