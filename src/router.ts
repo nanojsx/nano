@@ -97,6 +97,10 @@ export const Route: FC<{ path: string; children?: any }> = ({ children }) => {
   return children
 }
 
+export const to = (to: string, replace: boolean = false) => {
+  replace ? historyReplace(to) : historyPush(to)
+}
+
 export const Link: FC<{ to: string; replace?: boolean; children?: any }> = ({ to, replace, children }) => {
   const handleClick = (event: Event) => {
     event.preventDefault()
