@@ -47,7 +47,8 @@ export class Component<P extends Object = any, S = any> {
     })
   }
 
-  protected _didMount(): any {
+  // @ts-ignore
+  private _didMount(): any {
     this._addNodeRemoveListener()
     this.didMount()
   }
@@ -81,24 +82,21 @@ export class Component<P extends Object = any, S = any> {
     if (!parent) console.warn('Component needs a parent element to get updated!')
 
     // add all new node elements
-    this.elements.forEach((r: HTMLElement) => {
-      parent.insertBefore(r, oldElements[0])
+    this.elements.forEach((child: HTMLElement) => {
+      parent.insertBefore(child, oldElements[0])
     })
 
     // remove all elements
-    oldElements.forEach((t: HTMLElement) => {
-      parent.removeChild(t)
+    oldElements.forEach((child: HTMLElement) => {
+      child.remove()
+      // @ts-ignore
+      child = null
     })
 
     // listen for node removal
     this._addNodeRemoveListener()
 
-    tick(() => {
-      this._skipUnmount = false
-      oldElements.forEach((_e: any) => {
-        _e = undefined
-      })
-    })
+    tick(() => (this._skipUnmount = false))
   }
 
   private _getHash(): any {}
