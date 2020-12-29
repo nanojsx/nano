@@ -3,7 +3,7 @@ declare const isSSR: boolean
 import { render } from './core'
 import { _state } from './state'
 
-const initSSR = (pathname: string) => {
+export const initSSR = (pathname: string = '/') => {
   // @ts-ignore
   const isDeno = typeof Deno !== 'undefined'
   const hasWindow = typeof window !== 'undefined' && window.document ? true : false
@@ -22,7 +22,7 @@ export const clearState = () => {
 }
 
 export const renderSSR = (component: any, options: { pathname?: string; clearState?: boolean } = {}) => {
-  const { pathname = '/', clearState = true } = options
+  const { pathname, clearState = true } = options
 
   initSSR(pathname)
   if (clearState) _state.clear()
@@ -103,7 +103,7 @@ export class HTMLElementSSR {
     this.ssr = this.ssr.substring(0, index) + append + this.ssr.substring(index)
   }
 
-  replaceChild(newChild: any, _oldChild: any) {
+  replaceChild(newChild: any, _oldChild?: any) {
     this.innerText = newChild.ssr
   }
 
@@ -121,7 +121,7 @@ export class HTMLElementSSR {
     return array
   }
 
-  addEventListener(_type: any, _listener: any, _options: any) {}
+  addEventListener(_type: any, _listener: any, _options?: any) {}
 }
 
 export class DocumentSSR {
