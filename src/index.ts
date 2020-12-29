@@ -9,6 +9,7 @@ export { renderSSR } from './ssr'
 export { Component } from './component'
 export { Fragment } from './fragment'
 export { Store } from './store'
+export * as Router from './router'
 export { createContext } from './context'
 export { withStyles } from './withStyles'
 
