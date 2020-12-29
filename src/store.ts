@@ -1,3 +1,5 @@
+declare const isSSR: boolean
+
 type State = any
 
 export class Store {
@@ -14,6 +16,8 @@ export class Store {
    * @param storage Pass 'memory', 'local' or 'session'.
    */
   constructor(defaultState: Object, name: string = '', storage: 'memory' | 'local' | 'session' = 'memory') {
+    if (typeof isSSR !== 'undefined') storage = 'memory'
+
     this._id = name
     this._storage = storage
 
