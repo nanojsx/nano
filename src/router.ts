@@ -93,7 +93,7 @@ export class Switch extends Component {
   }
 }
 
-export const Route: FC<{ path: string; children?: any }> = ({ children }) => {
+export const Route: FC<{ path: string; exact?: boolean; children?: any }> = ({ children }) => {
   return children
 }
 
