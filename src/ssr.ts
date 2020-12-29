@@ -6,13 +6,20 @@ import { _state } from './state'
 export const initSSR = (pathname: string = '/') => {
   // @ts-ignore
   const isDeno = typeof Deno !== 'undefined'
-  const hasWindow = typeof window !== 'undefined' && window.document ? true : false
+  const hasWindow = typeof window !== 'undefined' ? true : false
   const _isSSR = (typeof isSSR !== 'undefined' && isSSR) || isDeno || !hasWindow
 
   // @ts-ignore
   globalThis.isSSR = _isSSR
-  // @ts-ignore
-  globalThis.window = _isSSR ? { location: { pathname } } : window
+
+  if (!isDeno)
+    // @ts-ignore
+    globalThis.window = _isSSR ? { location: { pathname } } : window
+  else {
+    // @ts-ignore
+    window.location = { pathname }
+  }
+
   // @ts-ignore
   globalThis.document = _isSSR ? new DocumentSSR() : window.document
 }

@@ -1,4 +1,4 @@
-import { h, renderComponent } from '../core.ts'
+import { h, render } from '../core.ts'
 import { Component } from '../component.ts'
 
 export class Visible extends Component {
@@ -25,7 +25,7 @@ export class Visible extends Component {
       return h('div', { 'data-visible': false, visibility: 'hidden' })
     } else {
       if (this.props.onVisible) this.props.onVisible()
-      return renderComponent(this.props.component || this.props.children[0])
+      return render(this.props.component || this.props.children[0])
     }
   }
 }

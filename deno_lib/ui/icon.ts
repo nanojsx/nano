@@ -1,5 +1,6 @@
 import { Component } from '../component.ts'
 import { h, strToHash } from '../core.ts'
+import { addStylesToHead } from './_helpers.ts'
 
 interface IconProps {
   src: string
@@ -14,8 +15,9 @@ export class Icon extends Component<IconProps> {
   cssHash: string
 
   didUnmount() {
-    const el = document.querySelector(`[data-css-hash*="${this.cssHash}"]`)
-    if (el) el.remove()
+    // not sure if I want to remove the css, since there might be another Icon with the same styles.
+    // const el = document.querySelector(`[data-css-hash*="${this.cssHash}"]`)
+    // if (el) el.remove()
   }
 
   render() {
@@ -51,8 +53,8 @@ export class Icon extends Component<IconProps> {
       background-color: ${colors.inactive};
     }
     `
-    const styleElement = h('style', { 'data-css-hash': this.cssHash }, styles)
-    document.head.appendChild(styleElement)
+
+    addStylesToHead(styles, this.cssHash)
 
     // const iconStyle = `-webkit-mask: url(/dev/font-awesome/ellipsis-v-solid.svg) no-repeat 50% 50%;mask: url(/dev/font-awesome/ellipsis-v-solid.svg) no-repeat 50% 50%;`
     const iconStyle = `-webkit-mask: url(${src || children}) no-repeat 50% 50%; mask: url(${

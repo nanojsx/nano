@@ -10,11 +10,17 @@ const classes = {
 interface ToolbarProps {
   menu?: boolean
   back?: boolean
+  actionClick?: Function
   title?: string
   children?: any
 }
 
 export class Toolbar extends Component<ToolbarProps> {
+  static setTitle(title: string) {
+    const el = document.querySelector('.toolbar_title') as HTMLElement
+    if (el) el.innerText = title
+  }
+
   render() {
     const styles = `
       .toolbar_container {
@@ -68,6 +74,14 @@ export class Toolbar extends Component<ToolbarProps> {
         top: 12px;
       }
 
+      .toolbar_button_wrapper {
+        width: 24px;
+        height: 24px;
+        padding: 2px;
+        position: relative;
+        top: -2px;
+      }
+
       .toolbar_back_button,
       .toolbar_back_button::before,
       .toolbar_back_button::after {
@@ -93,13 +107,30 @@ export class Toolbar extends Component<ToolbarProps> {
       }
     `
 
-    const styleElement = h('style', {}, styles)
-    document.head.appendChild(styleElement)
+    document.head.appendChild(h('style', {}, styles))
 
-    const navigationAction = this.props.menu
-      ? h('div', { class: 'toolbar_hamburger_button' })
-      : this.props.back
-      ? h('div', { class: 'toolbar_back_button' })
+    const { back = false, actionClick = () => {}, menu } = this.props
+
+    const navigationAction = menu
+      ? h(
+          'div',
+          {
+            class: 'toolbar_button_wrapper',
+            onClick: actionClick,
+          },
+          h('div', { class: 'toolbar_hamburger_button' })
+        )
+      : back
+      ? h(
+          'div',
+          {
+            class: 'toolbar_button_wrapper',
+            onClick: actionClick,
+          },
+          h('div', {
+            class: 'toolbar_back_button',
+          })
+        )
       : null
 
     const navigation = navigationAction ? h('div', { class: 'toolbar_navigation_box' }, navigationAction) : null

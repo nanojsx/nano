@@ -1,6 +1,6 @@
 import { h, strToHash } from '../core.ts'
 import { boxShadow, zIndex, userSelect, rippleEffect } from './_config.ts'
-import { lightenColor } from './_helpers.ts'
+import { addStylesToHead, lightenColor } from './_helpers.ts'
 import { Icon } from './icon.ts'
 
 export const Button = (props: {
@@ -60,11 +60,7 @@ export const Button = (props: {
     ${ripple.styles}
   `
 
-  const el = document.querySelector(`[data-css-hash*="${cssHash}"]`)
-  if (!el) {
-    const styleElement = h('style', { 'data-css-hash': cssHash }, styles)
-    document.head.appendChild(styleElement)
-  }
+  addStylesToHead(styles, cssHash)
 
   let customStyles = ''
   if (outlined || text) {

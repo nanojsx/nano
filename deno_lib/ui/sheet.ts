@@ -1,6 +1,7 @@
 import { Component } from '../component.ts'
 import { h, strToHash, render } from '../core.ts'
 import { boxShadow, zIndex } from './_config.ts'
+import { addStylesToHead } from './_helpers.ts'
 
 interface SheetProps {
   height?: string
@@ -12,8 +13,13 @@ interface SheetProps {
 }
 
 export class Sheet extends Component<SheetProps> {
-  static Show(sheet: Sheet) {
+  static show(sheet: Sheet) {
     document.body.appendChild(render(sheet))
+  }
+
+  static close() {
+    const el = document.querySelector('[class^=sheet_container]')
+    if (el) el.remove()
   }
 
   render() {
@@ -104,11 +110,7 @@ export class Sheet extends Component<SheetProps> {
         color: #000000b0;
       }`
 
-    const el = document.querySelector(`[data-css-hash*="${cssHash}"]`)
-    if (!el) {
-      const styleElement = h('style', { 'data-css-hash': cssHash }, styles)
-      document.head.appendChild(styleElement)
-    }
+    addStylesToHead(styles, cssHash)
 
     let element: HTMLElement
 

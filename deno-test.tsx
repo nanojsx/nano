@@ -1,27 +1,71 @@
-import * as Nano from './deno_lib/mod.ts'
-import { Component, renderSSR, Helmet } from './deno_lib/mod.ts'
+// @deno-types="./typings/global.d.ts"
+import { h, Helmet, renderSSR, Component } from './deno_lib/mod.ts'
+import { Application, Router } from 'https://deno.land/x/oak/mod.ts'
 
-class Hello extends Component {
+const comments = ['Comment One', 'Comment Two']
+
+class Comments extends Component {
+  props: { comments: string[] }
+
   render() {
-    return <p>lorem ipsum</p>
+    return (
+      <ul>
+        {this.props.comments.map((comment: any) => {
+          return <li>{comment}</li>
+        })}
+      </ul>
+    )
   }
 }
 
-const App = () => {
-  return (
-    <div>
-      <Helmet>
-        <title>Nano JSX SSR</title>
-      </Helmet>
-      <h1>Hello World!</h1>
-      <Hello />
+const App = () => (
+  <div>
+    <Helmet>
+      <title>Nano JSX SSR</title>
+      <meta name="description" content="Server Side Rendered Nano JSX Application" />
+    </Helmet>
+
+    <Helmet footer>
+      <script src="/bundle.js"></script>
+    </Helmet>
+
+    <h2>Comments</h2>
+    <div id="comments">
+      <Comments comments={comments} />
     </div>
-  )
-}
+  </div>
+)
 
-const app = renderSSR(<App />)
-const { body, head, footer } = Helmet.SSR(app)
+const ssr = renderSSR(<App />)
+const { body, head, footer } = Helmet.SSR(ssr)
 
-console.log('body', body)
-console.log('head', head)
-console.log('footer', footer)
+console.log(body)
+
+const html = `
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    ${head.join('\n')}
+  </head>
+  <body>
+    ${body}
+    ${footer.join('\n')}
+  </body>
+</html>`
+
+const router = new Router()
+router.get('/', (context) => {
+  context.response.body = html
+})
+
+const app = new Application()
+app.use(router.routes())
+app.use(router.allowedMethods())
+
+app.addEventListener('listen', ({ hostname, port, secure }) => {
+  console.log(`Listening on: ${secure ? 'https://' : 'http://'}${hostname ?? 'localhost'}:${port}`)
+})
+
+await app.listen({ port: 8080 })

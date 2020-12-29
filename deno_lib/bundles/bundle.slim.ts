@@ -1,6 +1,6 @@
 // core
-import { h, render, hydrate, tick, task } from '../core.ts'
-import { hydrateLazy } from '../lazy.ts'
+import { h, render, tick } from '../core.ts'
+import { task } from '../helpers.ts'
 
 // useful tools
 import { Component } from '../component.ts'
@@ -14,8 +14,6 @@ import { jsx } from '../jsx.ts'
 export default {
   createContext,
   h,
-  hydrate,
-  hydrateLazy,
   jsx,
   render,
   tick,
@@ -24,3 +22,7 @@ export default {
   Fragment,
   Store,
 }
+
+// version
+import { logVersion } from '../helpers.ts'
+logVersion()

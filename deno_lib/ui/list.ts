@@ -1,6 +1,7 @@
 import { Component } from '../component.ts'
 import { h, strToHash } from '../core.ts'
 import { Icon } from './icon.ts'
+import { addStylesToHead } from './_helpers.ts'
 
 interface ListProps {
   small?: boolean
@@ -8,6 +9,7 @@ interface ListProps {
 }
 
 interface ListItemProps {
+  onClick?: Function
   icon?: string
   avatar?: string
   square?: string
@@ -18,6 +20,7 @@ interface ListItemProps {
 export class ListItem extends Component<ListItemProps> {
   render() {
     const { props: p } = this
+    const { onClick = () => {} } = p
 
     const adjustedMargin = 'margin-right: 16px;'
 
@@ -36,7 +39,7 @@ export class ListItem extends Component<ListItemProps> {
     if (p.icon || p.avatar) style += 'min-height: 56px; '
     if (p.square || p.image) style += 'min-height: 72px; '
 
-    return h('li', { style }, icon, avatar, square, image, text)
+    return h('li', { style, onClick }, icon, avatar, square, image, text)
   }
 }
 
@@ -72,11 +75,8 @@ export class List extends Component<ListProps> {
         background:#00000010
       }    
     `
-    const el = document.querySelector(`[data-css-hash*="${this.cssHash}"]`)
-    if (!el) {
-      const styleElement = h('style', { 'data-css-hash': this.cssHash }, styles)
-      document.head.appendChild(styleElement)
-    }
+
+    addStylesToHead(styles, this.cssHash)
 
     const ul = h('ul', null, this.props.children)
     return h('div', { class: `list-${this.cssHash}` }, ul)
