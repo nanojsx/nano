@@ -47,9 +47,7 @@ class Drinks extends Component {
             <Router.Route path={`${path}/latte`}>
               <Latte />
             </Router.Route>
-            <Router.Route path={`${path}/milk`}>
-              <span>Milk</span>
-            </Router.Route>
+            <Router.Route path={`${path}/milk`}>{() => <span>Milk</span>}</Router.Route>
           </Router.Switch>
         </div>
       </Fragment>
@@ -70,6 +68,9 @@ class App extends Component {
           <li>
             <Router.Link to="/drinks">Drinks</Router.Link>
           </li>
+          <li>
+            <Router.Link to="/no">404</Router.Link>
+          </li>
         </ul>
 
         <div class="router">
@@ -80,6 +81,7 @@ class App extends Component {
             <Router.Route path="/drinks">
               <Drinks />
             </Router.Route>
+            <Router.Route path="*">{() => <div>404</div>}</Router.Route>
           </Router.Switch>
         </div>
       </Fragment>

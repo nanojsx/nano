@@ -29,7 +29,7 @@ const matchPath = (pathname: string, options: { exact?: boolean; path: string })
     }
   }
 
-  const match = new RegExp(`^${path}`).exec(pathname)
+  const match = path === '*' ? [pathname] : new RegExp(`^${path}`).exec(pathname)
 
   if (!match) return null
 
@@ -61,26 +61,28 @@ export class Switch extends Component {
   }
 
   shouldUpdate() {
-    let found = false
-
-    this.props.children.forEach((child: any) => {
+    for (let i = 0; i < this.props.children.length; i++) {
+      const child = this.props.children[i]
       const { path, exact } = child.props
       const match = matchPath(window.location.pathname, { path, exact })
       if (match) {
-        found = this.path !== path
+        const found = this.path !== path
+        if (found) return true
       }
-    })
+    }
 
-    return found
+    return false
   }
 
   render() {
-    let component
+    let component: any
 
     this.props.children.forEach((child: any) => {
       const { path, exact } = child.props
       const match = matchPath(window.location.pathname, { path, exact })
       if (match) {
+        // if there is already a matched component, we do not match *
+        if (component && path === '*') return
         component = child
         this.path = path
       }

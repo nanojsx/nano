@@ -6,6 +6,7 @@ export class Component<P extends Object = any, S = any> {
   public id: string
   private _elements: HTMLElement[] = []
   private _skipUnmount = false
+  private _hasUnmounted = false
 
   constructor(public props: P) {
     this.id = this._getHash()
@@ -43,7 +44,7 @@ export class Component<P extends Object = any, S = any> {
 
     // listen if the root elements gets removed
     onNodeRemove(this.elements[0], () => {
-      if (!this._skipUnmount) this.didUnmount()
+      if (!this._skipUnmount) this._didUnmount()
     })
   }
 
@@ -51,6 +52,12 @@ export class Component<P extends Object = any, S = any> {
   private _didMount(): any {
     this._addNodeRemoveListener()
     this.didMount()
+  }
+
+  private _didUnmount(): any {
+    if (this._hasUnmounted) return
+    this.didUnmount()
+    this._hasUnmounted = true
   }
 
   public willMount(): any {}
@@ -96,7 +103,10 @@ export class Component<P extends Object = any, S = any> {
     // listen for node removal
     this._addNodeRemoveListener()
 
-    tick(() => (this._skipUnmount = false))
+    tick(() => {
+      this._skipUnmount = false
+      if (!this.elements[0].isConnected) this._didUnmount()
+    })
   }
 
   private _getHash(): any {}

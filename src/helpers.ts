@@ -20,10 +20,12 @@ export const onNodeRemove = (element: any, callback: any) => {
       mutation.removedNodes.forEach((removed) => {
         if (isDescendant(element, removed)) {
           callback()
-          // allow garbage collection
-          observer.disconnect()
-          // @ts-ignore
-          observer = undefined
+          if (observer) {
+            // allow garbage collection
+            observer.disconnect()
+            // @ts-ignore
+            observer = undefined
+          }
         }
       })
     })
