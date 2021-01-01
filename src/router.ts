@@ -93,7 +93,11 @@ export class Switch extends Component {
   }
 }
 
-export const Route: FC<{ path: string; exact?: boolean; children?: any }> = ({ children }) => {
+export const Route: FC<{ path: string; exact?: boolean; children?: any }> = ({ path, children }) => {
+  // pass the path as props to the children
+  children.forEach((child: any) => {
+    if (child.props) child.props = { ...child.props, route: { path } }
+  })
   return children
 }
 

@@ -10,46 +10,51 @@ import { Fragment } from '../fragment'
 
 const Nothing = () => <div></div>
 
-const Home = () => (
-  <Fragment>
-    <h2>Home Page</h2>
-    <p>Nothing here</p>
-  </Fragment>
-)
+const Home = (props: any) => {
+  return (
+    <Fragment>
+      <h2>Home Page</h2>
+      <p>Nothing on route "{props.route.path}"</p>
+    </Fragment>
+  )
+}
 
 const Latte = () => {
   return <span>Latte</span>
 }
 
-const Drinks = () => {
-  return (
-    <Fragment>
-      <h2>Drinks</h2>
+class Drinks extends Component {
+  render() {
+    const { path } = this.props.route
+    return (
+      <Fragment>
+        <h2>Drinks</h2>
 
-      <ul>
-        <li>
-          <Router.Link to="/drinks/latte">Latte</Router.Link>
-        </li>
-        <li>
-          <Router.Link to="/drinks/milk">Milk</Router.Link>
-        </li>
-      </ul>
+        <ul>
+          <li>
+            <Router.Link to={`${path}/latte`}>Latte</Router.Link>
+          </li>
+          <li>
+            <Router.Link to={`${path}/milk`}>Milk</Router.Link>
+          </li>
+        </ul>
 
-      <div class="router">
-        <Router.Switch>
-          <Router.Route path="/drinks">
-            <Nothing />
-          </Router.Route>
-          <Router.Route path="/drinks/latte">
-            <Latte />
-          </Router.Route>
-          <Router.Route path="/drinks/milk">
-            <span>Milk</span>
-          </Router.Route>
-        </Router.Switch>
-      </div>
-    </Fragment>
-  )
+        <div class="router">
+          <Router.Switch>
+            <Router.Route path={`${path}`}>
+              <Nothing />
+            </Router.Route>
+            <Router.Route path={`${path}/latte`}>
+              <Latte />
+            </Router.Route>
+            <Router.Route path={`${path}/milk`}>
+              <span>Milk</span>
+            </Router.Route>
+          </Router.Switch>
+        </div>
+      </Fragment>
+    )
+  }
 }
 
 class App extends Component {
