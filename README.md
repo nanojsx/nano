@@ -8,7 +8,11 @@
 
 </div>
 
-<h3 align="center">Designed to build ultra fast Multi-Page Apps (MPAs), using isomorphic JavaScript.<br />Written in TypeScript. Works on Node and Deno.</h3>
+<h3 align="center">
+Written in TypeScript<br />
+Works on Node and Deno<br />
+Designed to build ultra fast MPAs and SPAs
+</h3>
 
 <p align="center">  
   <a href="https://www.npmjs.com/package/nano-jsx"><img src="https://img.shields.io/npm/v/nano-jsx?style=flat-square" alt="NPM version"></a>
@@ -29,11 +33,6 @@
 - Download the [template](https://github.com/nanojsx/template)
 - Checkout the [sandbox](https://codepen.io/yandeu/pen/MWKMmbq)
 
-## Demo App
-
-Take a look at the [demo app](https://nano-jsx-demo.herokuapp.com/).  
-_It's hosted on a free heroku dyno, so it might take a while to spin up the server and load the app_
-
 ## Features
 
 The best about Nano JSX is the **small bundle size**. It builds, although is sound crazy, bundles as small as svelte!
@@ -48,11 +47,11 @@ The best about Nano JSX is the **small bundle size**. It builds, although is sou
   (This is possible, but requires some knowledge.  
   I plan to make a tutorial soon.)
 
-- **Hydration**  
-  Render your app on the server and hydrate it on the client
-
 - **Partial Hydration**  
-  Hydrate and only the parts you need
+  Hydrate and only the parts you really need
+
+- **Isomorphic Router**
+  Works on Client- and Server-Side
 
 - **CSS in JS**  
   Use JavaScript objects for styling
