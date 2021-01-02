@@ -50,7 +50,7 @@ The best about Nano JSX is the **small bundle size**. It builds, although is sou
 - **Partial Hydration**  
   Hydrate and only the parts you really need
 
-- **Isomorphic Router**
+- **Isomorphic Router**  
   Works on Client- and Server-Side
 
 - **CSS in JS**  
