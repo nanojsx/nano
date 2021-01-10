@@ -49,20 +49,20 @@
   "homepage": "http://nanojsx.io/",
   "dependencies": {},
   "devDependencies": {
-    "@types/jest": "^26.0.19",
-    "@types/node": "^14.14.14",
+    "@types/jest": "^26.0.20",
+    "@types/node": "^14.14.20",
     "denoify": "^0.6.4",
     "jest": "^26.6.3",
     "jsdom": "^16.4.0",
     "live-server": "^1.2.1",
-    "nodemon": "^2.0.6",
+    "nodemon": "^2.0.7",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.2.1",
     "rimraf": "^3.0.2",
-    "ts-loader": "^8.0.12",
+    "ts-loader": "^8.0.14",
     "typescript": "^4.1.3",
-    "webpack": "^5.11.0",
-    "webpack-cli": "^4.2.0"
+    "webpack": "^5.12.3",
+    "webpack-cli": "^4.3.1"
   },
   "engines": {
     "node": ">=12"
