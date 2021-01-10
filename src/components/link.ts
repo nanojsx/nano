@@ -72,7 +72,7 @@ export class Link extends Component {
 
   render() {
     // separate children and prefetch from props
-    const { children, prefetch, ...rest } = this.props
+    const { children, prefetch, back, ref, ...rest } = this.props
 
     // some warning messages
     if (!this.props.href) console.warn('Please add "href" to <Link>')
