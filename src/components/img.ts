@@ -3,12 +3,13 @@ import { h, strToHash } from '../core'
 
 export class Img extends Component {
   constructor(props: any) {
-    const { src, key } = props
-    const id = key ? key : src ? src : 'none'
-
-    // key has be be unique, by default key is the image src
     super(props)
-    this.id = strToHash(id)
+
+    const { src, key } = props
+
+    // id has to be unique
+    this.id = strToHash(src) + '-' + strToHash(JSON.stringify(props))
+    if (key) this.id += 'key-' + key
 
     // this could also be done in willMount()
     if (!this.state) this.setState({ isLoaded: false, image: undefined })
