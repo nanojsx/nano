@@ -25,7 +25,7 @@ test('should render without errors', async (done) => {
 
   Nano.render(<App />, document.getElementById('root'))
 
-  await wait()
+  await wait(250)
   expect(document.body.innerHTML).toBe(
     '<div id="root"><a href="https://geckosio.github.io/">Link to geckos.io</a><a href="https://enable3d.io/">Link to enable3d.io</a></div>'
   )

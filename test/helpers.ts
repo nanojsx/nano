@@ -16,13 +16,13 @@ export const mockIntersectionObserver = () => {
   class mockIntersectionObserver {
     constructor(public fnc: (entries: any, observer: any) => {}) {}
 
-    observe(element: HTMLElement) {
+    observe(_element: HTMLElement) {
       const entries: any = [{ isIntersecting: true }]
       const observer = this
 
       setTimeout(() => {
         this.fnc(entries, observer)
-      }, 80)
+      }, 200)
     }
 
     disconnect() {}

@@ -25,7 +25,7 @@ test('should render without errors', async (done) => {
   Nano.render(<App />, document.getElementById('root'))
   expect(document.body.innerHTML).toBe('<div id="root"><div data-visible="false" visibility="hidden"></div></div>')
 
-  await wait()
+  await wait(250)
   expect(document.body.innerHTML).toBe(
     '<div id="root"><div id="comment-section"><h2>Comment Section</h2><p>Comment 1</p><p>Comment 2</p></div></div>'
   )

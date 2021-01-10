@@ -11,7 +11,7 @@ afterEach(async () => {
   // reset jsdom document
   document.body.innerHTML = ''
   document.head.innerHTML = ''
-  await wait()
+  await wait(200)
 })
 
 test('should render without errors', async (done) => {
@@ -37,7 +37,7 @@ test('should render without errors', async (done) => {
 
   expect(nodeToString(res)).toBe('<body><div data-visible="false" visibility="hidden"></div></body>')
 
-  await wait()
+  await wait(250)
 
   expect(nodeToString(res)).toBe(
     '<body><h2>Comment Section</h2><p>Comment 1</p><p>Comment 2</p><div>Ads</div><p>Comment 3</p></body>'

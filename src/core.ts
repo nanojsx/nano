@@ -136,9 +136,6 @@ export const _render = (comp: any): any => {
   // Functional Component
   if (comp.component && typeof comp.component === 'function') return renderFunctionalComponent(comp)
 
-  // Functional Component
-  if (comp.component && typeof comp.component === 'function') return renderFunctionalComponent(comp)
-
   // Array (render each child and return the array) (is probably a fragment)
   if (Array.isArray(comp)) return comp.map((c) => _render(c)).flat()
 
@@ -156,7 +153,7 @@ export const _render = (comp: any): any => {
   if (comp.component) return _render(comp.component)
 
   // object
-  if (typeof comp === 'object') return [] //_render(comp)
+  if (typeof comp === 'object') return []
 
   console.warn('Something unexpected happened with:', comp)
 }
@@ -182,6 +179,9 @@ const renderClassComponent = (classComp: any): any => {
   let el = Component.render()
   el = _render(el)
   Component.elements = el
+
+  // pass the component instance as ref
+  if (props && props.ref) props.ref(Component)
 
   if (typeof isSSR === 'undefined')
     tick(() => {
