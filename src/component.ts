@@ -13,16 +13,20 @@ export class Component<P extends Object = any, S = any> {
   }
 
   setState(state: S, shouldUpdate: boolean = false) {
-    _state.set(this.id, state)
+    this.state = state
     if (shouldUpdate) this.update()
   }
 
   set state(state: S) {
-    if (!_state.has(this.id)) this.setState(state)
+    _state.set(this.id, state)
   }
 
   get state() {
     return _state.get(this.id) as S
+  }
+
+  set initState(state: S) {
+    if (this.state === undefined) this.state = state
   }
 
   /** Returns all currently rendered node elements */
