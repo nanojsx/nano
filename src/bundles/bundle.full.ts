@@ -43,5 +43,5 @@ export default {
 }
 
 // version
-import { logVersion } from '../helpers'
-logVersion()
+export { printVersion } from '../helpers'
+export { VERSION } from '../version'

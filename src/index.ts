@@ -26,5 +26,5 @@ import { createContext } from './context'
 export default { h, render, hydrate, renderSSR, createContext }
 
 // version
-import { logVersion } from './helpers'
-logVersion()
+export { printVersion } from './helpers'
+export { VERSION } from './version'
