@@ -1,0 +1,25 @@
+name: Deno
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        deno: ['v1.x']
+
+    name: Deno ${{ matrix.deno }} sample
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Deno
+        uses: denolib/setup-deno@v2
+        with:
+          deno-version: ${{ matrix.deno }}
+
+      - run: |
+          deno --version
+          deno test -c tsconfig.deno.json deno.test.tsx
