@@ -13,7 +13,13 @@ export class Component<P extends Object = any, S = any> {
   }
 
   setState(state: S, shouldUpdate: boolean = false) {
-    this.state = state
+    const isObject = typeof state === 'object' && state !== null
+
+    // if state is an object, we merge the objects
+    if (isObject && this.state !== undefined) this.state = { ...this.state, ...state }
+    // else, we just overwrite it
+    else this.state = state
+
     if (shouldUpdate) this.update()
   }
 
