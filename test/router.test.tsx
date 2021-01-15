@@ -1,6 +1,6 @@
 import Nano, { Component } from '../lib/index.js'
 import { wait, nodeToString } from './helpers.js'
-import * as Router from '../lib/router.js'
+import * as Router from '../lib/components/router.js'
 
 const spy = jest.spyOn(global.console, 'error')
 

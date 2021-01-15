@@ -3,7 +3,7 @@
  */
 
 import Nano, { Component, renderSSR } from '../lib/index.js'
-import * as Router from '../lib/router.js'
+import * as Router from '../lib/components/router.js'
 
 const spy = jest.spyOn(global.console, 'error')
 
