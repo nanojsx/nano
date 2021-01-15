@@ -1,6 +1,6 @@
 import './types'
 
-export { h, render, hydrate, removeAllChildNodes, tick } from './core'
+export { h, render, hydrate, removeAllChildNodes, tick, FC } from './core'
 export { jsx } from './jsx'
 export { hydrateLazy } from './lazy'
 export { nodeToString, task } from './helpers'
