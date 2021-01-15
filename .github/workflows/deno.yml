@@ -9,17 +9,32 @@ jobs:
     strategy:
       matrix:
         deno: ['v1.x']
+        node-version: ['14.x']
 
     name: Deno ${{ matrix.deno }} sample
 
     steps:
       - uses: actions/checkout@v2
 
+      # install node to run denoify.land
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      # install deno to run the test
       - name: Setup Deno
         uses: denolib/setup-deno@v2
         with:
           deno-version: ${{ matrix.deno }}
 
-      - run: |
+      - name: npm install, build, and denoify
+        run: |
+          npm install
+          npm run build
+          npm run denoify
+
+      - name: deno test
+        run: |
           deno --version
           deno test -c tsconfig.deno.json deno.test.tsx
