@@ -4,3 +4,4 @@ dev/dev.js
 node_modules
 lib
 test/**/*.js
+debug.log
