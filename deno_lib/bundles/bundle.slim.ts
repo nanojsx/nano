@@ -24,5 +24,5 @@ export default {
 }
 
 // version
-import { logVersion } from '../helpers.ts'
-logVersion()
+export { printVersion } from '../helpers.ts'
+export { VERSION } from '../version.ts'

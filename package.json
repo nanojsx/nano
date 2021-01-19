@@ -1,6 +1,6 @@
 {
   "name": "nano-jsx",
-  "version": "0.0.14-dev.0",
+  "version": "0.0.14",
   "description": "SSR first, lightweight 1kB JSX library.",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",

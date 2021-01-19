@@ -20,10 +20,12 @@ export const onNodeRemove = (element: any, callback: any) => {
       mutation.removedNodes.forEach((removed) => {
         if (isDescendant(element, removed)) {
           callback()
-          // allow garbage collection
-          observer.disconnect()
-          // @ts-ignore
-          observer = undefined
+          if (observer) {
+            // allow garbage collection
+            observer.disconnect()
+            // @ts-ignore
+            observer = undefined
+          }
         }
       })
     })
@@ -35,10 +37,10 @@ export const onNodeRemove = (element: any, callback: any) => {
   return observer
 }
 
-export const logVersion = () => {
+export const printVersion = () => {
   const info = `Powered by nano JSX v${VERSION}`
   console.log(
-    `%c %c %c %c %c ${info} %c http://nanojsx.io/`,
+    `%c %c %c %c %c ${info} %c http://nanojsx.io`,
     'background: #ff0000',
     'background: #ffff00',
     'background: #00ff00',

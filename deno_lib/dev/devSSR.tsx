@@ -30,9 +30,9 @@ import { Component } from '../component.ts'
 import { Helmet } from '../components/helmet.ts'
 
 // @ts-ignore
-import fs from 'https://deno.land/std@0.82.0/node/fs.ts'
+import fs from 'https://deno.land/std@0.83.0/node/fs.ts'
 // @ts-ignore
-import { join } from 'https://deno.land/std@0.82.0/node/path.ts'
+import { join } from 'https://deno.land/std@0.83.0/node/path.ts'
 // @ts-ignore
 import http from 'http DENOIFY: DEPENDENCY UNMET (BUILTIN)'
 

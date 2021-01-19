@@ -1,7 +1,7 @@
 // inspired by https://codesandbox.io/s/build-own-react-router-v4-mpslz
 
-import { Component } from './component.ts'
-import { FC, h, _render } from './core.ts'
+import { Component } from '../component.ts'
+import { FC, h, _render } from '../core.ts'
 
 let instances: any[] = []
 
@@ -29,7 +29,7 @@ const matchPath = (pathname: string, options: { exact?: boolean; path: string })
     }
   }
 
-  const match = new RegExp(`^${path}`).exec(pathname)
+  const match = path === '*' ? [pathname] : new RegExp(`^${path}`).exec(pathname)
 
   if (!match) return null
 
@@ -61,26 +61,28 @@ export class Switch extends Component {
   }
 
   shouldUpdate() {
-    let found = false
-
-    this.props.children.forEach((child: any) => {
+    for (let i = 0; i < this.props.children.length; i++) {
+      const child = this.props.children[i]
       const { path, exact } = child.props
       const match = matchPath(window.location.pathname, { path, exact })
       if (match) {
-        found = this.path !== path
+        const found = this.path !== path
+        if (found) return true
       }
-    })
+    }
 
-    return found
+    return false
   }
 
   render() {
-    let component
+    let component: any
 
     this.props.children.forEach((child: any) => {
       const { path, exact } = child.props
       const match = matchPath(window.location.pathname, { path, exact })
       if (match) {
+        // if there is already a matched component, we do not match *
+        if (component && path === '*') return
         component = child
         this.path = path
       }
@@ -93,7 +95,11 @@ export class Switch extends Component {
   }
 }
 
-export const Route: FC<{ path: string; exact?: boolean; children?: any }> = ({ children }) => {
+export const Route: FC<{ path: string; exact?: boolean; children?: any }> = ({ path, children }) => {
+  // pass the path as props to the children
+  children.forEach((child: any) => {
+    if (child.props) child.props = { ...child.props, route: { path } }
+  })
   return children
 }
 

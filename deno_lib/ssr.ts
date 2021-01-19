@@ -3,25 +3,30 @@ declare const isSSR: boolean
 import { render } from './core.ts'
 import { _state } from './state.ts'
 
-export const initSSR = (pathname: string = '/') => {
+const detectSSR = () => {
   // @ts-ignore
   const isDeno = typeof Deno !== 'undefined'
   const hasWindow = typeof window !== 'undefined' ? true : false
-  const _isSSR = (typeof isSSR !== 'undefined' && isSSR) || isDeno || !hasWindow
+  return (typeof isSSR !== 'undefined' && isSSR) || isDeno || !hasWindow
+}
 
+// @ts-ignore
+globalThis.isSSR = detectSSR() === true ? true : undefined
+
+export const initSSR = (pathname: string = '/') => {
   // @ts-ignore
-  globalThis.isSSR = _isSSR
+  const isDeno = typeof Deno !== 'undefined'
 
   if (!isDeno)
     // @ts-ignore
-    globalThis.window = _isSSR ? { location: { pathname } } : window
+    globalThis.window = isSSR ? { location: { pathname } } : window
   else {
     // @ts-ignore
     window.location = { pathname }
   }
 
   // @ts-ignore
-  globalThis.document = _isSSR ? new DocumentSSR() : window.document
+  globalThis.document = isSSR ? new DocumentSSR() : window.document
 }
 
 export const clearState = () => {

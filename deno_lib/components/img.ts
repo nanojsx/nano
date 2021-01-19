@@ -3,19 +3,22 @@ import { h, strToHash } from '../core.ts'
 
 export class Img extends Component {
   constructor(props: any) {
-    const { src, key } = props
-    const id = key ? key : src ? src : 'none'
-
-    // key has be be unique, by default key is the image src
     super(props)
-    this.id = strToHash(id)
+
+    const { src, key } = props
+
+    // id has to be unique
+    this.id = strToHash(src) + '-' + strToHash(JSON.stringify(props))
+    if (key) this.id += 'key-' + key
 
     // this could also be done in willMount()
     if (!this.state) this.setState({ isLoaded: false, image: undefined })
   }
 
   didMount() {
-    const { placeholder, children, key, ...rest } = this.props
+    const { lazy = true, placeholder, children, key, ref, ...rest } = this.props
+
+    if (typeof lazy === 'boolean' && lazy === false) return
 
     const observer = new IntersectionObserver(
       (entries, observer) => {
@@ -23,9 +26,14 @@ export class Img extends Component {
           if (entry.isIntersecting) {
             observer.disconnect()
             this.state.image = h('img', { ...rest }) as HTMLImageElement
-            this.state.image.onload = () => {
+            if (this.state.image.complete) {
               this.state.isLoaded = true
               this.update()
+            } else {
+              this.state.image.onload = () => {
+                this.state.isLoaded = true
+                this.update()
+              }
             }
           }
         })
@@ -35,10 +43,13 @@ export class Img extends Component {
     observer.observe(this.elements[0])
   }
   render() {
-    const { src, placeholder, children, lazy = true, key, ...rest } = this.props
+    const { src, placeholder, children, lazy = true, key, ref, ...rest } = this.props
 
     // return the img tag if not lazy loaded
-    if (typeof lazy === 'boolean' && lazy === false) return h('img', { src, ...rest }) as HTMLImageElement
+    if (typeof lazy === 'boolean' && lazy === false) {
+      this.state.image = h('img', { src, ...rest }) as HTMLImageElement
+      return this.state.image
+    }
 
     // if it is visible and loaded, show the image
     if (this.state.isLoaded) {
@@ -54,7 +65,8 @@ export class Img extends Component {
       const style: any = {}
       if (rest.width) style.width = rest.width + 'px'
       if (rest.height) style.height = rest.height + 'px'
-      return h('div', { style, ...rest })
+      const { width, height, ...others } = rest
+      return h('div', { style, ...others })
     }
   }
 }
