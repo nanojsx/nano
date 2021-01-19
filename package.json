@@ -5,6 +5,7 @@
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
   "scripts": {
+    "prepareRelease": "npm run build && npm run bundle && npm run denoify && npm run test && npm run deno:test",
     "start": "npm run dev",
     "version": "node scripts/version.js",
     "deno": "deno run --allow-net -c tsconfig.deno.json deno.dev.tsx",
