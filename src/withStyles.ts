@@ -8,7 +8,7 @@ export const withStyles: any = (styles: any) => (WrappedComponent: any) => {
     render() {
       const { children, ...rest } = this.props
 
-      const helmet = h(Helmet, null, h('style', null, styles))
+      const helmet = h(Helmet, null, h('style', null, styles.toString()))
 
       const component =
         children && children.length > 0
@@ -21,7 +21,7 @@ export const withStyles: any = (styles: any) => (WrappedComponent: any) => {
       // return (
       //   <Fragment>
       //     <Helmet>
-      //       <style>{styles}</style>
+      //       <style>{styles.toString()}</style>
       //     </Helmet>
 
       //     {children && children.length > 0 ? (
