@@ -1,4 +1,5 @@
 declare const isSSR: boolean
+declare const _nano: any
 
 import { render } from './core'
 import { _state } from './state'
@@ -13,17 +14,12 @@ const detectSSR = () => {
 // @ts-ignore
 globalThis.isSSR = detectSSR() === true ? true : undefined
 
-export const initSSR = (pathname: string = '/') => {
-  // @ts-ignore
-  const isDeno = typeof Deno !== 'undefined'
+// @ts-ignore
+globalThis._nano = { isSSR, location: { pathname: '/' } }
 
-  if (!isDeno)
-    // @ts-ignore
-    globalThis.window = isSSR ? { location: { pathname } } : window
-  else {
-    // @ts-ignore
-    window.location = { pathname }
-  }
+export const initSSR = (pathname: string = '/') => {
+  // set pathname
+  _nano.location = { pathname }
 
   // @ts-ignore
   globalThis.document = isSSR ? new DocumentSSR() : window.document

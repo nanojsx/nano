@@ -1,4 +1,6 @@
 // inspired by https://codesandbox.io/s/build-own-react-router-v4-mpslz
+declare const isSSR: boolean
+declare const _nano: any
 
 import { Component } from '../component'
 import { FC, h, _render } from '../core'
@@ -79,7 +81,7 @@ export class Switch extends Component {
 
     this.props.children.forEach((child: any) => {
       const { path, exact } = child.props
-      const match = matchPath(window.location.pathname, { path, exact })
+      const match = matchPath(isSSR ? _nano.location.pathname : window.location.pathname, { path, exact })
       if (match) {
         // if there is already a matched component, we do not match *
         if (component && path === '*') return
