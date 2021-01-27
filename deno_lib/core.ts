@@ -81,7 +81,10 @@ export const hydrate = (component: any, parent: HTMLElement | null = null, remov
 export const render = (component: any, parent: HTMLElement | null = null, removeChildNodes = true) => {
   let el = _render(component)
 
-  if (Array.isArray(el)) el = el.map((e) => _render(e))
+  if (Array.isArray(el)) {
+    el = el.map((e) => _render(e))
+    if (el.length === 1) el = el[0]
+  }
 
   if (!!parent) {
     if (removeChildNodes) removeAllChildNodes(parent)
