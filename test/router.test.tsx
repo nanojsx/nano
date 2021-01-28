@@ -28,17 +28,22 @@ test('should render without errors', async (done) => {
       setTimeout(() => Router.to('/children/one'), 250)
       setTimeout(() => Router.to('/children/two'), 350)
       setTimeout(() => Router.to('/'), 450)
+      setTimeout(() => Router.to('/abc123'), 550)
+      setTimeout(() => Router.to('/nothing'), 650)
     }
 
     render() {
       return (
         <div id="root">
-          <Router.Switch>
+          <Router.Switch fallback={() => <div>404: Page Not Found</div>}>
             <Router.Route exact path="/">
               <div>Home Route</div>
             </Router.Route>
             <Router.Route path="/about">
               <div>About Route</div>
+            </Router.Route>
+            <Router.Route path="/:id" regex={{ id: /^[a-f0-9]{6}$/ }}>
+              <div>Regex Route</div>
             </Router.Route>
             <Router.Route path="/children">
               <Children />
@@ -65,6 +70,12 @@ test('should render without errors', async (done) => {
 
   await wait(100)
   expect(nodeToString(res)).toBe('<body><div id="root"><div>Home Route</div></div></body>')
+
+  await wait(100)
+  expect(nodeToString(res)).toBe('<body><div id="root"><div>Regex Route</div></div></body>')
+
+  await wait(100)
+  expect(nodeToString(res)).toBe('<body><div id="root"><div>404: Page Not Found</div></div></body>')
 
   expect(spy).not.toHaveBeenCalled()
   done()

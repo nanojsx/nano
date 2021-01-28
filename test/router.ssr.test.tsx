@@ -8,16 +8,16 @@ import * as Router from '../lib/components/router.js'
 const spy = jest.spyOn(global.console, 'error')
 
 test('should render without errors', () => {
-  class App extends Component {
+  class Children extends Component {
     render() {
       return (
-        <div id="root">
+        <div id="children">
           <Router.Switch>
-            <Router.Route exact path="/">
-              <div>Home Route</div>
+            <Router.Route exact path="/children/one">
+              <div>Child One</div>
             </Router.Route>
-            <Router.Route path="/about">
-              <div>About Route</div>
+            <Router.Route path="/children/two">
+              <div>Child Two</div>
             </Router.Route>
           </Router.Switch>
         </div>
@@ -25,14 +25,49 @@ test('should render without errors', () => {
     }
   }
 
-  const homeRoute = renderSSR(<App />)
-  expect(homeRoute).toBe('<div id="root"><div>Home Route</div></div>')
+  class App extends Component {
+    render() {
+      return (
+        <div id="root">
+          <Router.Switch fallback={() => <div>404: Page Not Found</div>}>
+            <Router.Route exact path="/">
+              <div>Home Route</div>
+            </Router.Route>
+            <Router.Route path="/about">
+              <div>About Route</div>
+            </Router.Route>
+            <Router.Route path="/:id" regex={{ id: /^[a-f0-9]{6}$/ }}>
+              <div>Regex Route</div>
+            </Router.Route>
+            <Router.Route path="/children">
+              <Children />
+            </Router.Route>
+          </Router.Switch>
+        </div>
+      )
+    }
+  }
+
+  const defaultRoute = renderSSR(<App />)
+  expect(defaultRoute).toBe('<div id="root"><div>Home Route</div></div>')
 
   const aboutRoute = renderSSR(<App />, { pathname: '/about' })
   expect(aboutRoute).toBe('<div id="root"><div>About Route</div></div>')
 
-  const notFound = renderSSR(<App />, { pathname: '/abut' })
-  expect(notFound).toBe('<div id="root"><div class="route">not found</div></div>')
+  const childOne = renderSSR(<App />, { pathname: '/children/one' })
+  expect(childOne).toBe('<div id="root"><div id="children"><div>Child One</div></div></div>')
+
+  const childTwo = renderSSR(<App />, { pathname: '/children/two' })
+  expect(childTwo).toBe('<div id="root"><div id="children"><div>Child Two</div></div></div>')
+
+  const homeRoute = renderSSR(<App />, { pathname: '/' })
+  expect(homeRoute).toBe('<div id="root"><div>Home Route</div></div>')
+
+  const regexRoute = renderSSR(<App />, { pathname: '/abc123' })
+  expect(regexRoute).toBe('<div id="root"><div>Regex Route</div></div>')
+
+  const notFound = renderSSR(<App />, { pathname: '/nothing' })
+  expect(notFound).toBe('<div id="root"><div>404: Page Not Found</div></div>')
 
   expect(spy).not.toHaveBeenCalled()
 })
