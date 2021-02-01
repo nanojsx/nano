@@ -10,7 +10,7 @@
     "version": "node scripts/version.js",
     "deno": "deno run --allow-net -c tsconfig.deno.json deno.dev.tsx",
     "deno:test": "deno test -c tsconfig.deno.json deno.test.tsx",
-    "denoify": "rimraf deno_lib && npm run tsc && denoify",
+    "denoify": "rimraf deno_lib && denoify && rimraf deno_lib/bundles deno_lib/dev",
     "tsc": "npm run version && tsc --project tsconfig.json",
     "build": "npm run tsc",
     "bundle": "webpack --config webpack/webpack.bundle.prod.js",
