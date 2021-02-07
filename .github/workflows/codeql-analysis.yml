@@ -1,0 +1,29 @@
+name: 'CodeQL'
+
+on:
+  push:
+    paths:
+      - 'src/**'
+      - '.github/**'
+  pull_request:
+    paths:
+      - 'src/**'
+      - '.github/**'
+
+jobs:
+  analyze:
+    name: Analyze
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v1
+        with:
+          languages: typescript
+          config-file: ./.github/codeql/codeql-config.yml
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v1
