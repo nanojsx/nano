@@ -1,6 +1,22 @@
 name: Deno
 
-on: [push, pull_request]
+on:
+  push:
+    paths-ignore:
+      - '.vscode/**'
+      - 'bundles/**'
+      - 'deno_lib/**'
+      - 'dev/**'
+      - 'readme/**'
+      - '**.md'
+  pull_request:
+    paths-ignore:
+      - '.vscode/**'
+      - 'bundles/**'
+      - 'deno_lib/**'
+      - 'dev/**'
+      - 'readme/**'
+      - '**.md'
 
 jobs:
   build:

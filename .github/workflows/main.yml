@@ -5,6 +5,13 @@ on:
     branches:
       - main
       - master
+    paths-ignore:
+      - '.vscode/**'
+      - 'bundles/**'
+      - 'deno_lib/**'
+      - 'dev/**'
+      - 'readme/**'
+      - '**.md'
 
 jobs:
   build:

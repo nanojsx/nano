@@ -5,9 +5,23 @@ on:
     branches-ignore:
       - main
       - master
+    paths-ignore:
+      - '.vscode/**'
+      - 'bundles/**'
+      - 'deno_lib/**'
+      - 'dev/**'
+      - 'readme/**'
+      - '**.md'
   pull_request:
     branches:
       - '**'
+    paths-ignore:
+      - '.vscode/**'
+      - 'bundles/**'
+      - 'deno_lib/**'
+      - 'dev/**'
+      - 'readme/**'
+      - '**.md'
 
 jobs:
   build:
