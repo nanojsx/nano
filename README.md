@@ -23,7 +23,8 @@
   <a href="https://deno.land/x/nano_jsx"><img src="https://img.shields.io/badge/available%20on-deno.land/x-lightgrey.svg?logo=deno&labelColor=black&style=flat-square"></a>
   <br/><br/>
   <img src="https://badgen.net/badgesize/gzip/nanojsx/nano/master/bundles/nano.core.min.js?style=flat-square" alt="gzip size">
-  <a href="https://github.com/nanojsx/nano/actions?query=workflow%3ACI"><img src="https://img.shields.io/github/workflow/status/nanojsx/nano/CI/master?label=github%20build&logo=github&style=flat-square"></a>
+  <a href="https://github.com/nanojsx/nano/actions?query=workflow%3ACI"><img src="https://img.shields.io/github/workflow/status/nanojsx/nano/CI/master?label=build&logo=github&style=flat-square"></a>
+  <a href="https://github.com/nanojsx/nano/actions?query=workflow%3ACodeQL"><img alt="GitHub Workflow Status" src="https://img.shields.io/github/workflow/status/nanojsx/nano/CodeQL?label=CodeQL&logo=github&style=flat-square"></a>
   <a href="https://github.com/nanojsx/nano/commits/master"><img src="https://img.shields.io/github/last-commit/nanojsx/nano.svg?style=flat-square" alt="GitHub last commit"></a>
   <a href="https://github.com/prettier/prettier"><img src="https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square" alt="code style: prettier"></a>
   <a href="https://www.typescriptlang.org/"><img src="https://img.shields.io/badge/built%20with-TypeScript-blue?style=flat-square"></a>
