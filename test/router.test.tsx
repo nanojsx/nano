@@ -24,12 +24,12 @@ test('should render without errors', async (done) => {
 
   class App extends Component {
     didMount() {
-      setTimeout(() => Router.to('/about'), 150)
-      setTimeout(() => Router.to('/children/one'), 250)
-      setTimeout(() => Router.to('/children/two'), 350)
-      setTimeout(() => Router.to('/'), 450)
-      setTimeout(() => Router.to('/abc123'), 550)
-      setTimeout(() => Router.to('/nothing'), 650)
+      setTimeout(() => Router.to('/about'), 200)
+      setTimeout(() => Router.to('/children/one'), 400)
+      setTimeout(() => Router.to('/children/two'), 600)
+      setTimeout(() => Router.to('/'), 800)
+      setTimeout(() => Router.to('/abc123'), 1000)
+      setTimeout(() => Router.to('/nothing'), 1200)
     }
 
     render() {
@@ -59,22 +59,22 @@ test('should render without errors', async (done) => {
   await wait(100)
   expect(nodeToString(res)).toBe('<body><div id="root"><div>Home Route</div></div></body>')
 
-  await wait(100)
+  await wait(200)
   expect(nodeToString(res)).toBe('<body><div id="root"><div>About Route</div></div></body>')
 
-  await wait(100)
+  await wait(200)
   expect(nodeToString(res)).toBe('<body><div id="root"><div id="children"><div>Child One</div></div></div></body>')
 
-  await wait(100)
+  await wait(200)
   expect(nodeToString(res)).toBe('<body><div id="root"><div id="children"><div>Child Two</div></div></div></body>')
 
-  await wait(100)
+  await wait(200)
   expect(nodeToString(res)).toBe('<body><div id="root"><div>Home Route</div></div></body>')
 
-  await wait(100)
+  await wait(200)
   expect(nodeToString(res)).toBe('<body><div id="root"><div>Regex Route</div></div></body>')
 
-  await wait(100)
+  await wait(200)
   expect(nodeToString(res)).toBe('<body><div id="root"><div>404: Page Not Found</div></div></body>')
 
   expect(spy).not.toHaveBeenCalled()
