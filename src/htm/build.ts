@@ -116,8 +116,8 @@ export const evaluate = (h: any, built: any, fields: any, args: any): any => {
   return args
 }
 
-export const build = function (statics: any) {
-  const fields = arguments
+export const build = function (statics: TemplateStringsArray, ...rest: any[]) {
+  const fields = [statics, ...rest]
   // @ts-ignore
   const h = this
 
