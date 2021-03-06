@@ -30,7 +30,8 @@ jobs:
     name: Deno ${{ matrix.deno }} sample
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
       # install node to run denoify.land
       - name: Use Node.js ${{ matrix.node-version }}
@@ -44,13 +45,16 @@ jobs:
         with:
           deno-version: ${{ matrix.deno }}
 
-      - name: npm install, build, and denoify
-        run: |
-          npm install
-          npm run build
-          npm run denoify
+      - name: Install Dependencies
+        run: npm install
 
-      - name: deno test
+      - name: Build Packages
+        run: npm run build
+
+      - name: Denoify
+        run: npm run denoify
+
+      - name: Run Tests
         run: |
           deno --version
           deno test -c tsconfig.deno.json deno.test.tsx

@@ -22,18 +22,24 @@ jobs:
         node-version: [12.x, 14.x, 15.x]
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: npm install, build, and test
-        run: |
-          npm install
-          npm run build
-          npm test
-      - uses: codecov/codecov-action@v1
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Build Packages
+        run: npm run build
+
+      - name: Run Tests
+        run: npm test
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v1
         env:
           CI: true
