@@ -7,7 +7,7 @@
   "scripts": {
     "prepareRelease": "npm i && npm run build && npm run bundle && npm run denoify && npm run test && npm run deno:test",
     "start": "npm run dev",
-    "version": "node scripts/version.js",
+    "version": "extract version src/version.ts",
     "deno": "deno run --allow-net -c tsconfig.deno.json deno.dev.tsx",
     "deno:test": "deno test -c tsconfig.deno.json deno.test.tsx",
     "denoify": "rimraf deno_lib && denoify && rimraf deno_lib/bundles deno_lib/dev",
@@ -52,6 +52,7 @@
   "devDependencies": {
     "@types/jest": "^26.0.20",
     "@types/node": "^14.14.20",
+    "@yandeu/extract": "^0.0.2",
     "denoify": "^0.6.4",
     "jest": "^26.6.3",
     "jsdom": "^16.4.0",
