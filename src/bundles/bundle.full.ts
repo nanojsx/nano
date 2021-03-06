@@ -39,7 +39,7 @@ export default {
   Link,
   Store,
   Visible,
-  UI,
+  UI
 }
 
 // version

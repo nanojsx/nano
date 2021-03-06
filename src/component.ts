@@ -43,7 +43,7 @@ export class Component<P extends Object = any, S = any> {
   public set elements(elements: HTMLElement[]) {
     if (!Array.isArray(elements)) elements = [elements]
 
-    elements.forEach((element) => {
+    elements.forEach(element => {
       this._elements.push(element)
     })
   }

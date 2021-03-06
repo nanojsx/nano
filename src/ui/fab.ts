@@ -23,7 +23,7 @@ export class Fab extends Component<FabProps> {
       mini = false,
       center = false,
       left = false,
-      onClick = () => {},
+      onClick = () => {}
     } = this.props
 
     const height = mini ? 40 : extended ? 48 : 56

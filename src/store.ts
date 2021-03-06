@@ -58,7 +58,7 @@ export class Store {
 
     this.persist(newState)
 
-    this._listeners.forEach((fnc) => {
+    this._listeners.forEach(fnc => {
       fnc(this._state, this._prevState)
     })
   }
@@ -82,7 +82,7 @@ export class Store {
       },
       cancel: () => {
         this._listeners.delete(id)
-      },
+      }
     }
   }
 }

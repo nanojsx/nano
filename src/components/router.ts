@@ -12,12 +12,12 @@ const unregister = (comp: any) => instances.splice(instances.indexOf(comp), 1)
 
 const historyPush = (path: string) => {
   window.history.pushState({}, '', path)
-  instances.forEach((instance) => instance.handlePop())
+  instances.forEach(instance => instance.handlePop())
 }
 
 const historyReplace = (path: string) => {
   window.history.replaceState({}, '', path)
-  instances.forEach((instance) => instance.handlePop())
+  instances.forEach(instance => instance.handlePop())
 }
 
 const matchPath = (
@@ -30,7 +30,7 @@ const matchPath = (
     return {
       path: null,
       url: pathname,
-      isExact: true,
+      isExact: true
     }
   }
 
@@ -77,7 +77,7 @@ const matchPath = (
     path,
     url,
     isExact,
-    params,
+    params
   }
 }
 
@@ -108,7 +108,7 @@ export class Switch extends Component<{ fallback?: any; children?: any }> {
       const match = matchPath(typeof isSSR !== 'undefined' ? _nano.location.pathname : window.location.pathname, {
         path,
         exact,
-        regex,
+        regex
       })
       if (match) {
         this.match.index = i
@@ -144,7 +144,7 @@ export class Switch extends Component<{ fallback?: any; children?: any }> {
 export const Route: FC<{ path: string; exact?: boolean; regex?: { [param: string]: RegExp }; children?: any }> = ({
   path,
   regex,
-  children,
+  children
 }) => {
   // pass the path as props to the children
   children.forEach((child: any) => {

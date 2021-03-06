@@ -22,7 +22,7 @@ const classes = {
   action: 'bottom_navigation_action',
   idPrefix: 'bottom_navigation_action_id-',
   inactive: 'bottom_navigation_action_inactive',
-  initialActive: 'bottom_navigation_label_initial_active',
+  initialActive: 'bottom_navigation_label_initial_active'
 }
 
 export class NavigationAction extends Component<ActionProps> {
@@ -46,7 +46,7 @@ export class NavigationAction extends Component<ActionProps> {
         onClick: () => {
           if (this.props.link) window.location.href = this.props.link
           this.props.onClick?.({ navigate: !!this.props.link, id: this.id, label: this.props.label, component: this })
-        },
+        }
       },
       this.props.icon ? h(Icon, { size: 22, style: 'margin-bottom: 2px;', src: this.props.icon }) : null,
       label
@@ -57,11 +57,11 @@ export class Navigation extends Component<NavigationProps> {
   didMount() {
     const children = this.props.children as Component<ActionProps>[]
 
-    children.forEach((c) => {
-      c.props.onClick = (e) => {
+    children.forEach(c => {
+      c.props.onClick = e => {
         if (e.navigate) return
         const elements = document.querySelectorAll(`[id^="${classes.idPrefix}"]`)
-        elements.forEach((el) => {
+        elements.forEach(el => {
           if (el.id === `${classes.idPrefix}${e.id}`) el.classList.remove(classes.inactive)
           else el.classList.add(classes.inactive)
         })
@@ -72,7 +72,7 @@ export class Navigation extends Component<NavigationProps> {
   render() {
     const colors = {
       active: '#6204EE',
-      inactive: '#00000070',
+      inactive: '#00000070'
     }
 
     const styles = `

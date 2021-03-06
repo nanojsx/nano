@@ -46,7 +46,7 @@ export class Tabs extends Component<TabsProps> {
       item.scrollIntoView({
         behavior: 'smooth',
         block: 'center',
-        inline: 'center',
+        inline: 'center'
       })
     }
 

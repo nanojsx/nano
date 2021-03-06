@@ -22,7 +22,7 @@ export class Img extends Component {
 
     const observer = new IntersectionObserver(
       (entries, observer) => {
-        entries.forEach((entry) => {
+        entries.forEach(entry => {
           if (entry.isIntersecting) {
             observer.disconnect()
             this.state.image = h('img', { ...rest }) as HTMLImageElement

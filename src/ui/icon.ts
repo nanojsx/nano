@@ -30,7 +30,7 @@ export class Icon extends Component<IconProps> {
 
     const colors = {
       active: color,
-      inactive: '#00000070',
+      inactive: '#00000070'
     }
 
     const styles = `

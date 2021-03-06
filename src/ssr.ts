@@ -60,7 +60,7 @@ export class HTMLElementSSR {
       'param',
       'source',
       'track',
-      'wbr',
+      'wbr'
     ]
 
     if (selfClosing.indexOf(tag) >= 0) {

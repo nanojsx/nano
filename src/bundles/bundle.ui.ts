@@ -22,5 +22,5 @@ export default {
   List,
   ListItem,
   Menu,
-  Snackbar,
+  Snackbar
 }

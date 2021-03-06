@@ -75,7 +75,7 @@ export class Suspense extends Component<{ fallback: any; cache?: boolean; [key: 
       if (cache) this.state = { ...this.state, [item]: fnc[index] }
       return {
         ...obj,
-        [item]: fnc[index],
+        [item]: fnc[index]
       }
     }, {})
     return data

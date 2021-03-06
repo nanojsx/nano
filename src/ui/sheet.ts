@@ -118,7 +118,7 @@ export class Sheet extends Component<SheetProps> {
       class: `sheet_background-${cssHash}`,
       onClick: () => {
         element.remove()
-      },
+      }
     })
     const t = title ? h('div', { class: `sheet_title-${cssHash}` }, title) : null
     const s = subtitle ? h('div', { class: `sheet_subtitle-${cssHash}` }, subtitle) : null

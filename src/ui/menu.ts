@@ -19,7 +19,7 @@ export class Menu {
   private getParentElement(id: string) {
     // delete all other
     const others = document.querySelectorAll(`[id^="${this.defaultParentId}"]`)
-    others.forEach((e) => {
+    others.forEach(e => {
       e.remove()
     })
 

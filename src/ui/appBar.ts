@@ -4,7 +4,7 @@ import { boxShadow, zIndex } from './_config'
 
 const classes = {
   container: 'appBar_container',
-  scrollingDown: 'appBar_scrolling_down',
+  scrollingDown: 'appBar_scrolling_down'
 }
 
 interface AppBarProps {

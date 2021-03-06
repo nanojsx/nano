@@ -8,7 +8,7 @@ import { Component } from '../../component'
 
 // simply mocks a server fetch and returns an array of comments
 const fetchMock = (): Promise<string[]> =>
-  new Promise((resolve) => setTimeout(() => resolve(['comment_one', 'comment_two']), 500))
+  new Promise(resolve => setTimeout(() => resolve(['comment_one', 'comment_two']), 500))
 
 // the comments component
 interface CommentsProps {
@@ -18,7 +18,7 @@ const Comments: Nano.FC<CommentsProps> = ({ comments }) => {
   console.log(comments)
   return (
     <ul>
-      {comments.map((d) => (
+      {comments.map(d => (
         <li>{d}</li>
       ))}
     </ul>

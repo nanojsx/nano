@@ -20,7 +20,7 @@ export default {
   task,
   Component,
   Fragment,
-  Store,
+  Store
 }
 
 // version
