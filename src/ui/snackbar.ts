@@ -151,8 +151,7 @@ export class Snackbar {
   private _show(options: SnackbarOptions | null, callback: (event: { name: string; id: string | number }) => void) {
     options = { ...this.options, ...options }
 
-    let container = this.getParentElement(options.parentId || this.defaultParentId)
-    let el: HTMLElement
+    const container = this.getParentElement(options.parentId || this.defaultParentId)
 
     const Snack = (_message: string, _actions: any) => {
       const actionsArray = _actions.map((action: any) => {
@@ -175,7 +174,7 @@ export class Snackbar {
       return snack
     }
 
-    el = Snack(options.message as string, options.actions || []) as HTMLElement
+    const el = Snack(options.message as string, options.actions || []) as HTMLElement
 
     // autoHide options
     if (options.autoHide === true) setTimeout(() => this.remove(el), 5000)

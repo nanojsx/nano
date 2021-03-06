@@ -1,0 +1,13 @@
+{
+    "extends": [
+        "@yandeu/eslint-config",
+        "prettier"
+    ],
+    "globals": {
+        "globalThis": "off"
+    },
+    "rules": {
+        "no-undef": "off",
+        "sort-imports": "off"
+    }
+}

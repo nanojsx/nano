@@ -1,5 +1,5 @@
 // core
-import { h, render, hydrate, removeAllChildNodes, tick } from '../core'
+import { h, hydrate, removeAllChildNodes, render, tick } from '../core'
 import { hydrateLazy } from '../lazy'
 import { nodeToString, task } from '../helpers'
 

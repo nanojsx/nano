@@ -1,5 +1,5 @@
 import { h, strToHash } from '../core'
-import { boxShadow, zIndex, userSelect, rippleEffect } from './_config'
+import { boxShadow, rippleEffect, userSelect, zIndex } from './_config'
 import { addStylesToHead, lightenColor } from './_helpers'
 import { Icon } from './icon'
 

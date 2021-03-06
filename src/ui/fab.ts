@@ -1,6 +1,6 @@
 import { Component } from '../component'
 import { h, strToHash } from '../core'
-import { boxShadow, zIndex, userSelect } from './_config'
+import { boxShadow, userSelect, zIndex } from './_config'
 import { addStylesToHead } from './_helpers'
 
 interface FabProps {

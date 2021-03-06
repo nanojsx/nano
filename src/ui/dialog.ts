@@ -166,7 +166,7 @@ export class Dialog {
   public show(options: DialogOptions | null, callback: (event: { name: string; id: string | number }) => void) {
     options = { ...this.options, ...options }
 
-    let container = this.getParentElement(options.parentId || this.defaultParentId)
+    const container = this.getParentElement(options.parentId || this.defaultParentId)
 
     if (container.hasChildNodes()) return
 

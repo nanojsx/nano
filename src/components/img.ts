@@ -8,8 +8,8 @@ export class Img extends Component {
     const { src, key } = props
 
     // id has to be unique
-    this.id = strToHash(src) + '-' + strToHash(JSON.stringify(props))
-    if (key) this.id += 'key-' + key
+    this.id = `${strToHash(src)}-${strToHash(JSON.stringify(props))}`
+    if (key) this.id += `key-${key}`
 
     // this could also be done in willMount()
     if (!this.state) this.setState({ isLoaded: false, image: undefined })
@@ -63,8 +63,8 @@ export class Img extends Component {
     } else {
       // render a simple box
       const style: any = {}
-      if (rest.width) style.width = rest.width + 'px'
-      if (rest.height) style.height = rest.height + 'px'
+      if (rest.width) style.width = `${rest.width}px`
+      if (rest.height) style.height = `${rest.height}px`
       const { width, height, ...others } = rest
       return h('div', { style, ...others })
     }

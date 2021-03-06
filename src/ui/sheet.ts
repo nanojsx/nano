@@ -1,5 +1,5 @@
 import { Component } from '../component'
-import { h, strToHash, render } from '../core'
+import { h, render, strToHash } from '../core'
 import { boxShadow, zIndex } from './_config'
 import { addStylesToHead } from './_helpers'
 
@@ -25,7 +25,7 @@ export class Sheet extends Component<SheetProps> {
   render() {
     const { mode = 'custom', title, subtitle } = this.props
 
-    const cssHash = strToHash('sheet' + mode)
+    const cssHash = strToHash(`sheet${mode}`)
 
     const isSide = mode === 'side' || mode === 'right' || mode === 'left'
     const isBottom = mode === 'bottom'
@@ -112,8 +112,6 @@ export class Sheet extends Component<SheetProps> {
 
     addStylesToHead(styles, cssHash)
 
-    let element: HTMLElement
-
     const background = h('div', {
       class: `sheet_background-${cssHash}`,
       onClick: () => {
@@ -126,7 +124,7 @@ export class Sheet extends Component<SheetProps> {
     // @ts-ignore
     const sh = h('div', { class: `sheet_sheet-${cssHash}` }, t, s, this.props.children)
 
-    element = h('div', { class: `sheet_container-${cssHash}` }, background, sh)
+    const element = h('div', { class: `sheet_container-${cssHash}` }, background, sh) as HTMLElement
 
     return element
   }

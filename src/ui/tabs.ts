@@ -1,6 +1,6 @@
 import { Component } from '../component'
-import { h, tick, render, strToHash } from '../core'
-import { userSelect, rippleEffect } from './_config'
+import { h, render, strToHash, tick } from '../core'
+import { rippleEffect, userSelect } from './_config'
 import { addStylesToHead } from './_helpers'
 
 interface TabsProps {
@@ -73,7 +73,7 @@ export class Tabs extends Component<TabsProps> {
   }
 
   render() {
-    let ripple = rippleEffect('#ffffff70', '#5902db')
+    const ripple = rippleEffect('#ffffff70', '#5902db')
 
     const { scroll = false, children, active } = this.props
     const cssHash = strToHash(scroll.toString() + children?.length + active + ripple.class)
