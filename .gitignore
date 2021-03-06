@@ -5,3 +5,4 @@ node_modules
 lib
 test/**/*.js
 debug.log
+package-lock.json

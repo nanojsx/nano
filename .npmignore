@@ -11,3 +11,4 @@ test
 webpack
 tsconfig.json
 tsconfig.dev.json
+package-lock.json
