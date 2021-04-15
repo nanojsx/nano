@@ -3,12 +3,14 @@ import { tick, _render } from './core'
 import { _state } from './state'
 
 export class Component<P extends Object = any, S = any> {
+  public props: P
   public id: string
   private _elements: HTMLElement[] = []
   private _skipUnmount = false
   private _hasUnmounted = false
 
-  constructor(public props: P) {
+  constructor(props: P) {
+    this.props = props || {}
     this.id = this._getHash()
   }
 

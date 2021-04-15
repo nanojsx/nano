@@ -1,12 +1,10 @@
 // @deno-types="./typings/global.d.ts"
 import { h, Helmet, renderSSR, Component } from './deno_lib/mod.ts'
-import { Application, Router } from 'https://deno.land/x/oak/mod.ts'
+import { Application, Router } from 'https://deno.land/x/oak@v7.0.0/mod.ts'
 
 const comments = ['Comment One', 'Comment Two']
 
 class Comments extends Component {
-  props: { comments: string[] }
-
   render() {
     return (
       <ul>
@@ -56,7 +54,7 @@ const html = `
 </html>`
 
 const router = new Router()
-router.get('/', (context) => {
+router.get('/', context => {
   context.response.body = html
 })
 
@@ -68,4 +66,4 @@ app.addEventListener('listen', ({ hostname, port, secure }) => {
   console.log(`Listening on: ${secure ? 'https://' : 'http://'}${hostname ?? 'localhost'}:${port}`)
 })
 
-await app.listen({ port: 8080 })
+await app.listen({ port: 5000 })

@@ -1,13 +1,11 @@
 // @deno-types="./typings/global.d.ts"
 import { h, Helmet, renderSSR, Component } from './deno_lib/mod.ts'
-import { assertEquals } from 'https://deno.land/std@0.83.0/testing/asserts.ts'
+import { assertEquals } from 'https://deno.land/std@0.93.0/testing/asserts.ts'
 
 Deno.test('should render without errors', () => {
   const comments = ['Comment One', 'Comment Two']
 
   class Comments extends Component {
-    props: { comments: string[] }
-
     render() {
       return (
         <ul>
