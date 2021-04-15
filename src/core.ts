@@ -133,7 +133,13 @@ export const _render = (comp: any): any => {
   if (comp.tagName) return comp
 
   // Class Component
-  if (comp.component && comp.component.prototype && comp.component.prototype.constructor)
+  if (
+    comp &&
+    comp.component &&
+    comp.component.prototype &&
+    comp.component.prototype.constructor &&
+    /^class\s/.test(Function.prototype.toString.call(comp.component))
+  )
     return renderClassComponent(comp)
 
   // Functional Component
