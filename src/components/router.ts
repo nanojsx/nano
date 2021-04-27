@@ -88,10 +88,12 @@ export class Switch extends Component<{ fallback?: any; children?: any }> {
   match = { index: -1, path: '' }
 
   didMount() {
+    window.addEventListener('popstate', this.handlePop.bind(this))
     register(this)
   }
 
   didUnmount() {
+    window.removeEventListener('popstate', this.handlePop.bind(this))
     unregister(this)
   }
 
