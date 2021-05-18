@@ -29,7 +29,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [12.x, 14.x, 15.x]
+        node-version: [14.x, 16.x]
 
     steps:
       - name: Checkout repository
@@ -43,14 +43,14 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
-      - name: Run ESLint
-        run: npm run lint
-
       - name: Build Packages
         run: npm run build
 
       - name: Run Tests
         run: npm test
+
+      - name: Run ESLint
+        run: npm run lint
 
         # Don't publish codecov for feature branches
         # - name: Upload coverage to Codecov
