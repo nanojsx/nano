@@ -5,7 +5,6 @@
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
   "scripts": {
-    "prepareRelease": "npm i && npm run build && npm run bundle && npm run denoify && npm run test && npm run deno:test",
     "start": "npm run dev",
     "version": "extract version src/version.ts && prettier --write src/version.ts",
     "format": "prettier --write src/**/*",
@@ -29,7 +28,8 @@
     "clean": "rimraf lib",
     "clean:test": "rimraf \"test/**/*.js\"",
     "publish": "publish",
-    "prepublishOnly": "npm run clean && npm run build && npm run bundle && npm test",
+    "preReleaseHook": "prepareRelease",
+    "prepareRelease": "npm run clean && npm i && npm run build && npm run bundle && npm run denoify && npm run test && npm run deno:test",
     "test": "npm run clean:test && tsc --project test/tsconfig.json && jest \"test/.+\\.test.js$\" && npm run clean:test"
   },
   "repository": {
