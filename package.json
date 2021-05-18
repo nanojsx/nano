@@ -56,9 +56,9 @@
   "devDependencies": {
     "@types/jest": "^26.0.20",
     "@types/node": "^14.14.20",
-    "@yandeu/eslint-config": "^0.0.1",
-    "@yandeu/extract": "^0.0.2",
-    "@yandeu/prettier-config": "^0.0.1",
+    "@yandeu/eslint-config": "^0.0.2",
+    "@yandeu/extract": "^0.0.3",
+    "@yandeu/prettier-config": "^0.0.2",
     "denoify": "^0.6.4",
     "eslint": "^7.21.0",
     "eslint-config-prettier": "^8.1.0",
