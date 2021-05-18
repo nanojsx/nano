@@ -52,8 +52,8 @@ export class Dialog {
       body: 'Dialog body text.',
       actions: [
         { name: 'Action 1', color: this.defaultActionColor },
-        { name: 'Action 2', color: this.defaultActionColor },
-      ],
+        { name: 'Action 2', color: this.defaultActionColor }
+      ]
     }
 
     this.options = { ...defaultOptions, ...options }
@@ -166,7 +166,7 @@ export class Dialog {
   public show(options: DialogOptions | null, callback: (event: { name: string; id: string | number }) => void) {
     options = { ...this.options, ...options }
 
-    let container = this.getParentElement(options.parentId || this.defaultParentId)
+    const container = this.getParentElement(options.parentId || this.defaultParentId)
 
     if (container.hasChildNodes()) return
 
@@ -182,7 +182,7 @@ export class Dialog {
             onClick: () => {
               callback({ name: action.name, id: action.id })
               this.remove()
-            },
+            }
           },
           action.name.toUpperCase()
         )

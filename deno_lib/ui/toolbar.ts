@@ -5,7 +5,7 @@ const classes = {
   bar: 'toolbar_container',
   left: 'toolbar_left',
   right: 'toolbar_right',
-  icon: 'toolbar_icon',
+  icon: 'toolbar_icon'
 }
 interface ToolbarProps {
   menu?: boolean
@@ -116,7 +116,7 @@ export class Toolbar extends Component<ToolbarProps> {
           'div',
           {
             class: 'toolbar_button_wrapper',
-            onClick: actionClick,
+            onClick: actionClick
           },
           h('div', { class: 'toolbar_hamburger_button' })
         )
@@ -125,10 +125,10 @@ export class Toolbar extends Component<ToolbarProps> {
           'div',
           {
             class: 'toolbar_button_wrapper',
-            onClick: actionClick,
+            onClick: actionClick
           },
           h('div', {
-            class: 'toolbar_back_button',
+            class: 'toolbar_back_button'
           })
         )
       : null

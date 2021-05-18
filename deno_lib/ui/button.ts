@@ -1,5 +1,5 @@
 import { h, strToHash } from '../core.ts'
-import { boxShadow, zIndex, userSelect, rippleEffect } from './_config.ts'
+import { boxShadow, rippleEffect, userSelect, zIndex } from './_config.ts'
 import { addStylesToHead, lightenColor } from './_helpers.ts'
 import { Icon } from './icon.ts'
 

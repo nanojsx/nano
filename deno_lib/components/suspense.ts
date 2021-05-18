@@ -12,7 +12,7 @@ export class Suspense extends Component<{ fallback: any; cache?: boolean; [key: 
 
     // stringify ...rest
     const str = JSON.stringify(rest, function (_key, val) {
-      if (typeof val === 'function') return val + '' // implicitly `toString` it
+      if (typeof val === 'function') return `${val}` // implicitly `toString` it
       return val
     })
 
@@ -75,7 +75,7 @@ export class Suspense extends Component<{ fallback: any; cache?: boolean; [key: 
       if (cache) this.state = { ...this.state, [item]: fnc[index] }
       return {
         ...obj,
-        [item]: fnc[index],
+        [item]: fnc[index]
       }
     }, {})
     return data

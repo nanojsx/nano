@@ -1,6 +1,6 @@
 import { Component } from '../component.ts'
-import { h, tick, render, strToHash } from '../core.ts'
-import { userSelect, rippleEffect } from './_config.ts'
+import { h, render, strToHash, tick } from '../core.ts'
+import { rippleEffect, userSelect } from './_config.ts'
 import { addStylesToHead } from './_helpers.ts'
 
 interface TabsProps {
@@ -46,7 +46,7 @@ export class Tabs extends Component<TabsProps> {
       item.scrollIntoView({
         behavior: 'smooth',
         block: 'center',
-        inline: 'center',
+        inline: 'center'
       })
     }
 
@@ -73,7 +73,7 @@ export class Tabs extends Component<TabsProps> {
   }
 
   render() {
-    let ripple = rippleEffect('#ffffff70', '#5902db')
+    const ripple = rippleEffect('#ffffff70', '#5902db')
 
     const { scroll = false, children, active } = this.props
     const cssHash = strToHash(scroll.toString() + children?.length + active + ripple.class)

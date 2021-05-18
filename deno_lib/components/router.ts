@@ -3,34 +3,35 @@ declare const isSSR: boolean
 declare const _nano: any
 
 import { Component } from '../component.ts'
-import { FC, h, _render } from '../core.ts'
+import { FC, _render, h } from '../core.ts'
 
-let instances: any[] = []
+const instances: any[] = []
 
 const register = (comp: any) => instances.push(comp)
 const unregister = (comp: any) => instances.splice(instances.indexOf(comp), 1)
 
 const historyPush = (path: string) => {
   window.history.pushState({}, '', path)
-  instances.forEach((instance) => instance.handlePop())
+  instances.forEach(instance => instance.handlePop())
 }
 
 const historyReplace = (path: string) => {
   window.history.replaceState({}, '', path)
-  instances.forEach((instance) => instance.handlePop())
+  instances.forEach(instance => instance.handlePop())
 }
 
 const matchPath = (
   pathname: string,
   options: { exact?: boolean; path: string; regex?: { [param: string]: RegExp } }
 ) => {
-  let { exact = false, path, regex } = options
+  const { exact = false, regex } = options
+  let { path } = options
 
   if (!path) {
     return {
       path: null,
       url: pathname,
-      isExact: true,
+      isExact: true
     }
   }
 
@@ -39,8 +40,8 @@ const matchPath = (
 
   // path with params
   if (path.includes('/:')) {
-    let pathArr = path.split('/')
-    let pathnameArr = pathname.split('/')
+    const pathArr = path.split('/')
+    const pathnameArr = pathname.split('/')
     pathArr.forEach((p, i) => {
       if (/^:/.test(p)) {
         const key = p.slice(1)
@@ -77,7 +78,7 @@ const matchPath = (
     path,
     url,
     isExact,
-    params,
+    params
   }
 }
 
@@ -87,10 +88,12 @@ export class Switch extends Component<{ fallback?: any; children?: any }> {
   match = { index: -1, path: '' }
 
   didMount() {
+    window.addEventListener('popstate', this.handlePop.bind(this))
     register(this)
   }
 
   didUnmount() {
+    window.removeEventListener('popstate', this.handlePop.bind(this))
     unregister(this)
   }
 
@@ -108,7 +111,7 @@ export class Switch extends Component<{ fallback?: any; children?: any }> {
       const match = matchPath(typeof isSSR !== 'undefined' ? _nano.location.pathname : window.location.pathname, {
         path,
         exact,
-        regex,
+        regex
       })
       if (match) {
         this.match.index = i
@@ -127,11 +130,16 @@ export class Switch extends Component<{ fallback?: any; children?: any }> {
 
     const child = this.props.children[this.match.index]
 
+    if (this.match.index === -1) {
+      this.path = "";
+      this.index = 0;
+    }
+
     if (child) {
       const { path } = child.props
       this.path = path
       this.index = this.match.index
-      let el = _render(child)
+      const el = _render(child)
       return _render(el)
     } else if (this.props.fallback) {
       return _render(this.props.fallback)
@@ -144,7 +152,7 @@ export class Switch extends Component<{ fallback?: any; children?: any }> {
 export const Route: FC<{ path: string; exact?: boolean; regex?: { [param: string]: RegExp }; children?: any }> = ({
   path,
   regex,
-  children,
+  children
 }) => {
   // pass the path as props to the children
   children.forEach((child: any) => {

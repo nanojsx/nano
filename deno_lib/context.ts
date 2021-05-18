@@ -9,6 +9,6 @@ export const createContext = (ctx: any) => {
       return { component: props.children[0](_ctx), props: { ...props, context: _ctx } }
     },
     get: () => _ctx,
-    set: (ctx: any) => (_ctx = ctx),
+    set: (ctx: any) => (_ctx = ctx)
   }
 }

@@ -51,7 +51,7 @@ export class Snackbar {
       actions: [{ name: 'Dismiss', color: this.defaultActionColor }],
       autoHide: true,
       consecutive: true,
-      offsetY: 0,
+      offsetY: 0
     }
 
     this.options = { ...defaultOptions, ...options }
@@ -139,7 +139,7 @@ export class Snackbar {
   public show(options: SnackbarOptions | null, callback: (event: { name: string; id: string | number }) => void) {
     if (this.options.consecutive) {
       const snacks = document.querySelectorAll('.snackbar_snack') as NodeListOf<HTMLElement>
-      snacks.forEach((s) => this.remove(s))
+      snacks.forEach(s => this.remove(s))
       if (snacks.length > 0) setTimeout(() => this._show(options, callback), 200 + 20)
       else this._show(options, callback)
       return
@@ -151,8 +151,7 @@ export class Snackbar {
   private _show(options: SnackbarOptions | null, callback: (event: { name: string; id: string | number }) => void) {
     options = { ...this.options, ...options }
 
-    let container = this.getParentElement(options.parentId || this.defaultParentId)
-    let el: HTMLElement
+    const container = this.getParentElement(options.parentId || this.defaultParentId)
 
     const Snack = (_message: string, _actions: any) => {
       const actionsArray = _actions.map((action: any) => {
@@ -164,7 +163,7 @@ export class Snackbar {
             onClick: () => {
               callback({ name: action.name, id: action.id })
               this.remove(el)
-            },
+            }
           },
           action.name.toUpperCase()
         )
@@ -175,7 +174,7 @@ export class Snackbar {
       return snack
     }
 
-    el = Snack(options.message as string, options.actions || []) as HTMLElement
+    const el = Snack(options.message as string, options.actions || []) as HTMLElement
 
     // autoHide options
     if (options.autoHide === true) setTimeout(() => this.remove(el), 5000)

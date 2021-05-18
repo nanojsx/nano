@@ -3,12 +3,14 @@ import { tick, _render } from './core.ts'
 import { _state } from './state.ts'
 
 export class Component<P extends Object = any, S = any> {
+  public props: P
   public id: string
   private _elements: HTMLElement[] = []
   private _skipUnmount = false
   private _hasUnmounted = false
 
-  constructor(public props: P) {
+  constructor(props: P) {
+    this.props = props || {}
     this.id = this._getHash()
   }
 
@@ -43,7 +45,7 @@ export class Component<P extends Object = any, S = any> {
   public set elements(elements: HTMLElement[]) {
     if (!Array.isArray(elements)) elements = [elements]
 
-    elements.forEach((element) => {
+    elements.forEach(element => {
       this._elements.push(element)
     })
   }

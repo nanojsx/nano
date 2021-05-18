@@ -38,7 +38,7 @@ export const rippleEffect = (rippleClr: string, hoverClr: string) => {
 
   return {
     styles,
-    class: rippleClass,
+    class: rippleClass
   }
 }
 
@@ -51,5 +51,5 @@ export const zIndex = {
   sheet: '300;',
   menu: '400;',
   snackbar: '500;',
-  dialog: '600;',
+  dialog: '600;'
 }

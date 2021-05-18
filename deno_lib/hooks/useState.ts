@@ -7,7 +7,7 @@ export const useState = (state: any, id: string) => {
     },
     get state() {
       return _state.get(id)
-    },
+    }
   }
 
   if (!_state.has(id)) _state.set(id, state)

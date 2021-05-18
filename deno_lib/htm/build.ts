@@ -87,7 +87,7 @@ export const evaluate = (h: any, built: any, fields: any, args: any): any => {
     } else if (type === PROP_SET) {
       ;(args[1] = args[1] || {})[built[++i]] = value
     } else if (type === PROP_APPEND) {
-      args[1][built[++i]] += value + ''
+      args[1][built[++i]] += `${value}`
     } else if (type) {
       // type === CHILD_RECURSE
       // Set the operation list (including the staticness bits) as
@@ -237,7 +237,7 @@ export const build = function (statics: TemplateStringsArray, ...rest: any[]) {
         }
         mode = current
         if (MINI) {
-          ;(current = current[0]).push(h.apply(null, mode.slice(1)))
+          ;(current = current[0]).push(h(...mode.slice(1)))
         } else {
           ;(current = current[0]).push(CHILD_RECURSE, 0, mode)
         }

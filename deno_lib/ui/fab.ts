@@ -1,6 +1,6 @@
 import { Component } from '../component.ts'
 import { h, strToHash } from '../core.ts'
-import { boxShadow, zIndex, userSelect } from './_config.ts'
+import { boxShadow, userSelect, zIndex } from './_config.ts'
 import { addStylesToHead } from './_helpers.ts'
 
 interface FabProps {
@@ -23,7 +23,7 @@ export class Fab extends Component<FabProps> {
       mini = false,
       center = false,
       left = false,
-      onClick = () => {},
+      onClick = () => {}
     } = this.props
 
     const height = mini ? 40 : extended ? 48 : 56

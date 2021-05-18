@@ -82,7 +82,7 @@ export const render = (component: any, parent: HTMLElement | null = null, remove
   let el = _render(component)
 
   if (Array.isArray(el)) {
-    el = el.map((e) => _render(e))
+    el = el.map(e => _render(e))
     if (el.length === 1) el = el[0]
   }
 
@@ -133,14 +133,20 @@ export const _render = (comp: any): any => {
   if (comp.tagName) return comp
 
   // Class Component
-  if (comp.component && comp.component.prototype && comp.component.prototype.constructor)
+  if (
+    comp &&
+    comp.component &&
+    comp.component.prototype &&
+    comp.component.prototype.constructor &&
+    /^class\s/.test(Function.prototype.toString.call(comp.component))
+  )
     return renderClassComponent(comp)
 
   // Functional Component
   if (comp.component && typeof comp.component === 'function') return renderFunctionalComponent(comp)
 
   // Array (render each child and return the array) (is probably a fragment)
-  if (Array.isArray(comp)) return comp.map((c) => _render(c)).flat()
+  if (Array.isArray(comp)) return comp.map(c => _render(c)).flat()
 
   // function
   if (typeof comp === 'function') return _render(comp())
@@ -240,9 +246,9 @@ export const h = (tagNameOrComponent: any, props: any, ...children: any) => {
     // style object to style string
     if (p === 'style' && typeof props[p] === 'object') {
       const styles = Object.keys(props[p])
-        .map((k) => `${k}:${props[p][k]}`)
+        .map(k => `${k}:${props[p][k]}`)
         .join(';')
-        .replace(/[A-Z]/g, (match) => `-${match.toLowerCase()}`)
+        .replace(/[A-Z]/g, match => `-${match.toLowerCase()}`)
       props[p] = styles + ';'
     }
 

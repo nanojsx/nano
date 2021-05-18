@@ -31,8 +31,8 @@ export class Banner extends Component<BannerProps> {
       body = 'There was a problem processing a transaction on your credit card.',
       actions = [
         { name: 'fix it', color: this.defaultActionColor },
-        { name: 'learn more', color: this.defaultActionColor },
-      ],
+        { name: 'learn more', color: this.defaultActionColor }
+      ]
     } = this.props
 
     const stickyStyles = sticky
@@ -76,7 +76,7 @@ export class Banner extends Component<BannerProps> {
         `,
       action: `
         margin-bottom: 0px;
-        margin-left: 10px;`,
+        margin-left: 10px;`
     }
 
     const actionsArray = actions.map((action: any) => {
@@ -90,7 +90,7 @@ export class Banner extends Component<BannerProps> {
           onClick: () => {
             // callback({ name: action.name, id: action.id })
             // this.remove()
-          },
+          }
         },
         action.name.toUpperCase()
       )

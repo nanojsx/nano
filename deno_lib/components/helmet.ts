@@ -6,8 +6,8 @@ export class Helmet extends Component {
     const reg = /(<helmet\b[^>]*>)((.|\n)*?)(<\/helmet>)/gm
 
     // collect all elements
-    let head: string[] = []
-    let footer: string[] = []
+    const head: string[] = []
+    const footer: string[] = []
 
     // get what's in the head
     if (typeof document !== 'undefined' && document.head) {
@@ -41,8 +41,8 @@ export class Helmet extends Component {
 
   didMount() {
     this.props.children.forEach((element: HTMLElement) => {
-      let parent = this.props.footer ? document.body : document.head
-      let tag = element.tagName
+      const parent = this.props.footer ? document.body : document.head
+      const tag = element.tagName
       let attrs: string[] = []
 
       // get the inner text
@@ -64,10 +64,10 @@ export class Helmet extends Component {
       } else if (tag === 'TITLE') {
         const titleTags = document.getElementsByTagName('TITLE') as HTMLCollectionOf<HTMLTitleElement>
         if (titleTags.length > 0) {
-          let e = element as HTMLTitleElement
+          const e = element as HTMLTitleElement
           titleTags[0].text = e.text
         } else {
-          let titleTag = h('title', null, element.innerHTML) as HTMLTitleElement
+          const titleTag = h('title', null, element.innerHTML) as HTMLTitleElement
           parent.appendChild(titleTag)
         }
         return

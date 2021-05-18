@@ -26,7 +26,7 @@ export class ListItem extends Component<ListItemProps> {
 
     const icon = p.icon ? h(Icon, { size: 20, style: 'margin-right: 32px;', src: p.icon }) : null
     const avatar = p.avatar
-      ? h('img', { src: p.avatar, width: 40, height: 40, style: 'border-radius: 20px; ' + adjustedMargin })
+      ? h('img', { src: p.avatar, width: 40, height: 40, style: `border-radius: 20px; ${adjustedMargin}` })
       : null
     const square = p.square ? h('img', { src: p.square, width: 56, height: 56, style: adjustedMargin }) : null
     const image = p.image
@@ -49,7 +49,7 @@ export class List extends Component<ListProps> {
   render() {
     const { small = false } = this.props
 
-    this.cssHash = strToHash('List' + small.toString())
+    this.cssHash = strToHash(`List${small.toString()}`)
 
     const styles = `
       .list-${this.cssHash} ul {
