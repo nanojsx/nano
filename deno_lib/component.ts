@@ -14,6 +14,10 @@ export class Component<P extends Object = any, S = any> {
     this.id = this._getHash()
   }
 
+  public static isClass() {
+    return true
+  }
+
   setState(state: S, shouldUpdate: boolean = false) {
     const isObject = typeof state === 'object' && state !== null
 

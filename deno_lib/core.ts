@@ -132,15 +132,8 @@ export const _render = (comp: any): any => {
   // HTMLElement
   if (comp.tagName) return comp
 
-  const hasConstructor = comp && comp.component && comp.component.prototype && comp.component.prototype.constructor
-
   // Class Component
-  if (hasConstructor && /^class\s/.test(Function.prototype.toString.call(comp.component)))
-    return renderClassComponent(comp)
-
-  // Class Component (transformed using babel)
-  if (hasConstructor && /_classCallCheck/.test(Function.prototype.toString.call(comp.component)))
-    return renderClassComponent(comp)
+  if (comp && comp.component && comp.component.isClass && comp.component.isClass()) return renderClassComponent(comp)
 
   // Functional Component
   if (comp.component && typeof comp.component === 'function') return renderFunctionalComponent(comp)
