@@ -4,11 +4,11 @@ import { Suspense } from '../lib/components/suspense.js'
 
 const spy = jest.spyOn(global.console, 'error')
 
-test('should render without errors', async (done) => {
+test('should render without errors', async () => {
   const fetchComments = (): Promise<string[]> => {
     const comments = ['comment_one', 'comment_two']
 
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       setTimeout(() => {
         resolve(comments)
       }, 200)
@@ -18,7 +18,7 @@ test('should render without errors', async (done) => {
   const Comments: FC<{ comments?: string[] }> = ({ comments }) => {
     return (
       <ul>
-        {comments?.map((c) => (
+        {comments?.map(c => (
           <li>{c}</li>
         ))}
       </ul>
@@ -59,5 +59,4 @@ test('should render without errors', async (done) => {
   )
 
   expect(spy).not.toHaveBeenCalled()
-  done()
 })

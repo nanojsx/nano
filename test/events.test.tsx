@@ -3,13 +3,12 @@ import { wait } from './helpers.js'
 
 const spy = jest.spyOn(global.console, 'error')
 
-test('should render without errors', async (done) => {
+test('should render without errors', async () => {
   const Root = () => (
     <button
       onClick={() => {
         console.log('click')
-      }}
-    >
+      }}>
       click me
     </button>
   )
@@ -18,5 +17,4 @@ test('should render without errors', async (done) => {
 
   await wait()
   expect(spy).not.toHaveBeenCalled()
-  done()
 })

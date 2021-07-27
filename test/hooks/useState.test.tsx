@@ -5,7 +5,7 @@ import { setTimeout } from 'timers'
 
 const spy = jest.spyOn(global.console, 'error')
 
-test('should render without errors', async (done) => {
+test('should render without errors', async () => {
   let _value0 = ''
   let _value1 = ''
 
@@ -56,5 +56,4 @@ test('should render without errors', async (done) => {
   expect(getState('App_Component')).toBe('mod2')
 
   expect(spy).not.toHaveBeenCalled()
-  done()
 })

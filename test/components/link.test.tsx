@@ -13,7 +13,7 @@ afterEach(async () => {
   await wait()
 })
 
-test('should render Link Component (prefetch and "visible")', async (done) => {
+test('should render Link Component (prefetch and "visible")', async () => {
   const root = Nano.h('div', { id: 'root' }) as HTMLElement
   document.body.appendChild(root)
 
@@ -40,10 +40,9 @@ test('should render Link Component (prefetch and "visible")', async (done) => {
     '<link rel="prefetch" href="http://geckos.io/" as="document"><link rel="prefetch" href="http://enable3d.io/" as="document">'
   )
   expect(spy).not.toHaveBeenCalled()
-  done()
 })
 
-test('should render Link Component ("hover" and back)', async (done) => {
+test('should render Link Component ("hover" and back)', async () => {
   const root = Nano.h('div', { id: 'root' }) as HTMLElement
   document.body.appendChild(root)
 
@@ -57,8 +56,7 @@ test('should render Link Component ("hover" and back)', async (done) => {
             }, 100)
           }}
           prefetch="hover"
-          href="http://geckos.io/"
-        >
+          href="http://geckos.io/">
           Link to geckos.io
         </Link>
         <Link back href="http://enable3d.io/">
@@ -76,5 +74,4 @@ test('should render Link Component ("hover" and back)', async (done) => {
   )
   expect(document.head.innerHTML).toBe('<link rel="prefetch" href="http://geckos.io/" as="document">')
   expect(spy).not.toHaveBeenCalled()
-  done()
 })

@@ -1,6 +1,10 @@
 {
   "collectCoverage": true,
-  "collectCoverageFrom": ["lib/**/*.js", "!lib/{bundles,dev,htm,ui}/**"],
+  "collectCoverageFrom": [
+    "lib/**/*.js",
+    "!lib/{bundles,dev,htm,ui}/**"
+  ],
   "maxConcurrency": 2,
-  "maxWorkers": 2
+  "maxWorkers": 2,
+  "testEnvironment": "jsdom"
 }

@@ -15,7 +15,7 @@ afterEach(async () => {
   _clearState()
 })
 
-test('should render Img Component', async (done) => {
+test('should render Img Component', async () => {
   const App = () => {
     return (
       <div>
@@ -46,10 +46,9 @@ test('should render Img Component', async (done) => {
   )
 
   expect(spy).not.toHaveBeenCalled()
-  done()
 })
 
-test('should render Img Component with Placeholder', async (done) => {
+test('should render Img Component with Placeholder', async () => {
   const App = () => {
     return (
       <div>
@@ -77,10 +76,9 @@ test('should render Img Component with Placeholder', async (done) => {
   expect(nodeToString(res)).toBe('<div><img src="https://nanojsx.github.io/img/logo.svg"></div>')
 
   expect(spy).not.toHaveBeenCalled()
-  done()
 })
 
-test('should render Img Component (not lazy loaded)', async (done) => {
+test('should render Img Component (not lazy loaded)', async () => {
   const App = () => {
     return (
       <div>
@@ -98,5 +96,4 @@ test('should render Img Component (not lazy loaded)', async (done) => {
   expect(nodeToString(res)).toBe('<div><img src="https://nanojsx.github.io/img/logo.svg"></div>')
 
   expect(spy).not.toHaveBeenCalled()
-  done()
 })

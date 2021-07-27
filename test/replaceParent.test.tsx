@@ -3,7 +3,7 @@ import { wait, nodeToString } from './helpers.js'
 
 const spy = jest.spyOn(global.console, 'error')
 
-test('should render without errors', async (done) => {
+test('should render without errors', async () => {
   const root = document.createElement('div')
   root.id = 'root'
   const feature = document.createElement('div')
@@ -25,5 +25,4 @@ test('should render without errors', async (done) => {
   await wait()
   expect(root.outerHTML).toBe('<div id="root"><div id="feature"><p>content</p></div></div>')
   expect(spy).not.toHaveBeenCalled()
-  done()
 })

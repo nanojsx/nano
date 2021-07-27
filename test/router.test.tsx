@@ -4,7 +4,7 @@ import * as Router from '../lib/components/router.js'
 
 const spy = jest.spyOn(global.console, 'error')
 
-test('should render without errors', async (done) => {
+test('should render without errors', async () => {
   class Children extends Component {
     render() {
       return (
@@ -78,5 +78,4 @@ test('should render without errors', async (done) => {
   expect(nodeToString(res)).toBe('<body><div id="root"><div>404: Page Not Found</div></div></body>')
 
   expect(spy).not.toHaveBeenCalled()
-  done()
 })

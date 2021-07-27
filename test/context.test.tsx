@@ -3,7 +3,7 @@ import { wait, nodeToString } from './helpers.js'
 
 const spy = jest.spyOn(global.console, 'error')
 
-test('should render without errors', async (done) => {
+test('should render without errors', async () => {
   const MyContext = createContext('john')
 
   class Child extends Component {
@@ -37,10 +37,9 @@ test('should render without errors', async (done) => {
   await wait()
   expect(nodeToString(res)).toBe('<div id="root"><p>suzanne</p></div>')
   expect(spy).not.toHaveBeenCalled()
-  done()
 })
 
-test('should render without errors', async (done) => {
+test('should render without errors', async () => {
   const MyContext = createContext('suzanne')
 
   const Child = () => {
@@ -70,5 +69,4 @@ test('should render without errors', async (done) => {
   await wait()
   expect(nodeToString(res)).toBe('<div id="root"><p>john</p></div>')
   expect(spy).not.toHaveBeenCalled()
-  done()
 })

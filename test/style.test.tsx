@@ -3,7 +3,7 @@ import { wait } from './helpers.js'
 
 const spy = jest.spyOn(global.console, 'error')
 
-test('should render without errors', async (done) => {
+test('should render without errors', async () => {
   class Test extends Component {
     render() {
       return <p style={{ color: 'red', fontSize: 22 }}>hello world</p>
@@ -14,5 +14,4 @@ test('should render without errors', async (done) => {
   await wait()
   expect(res.outerHTML).toBe('<p style="color:red;font-size:22;">hello world</p>')
   expect(spy).not.toHaveBeenCalled()
-  done()
 })

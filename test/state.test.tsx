@@ -3,7 +3,7 @@ import { wait } from './helpers.js'
 
 const spy = jest.spyOn(global.console, 'error')
 
-test('should render without errors', async (done) => {
+test('should render without errors', async () => {
   const results: any[] = []
 
   class App extends Component {
@@ -40,5 +40,4 @@ test('should render without errors', async (done) => {
   expect(JSON.stringify(results[4])).toBe('{"value":10,"counter":50,"new":20}')
 
   expect(spy).not.toHaveBeenCalled()
-  done()
 })

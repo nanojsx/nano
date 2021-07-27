@@ -3,7 +3,7 @@ import { wait } from './helpers.js'
 
 const spy = jest.spyOn(global.console, 'error')
 
-test('should render without errors', async (done) => {
+test('should render without errors', async () => {
   class RenderChildComponent extends Component {
     render() {
       // @ts-ignore
@@ -51,5 +51,4 @@ test('should render without errors', async (done) => {
     '<div id="root"><ul><li><span>Name: </span><span>john</span></li><li><span>Name: </span><span>suzanne</span></li></ul></div>'
   )
   expect(spy).not.toHaveBeenCalled()
-  done()
 })

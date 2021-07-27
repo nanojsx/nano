@@ -3,10 +3,10 @@ import { nodeToString, wait } from './helpers.js'
 
 const spy = jest.spyOn(global.console, 'error')
 
-test('should render without errors', async (done) => {
+test('should render without errors', async () => {
   // mock fetch api
   const fetchMock = (_url: string) => {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       setTimeout(() => {
         resolve({ data: [{ name: 'John' }, { name: 'Suzanne' }] })
       }, 1000)
@@ -61,5 +61,4 @@ test('should render without errors', async (done) => {
 
   expect(nodeToString(res)).toBe('<div id="root"><ul><li>John</li><li>Suzanne</li></ul></div>')
   expect(spy).not.toHaveBeenCalled()
-  done()
 })

@@ -18,7 +18,7 @@ test('name should change to Thor', () => {
   expect(myStore.state.name).toBe('Thor')
 })
 
-test('should render without errors', async (done) => {
+test('should render without errors', async () => {
   class Hero extends Component {
     store = myStore.use()
 
@@ -50,10 +50,9 @@ test('should render without errors', async (done) => {
   expect(nodeToString(res)).toBe('<div id="root"><p>Name: Iron Man</p></div>')
 
   expect(spy).not.toHaveBeenCalled()
-  done()
 })
 
-test('should render without errors', async (done) => {
+test('should render without errors', async () => {
   const someStore = new Store({ data: 'init' }, 'someStore', 'local')
 
   expect(localStorage.getItem('someStore')).toBe('{"data":"init"}')
@@ -120,5 +119,4 @@ test('should render without errors', async (done) => {
   expect(prevState).toBe('init')
 
   expect(spy).not.toHaveBeenCalled()
-  done()
 })

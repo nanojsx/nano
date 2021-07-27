@@ -10,7 +10,7 @@ afterEach(async () => {
   await wait()
 })
 
-test('should render without errors', async (done) => {
+test('should render without errors', async () => {
   const dynamic = 'dynamic'
 
   const Root = () => (
@@ -48,10 +48,9 @@ test('should render without errors', async (done) => {
   )
   expect(document.body.innerHTML).toBe('<div id="root"></div>')
   expect(spy).not.toHaveBeenCalled()
-  done()
 })
 
-test('should render without errors', async (done) => {
+test('should render without errors', async () => {
   const Root = () => (
     <div>
       <Helmet>
@@ -76,5 +75,4 @@ test('should render without errors', async (done) => {
   await wait()
   expect(nodeToString(document.head)).toBe('<head><title>new title tag</title></head>')
   expect(spy).not.toHaveBeenCalled()
-  done()
 })

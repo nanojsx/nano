@@ -10,7 +10,7 @@ afterEach(async () => {
   await wait()
 })
 
-test('should render without errors', async (done) => {
+test('should render without errors', async () => {
   const rootElement = <div id="root"></div>
 
   class Test extends Component {
@@ -23,10 +23,9 @@ test('should render without errors', async (done) => {
   await wait()
   expect(rootElement.outerHTML).toBe('<div id="root"><div>test</div></div>')
   expect(spy).not.toHaveBeenCalled()
-  done()
 })
 
-test('should render without errors', async (done) => {
+test('should render without errors', async () => {
   const parent = { mount: 0, unmount: 0 }
   const child = { mount: 0, unmount: 0 }
 
@@ -85,10 +84,9 @@ test('should render without errors', async (done) => {
   expect(child.unmount).toBe(2)
 
   expect(spy).not.toHaveBeenCalled()
-  done()
 })
 
-test('should render without errors', async (done) => {
+test('should render without errors', async () => {
   class Test extends Component {
     test() {
       return 'yeah'
@@ -106,10 +104,9 @@ test('should render without errors', async (done) => {
   expect(() => test.update()).toThrow()
   expect(test.test()).toBe('yeah')
   expect(spy).not.toHaveBeenCalled()
-  done()
 })
 
-test('should render without errors', async (done) => {
+test('should render without errors', async () => {
   interface TestProps {
     index: number
   }
@@ -138,7 +135,7 @@ test('should render without errors', async (done) => {
     render() {
       return (
         <div>
-          {this.tests.map((t) => {
+          {this.tests.map(t => {
             return <Test index={t} />
           })}
         </div>
@@ -155,6 +152,4 @@ test('should render without errors', async (done) => {
   expect(res.innerHTML).toBe('<div><p>0.1</p><p>1.1</p><p>2.1</p><p>3.1</p><p>4.1</p></div>')
 
   expect(spy).not.toHaveBeenCalled()
-
-  done()
 })

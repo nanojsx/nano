@@ -10,7 +10,7 @@ afterEach(async () => {
   await wait()
 })
 
-test('should render without errors', async (done) => {
+test('should render without errors', async () => {
   class AppA extends Component {
     render() {
       return (
@@ -29,10 +29,9 @@ test('should render without errors', async (done) => {
   expect(nodeToString(res)).toBe('<body><div><p>with styles</p></div></body>')
   expect(document.head.innerHTML).toBe('<style>some css</style>')
   expect(spy).not.toHaveBeenCalled()
-  done()
 })
 
-test('should render without errors', async (done) => {
+test('should render without errors', async () => {
   class AppA extends Component {
     render() {
       return <div>{this.props.children}</div>
@@ -52,5 +51,4 @@ test('should render without errors', async (done) => {
   expect(nodeToString(res)).toBe('<body><div><p>with styles</p></div></body>')
   expect(document.head.innerHTML).toBe('<style>some css</style>')
   expect(spy).not.toHaveBeenCalled()
-  done()
 })

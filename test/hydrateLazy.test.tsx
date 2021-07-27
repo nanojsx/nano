@@ -14,7 +14,7 @@ afterEach(async () => {
   await wait(200)
 })
 
-test('should render without errors', async (done) => {
+test('should render without errors', async () => {
   class Ads extends Component {
     render() {
       return <div>Ads</div>
@@ -44,5 +44,4 @@ test('should render without errors', async (done) => {
   )
 
   expect(spy).not.toHaveBeenCalled()
-  done()
 })

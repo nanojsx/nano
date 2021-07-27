@@ -3,7 +3,7 @@ import { wait } from './helpers.js'
 
 const spy = jest.spyOn(global.console, 'error')
 
-test('should render without errors', async (done) => {
+test('should render without errors', async () => {
   const SingleName = (props: any) => {
     return <li>{`${props.name} - ${props.children}`}</li>
   }
@@ -29,5 +29,4 @@ test('should render without errors', async (done) => {
     '<div id="name-list"><h1>List of all names:</h1><ul><li>Doe - Doe</li><li>Suzanne - Suzanne</li></ul></div>'
   )
   expect(spy).not.toHaveBeenCalled()
-  done()
 })

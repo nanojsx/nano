@@ -7,7 +7,7 @@ const root = document.createElement('div')
 root.id = 'root'
 document.body.appendChild(root)
 
-test('should render without errors', async (done) => {
+test('should render without errors', async () => {
   let PRE_RENDERED = false
 
   class Menu extends Component {
@@ -51,5 +51,4 @@ test('should render without errors', async (done) => {
   )
 
   expect(spy).not.toHaveBeenCalled()
-  done()
 })

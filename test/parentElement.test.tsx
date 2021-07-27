@@ -3,7 +3,7 @@ import { wait, nodeToString } from './helpers.js'
 
 const spy = jest.spyOn(global.console, 'error')
 
-test('should render without errors', async (done) => {
+test('should render without errors', async () => {
   const parentElement = (
     <div id="root">
       <h1>Bye</h1>
@@ -24,5 +24,4 @@ test('should render without errors', async (done) => {
   await wait()
   expect(nodeToString(parentElement)).toBe('<div id="root"><h1>Hello</h1></div>')
   expect(spy).not.toHaveBeenCalled()
-  done()
 })

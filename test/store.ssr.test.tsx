@@ -7,7 +7,7 @@ import { renderSSR } from '../lib/ssr.js'
 
 const spy = jest.spyOn(global.console, 'error')
 
-test('should render without errors', async (done) => {
+test('should render without errors', async () => {
   const myStore = new Store({ name: 'Hulk' }, 'myStore', 'local')
 
   class App extends Component {
@@ -34,5 +34,4 @@ test('should render without errors', async (done) => {
   expect(body).toBe('<div>Iron Man</div>')
 
   expect(spy).not.toHaveBeenCalled()
-  done()
 })

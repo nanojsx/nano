@@ -3,7 +3,7 @@ import { wait, nodeToString } from './helpers.js'
 
 const spy = jest.spyOn(global.console, 'error')
 
-test('should render without errors', async (done) => {
+test('should render without errors', async () => {
   class SVGTest extends Component {
     render() {
       return (
@@ -23,5 +23,4 @@ test('should render without errors', async (done) => {
     '<div id="some-id"><h2>Cool Inline SVG</h2><svg width="100" height="100"><circle cx="50" cy="50" r="40" stroke="green" stroke-width="4" fill="yellow"></circle></svg></div>'
   )
   expect(spy).not.toHaveBeenCalled()
-  done()
 })

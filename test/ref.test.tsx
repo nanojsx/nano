@@ -4,7 +4,7 @@ import { wait, nodeToString } from './helpers.js'
 
 const spy = jest.spyOn(global.console, 'error')
 
-test('should render without errors', async (done) => {
+test('should render without errors', async () => {
   const Child: FC<{ getReference: (el: HTMLElement) => void }> = ({ getReference }) => {
     return <div ref={(r: any) => getReference(r)}>I'm a child</div>
   }
@@ -21,7 +21,7 @@ test('should render without errors', async (done) => {
       return (
         <Fragment>
           <h1>App</h1>
-          <Child getReference={(ref) => (this.child = ref)} />
+          <Child getReference={ref => (this.child = ref)} />
           {child}
         </Fragment>
       )
@@ -37,10 +37,9 @@ test('should render without errors', async (done) => {
   await wait()
   expect(nodeToString(html)).toBe(`<div><h1>App</h1><div>I'm a child</div><div>I'm a child</div></div>`)
   expect(spy).not.toHaveBeenCalled()
-  done()
 })
 
-test('should render without errors', async (done) => {
+test('should render without errors', async () => {
   let ref1: string = ''
   let ref2: string = ''
 
@@ -50,14 +49,12 @@ test('should render without errors', async (done) => {
         <div
           ref={(node: HTMLDivElement) => {
             ref1 = nodeToString(node)
-          }}
-        >
+          }}>
           <p
             id="text-id"
             ref={(node: HTMLParagraphElement) => {
               ref2 = nodeToString(node)
-            }}
-          >
+            }}>
             some text
           </p>
         </div>
@@ -78,5 +75,4 @@ test('should render without errors', async (done) => {
   expect(ref1).toBe('<div><p id="text-id">some text</p></div>')
   expect(ref2).toBe('<p id="text-id">some text</p>')
   expect(spy).not.toHaveBeenCalled()
-  done()
 })

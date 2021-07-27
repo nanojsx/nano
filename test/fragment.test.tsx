@@ -3,7 +3,7 @@ import { wait } from './helpers.js'
 
 const spy = jest.spyOn(global.console, 'error')
 
-test('should render without errors', async (done) => {
+test('should render without errors', async () => {
   const Test = () => <Fragment>test</Fragment>
   const Root = () => (
     <div>
@@ -15,10 +15,9 @@ test('should render without errors', async (done) => {
   await wait()
   expect(res.outerHTML).toBe('<div>test</div>')
   expect(spy).not.toHaveBeenCalled()
-  done()
 })
 
-test('should render without errors', async (done) => {
+test('should render without errors', async () => {
   const Test = () => (
     <Fragment>
       <p>test</p>
@@ -34,10 +33,9 @@ test('should render without errors', async (done) => {
   await wait()
   expect(res.outerHTML).toBe('<div><p>test</p></div>')
   expect(spy).not.toHaveBeenCalled()
-  done()
 })
 
-test('should render without errors', async (done) => {
+test('should render without errors', async () => {
   const Test = () => (
     <Fragment>
       <p>line one</p>
@@ -54,10 +52,9 @@ test('should render without errors', async (done) => {
   await wait()
   expect(res.outerHTML).toBe('<div><p>line one</p><p>line two</p></div>')
   expect(spy).not.toHaveBeenCalled()
-  done()
 })
 
-test('should render without errors', async (done) => {
+test('should render without errors', async () => {
   const Name = (props: any) => {
     return <p>{props.name}</p>
   }
@@ -78,10 +75,9 @@ test('should render without errors', async (done) => {
   await wait()
   expect(res.outerHTML).toBe('<div><p>John</p><p>Suzanne</p></div>')
   expect(spy).not.toHaveBeenCalled()
-  done()
 })
 
-test('should render without errors', async (done) => {
+test('should render without errors', async () => {
   class Test extends Component {
     didMount() {
       this.update()
@@ -101,5 +97,4 @@ test('should render without errors', async (done) => {
   await wait()
   expect(res.outerHTML).toBe('<div id="root"><p>p one</p><p>p two</p></div>')
   expect(spy).not.toHaveBeenCalled()
-  done()
 })

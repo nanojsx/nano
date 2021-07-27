@@ -3,7 +3,7 @@ import { wait } from './helpers.js'
 
 const spy = jest.spyOn(global.console, 'error')
 
-test('should render without errors', async (done) => {
+test('should render without errors', async () => {
   // we put this in, just to test it as well
   const ListElement = () => <li>even more text</li>
 
@@ -27,5 +27,4 @@ test('should render without errors', async (done) => {
     '<div><ul id="list"><li class="test">some text</li><li>more text</li><li>even more text</li></ul><h1></h1></div>'
   )
   expect(spy).not.toHaveBeenCalled()
-  done()
 })

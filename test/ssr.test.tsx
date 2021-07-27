@@ -46,7 +46,7 @@ test('should render without errors', () => {
   expect(document.createElementNS('URI', 'div').ssr).toBe('<div></div>')
 })
 
-test('should render without errors', async (done) => {
+test('should render without errors', async () => {
   const App = () => {
     return (
       <div>
@@ -86,5 +86,4 @@ test('should render without errors', async (done) => {
   </html>
   `)
   expect(spy).not.toHaveBeenCalled()
-  done()
 })

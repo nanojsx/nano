@@ -6,7 +6,7 @@ const spy = jest.spyOn(global.console, 'error')
 
 mockIntersectionObserver()
 
-test('should render without errors', async (done) => {
+test('should render without errors', async () => {
   const App = () => (
     <Visible>
       {() => (
@@ -30,5 +30,4 @@ test('should render without errors', async (done) => {
     '<div id="root"><div id="comment-section"><h2>Comment Section</h2><p>Comment 1</p><p>Comment 2</p></div></div>'
   )
   expect(spy).not.toHaveBeenCalled()
-  done()
 })
