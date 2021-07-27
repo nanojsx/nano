@@ -39,6 +39,9 @@ jobs:
       - name: Run Tests
         run: npm test
 
+      - name: Run Prettier
+        run: npm run format
+
       - name: Run ESLint
         run: npm run lint
 
