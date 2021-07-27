@@ -131,8 +131,8 @@ export class Switch extends Component<{ fallback?: any; children?: any }> {
     const child = this.props.children[this.match.index]
 
     if (this.match.index === -1) {
-      this.path = "";
-      this.index = 0;
+      this.path = ''
+      this.index = 0
     }
 
     if (child) {

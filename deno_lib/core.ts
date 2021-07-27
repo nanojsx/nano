@@ -45,7 +45,7 @@ export const appendChildren = (element: any, children: any) => {
     if (Array.isArray(child)) appendChildren(element, child)
     else {
       // render the component
-      let c = _render(child) as HTMLElement
+      const c = _render(child) as HTMLElement
 
       if (typeof c !== 'undefined') {
         // if c is an array of children, append them instead
@@ -86,7 +86,7 @@ export const render = (component: any, parent: HTMLElement | null = null, remove
     if (el.length === 1) el = el[0]
   }
 
-  if (!!parent) {
+  if (parent) {
     if (removeChildNodes) removeAllChildNodes(parent)
 
     // if parent and child are the same, we replace the parent instead of appending to it
@@ -132,14 +132,14 @@ export const _render = (comp: any): any => {
   // HTMLElement
   if (comp.tagName) return comp
 
+  const hasConstructor = comp && comp.component && comp.component.prototype && comp.component.prototype.constructor
+
   // Class Component
-  if (
-    comp &&
-    comp.component &&
-    comp.component.prototype &&
-    comp.component.prototype.constructor &&
-    /^class\s/.test(Function.prototype.toString.call(comp.component))
-  )
+  if (hasConstructor && /^class\s/.test(Function.prototype.toString.call(comp.component)))
+    return renderClassComponent(comp)
+
+  // Class Component (transformed using babel)
+  if (hasConstructor && /_classCallCheck/.test(Function.prototype.toString.call(comp.component)))
     return renderClassComponent(comp)
 
   // Functional Component
@@ -169,8 +169,7 @@ export const _render = (comp: any): any => {
 
 const renderFunctionalComponent = (fncComp: any): any => {
   const { component, props } = fncComp
-  let el = component(props)
-  return _render(el)
+  return _render(component(props))
 }
 
 const renderClassComponent = (classComp: any): any => {
@@ -249,7 +248,7 @@ export const h = (tagNameOrComponent: any, props: any, ...children: any) => {
         .map(k => `${k}:${props[p][k]}`)
         .join(';')
         .replace(/[A-Z]/g, match => `-${match.toLowerCase()}`)
-      props[p] = styles + ';'
+      props[p] = `${styles};`
     }
 
     // handel ref
