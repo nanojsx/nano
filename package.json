@@ -7,8 +7,8 @@
   "scripts": {
     "start": "npm run dev",
     "version": "extract version src/version.ts && prettier --write src/version.ts",
-    "format": "prettier --write src/**/*",
-    "format:check": "prettier --check src/**/*",
+    "format": "prettier --write src/**/*.ts",
+    "format:check": "prettier --check src/**/*.ts",
     "lint": "eslint src/**/*.ts",
     "lint:fix": "eslint --fix src/**/*.ts",
     "deno": "deno run --no-check --allow-net -c tsconfig.deno.json deno.dev.tsx",
