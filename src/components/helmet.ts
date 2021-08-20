@@ -31,7 +31,7 @@ export class Helmet extends Component {
 
       // do not add an element if it already exists
       if (toHead && !head.includes(second)) head.push(second)
-      else if (!footer.includes(second)) footer.push(second)
+      else if (!toHead && !footer.includes(second)) footer.push(second)
     }
 
     // clean the body from all matches
