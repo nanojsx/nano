@@ -5,4 +5,7 @@ declare namespace JSX {
   interface ElementClass {
     render: any
   }
+  interface ElementChildrenAttribute {
+    children: any;
+  }
 }
