@@ -46,6 +46,6 @@ jobs:
         run: npm run lint
 
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v1
+        uses: codecov/codecov-action@v2
         env:
           CI: true
