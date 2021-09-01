@@ -140,11 +140,11 @@ export class Switch extends Component<{ fallback?: any; children?: any }> {
       this.path = path
       this.index = this.match.index
       const el = _render(child)
-      return _render(el)
+      return h('div', {}, _render(el))
     } else if (this.props.fallback) {
-      return _render(this.props.fallback)
+      return h('div', {}, _render(this.props.fallback))
     } else {
-      return h('div', { class: 'route' }, 'not found')
+      return h('div', {}, 'not found')
     }
   }
 }

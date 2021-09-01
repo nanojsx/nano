@@ -57,25 +57,29 @@ test('should render without errors', async () => {
   const res = Nano.render(<App />, document.body)
 
   await wait(100)
-  expect(nodeToString(res)).toBe('<body><div id="root"><div>Home Route</div></div></body>')
+  expect(nodeToString(res)).toBe('<body><div id="root"><div><div>Home Route</div></div></div></body>')
 
   await wait(200)
-  expect(nodeToString(res)).toBe('<body><div id="root"><div>About Route</div></div></body>')
+  expect(nodeToString(res)).toBe('<body><div id="root"><div><div>About Route</div></div></div></body>')
 
   await wait(200)
-  expect(nodeToString(res)).toBe('<body><div id="root"><div id="children"><div>Child One</div></div></div></body>')
+  expect(nodeToString(res)).toBe(
+    '<body><div id="root"><div><div id="children"><div><div>Child One</div></div></div></div></div></body>'
+  )
 
   await wait(200)
-  expect(nodeToString(res)).toBe('<body><div id="root"><div id="children"><div>Child Two</div></div></div></body>')
+  expect(nodeToString(res)).toBe(
+    '<body><div id="root"><div><div id="children"><div><div>Child Two</div></div></div></div></div></body>'
+  )
 
   await wait(200)
-  expect(nodeToString(res)).toBe('<body><div id="root"><div>Home Route</div></div></body>')
+  expect(nodeToString(res)).toBe('<body><div id="root"><div><div>Home Route</div></div></div></body>')
 
   await wait(200)
-  expect(nodeToString(res)).toBe('<body><div id="root"><div>Regex Route</div></div></body>')
+  expect(nodeToString(res)).toBe('<body><div id="root"><div><div>Regex Route</div></div></div></body>')
 
   await wait(200)
-  expect(nodeToString(res)).toBe('<body><div id="root"><div>404: Page Not Found</div></div></body>')
+  expect(nodeToString(res)).toBe('<body><div id="root"><div><div>404: Page Not Found</div></div></div></body>')
 
   expect(spy).not.toHaveBeenCalled()
 })

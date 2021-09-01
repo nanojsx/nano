@@ -49,25 +49,25 @@ test('should render without errors', () => {
   }
 
   const defaultRoute = renderSSR(<App />)
-  expect(defaultRoute).toBe('<div id="root"><div>Home Route</div></div>')
+  expect(defaultRoute).toBe('<div id="root"><div><div>Home Route</div></div></div>')
 
   const aboutRoute = renderSSR(<App />, { pathname: '/about' })
-  expect(aboutRoute).toBe('<div id="root"><div>About Route</div></div>')
+  expect(aboutRoute).toBe('<div id="root"><div><div>About Route</div></div></div>')
 
   const childOne = renderSSR(<App />, { pathname: '/children/one' })
-  expect(childOne).toBe('<div id="root"><div id="children"><div>Child One</div></div></div>')
+  expect(childOne).toBe('<div id="root"><div><div id="children"><div><div>Child One</div></div></div></div></div>')
 
   const childTwo = renderSSR(<App />, { pathname: '/children/two' })
-  expect(childTwo).toBe('<div id="root"><div id="children"><div>Child Two</div></div></div>')
+  expect(childTwo).toBe('<div id="root"><div><div id="children"><div><div>Child Two</div></div></div></div></div>')
 
   const homeRoute = renderSSR(<App />, { pathname: '/' })
-  expect(homeRoute).toBe('<div id="root"><div>Home Route</div></div>')
+  expect(homeRoute).toBe('<div id="root"><div><div>Home Route</div></div></div>')
 
   const regexRoute = renderSSR(<App />, { pathname: '/abc123' })
-  expect(regexRoute).toBe('<div id="root"><div>Regex Route</div></div>')
+  expect(regexRoute).toBe('<div id="root"><div><div>Regex Route</div></div></div>')
 
   const notFound = renderSSR(<App />, { pathname: '/nothing' })
-  expect(notFound).toBe('<div id="root"><div>404: Page Not Found</div></div>')
+  expect(notFound).toBe('<div id="root"><div><div>404: Page Not Found</div></div></div>')
 
   expect(spy).not.toHaveBeenCalled()
 })
