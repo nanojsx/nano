@@ -6,7 +6,7 @@ import { setTimeout } from 'timers'
 const spy = jest.spyOn(global.console, 'error')
 
 test('should render without errors', async () => {
-  let _value0 = ''
+  let _value0: string | null = ''
   let _value1 = ''
 
   const Child = () => {
@@ -14,7 +14,7 @@ test('should render without errors', async () => {
     const [random, setRandom] = useState('random', 'Child_Component')
 
     // access the state of App_Component
-    const [value, setValue] = useState(null, 'App_Component')
+    const [value, setValue] = useState<string | null>(null, 'App_Component')
     _value0 = value
 
     const newValue = 'new state'
