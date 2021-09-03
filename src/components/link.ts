@@ -3,12 +3,20 @@ import { Helmet } from './helmet'
 import { h } from '../core'
 import { Fragment } from '../fragment'
 
+interface Props {
+  [key: string]: any
+  prefetch?: boolean | 'hover' | 'visible'
+  href: string
+  back?: boolean
+  delay?: number
+}
+
 /**
  * A simple Link component
  * Add <Link prefetch ..., to prefetch the html document
  * Add <Link prefetch="hover" ..., to prefetch the html document on hovering over the link element.
  */
-export class Link extends Component {
+export class Link extends Component<Props> {
   prefetchOnHover() {
     this.elements[0].addEventListener('mouseover', () => this.addPrefetch(), { once: true })
   }
