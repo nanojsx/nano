@@ -1,7 +1,7 @@
 declare const isSSR: boolean
 
 export interface FC<P = {}> {
-  (props: P): any
+  (props: P): Element | void
   // (props: P, context?: any): any
 }
 
