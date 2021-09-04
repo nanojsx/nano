@@ -95,7 +95,7 @@ export class Helmet extends Component {
       }
 
       // add to dom
-      if (!exists) appendChildren(parent, element)
+      if (!exists) appendChildren(parent, [element])
     })
   }
 
