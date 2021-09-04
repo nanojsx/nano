@@ -32,6 +32,15 @@
     "prepareRelease": "npm run clean && npm i && npm run build && npm run bundle && npm run denoify && npm run test && npm run deno:test",
     "test": "npm run clean:test && tsc --project test/tsconfig.json && jest \"test/.+\\.test.js$\" && npm run clean:test"
   },
+  "exports": {
+    ".": "./lib/index.js",
+    "./jsx-runtime": "./lib/jsx-runtime/index.js"
+  },
+  "typesVersions": {
+    "*": {
+      "*": [ "./lib/*", "./lib/index.d.ts" ]
+    }
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/nanojsx/nano.git"
