@@ -30,7 +30,7 @@ export const strToHash = (s: string) => {
   return Math.abs(hash).toString(32)
 }
 
-export const appendChildren = (element: any, children: any) => {
+export const appendChildren = (element: HTMLElement | SVGElement, children: HTMLElement[]) => {
   // if the child is an html element
   if (!Array.isArray(children)) {
     appendChildren(element, [children])
@@ -40,7 +40,7 @@ export const appendChildren = (element: any, children: any) => {
   // htmlCollection to array
   if (typeof children === 'object') children = Array.prototype.slice.call(children)
 
-  children.forEach((child: any) => {
+  children.forEach(child => {
     // if child is an array of children, append them instead
     if (Array.isArray(child)) appendChildren(element, child)
     else {
