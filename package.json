@@ -34,12 +34,8 @@
   },
   "exports": {
     ".": "./lib/index.js",
-    "./jsx-runtime": "./lib/jsx-runtime/index.js"
-  },
-  "typesVersions": {
-    "*": {
-      "*": [ "./lib/*", "./lib/index.d.ts" ]
-    }
+    "./jsx-runtime": "./lib/jsx-runtime/index.js",
+    "./*": "./*"
   },
   "repository": {
     "type": "git",
