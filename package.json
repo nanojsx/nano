@@ -35,6 +35,7 @@
   "exports": {
     ".": "./lib/index.js",
     "./jsx-runtime": "./lib/jsx-runtime/index.js",
+    "./jsx-dev-runtime": "./lib/jsx-runtime/index.js",
     "./*": "./*"
   },
   "repository": {
