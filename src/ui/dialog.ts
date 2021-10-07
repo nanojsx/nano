@@ -143,6 +143,8 @@ export class Dialog {
     `
 
     document.head.appendChild(h('style', {}, styles))
+
+    this.handleKeydown = this.handleKeydown.bind(this)
   }
 
   private getParentElement(parentId: string) {
@@ -156,11 +158,20 @@ export class Dialog {
     return el
   }
 
+  private handleKeydown(event: KeyboardEvent) {
+    if (event.key === 'Escape' || event.key === 'Esc') {
+      this.remove()
+    }
+  }
+
   public remove() {
     const el = document.getElementById('dialog_container')
     if (!el) return
     el.classList.add('dialog_fadeout')
-    setTimeout(() => el.remove(), 200)
+    setTimeout(() => {
+      el.remove()
+      window.removeEventListener('keydown', this.handleKeydown)
+    }, 200)
   }
 
   public show(options: DialogOptions | null, callback: (event: { name: string; id: string | number }) => void) {
@@ -198,6 +209,8 @@ export class Dialog {
     const el = Dialog(options.title, options.body as string, options.actions || []) as HTMLElement
 
     container.appendChild(el)
+
+    window.addEventListener('keydown', this.handleKeydown)
 
     const dialog = document.getElementsByClassName('dialog')[0]
     const actions = document.getElementsByClassName('dialog_actions')[0]
