@@ -152,6 +152,7 @@ export class Dialog {
     if (!el) {
       el = document.createElement('div')
       el.id = this.defaultParentId
+      el.addEventListener("click", this.remove)
       document.body.appendChild(el)
     }
 
