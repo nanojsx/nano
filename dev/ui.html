@@ -19,28 +19,58 @@
 
     <script>
       const { render, Link, jsx, UI } = nanoJSX
-      const { AppBar, Toolbar, Navigation, NavigationAction, Button, List, ListItem, Icon, Tabs, Tab } = UI
+      const {
+        AppBar,
+        Button,
+        Dialog,
+        Icon,
+        List,
+        ListItem,
+        Menu,
+        Navigation,
+        NavigationAction,
+        Sheet,
+        Tab,
+        Tabs,
+        Toolbar
+      } = UI
 
-      const Container = (props) => {
+      const Container = props => {
         return jsx`<div style="padding: 24px 16px 64px;">${props.children}</div>`
       }
 
       const names = ['Tayla', 'Beau', 'Nella', 'Britany', 'Cheryl', 'Aliza', 'Steven', 'Riley']
 
-      const Names = (props) => {
+      const Names = props => {
         return jsx`
           <${List}>
-            ${names.map((name) => {
+            ${names.map(name => {
               return jsx`<${ListItem}>${name}</${ListItem}>`
             })}
           </${List}>`
       }
 
       const App = () => {
+        const dialog = new Dialog()
+        const sheet = jsx`<${Sheet} mode="left" title="menu" subtitle="(same list of names)">${Names}</${Sheet}>`
+
+        const dialogClickHandler = () => {
+          dialog.show(
+            {
+              title: 'Hello',
+              body: 'Some text.',
+              actions: [{ name: 'Action 1' }]
+            },
+            event => {
+              console.log(event)
+            }
+          )
+        }
+
         return jsx`
         <${Container}>
           <${AppBar}>
-            <${Toolbar} menu title="Home Page">
+            <${Toolbar} actionClick=${() => Sheet.show(sheet)} menu title="Home Page">
 
               <div class="toolbar_text">Text</div>
 
@@ -74,8 +104,12 @@
 
             <!-- Use the built-in Link component -->
             <${Link} prefetch="hover" href="https://geckosio.github.io/">
-              <${Button}>Link</${Button}>
+              <${Button}>External Link</${Button}>
             </${Link}>
+
+            <br />
+
+            <${Button} onClick=${() => dialogClickHandler()}>Open Dialog</${Button}>
 
           </div>
 

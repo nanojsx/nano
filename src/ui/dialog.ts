@@ -2,13 +2,13 @@ import { h } from '../core'
 import { boxShadow, zIndex } from './_config'
 import { Button } from './button'
 
-// Dialog just like just like: https://material.io/components/Dialogs
+// Dialog just like just like: https://material.io/components/dialogs
 
 /*
 HOW TO USE:
 
 const Button = (_props: any) => {
-  const Dialog = new Dialog()
+  const dialog = new Dialog()
 
   const onclickHandler = () => {
     dialog.show({ 
