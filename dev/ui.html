@@ -18,7 +18,7 @@
     <div id="root"></div>
 
     <script>
-      const { render, Link, jsx, UI } = nanoJSX
+      const { render, Link, jsx, UI, Component } = nanoJSX
       const {
         AppBar,
         Button,
@@ -35,6 +35,9 @@
         Toolbar
       } = UI
 
+      // a reference to the Pages Component
+      let pagesRef
+
       const Container = props => {
         return jsx`<div style="padding: 24px 16px 64px;">${props.children}</div>`
       }
@@ -50,23 +53,52 @@
           </${List}>`
       }
 
-      const App = () => {
-        const dialog = new Dialog()
-        const sheet = jsx`<${Sheet} mode="left" title="menu" subtitle="(same list of names)">${Names}</${Sheet}>`
+      const dialog = new Dialog()
+      const sheet = jsx`<${Sheet} mode="left" title="menu" subtitle="(same list of names)">${Names}</${Sheet}>`
 
-        const dialogClickHandler = () => {
-          dialog.show(
-            {
-              title: 'Hello',
-              body: 'Some text.',
-              actions: [{ name: 'Action 1' }]
-            },
-            event => {
-              console.log(event)
-            }
-          )
+      const dialogClickHandler = () => {
+        dialog.show(
+          {
+            title: 'Hello',
+            body: 'Some text.',
+            actions: [{ name: 'Action 1' }]
+          },
+          event => {
+            console.log(event)
+          }
+        )
+      }
+
+      class Pages extends Component {
+        render(page) {
+          const showHomePage = !page || page === 'home'
+
+          if (!showHomePage) {
+            return jsx`<h2>${page}</h2>`
+          }
+
+          if (showHomePage)
+            return jsx`
+            <div>
+              <!-- Listen for the click event -->
+              <h2 onClick="${() => console.log('click')}">List of names</h2>
+
+              <!-- Render the Names component -->
+              <${Names} />
+
+              <!-- Use the built-in Link component -->
+              <${Link} prefetch="hover" href="https://geckosio.github.io/">
+                <${Button}>External Link</${Button}>
+              </${Link}>
+
+              <br />
+
+              <${Button} onClick=${() => dialogClickHandler()}>Open Dialog</${Button}>
+            </div>`
         }
+      }
 
+      const App = () => {
         return jsx`
         <${Container}>
           <${AppBar}>
@@ -95,28 +127,15 @@
           </${AppBar}>
 
           <div style="padding: 16px 16px 64px; margin-top: 56px; margin-bottom: 56px;">
-
-            <!-- Listen for the click event -->
-            <h2 onClick="${() => console.log('click')}">List of names</h2>
-
-            <!-- Render the Names component -->
-            <${Names} />
-
-            <!-- Use the built-in Link component -->
-            <${Link} prefetch="hover" href="https://geckosio.github.io/">
-              <${Button}>External Link</${Button}>
-            </${Link}>
-
-            <br />
-
-            <${Button} onClick=${() => dialogClickHandler()}>Open Dialog</${Button}>
-
+            <!-- save the Pages reference in pagesRef -->
+            <${Pages} ref=${p => (pagesRef = p)}/>
           </div>
 
-          <${Navigation}>
-            <${NavigationAction} label="Home"       icon="/dev/font-awesome/home-solid.svg"  active=${true} />
-            <${NavigationAction} label="About"      icon="/dev/font-awesome/user-solid.svg"  active=${false} />
-            <${NavigationAction} label="Favorites"  icon="/dev/font-awesome/heart-solid.svg" active=${false} />
+          <!-- call update on the Pages Component and pass the tab it to update/render -->
+          <${Navigation} onClick=${e => pagesRef.update(e.id)} >
+            <${NavigationAction} label="Home"       icon="/dev/font-awesome/home-solid.svg"   active=${true} />
+            <${NavigationAction} label="About"      icon="/dev/font-awesome/user-solid.svg"   active=${false} />
+            <${NavigationAction} label="Favorites"  icon="/dev/font-awesome/heart-solid.svg"  active=${false} />
          </${Navigation}>
 
         </${Container}>`
