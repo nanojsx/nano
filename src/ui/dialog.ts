@@ -149,10 +149,10 @@ export class Dialog {
 
   private getParentElement(parentId: string) {
     let el = document.getElementById(parentId || this.defaultParentId)
+
     if (!el) {
       el = document.createElement('div')
       el.id = this.defaultParentId
-      el.addEventListener('click', this.remove.bind(this))
       document.body.appendChild(el)
     }
 
@@ -191,6 +191,11 @@ export class Dialog {
     const container = this.getParentElement(options.parentId || this.defaultParentId)
 
     if (container.hasChildNodes()) return
+
+    // remove dialog when container (background) gets clicked
+    container.addEventListener('click', e => {
+      if (e.target === container) this.remove()
+    })
 
     const Dialog = (_header: string | undefined, _body: string | undefined, _actions: any) => {
       const actionsArray = _actions.map((action: any) => {
