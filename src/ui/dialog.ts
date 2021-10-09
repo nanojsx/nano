@@ -152,7 +152,7 @@ export class Dialog {
     if (!el) {
       el = document.createElement('div')
       el.id = this.defaultParentId
-      el.addEventListener("click", this.remove)
+      el.addEventListener('click', this.remove.bind(this))
       document.body.appendChild(el)
     }
 
@@ -172,7 +172,17 @@ export class Dialog {
     setTimeout(() => {
       el.remove()
       window.removeEventListener('keydown', this.handleKeydown)
+      this.enableScroll()
     }, 200)
+  }
+
+  private disableScroll() {
+    document.body.style.overflow = 'hidden'
+  }
+
+  private enableScroll() {
+    // default
+    document.body.style.overflow = ''
   }
 
   public show(options: DialogOptions | null, callback: (event: { name: string; id: string | number }) => void) {
@@ -210,6 +220,8 @@ export class Dialog {
     const el = Dialog(options.title, options.body as string, options.actions || []) as HTMLElement
 
     container.appendChild(el)
+
+    this.disableScroll()
 
     window.addEventListener('keydown', this.handleKeydown)
 
