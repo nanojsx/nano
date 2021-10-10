@@ -153,6 +153,7 @@ export class Dialog {
     if (!el) {
       el = document.createElement('div')
       el.id = this.defaultParentId
+      el.ariaHidden = 'true'
       document.body.appendChild(el)
     }
 
@@ -250,10 +251,16 @@ export class Dialog {
         )
       })
 
-      const title = h('h2', { class: 'dialog_header' }, _header)
+      const title = h('h2', { class: 'dialog_header', id: 'dialog-title' }, _header)
       const body = h('div', { class: 'dialog_body' }, _body)
       const actions = h('div', { class: 'dialog_actions' }, actionsArray)
-      const dialog = h('div', { class: 'dialog' }, title, body, actions)
+      const dialog = h(
+        'div',
+        { class: 'dialog', role: 'dialog', 'aria-modal': 'true', 'aria-labelledby': 'dialog-title' },
+        title,
+        body,
+        actions
+      )
       return dialog
     }
 
