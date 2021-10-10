@@ -30,6 +30,7 @@
         Navigation,
         NavigationAction,
         Sheet,
+        Snackbar,
         Tab,
         Tabs,
         Toolbar
@@ -42,7 +43,7 @@
         return jsx`<div style="padding: 24px 16px 64px;">${props.children}</div>`
       }
 
-      const names = ['Tayla', 'Beau', 'Nella', 'Britany', 'Cheryl', 'Aliza', 'Steven', 'Riley']
+      const names = ['Tayla', 'Beau', 'Nella', 'Britany']
 
       const Names = props => {
         return jsx`
@@ -54,14 +55,45 @@
       }
 
       const dialog = new Dialog()
-      const sheet = jsx`<${Sheet} mode="left" title="menu" subtitle="(same list of names)">${Names}</${Sheet}>`
+      const snackbar = new Snackbar()
+      const snacks = [
+        {
+          message: 'Hello Snack!',
+          actions: [{ name: 'Dismiss', color: this.defaultActionColor }],
+          autoHide: true,
+          consecutive: true,
+          offsetY: 56
+        },
+        {
+          message: 'Simple question? With custom colors!',
+          actions: [
+            { name: 'Yes', color: '#7edeff' },
+            { name: 'No', color: '#f261ff' }
+          ],
+          autoHide: false,
+          consecutive: true,
+          offsetY: 56
+        },
+        {
+          message:
+            'A very very long text without any action. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eius',
+          actions: [],
+          autoHide: true,
+          consecutive: true,
+          offsetY: 56
+        }
+      ]
+      const sheetLeft = jsx`<${Sheet} mode="left" title="menu" subtitle="(same list of names)">${Names}</${Sheet}>`
+      const sheetBottom = jsx`<${Sheet} mode="bottom" title="menu" subtitle="(same list of names)">${Names}</${Sheet}>`
+
+      const contextMenu = new Menu()
 
       const dialogClickHandler = () => {
         dialog.show(
           {
             title: 'Hello',
             body: 'Some text.',
-            actions: [{ name: 'Action 1' }]
+            actions: [{ name: 'Action 1' }, { name: 'Action 2' }]
           },
           event => {
             console.log(event)
@@ -86,14 +118,31 @@
               <!-- Render the Names component -->
               <${Names} />
 
+              <br />
+
+              <${Button} outlined icon="/dev/font-awesome/heart-solid.svg">Button (outlined + icon)</${Button}>
+
+              <br />
+
               <!-- Use the built-in Link component -->
               <${Link} prefetch="hover" href="https://geckosio.github.io/">
-                <${Button}>External Link</${Button}>
+                <${Button}>External Link (with prefetch)</${Button}>
               </${Link}>
 
               <br />
 
               <${Button} onClick=${() => dialogClickHandler()}>Open Dialog</${Button}>
+
+              <br />
+
+              <${Button} onClick=${() => Sheet.show(sheetBottom)}>Sheet Bottom</${Button}>
+
+              <br />
+
+              <${Button} onClick=${() => {
+              const rnd = Math.floor(Math.random() * 3)
+              snackbar.show(snacks[rnd])
+            }}>Snackbar</${Button}>
             </div>`
         }
       }
@@ -102,13 +151,14 @@
         return jsx`
         <${Container}>
           <${AppBar}>
-            <${Toolbar} actionClick=${() => Sheet.show(sheet)} menu title="Home Page">
+            <${Toolbar} actionClick=${() => Sheet.show(sheetLeft)} menu title="Home Page">
 
               <div class="toolbar_text">Text</div>
 
               <${Icon}
-                onClick=${() => {
-                  console.log('click')
+                onClick=${e => {
+                  const { pageX: x, pageY: y } = e
+                  contextMenu.open({ position: { x, y }, list: Names })
                 }}
                 class="toolbar_icon"
                 color="white"
