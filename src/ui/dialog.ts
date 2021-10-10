@@ -185,6 +185,14 @@ export class Dialog {
     document.body.style.overflow = ''
   }
 
+  private focusFirstAction(container: HTMLElement) {
+    const actions = container.querySelectorAll('.dialog_action')
+    const firstAction = actions[0] as HTMLElement | undefined
+    if (firstAction) {
+      firstAction.focus()
+    }
+  }
+
   public show(options: DialogOptions | null, callback: (event: { name: string; id: string | number }) => void) {
     options = { ...this.options, ...options }
 
@@ -225,6 +233,8 @@ export class Dialog {
     const el = Dialog(options.title, options.body as string, options.actions || []) as HTMLElement
 
     container.appendChild(el)
+
+    this.focusFirstAction(container)
 
     this.disableScroll()
 

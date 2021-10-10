@@ -29,7 +29,7 @@ export const rippleEffect = (rippleClr: string, hoverClr: string) => {
     background: ${hoverClr} radial-gradient(circle, transparent 1%, ${hoverClr} 1%) center/15000%;
   }
 
-  .${rippleClass}:focus-visible {
+  .${rippleClass}:focus {
     background: ${hoverClr} radial-gradient(circle, transparent 1%, ${hoverClr} 1%) center/15000%;
   }
   
