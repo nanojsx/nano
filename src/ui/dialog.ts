@@ -163,6 +163,33 @@ export class Dialog {
     if (event.key === 'Escape' || event.key === 'Esc') {
       this.remove()
     }
+
+    if (event.key === 'Tab') {
+      event.preventDefault()
+
+      const actions = Array.from(document.querySelectorAll('.dialog_action')) as HTMLElement[]
+      if (actions.length < 1) {
+        return
+      }
+      const currentFocus = actions.findIndex(el => document.activeElement === el)
+      if (currentFocus === -1) {
+        actions[0].focus()
+      }
+
+      const nextFocus = currentFocus + (event.shiftKey ? -1 : 1)
+
+      if (nextFocus === -1) {
+        actions[actions.length - 1].focus()
+        return
+      }
+
+      if (nextFocus === actions.length) {
+        actions[0].focus()
+        return
+      }
+
+      actions[nextFocus].focus()
+    }
   }
 
   public remove() {
