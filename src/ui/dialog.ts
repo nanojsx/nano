@@ -40,6 +40,7 @@ interface DialogOptions {
   actions?: DialogAction[]
   onAction?: () => DialogActionEvent
   parentId?: string
+  firstFocusAction?: string | boolean
 }
 
 export class Dialog {
@@ -53,7 +54,8 @@ export class Dialog {
       actions: [
         { name: 'Action 1', color: this.defaultActionColor },
         { name: 'Action 2', color: this.defaultActionColor }
-      ]
+      ],
+      firstFocusAction: false
     }
 
     this.options = { ...defaultOptions, ...options }
@@ -213,11 +215,20 @@ export class Dialog {
     document.body.style.overflow = ''
   }
 
-  private focusFirstAction(container: HTMLElement) {
-    const actions = container.querySelectorAll('.dialog_action')
-    const firstAction = actions[0] as HTMLElement | undefined
-    if (firstAction) {
-      firstAction.focus()
+  private focusAction(focusActionId: string, actions: DialogAction[]) {
+    const actionElements = Array.from(document.querySelectorAll('.dialog_action')) as HTMLElement[]
+    const focusTargetIndex = actions.findIndex(action => action.id === focusActionId)
+    const focusTarget = actionElements[focusTargetIndex]
+    if (focusTarget) {
+      focusTarget.focus()
+    }
+  }
+
+  private focusFirstAction() {
+    const actionElements = Array.from(document.querySelectorAll('.dialog_action')) as HTMLElement[]
+    const focusTarget = actionElements[0]
+    if (focusTarget) {
+      focusTarget.focus()
     }
   }
 
@@ -268,7 +279,14 @@ export class Dialog {
 
     container.appendChild(el)
 
-    this.focusFirstAction(container)
+    const { firstFocusAction } = options
+    if (options.actions && firstFocusAction) {
+      if (typeof firstFocusAction === 'string') {
+        this.focusAction(firstFocusAction, options.actions)
+      } else {
+        this.focusFirstAction()
+      }
+    }
 
     this.disableScroll()
 
