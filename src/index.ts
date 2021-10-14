@@ -24,6 +24,7 @@ export { Fragment } from './fragment'
 export { Store } from './store'
 export { createContext } from './context'
 export { withStyles } from './withStyles'
+export { defineAsCustomElements } from './customElementsMode'
 
 // version
 export { printVersion } from './helpers'
