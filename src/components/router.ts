@@ -1,14 +1,12 @@
 // inspired by https://codesandbox.io/s/build-own-react-router-v4-mpslz
-declare const isSSR: boolean
-declare const _nano: any
 
 import { Component } from '../component'
 import { FC, _render, h } from '../core'
 
-const instances: any[] = []
+const instances: Switch[] = []
 
-const register = (comp: any) => instances.push(comp)
-const unregister = (comp: any) => instances.splice(instances.indexOf(comp), 1)
+const register = (comp: Switch) => instances.push(comp)
+const unregister = (comp: Switch) => instances.splice(instances.indexOf(comp), 1)
 
 const historyPush = (path: string) => {
   window.history.pushState({}, '', path)

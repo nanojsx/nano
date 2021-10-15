@@ -6,14 +6,13 @@ export class Helmet extends Component {
     const reg = /(<helmet\b[^>]*>)((.|\n)*?)(<\/helmet>)/gm
 
     // collect all elements
-    const head: string[] = []
-    const footer: string[] = []
+    const head: HTMLElement[] = []
+    const footer: HTMLElement[] = []
 
     // get what's in the head
     if (typeof document !== 'undefined' && document.head) {
-      let children: string[] = []
-      // @ts-ignore
-      children = document.head.children
+      let children: HTMLElement[] = []
+      children = [].slice.call(document.head.children)
       for (let i = 0; i < children.length; i++) {
         // check if the same element already exists
         if (head.indexOf(children[i]) === -1) {
@@ -22,7 +21,7 @@ export class Helmet extends Component {
       }
     }
 
-    let result
+    let result!: any
     while ((result = reg.exec(body)) !== null) {
       const first = result[1]
       const second = result[2]
@@ -77,7 +76,7 @@ export class Helmet extends Component {
       let exists = false
       attrs = attrs.sort()
 
-      const el: HTMLElement[] = document.getElementsByTagName(tag) as any
+      const el = document.getElementsByTagName(tag) as unknown as HTMLElement[]
 
       for (let i = 0; i < el.length; i++) {
         let attrs2: string[] = []
@@ -102,10 +101,9 @@ export class Helmet extends Component {
   render() {
     const placement = this.props.footer ? 'footer' : 'head'
 
-    // @ts-ignore
     const ssr = globalThis && globalThis.isSSR ? true : false
 
     if (ssr) return h('helmet', { 'data-ssr': true, 'data-placement': placement }, this.props.children)
-    else return [] as any
+    else return []
   }
 }

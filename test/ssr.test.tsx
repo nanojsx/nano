@@ -30,7 +30,7 @@ test('should render without errors', () => {
   const children = ul.children
   expect(children[0]).toBe('<li>one</li>')
   expect(children[1]).toBe('<li>two</li>')
-
+  //@ts-ignore
   ul.addEventListener('click', () => {})
 
   const newChild = new HTMLElementSSR('span')

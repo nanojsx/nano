@@ -58,7 +58,7 @@ export class Link extends Component<Props> {
     const { href, prefetch, delay = 0, back = false } = this.props
 
     if (back)
-      this.elements[0].addEventListener('click', (e: any) => {
+      this.elements[0].addEventListener('click', (e: Event) => {
         e.preventDefault()
         const target = e.target as HTMLLinkElement
         if (target.href === document.referrer) window.history.back()
@@ -66,7 +66,7 @@ export class Link extends Component<Props> {
       })
 
     if (delay > 0)
-      this.elements[0].addEventListener('click', (e: any) => {
+      this.elements[0].addEventListener('click', (e: Event) => {
         e.preventDefault()
         setTimeout(() => (window.location.href = href), delay)
       })
@@ -86,7 +86,7 @@ export class Link extends Component<Props> {
     if (!this.props.href) console.warn('Please add "href" to <Link>')
     if (children.length !== 1) console.warn('Please add ONE child to <Link> (<Link>child</Link>)')
 
-    const a = h('a', { ...rest }, ...children) as any
+    const a = h('a', { ...rest }, ...children) as HTMLAnchorElement
 
     // if ssr
     if (prefetch === true && !(typeof window !== 'undefined' && window.document)) {

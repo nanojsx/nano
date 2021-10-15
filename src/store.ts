@@ -1,5 +1,3 @@
-declare const isSSR: boolean
-
 type State = any
 
 export class Store {

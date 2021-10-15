@@ -1,5 +1,3 @@
-import './types'
-
 // core
 export { h, render, hydrate, tick } from './core'
 export type { FC } from './core'

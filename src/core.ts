@@ -101,8 +101,7 @@ export const render = (component: any, parent: HTMLElement | null = null, remove
         })
       else appendChildren(parent, _render(el))
     }
-
-    // @ts-ignore
+    //@ts-ignore
     if (parent.ssr) return parent.ssr
     return parent
   }
@@ -256,7 +255,7 @@ export const h = (tagNameOrComponent: any, props: any, ...children: any) => {
   appendChildren(element, children)
 
   if (ref) ref(element)
-  // @ts-ignore
+    //@ts-ignore
   if (element.ssr) return element.ssr
   return element
 }
