@@ -17,7 +17,7 @@ interface Props {
  * Add <Img placeholder="src or element" ...., to prepare placeholder for img.
  */
 export class Img extends Component<Props> {
-  constructor(props: any) {
+  constructor(props: Props) {
     super(props)
 
     const { src, key } = props
@@ -77,7 +77,7 @@ export class Img extends Component<Props> {
       return placeholder()
     } else {
       // render a simple box
-      const style: any = {}
+      const style: Record<string, any> = {}
       if (rest.width) style.width = `${rest.width}px`
       if (rest.height) style.height = `${rest.height}px`
       const { width, height, ...others } = rest
