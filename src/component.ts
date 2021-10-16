@@ -18,11 +18,6 @@ export class Component<P extends Object = any, S = any> {
     return true
   }
 
-  public updatePropsValue(name: string, value: any) {
-    // @ts-ignore
-    this[name] = value
-  }
-
   setState(state: S, shouldUpdate: boolean = false) {
     const isObject = typeof state === 'object' && state !== null
 
@@ -48,7 +43,7 @@ export class Component<P extends Object = any, S = any> {
 
   /** Returns all currently rendered node elements */
   public get elements(): HTMLElement[] {
-    return this._elements
+    return this._elements || []
   }
 
   public set elements(elements: HTMLElement[]) {

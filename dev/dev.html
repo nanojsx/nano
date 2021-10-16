@@ -14,7 +14,15 @@
         padding: 0px;
       }
     </style>
-    <div id="root"></div>
+    <div id="root">
+      <first-app counter="8"><p>new paragraph</p></first-app>
+
+      <first-app><span>(used the default counter of 0)</span></first-app>
+
+      <first-app counter="8">
+        <first-app counter="8"></first-app>
+      </first-app>
+    </div>
     <script src="./dev.js"></script>
   </body>
 </html>
