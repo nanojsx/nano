@@ -113,6 +113,50 @@ export const render = (component: any, parent: HTMLElement | null = null, remove
   }
 }
 
+/** Returns the populated parent if available else  one child or an array of children */
+export const _renderWithComponent = (component: any, parent: HTMLElement | null = null, removeChildNodes = true) => {
+
+  component.willMount()
+
+  let el = component.render()
+  el = _render(el)
+  component.elements = el
+
+  if (typeof isSSR === 'undefined')
+    tick(() => {
+      component._didMount()
+    })
+
+  if (Array.isArray(el)) {
+    el = el.map(e => _render(e))
+    if (el.length === 1) el = el[0]
+  }
+
+  if (parent) {
+    if (removeChildNodes) removeAllChildNodes(parent)
+
+    // if parent and child are the same, we replace the parent instead of appending to it
+    if (el && parent.id && parent.id === el.id && parent.parentElement) {
+      parent.parentElement.replaceChild(el, parent)
+    } else {
+      // append element(s) to the parent
+      if (Array.isArray(el))
+        el.forEach((e: any) => {
+          appendChildren(parent, _render(e))
+          //parent.appendChild(_render(e))
+        })
+      else appendChildren(parent, _render(el))
+    }
+
+    return parent
+  }
+  // returning one child or an array of children
+  else {
+    if (typeof isSSR === 'boolean' && isSSR === true && !Array.isArray(el)) return [el]
+    return el
+  }
+}
+
 export const _render = (comp: any): any => {
   // undefined
   if (typeof comp === 'undefined') return []

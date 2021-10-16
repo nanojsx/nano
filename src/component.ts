@@ -20,7 +20,7 @@ export class Component<P extends Object = any, S = any> {
 
   public updatePropsValue(name: string, value: any) {
     // @ts-ignore
-    this.props[name] = value
+    this[name] = value
   }
 
   setState(state: S, shouldUpdate: boolean = false) {
