@@ -80,6 +80,9 @@ The best about Nano JSX is the **small bundle size**. It builds, although is sou
   All of this in only ~1KB  
   _(Well, the core module is only about ~1KB)_
 
+- **CustomElements mode**
+  You can define your component written with Nano JSX as web-components with `defineAsCustomElements`. This enables you to develop very light web components.
+
 ## Documentation
 
 Checkout the [website](http://nanojsx.io/) to find out more!
