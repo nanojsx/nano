@@ -9,10 +9,11 @@ export const defineAsCustomElements: (component: any, componentName: string) => 
     class extends HTMLElement {
       constructor() {
         super()
-        const shadowRoot = this.attachShadow({ mode: 'open' })
-        const rootElement = document.createElement('div')
-        shadowRoot.appendChild(rootElement)
-        render(component, rootElement)
+        const shadowRoot = this.attachShadow({ mode: 'closed' })
+        // because nano-jsx update need parentElement, so DocumentFragment is not usable...
+        const fragment = document.createElement('div')
+        render(component, fragment)
+        shadowRoot.append(fragment)
       }
     }
   )
