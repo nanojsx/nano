@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "ES2015",
     "module": "commonjs",
-    "lib": ["DOM", "ES2019"],
+    "lib": ["DOM", "DOM.Iterable", "ES2019"],
     "jsx": "react",
     "jsxFactory": "Nano.h",
     "declaration": true,
