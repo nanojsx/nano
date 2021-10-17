@@ -16,7 +16,7 @@ export const defineAsCustomElements: (
     class extends HTMLElement {
       component: any
       private isFunctionalComponent: boolean
-      private props: any
+      private functionalComponentsProps: any
 
       constructor() {
         super()
@@ -40,7 +40,7 @@ export const defineAsCustomElements: (
         )
         this.component = ref
         this.isFunctionalComponent = !(component.isClass && component.isClass())
-        this.props = {}
+        this.functionalComponentsProps = {}
 
         shadowRoot.append(el)
         if (!this.isFunctionalComponent) {
@@ -69,7 +69,7 @@ export const defineAsCustomElements: (
           this.component.update()
         } else {
           this.removeChildren()
-          this.props[name] = newValue
+          this.functionalComponentsProps[name] = newValue
           const el = h(
             'div',
             null,
@@ -78,7 +78,7 @@ export const defineAsCustomElements: (
               props: {
                 children: [],
                 ref: (r: any) => (this.component = r),
-                ...this.props
+                ...this.functionalComponentsProps
               }
             })
           )
