@@ -175,3 +175,58 @@ test('should keep state with props change', async () => {
   )
   expect(spy).not.toHaveBeenCalled()
 })
+
+test('should render also with functional component', async () => {
+  const Test = function ({ value }: { value: string }) {
+    return <p>{value}</p>
+  }
+
+  defineAsCustomElements(Test, 'nano-test7', ['value'], { mode: 'open' })
+
+  document.body.innerHTML = '<nano-test7 value="hoge"></nano-test7>'
+
+  await wait()
+
+  const comp = document.querySelector('nano-test7')
+  expect(comp?.shadowRoot?.innerHTML).toEqual(
+    '<div><p>hoge</p></div>'
+  )
+  // @ts-ignore
+  comp.attributes.value?.value = "bar"
+  expect(comp?.shadowRoot?.innerHTML).toEqual(
+    '<div><p>bar</p></div>'
+  )
+  expect(spy).not.toHaveBeenCalled()
+})
+
+test('should render also with slot', async () => {
+  class Test extends Component {
+    header: string
+    children: any
+
+    constructor(props: { header: string; children: any }) {
+      super(props)
+      this.header = props.header
+      this.children = props.children
+    }
+
+    render() {
+      return (
+        <div>
+          <header>{this.header}</header>
+          <main>{this.children}</main>
+        </div>
+      )
+    }
+  }
+
+  defineAsCustomElements(Test, 'nano-test8', ['header'], { mode: 'open' })
+
+  document.body.innerHTML = '<nano-test8 header="nano jsx"><p>hoge</p></nano-test8>'
+
+  await wait()
+
+  const comp = document.querySelector('nano-test8')
+  expect(comp?.shadowRoot?.innerHTML).toEqual('<div><div><header>nano jsx</header><main><p>hoge</p></main></div></div>')
+  expect(spy).not.toHaveBeenCalled()
+})

@@ -15,6 +15,8 @@ export const defineAsCustomElements: (
     componentName,
     class extends HTMLElement {
       component: any
+      private isFunctionalComponent: boolean
+      private props: any
 
       constructor() {
         super()
@@ -37,14 +39,17 @@ export const defineAsCustomElements: (
           })
         )
         this.component = ref
+        this.isFunctionalComponent = !(component.isClass && component.isClass())
+        this.props = {}
 
         shadowRoot.append(el)
-
-        this.component.updatePropsValue = (name: string, value: any) => {
-          // @ts-ignore
-          if (!this.component.props) this.component.props = {}
-          this.component.props[name] = value
-          this.component[name] = value
+        if (!this.isFunctionalComponent) {
+          this.component.updatePropsValue = (name: string, value: any) => {
+            // @ts-ignore
+            if (!this.component.props) this.component.props = {}
+            this.component.props[name] = value
+            this.component[name] = value
+          }
         }
       }
 
@@ -52,9 +57,33 @@ export const defineAsCustomElements: (
         return publicProps
       }
 
+      private removeChildren() {
+        for (const el of this.shadowRoot?.children ?? []) {
+          el.remove()
+        }
+      }
+
       attributeChangedCallback(name: string, _: any, newValue: any) {
-        this.component.updatePropsValue(name, newValue)
-        this.component.update()
+        if (!this.isFunctionalComponent) {
+          this.component.updatePropsValue(name, newValue)
+          this.component.update()
+        } else {
+          this.removeChildren()
+          this.props[name] = newValue
+          const el = h(
+            'div',
+            null,
+            _render({
+              component,
+              props: {
+                children: [],
+                ref: (r: any) => (this.component = r),
+                ...this.props
+              }
+            })
+          )
+          this.shadowRoot!.append(el)
+        }
       }
     }
   )
