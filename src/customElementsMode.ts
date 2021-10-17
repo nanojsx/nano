@@ -39,6 +39,7 @@ export const defineAsCustomElements: (
           // @ts-ignore
           if (!this.component.props) this.component.props = {}
           this.component.props[name] = value
+          this.component[name] = value
         }
       }
 
@@ -47,7 +48,6 @@ export const defineAsCustomElements: (
       }
 
       attributeChangedCallback(name: string, _: any, newValue: any) {
-        console.log('attributeChangedCallback', name, newValue)
         this.component.updatePropsValue(name, newValue)
         this.component.update()
       }
