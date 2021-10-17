@@ -1,11 +1,16 @@
 import { h, render, _render } from './core'
 
+interface CustomElementsParameters {
+  mode?: 'open' | 'closed'
+  delegatesFocus?: boolean
+}
+
 export const defineAsCustomElements: (
   component: any,
   componentName: string,
   publicProps: string[],
-  mode?: 'open' | 'closed'
-) => void = function (component, componentName, publicProps, mode = 'closed') {
+  params?: CustomElementsParameters
+) => void = function (component, componentName, publicProps, { mode = 'closed', delegatesFocus = false } = {}) {
   customElements.define(
     componentName,
     class extends HTMLElement {
@@ -14,7 +19,7 @@ export const defineAsCustomElements: (
       constructor() {
         super()
 
-        const shadowRoot = this.attachShadow({ mode })
+        const shadowRoot = this.attachShadow({ mode, delegatesFocus })
 
         let ref
         const children = Array.from(this.children).map(c => render(c))

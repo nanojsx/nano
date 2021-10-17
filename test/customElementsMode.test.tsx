@@ -31,7 +31,7 @@ test('should render with correct content', async () => {
       return <div>test text</div>
     }
   }
-  defineAsCustomElements(Test, 'nano-test2', [], 'open')
+  defineAsCustomElements(Test, 'nano-test2', [], { mode: 'open' })
 
   document.body.innerHTML = '<nano-test2></nano-test2>'
 
@@ -56,7 +56,7 @@ test('should render with props', async () => {
       return <div>test : {this.value}</div>
     }
   }
-  defineAsCustomElements(Test, 'nano-test3', ['value'], 'open')
+  defineAsCustomElements(Test, 'nano-test3', ['value'], { mode: 'open' })
 
   document.body.innerHTML = '<nano-test3 value="fuga"></nano-test3>'
 
@@ -81,7 +81,7 @@ test('should update render result with props change', async () => {
       return <div>test : {this.value}</div>
     }
   }
-  defineAsCustomElements(Test, 'nano-test4', ['value'], 'open')
+  defineAsCustomElements(Test, 'nano-test4', ['value'], { mode: 'open' })
 
   document.body.innerHTML = '<nano-test4 value="fuga"></nano-test4>'
 
@@ -114,7 +114,7 @@ test('should change render result with state change', async () => {
       )
     }
   }
-  defineAsCustomElements(Test, 'nano-test5', [], 'open')
+  defineAsCustomElements(Test, 'nano-test5', [], { mode: 'open' })
 
   document.body.innerHTML = '<nano-test5></nano-test5>'
 
@@ -153,7 +153,7 @@ test('should keep state with props change', async () => {
       )
     }
   }
-  defineAsCustomElements(Test, 'nano-test6', ['value'], 'open')
+  defineAsCustomElements(Test, 'nano-test6', ['value'], { mode: 'open' })
 
   document.body.innerHTML = '<nano-test6 value="1"></nano-test6>'
 
