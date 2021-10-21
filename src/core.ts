@@ -249,13 +249,13 @@ export const h = (tagNameOrComponent: any, props: any, ...children: any) => {
     else if (isEvent(element, p.toLowerCase()))
       element.addEventListener(p.toLowerCase().substring(2), (e: any) => props[p](e))
     else if (/className/i.test(p)) console.warn('You can use "class" instead of "className".')
-    else element.setAttribute(p, props[p])
+    else if (typeof props[p] !== 'undefined') element.setAttribute(p, props[p])
   }
 
   appendChildren(element, children)
 
   if (ref) ref(element)
-    //@ts-ignore
+  // @ts-ignore
   if (element.ssr) return element.ssr
   return element
 }
