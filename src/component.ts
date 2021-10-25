@@ -43,7 +43,7 @@ export class Component<P extends Object = any, S = any> {
 
   /** Returns all currently rendered node elements */
   public get elements(): HTMLElement[] {
-    return this._elements
+    return this._elements || []
   }
 
   public set elements(elements: HTMLElement[]) {
