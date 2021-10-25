@@ -3,7 +3,7 @@
  */
 
 import Nano, { Img, Helmet } from '../lib/index.js'
-import { initSSR, HTMLElementSSR } from '../lib/ssr.js'
+import { initSSR, HTMLElementSSR, renderSSR } from '../lib/ssr.js'
 
 const spy = jest.spyOn(global.console, 'error')
 
@@ -86,4 +86,10 @@ test('should render without errors', async () => {
   </html>
   `)
   expect(spy).not.toHaveBeenCalled()
+})
+
+test("should escape attribute's string value", () => {
+  const content = Nano.h('div', { id: '"hoge' }, '<span>span</span>')
+  const html = renderSSR(content)
+  expect(html).toBe('<div id="&quot;hoge"><span>span</span></div>')
 })

@@ -1,4 +1,5 @@
 import { render } from './core'
+import { escapeHtml } from './helpers'
 import { _state } from './state'
 
 const detectSSR = () => {
@@ -93,8 +94,9 @@ export class HTMLElementSSR {
   }
 
   setAttribute(name: string, value: string) {
-    if (this.isSelfClosing) this.ssr = this.ssr.replace(/(^<[a-z]+ )(.+)/gm, `$1${name}="${value}" $2`)
-    else this.ssr = this.ssr.replace(/(^<[^>]+)(.+)/gm, `$1 ${name}="${value}"$2`)
+    if (this.isSelfClosing)
+      this.ssr = this.ssr.replace(/(^<[a-z]+ )(.+)/gm, `$1${escapeHtml(name)}="${escapeHtml(value)}" $2`)
+    else this.ssr = this.ssr.replace(/(^<[^>]+)(.+)/gm, `$1 ${escapeHtml(name)}="${escapeHtml(value)}"$2`)
   }
 
   appendChild(child: any) {
@@ -124,9 +126,10 @@ export class HTMLElementSSR {
   }
 
   addEventListener<K extends keyof DocumentEventMap>(
-    _type: keyof K, _listener: (this: Document, ev: DocumentEventMap[K]) => any,
-       _options?: boolean | AddEventListenerOptions | undefined
-    ) {}
+    _type: keyof K,
+    _listener: (this: Document, ev: DocumentEventMap[K]) => any,
+    _options?: boolean | AddEventListenerOptions | undefined
+  ) {}
 }
 
 export class DocumentSSR {
