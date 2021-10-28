@@ -10,12 +10,14 @@ const unregister = (comp: Switch) => instances.splice(instances.indexOf(comp), 1
 
 const historyPush = (path: string) => {
   window.history.pushState({}, '', path)
-  instances.forEach(instance => instance.handlePop())
+  instances.forEach(instance => instance.handleChanges())
+  window.dispatchEvent(new Event('pushstate'))
 }
 
 const historyReplace = (path: string) => {
   window.history.replaceState({}, '', path)
-  instances.forEach(instance => instance.handlePop())
+  instances.forEach(instance => instance.handleChanges())
+  window.dispatchEvent(new Event('replacestate'))
 }
 
 const matchPath = (
@@ -86,16 +88,16 @@ export class Switch extends Component<{ fallback?: any; children?: any }> {
   match = { index: -1, path: '' }
 
   didMount() {
-    window.addEventListener('popstate', this.handlePop.bind(this))
+    window.addEventListener('popstate', this.handleChanges.bind(this))
     register(this)
   }
 
   didUnmount() {
-    window.removeEventListener('popstate', this.handlePop.bind(this))
+    window.removeEventListener('popstate', this.handleChanges.bind(this))
     unregister(this)
   }
 
-  handlePop() {
+  handleChanges() {
     this.findChild()
     if (this.shouldUpdate()) this.update()
   }
