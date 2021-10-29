@@ -1,23 +1,23 @@
 // inspired by https://codesandbox.io/s/build-own-react-router-v4-mpslz
-declare const isSSR: boolean
-declare const _nano: any
 
 import { Component } from '../component.ts'
 import { FC, _render, h } from '../core.ts'
 
-const instances: any[] = []
+const instances: Switch[] = []
 
-const register = (comp: any) => instances.push(comp)
-const unregister = (comp: any) => instances.splice(instances.indexOf(comp), 1)
+const register = (comp: Switch) => instances.push(comp)
+const unregister = (comp: Switch) => instances.splice(instances.indexOf(comp), 1)
 
 const historyPush = (path: string) => {
   window.history.pushState({}, '', path)
-  instances.forEach(instance => instance.handlePop())
+  instances.forEach(instance => instance.handleChanges())
+  window.dispatchEvent(new Event('pushstate'))
 }
 
 const historyReplace = (path: string) => {
   window.history.replaceState({}, '', path)
-  instances.forEach(instance => instance.handlePop())
+  instances.forEach(instance => instance.handleChanges())
+  window.dispatchEvent(new Event('replacestate'))
 }
 
 const matchPath = (
@@ -88,16 +88,16 @@ export class Switch extends Component<{ fallback?: any; children?: any }> {
   match = { index: -1, path: '' }
 
   didMount() {
-    window.addEventListener('popstate', this.handlePop.bind(this))
+    window.addEventListener('popstate', this.handleChanges.bind(this))
     register(this)
   }
 
   didUnmount() {
-    window.removeEventListener('popstate', this.handlePop.bind(this))
+    window.removeEventListener('popstate', this.handleChanges.bind(this))
     unregister(this)
   }
 
-  handlePop() {
+  handleChanges() {
     this.findChild()
     if (this.shouldUpdate()) this.update()
   }
@@ -140,11 +140,11 @@ export class Switch extends Component<{ fallback?: any; children?: any }> {
       this.path = path
       this.index = this.match.index
       const el = _render(child)
-      return _render(el)
+      return h('div', {}, _render(el))
     } else if (this.props.fallback) {
-      return _render(this.props.fallback)
+      return h('div', {}, _render(this.props.fallback))
     } else {
-      return h('div', { class: 'route' }, 'not found')
+      return h('div', {}, 'not found')
     }
   }
 }

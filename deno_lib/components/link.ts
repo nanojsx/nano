@@ -3,12 +3,20 @@ import { Helmet } from './helmet.ts'
 import { h } from '../core.ts'
 import { Fragment } from '../fragment.ts'
 
+interface Props {
+  [key: string]: any
+  prefetch?: boolean | 'hover' | 'visible'
+  href: string
+  back?: boolean
+  delay?: number
+}
+
 /**
  * A simple Link component
  * Add <Link prefetch ..., to prefetch the html document
  * Add <Link prefetch="hover" ..., to prefetch the html document on hovering over the link element.
  */
-export class Link extends Component {
+export class Link extends Component<Props> {
   prefetchOnHover() {
     this.elements[0].addEventListener('mouseover', () => this.addPrefetch(), { once: true })
   }
@@ -50,7 +58,7 @@ export class Link extends Component {
     const { href, prefetch, delay = 0, back = false } = this.props
 
     if (back)
-      this.elements[0].addEventListener('click', (e: any) => {
+      this.elements[0].addEventListener('click', (e: Event) => {
         e.preventDefault()
         const target = e.target as HTMLLinkElement
         if (target.href === document.referrer) window.history.back()
@@ -58,7 +66,7 @@ export class Link extends Component {
       })
 
     if (delay > 0)
-      this.elements[0].addEventListener('click', (e: any) => {
+      this.elements[0].addEventListener('click', (e: Event) => {
         e.preventDefault()
         setTimeout(() => (window.location.href = href), delay)
       })
@@ -78,7 +86,7 @@ export class Link extends Component {
     if (!this.props.href) console.warn('Please add "href" to <Link>')
     if (children.length !== 1) console.warn('Please add ONE child to <Link> (<Link>child</Link>)')
 
-    const a = h('a', { ...rest }, ...children) as any
+    const a = h('a', { ...rest }, ...children) as HTMLAnchorElement
 
     // if ssr
     if (prefetch === true && !(typeof window !== 'undefined' && window.document)) {

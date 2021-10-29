@@ -16,15 +16,12 @@ import { build, evaluate } from './build.ts'
 
 const CACHES = new Map()
 
-const regular = function (statics: any) {
-  // @ts-ignore
+const regular = function (this: HTMLElement, statics: TemplateStringsArray) {
   let tmp = CACHES.get(this)
   if (!tmp) {
     tmp = new Map()
-    // @ts-ignore
     CACHES.set(this, tmp)
   }
-  // @ts-ignore
   tmp = evaluate(this, tmp.get(statics) || (tmp.set(statics, (tmp = build(statics))), tmp), arguments, [])
   return tmp.length > 1 ? tmp : tmp[0]
 }

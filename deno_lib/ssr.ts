@@ -1,20 +1,15 @@
-declare const isSSR: boolean
-declare const _nano: any
-
 import { render } from './core.ts'
+import { escapeHtml } from './helpers.ts'
 import { _state } from './state.ts'
 
 const detectSSR = () => {
-  // @ts-ignore
   const isDeno = typeof Deno !== 'undefined'
   const hasWindow = typeof window !== 'undefined' ? true : false
   return (typeof isSSR !== 'undefined' && isSSR) || isDeno || !hasWindow
 }
 
-// @ts-ignore
 globalThis.isSSR = detectSSR() === true ? true : undefined
 
-// @ts-ignore
 globalThis._nano = { isSSR, location: { pathname: '/' } }
 
 export const initSSR = (pathname: string = '/') => {
@@ -94,13 +89,14 @@ export class HTMLElementSSR {
     return { length: 1 }
   }
 
-  setAttributeNS(name: string, value: any) {
+  setAttributeNS(name: string, value: string) {
     this.setAttribute(name, value)
   }
 
-  setAttribute(name: string, value: any) {
-    if (this.isSelfClosing) this.ssr = this.ssr.replace(/(^<[a-z]+ )(.+)/gm, `$1${name}="${value}" $2`)
-    else this.ssr = this.ssr.replace(/(^<[^>]+)(.+)/gm, `$1 ${name}="${value}"$2`)
+  setAttribute(name: string, value: string) {
+    if (this.isSelfClosing)
+      this.ssr = this.ssr.replace(/(^<[a-z]+ )(.+)/gm, `$1${escapeHtml(name)}="${escapeHtml(value)}" $2`)
+    else this.ssr = this.ssr.replace(/(^<[^>]+)(.+)/gm, `$1 ${escapeHtml(name)}="${escapeHtml(value)}"$2`)
   }
 
   appendChild(child: any) {
@@ -129,7 +125,11 @@ export class HTMLElementSSR {
     return array
   }
 
-  addEventListener(_type: any, _listener: any, _options?: any) {}
+  addEventListener<K extends keyof DocumentEventMap>(
+    _type: keyof K,
+    _listener: (this: Document, ev: DocumentEventMap[K]) => any,
+    _options?: boolean | AddEventListenerOptions | undefined
+  ) {}
 }
 
 export class DocumentSSR {
@@ -153,7 +153,7 @@ export class DocumentSSR {
     return text
   }
 
-  querySelector(_query: any) {
+  querySelector(_query: string) {
     return undefined
   }
 }

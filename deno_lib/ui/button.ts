@@ -71,7 +71,7 @@ export const Button = (props: {
   customStyles += style
 
   return h(
-    'a',
+    'button',
     { class: `nano_jsx_button-${cssHash} ${ripple.class} ${className}`, style: customStyles, ...rest },
     icon ? h(Icon, { style: 'margin-left: -4px; margin-right: 8px; width: 14px; height: 14px;' }, icon) : null,
     children

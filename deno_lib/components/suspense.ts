@@ -1,10 +1,16 @@
 import { Component } from '../component.ts'
 import { strToHash } from '../core.ts'
 
-export class Suspense extends Component<{ fallback: any; cache?: boolean; [key: string]: any }> {
+interface Props {
+  fallback: any
+  cache?: boolean
+  [key: string]: any
+}
+
+export class Suspense extends Component<Props> {
   ready = false
 
-  constructor(props: any) {
+  constructor(props: Props) {
     super(props)
 
     // get props promises in ...rest
@@ -31,7 +37,7 @@ export class Suspense extends Component<{ fallback: any; cache?: boolean; [key: 
     if (this.loadFromCache(cache)) return
 
     // resolve the promises
-    const promises = Object.values(rest).map((p: any) => p())
+    const promises = Object.values(rest).map(p => p())
     const resolved = await Promise.all(promises)
 
     // prepare data
@@ -50,7 +56,7 @@ export class Suspense extends Component<{ fallback: any; cache?: boolean; [key: 
     const { children, fallback, cache = false, ...rest } = this.props
 
     // execute the functions
-    const functions = Object.values(rest).map((p: any) => p())
+    const functions = Object.values(rest).map(p => p())
 
     // prepare data
     const data = this.prepareData(rest, functions, false)
@@ -70,7 +76,7 @@ export class Suspense extends Component<{ fallback: any; cache?: boolean; [key: 
     return hasCachedProps
   }
 
-  prepareData(rest: any, fnc: any, cache: boolean) {
+  prepareData(rest: any, fnc: Function[], cache: boolean) {
     const data = Object.keys(rest).reduce((obj, item, index) => {
       if (cache) this.state = { ...this.state, [item]: fnc[index] }
       return {

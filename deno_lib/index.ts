@@ -1,5 +1,3 @@
-import './types.ts'
-
 // core
 export { h, render, hydrate, tick } from './core.ts'
 export type { FC } from './core.ts'
@@ -24,6 +22,7 @@ export { Fragment } from './fragment.ts'
 export { Store } from './store.ts'
 export { createContext } from './context.ts'
 export { withStyles } from './withStyles.ts'
+export { defineAsCustomElements } from './customElementsMode.ts'
 
 // version
 export { printVersion } from './helpers.ts'

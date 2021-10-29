@@ -43,7 +43,7 @@ export class Component<P extends Object = any, S = any> {
 
   /** Returns all currently rendered node elements */
   public get elements(): HTMLElement[] {
-    return this._elements
+    return this._elements || []
   }
 
   public set elements(elements: HTMLElement[]) {
@@ -106,7 +106,7 @@ export class Component<P extends Object = any, S = any> {
 
     // add all new node elements
     this.elements.forEach((child: HTMLElement) => {
-      parent.insertBefore(child, oldElements[0])
+      if (parent) parent.insertBefore(child, oldElements[0])
     })
 
     // remove all elements

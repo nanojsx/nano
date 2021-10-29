@@ -3,18 +3,18 @@ import { VERSION } from './version.ts'
 /** Creates a new Task using setTimeout() */
 export const task = (task: () => void) => setTimeout(task, 0)
 
-export const nodeToString = (node: any) => {
+export const nodeToString = (node: Node) => {
   const tmpNode = document.createElement('div')
   tmpNode.appendChild(node.cloneNode(true))
   return tmpNode.innerHTML
 }
 
-const isDescendant: any = (desc: any, root: any) => {
+function isDescendant(desc: ParentNode | null, root: Node): boolean {
   return !!desc && (desc === root || isDescendant(desc.parentNode, root))
 }
 
 // https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver
-export const onNodeRemove = (element: any, callback: any) => {
+export const onNodeRemove = (element: HTMLElement, callback: () => void) => {
   let observer = new MutationObserver(mutationsList => {
     mutationsList.forEach(mutation => {
       mutation.removedNodes.forEach(removed => {
@@ -35,6 +35,18 @@ export const onNodeRemove = (element: any, callback: any) => {
     subtree: true
   })
   return observer
+}
+
+// https://stackoverflow.com/a/6234804
+export const escapeHtml = (unsafe: string) => {
+  if (unsafe && typeof unsafe === 'string')
+    return unsafe
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;')
+  return unsafe
 }
 
 export const printVersion = () => {

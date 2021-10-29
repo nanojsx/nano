@@ -1,7 +1,7 @@
 declare const isSSR: boolean
 
 export interface FC<P = {}> {
-  (props: P): any
+  (props: P): Element | void
   // (props: P, context?: any): any
 }
 
@@ -30,7 +30,7 @@ export const strToHash = (s: string) => {
   return Math.abs(hash).toString(32)
 }
 
-export const appendChildren = (element: any, children: any) => {
+export const appendChildren = (element: HTMLElement | SVGElement, children: HTMLElement[]) => {
   // if the child is an html element
   if (!Array.isArray(children)) {
     appendChildren(element, [children])
@@ -40,7 +40,7 @@ export const appendChildren = (element: any, children: any) => {
   // htmlCollection to array
   if (typeof children === 'object') children = Array.prototype.slice.call(children)
 
-  children.forEach((child: any) => {
+  children.forEach(child => {
     // if child is an array of children, append them instead
     if (Array.isArray(child)) appendChildren(element, child)
     else {
@@ -101,8 +101,7 @@ export const render = (component: any, parent: HTMLElement | null = null, remove
         })
       else appendChildren(parent, _render(el))
     }
-
-    // @ts-ignore
+    //@ts-ignore
     if (parent.ssr) return parent.ssr
     return parent
   }
@@ -250,7 +249,7 @@ export const h = (tagNameOrComponent: any, props: any, ...children: any) => {
     else if (isEvent(element, p.toLowerCase()))
       element.addEventListener(p.toLowerCase().substring(2), (e: any) => props[p](e))
     else if (/className/i.test(p)) console.warn('You can use "class" instead of "className".')
-    else element.setAttribute(p, props[p])
+    else if (typeof props[p] !== 'undefined') element.setAttribute(p, props[p])
   }
 
   appendChildren(element, children)

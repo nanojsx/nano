@@ -1,8 +1,23 @@
 import { Component } from '../component.ts'
 import { h, strToHash } from '../core.ts'
 
-export class Img extends Component {
-  constructor(props: any) {
+interface Props {
+  [key: string]: any
+  src: string
+  height?: number | string
+  width?: number | string
+  lazy?: boolean
+  placeholder?: any
+}
+
+/**
+ * A useful Image component
+ * Add <Img lazy ..., to lazy load the img source
+ * Add <Img width="100" height="100" ..., to specify img element's size.
+ * Add <Img placeholder="src or element" ...., to prepare placeholder for img.
+ */
+export class Img extends Component<Props> {
+  constructor(props: Props) {
     super(props)
 
     const { src, key } = props
@@ -62,7 +77,7 @@ export class Img extends Component {
       return placeholder()
     } else {
       // render a simple box
-      const style: any = {}
+      const style: Record<string, any> = {}
       if (rest.width) style.width = `${rest.width}px`
       if (rest.height) style.height = `${rest.height}px`
       const { width, height, ...others } = rest

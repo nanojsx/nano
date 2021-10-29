@@ -6,6 +6,7 @@ import { Icon } from './icon.ts'
 interface NavigationProps {
   parentId?: string
   children?: Component<any>[]
+  onClick?: (e: { id: string; label: string; component: NavigationAction; navigate: boolean }) => void
 }
 
 interface ActionProps {
@@ -53,6 +54,7 @@ export class NavigationAction extends Component<ActionProps> {
     )
   }
 }
+
 export class Navigation extends Component<NavigationProps> {
   didMount() {
     const children = this.props.children as Component<ActionProps>[]
@@ -65,6 +67,7 @@ export class Navigation extends Component<NavigationProps> {
           if (el.id === `${classes.idPrefix}${e.id}`) el.classList.remove(classes.inactive)
           else el.classList.add(classes.inactive)
         })
+        this.props.onClick?.(e)
       }
     })
   }

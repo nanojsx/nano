@@ -153,6 +153,9 @@ export class Snackbar {
 
     const container = this.getParentElement(options.parentId || this.defaultParentId)
 
+    // adjust offsetY
+    if (typeof options.offsetY === 'number') container.style.bottom = `${options.offsetY}px`
+
     const Snack = (_message: string, _actions: any) => {
       const actionsArray = _actions.map((action: any) => {
         return h(
@@ -161,7 +164,7 @@ export class Snackbar {
             class: 'snackbar_action',
             style: `color: ${action.color || this.defaultActionColor}`,
             onClick: () => {
-              callback({ name: action.name, id: action.id })
+              if (callback) callback({ name: action.name, id: action.id })
               this.remove(el)
             }
           },

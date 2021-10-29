@@ -30,12 +30,14 @@ export class Toolbar extends Component<ToolbarProps> {
       .toolbar_container .toolbar_text {
         font-size: 20px;
         margin-left: 24px;
+        cursor: pointer;
       }
 
       .toolbar_container .toolbar_icon {
         width: 22px;
         height: 22px;
         margin-left: 24px;
+        cursor: pointer;
 
         display: inline-block;
         content: '';

@@ -2,13 +2,13 @@ import { h } from '../core.ts'
 import { boxShadow, zIndex } from './_config.ts'
 import { Button } from './button.ts'
 
-// Dialog just like just like: https://material.io/components/Dialogs
+// Dialog just like just like: https://material.io/components/dialogs
 
 /*
 HOW TO USE:
 
 const Button = (_props: any) => {
-  const Dialog = new Dialog()
+  const dialog = new Dialog()
 
   const onclickHandler = () => {
     dialog.show({ 
@@ -40,6 +40,7 @@ interface DialogOptions {
   actions?: DialogAction[]
   onAction?: () => DialogActionEvent
   parentId?: string
+  firstFocusAction?: string | boolean
 }
 
 export class Dialog {
@@ -53,7 +54,8 @@ export class Dialog {
       actions: [
         { name: 'Action 1', color: this.defaultActionColor },
         { name: 'Action 2', color: this.defaultActionColor }
-      ]
+      ],
+      firstFocusAction: false
     }
 
     this.options = { ...defaultOptions, ...options }
@@ -143,24 +145,91 @@ export class Dialog {
     `
 
     document.head.appendChild(h('style', {}, styles))
+
+    this.handleKeydown = this.handleKeydown.bind(this)
   }
 
   private getParentElement(parentId: string) {
     let el = document.getElementById(parentId || this.defaultParentId)
+
     if (!el) {
       el = document.createElement('div')
       el.id = this.defaultParentId
+      el.ariaHidden = 'true'
       document.body.appendChild(el)
     }
 
     return el
   }
 
+  private handleKeydown(event: KeyboardEvent) {
+    if (event.key === 'Escape' || event.key === 'Esc') {
+      this.remove()
+    }
+
+    if (event.key === 'Tab') {
+      event.preventDefault()
+
+      const actions = Array.from(document.querySelectorAll('.dialog_action')) as HTMLElement[]
+      if (actions.length < 1) {
+        return
+      }
+      const currentFocus = actions.findIndex(el => document.activeElement === el)
+      if (currentFocus === -1) {
+        actions[0].focus()
+      }
+
+      const nextFocus = currentFocus + (event.shiftKey ? -1 : 1)
+
+      if (nextFocus === -1) {
+        actions[actions.length - 1].focus()
+        return
+      }
+
+      if (nextFocus === actions.length) {
+        actions[0].focus()
+        return
+      }
+
+      actions[nextFocus].focus()
+    }
+  }
+
   public remove() {
     const el = document.getElementById('dialog_container')
     if (!el) return
     el.classList.add('dialog_fadeout')
-    setTimeout(() => el.remove(), 200)
+    setTimeout(() => {
+      el.remove()
+      window.removeEventListener('keydown', this.handleKeydown)
+      this.enableScroll()
+    }, 200)
+  }
+
+  private disableScroll() {
+    document.body.style.overflow = 'hidden'
+  }
+
+  private enableScroll() {
+    // default
+    document.body.style.overflow = ''
+  }
+
+  private focusAction(focusActionId: string, actions: DialogAction[]) {
+    const actionElements = Array.from(document.querySelectorAll('.dialog_action')) as HTMLElement[]
+    const focusTargetIndex = actions.findIndex(action => action.id === focusActionId)
+    const focusTarget = actionElements[focusTargetIndex]
+    if (focusTarget) {
+      focusTarget.focus()
+    }
+  }
+
+  private focusFirstAction() {
+    const actionElements = Array.from(document.querySelectorAll('.dialog_action')) as HTMLElement[]
+    const focusTarget = actionElements[0]
+    if (focusTarget) {
+      focusTarget.focus()
+    }
   }
 
   public show(options: DialogOptions | null, callback: (event: { name: string; id: string | number }) => void) {
@@ -169,6 +238,11 @@ export class Dialog {
     const container = this.getParentElement(options.parentId || this.defaultParentId)
 
     if (container.hasChildNodes()) return
+
+    // remove dialog when container (background) gets clicked
+    container.addEventListener('click', e => {
+      if (e.target === container) this.remove()
+    })
 
     const Dialog = (_header: string | undefined, _body: string | undefined, _actions: any) => {
       const actionsArray = _actions.map((action: any) => {
@@ -188,16 +262,35 @@ export class Dialog {
         )
       })
 
-      const title = h('h2', { class: 'dialog_header' }, _header)
+      const title = h('h2', { class: 'dialog_header', id: 'dialog-title' }, _header)
       const body = h('div', { class: 'dialog_body' }, _body)
       const actions = h('div', { class: 'dialog_actions' }, actionsArray)
-      const dialog = h('div', { class: 'dialog' }, title, body, actions)
+      const dialog = h(
+        'div',
+        { class: 'dialog', role: 'dialog', 'aria-modal': 'true', 'aria-labelledby': 'dialog-title' },
+        title,
+        body,
+        actions
+      )
       return dialog
     }
 
     const el = Dialog(options.title, options.body as string, options.actions || []) as HTMLElement
 
     container.appendChild(el)
+
+    const { firstFocusAction } = options
+    if (options.actions && firstFocusAction) {
+      if (typeof firstFocusAction === 'string') {
+        this.focusAction(firstFocusAction, options.actions)
+      } else {
+        this.focusFirstAction()
+      }
+    }
+
+    this.disableScroll()
+
+    window.addEventListener('keydown', this.handleKeydown)
 
     const dialog = document.getElementsByClassName('dialog')[0]
     const actions = document.getElementsByClassName('dialog_actions')[0]

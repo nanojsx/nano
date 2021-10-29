@@ -1,11 +1,11 @@
 import { _state } from '../state.ts'
 
-export const useState = (state: any, id: string) => {
+export const useState = <T>(state: T, id: string): readonly [T, (state: T) => void] => {
   const s = {
-    setState(state: any) {
+    setState(state: T) {
       if (state !== null) _state.set(id, state)
     },
-    get state() {
+    get state(): T {
       return _state.get(id)
     }
   }
