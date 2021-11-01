@@ -32,7 +32,6 @@ export const Button = (props: {
   const clr = normal ? color : background
   const hoverClr = normal ? lightenColor(bg, 10) : lightenColor(bg, -10)
   const rippleClr = normal ? lightenColor(bg, 50) : lightenColor(background, 50)
-  if (outlined) console.log(bg, hoverClr, rippleClr)
   const cssHash = strToHash(outlined.toString() + text.toString() + bg + clr + style)
 
   const ripple = rippleEffect(rippleClr, hoverClr)

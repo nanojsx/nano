@@ -160,7 +160,6 @@
       class App extends Component {
         changeThemeColor() {
           theme.colors.primary = '#' + (Math.random() * 0xffffff).toString(16).slice(0, 6).replace('.', '0')
-          console.log('coor', theme.colors.primary)
           setTheme(theme)
           this.update()
         }
@@ -186,7 +185,10 @@
 
           </${Toolbar}>
 
-          <${Tabs}>
+          <${Tabs} onClick=${e => {
+            // console.log('Tab Click Event: ', JSON.stringify(e))
+            pagesRef.update('Tab Index: ' + e.index)
+          }}>
           <${Tab}>first</${Tab}>
           <${Tab}>second</${Tab}>
           <${Tab}>third</${Tab}>

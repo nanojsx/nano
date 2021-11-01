@@ -1,10 +1,11 @@
-import { getTheme } from '.'
+import { getTheme } from './_config'
 import { Component } from '../component'
 import { h, render, strToHash, tick } from '../core'
 import { rippleEffect, userSelect } from './_config'
 import { addStylesToHead, lightenColor } from './_helpers'
 
 interface TabsProps {
+  onClick?: any
   active?: number
   scroll?: boolean
   children?: any[]
@@ -16,7 +17,7 @@ export const Tab = (props: any) => {
 
   const link = props.href ? { href: props.href } : {}
 
-  const a = h('a', { ...link }, props.children)
+  const a = h('a', { ...link, onClick: () => props.onClickHandler({ index: props.index }) }, props.children)
   return h('li', { class: classes.join(' ') }, a)
 }
 
@@ -188,7 +189,9 @@ export class Tabs extends Component<TabsProps> {
       // is active
       if (i === this.active) c.props = { ...c.props, active: true }
       // add ripple class
-      c.props = { ...c.props, rippleClass: ripple.class, itemClass: `tabs_item-${cssHash}` }
+      c.props = { ...c.props, rippleClass: ripple.class, itemClass: `tabs_item-${cssHash}`, index: i }
+      // add click events
+      c.props.onClickHandler = (event: any) => this.props.onClick(event)
     })
 
     this.items = render(this.props.children)

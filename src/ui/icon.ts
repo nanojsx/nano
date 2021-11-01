@@ -1,4 +1,4 @@
-import { getTheme } from '.'
+import { getTheme } from './_config'
 import { Component } from '../component'
 import { h, strToHash } from '../core'
 import { addStylesToHead } from './_helpers'
