@@ -1,5 +1,15 @@
 import { strToHash } from '../core'
 
+let NANO_THEME = {
+  colors: {
+    primary: '#6200EE',
+    white: 'white'
+  }
+}
+
+export const setTheme = (theme: typeof NANO_THEME) => (NANO_THEME = theme)
+export const getTheme = () => NANO_THEME
+
 export const boxShadow = `
   -webkit-box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2), 0px 6px 10px 0px rgba(0,0,0,0.14), 0px 1px 18px 0px rgba(0,0,0,0.12);
   -moz-box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2), 0px 6px 10px 0px rgba(0,0,0,0.14), 0px 1px 18px 0px rgba(0,0,0,0.12);

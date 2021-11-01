@@ -1,7 +1,8 @@
+import { getTheme } from '.'
 import { Component } from '../component'
 import { h, render, strToHash, tick } from '../core'
 import { rippleEffect, userSelect } from './_config'
-import { addStylesToHead } from './_helpers'
+import { addStylesToHead, lightenColor } from './_helpers'
 
 interface TabsProps {
   active?: number
@@ -73,14 +74,20 @@ export class Tabs extends Component<TabsProps> {
   }
 
   render() {
-    const ripple = rippleEffect('#ffffff70', '#5902db')
+    const {
+      colors: { primary }
+    } = getTheme()
+
+    const hoverClr = lightenColor(primary, 10)
+    const rippleClr = lightenColor(primary, 50)
+    const ripple = rippleEffect(rippleClr, hoverClr)
 
     const { scroll = false, children, active } = this.props
     const cssHash = strToHash(scroll.toString() + children?.length + active + ripple.class)
 
     const styles = `
       .tabs_container-${cssHash} {
-        background: #6204ee;
+        background: ${primary};
 
         width: 100%;
         height: 48px;
@@ -138,13 +145,13 @@ export class Tabs extends Component<TabsProps> {
       }
 
       .tabs_item-${cssHash}:active {
-        background: #5902db;
+        background: ${hoverClr}/*#5902db*/;
       }
 
       /* if the primary input mechanism system of the device can hover over elements with ease, we use hover */
       @media (hover: hover) {
         .tabs_item-${cssHash}:hover {
-          background: #5902db;
+          background: ${hoverClr}/*#5902db*/;
         }
       }
 

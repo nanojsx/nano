@@ -1,3 +1,4 @@
+import { getTheme } from '.'
 import { Component } from '../component'
 import { h, strToHash } from '../core'
 import { addStylesToHead } from './_helpers'
@@ -21,7 +22,10 @@ export class Icon extends Component<IconProps> {
   }
 
   render() {
-    const { src, size = 16, active = true, color = '#6204EE', style = '', ...rest } = this.props
+    const {
+      colors: { primary }
+    } = getTheme()
+    const { src, size = 16, active = true, color = primary, style = '', ...rest } = this.props
 
     // @ts-ignore
     const children = this.props.children

@@ -1,6 +1,6 @@
 import { Component } from '../component'
 import { h } from '../core'
-import { boxShadow, zIndex } from './_config'
+import { boxShadow, getTheme, zIndex } from './_config'
 
 const classes = {
   container: 'appBar_container',
@@ -70,7 +70,8 @@ export class AppBar extends Component<AppBarProps> {
   }
 
   render() {
-    const { background = '#6200EE', color = 'white' } = this.props
+    const { colors } = getTheme()
+    const { background = colors.primary, color = colors.white } = this.props
 
     const styles = `
     .appBar_container {
@@ -85,7 +86,6 @@ export class AppBar extends Component<AppBarProps> {
       left: 0;
       min-height: 24px;
       width: 100vw;
-
 
       ${boxShadow}
 

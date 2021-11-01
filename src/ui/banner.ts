@@ -1,7 +1,7 @@
 import { Component } from '../component'
 import { h } from '../core'
 import { Button } from './button'
-import { zIndex } from './_config'
+import { getTheme, zIndex } from './_config'
 
 interface BannerAction {
   name: string
@@ -23,15 +23,17 @@ interface BannerProps {
 }
 
 export class Banner extends Component<BannerProps> {
-  defaultActionColor = '#6200EE'
-
   render() {
+    const {
+      colors: { primary: actionColor }
+    } = getTheme()
+
     const {
       sticky,
       body = 'There was a problem processing a transaction on your credit card.',
       actions = [
-        { name: 'fix it', color: this.defaultActionColor },
-        { name: 'learn more', color: this.defaultActionColor }
+        { name: 'fix it', color: actionColor },
+        { name: 'learn more', color: actionColor }
       ]
     } = this.props
 
@@ -48,13 +50,11 @@ export class Banner extends Component<BannerProps> {
         ${stickyStyles}
         z-index: ${zIndex.banner}
         `,
-      banner: `    
-
+      banner: `
         display: flex;
         justify-content: space-between;
         flex-wrap: wrap;
-
-
+        
         background: white;
         border-bottom: 1px rgb(0 0 0 / 0.12) solid;
         min-height: 54px;`,
@@ -66,10 +66,10 @@ export class Banner extends Component<BannerProps> {
         line-height: 1.5em;`,
       actions: `
         margin: 0;
-        padding: 8px;        
+        padding: 8px;   
         display: flex;
         flex-direction: row;
-        align-items: flex-end; 
+        align-items: flex-end;
         margin-left: auto;
         flex-wrap: wrap;
         justify-content: flex-end;
@@ -84,9 +84,9 @@ export class Banner extends Component<BannerProps> {
         Button,
         {
           text: true,
-          color: action.color || this.defaultActionColor,
+          color: action.color || actionColor,
           style: styles.action,
-          // style: `color: ${action.color || this.defaultActionColor}`,
+          // style: `color: ${action.color || actionColor}`,
           onClick: () => {
             // callback({ name: action.name, id: action.id })
             // this.remove()

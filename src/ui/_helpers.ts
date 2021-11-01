@@ -2,6 +2,12 @@ import { h } from '../core'
 
 // https://gist.github.com/renancouto/4675192
 export const lightenColor = (color: string, percent: number) => {
+  if (color === 'white') color = '#FFFFFF'
+  else if (color === 'black') color = '#000000'
+
+  if (!/^#/.test(color))
+    console.warn(`Please convert color "${color}" to hex! Otherwise the ripple effect will not work.`)
+
   const num = parseInt(color.replace('#', ''), 16),
     amt = Math.round(2.55 * percent),
     R = (num >> 16) + amt,

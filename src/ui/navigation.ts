@@ -2,6 +2,7 @@ import { h } from '../core'
 import { Component } from '../component'
 import { boxShadow, zIndex } from './_config'
 import { Icon } from './icon'
+import { getTheme } from '.'
 
 interface NavigationProps {
   parentId?: string
@@ -73,8 +74,12 @@ export class Navigation extends Component<NavigationProps> {
   }
 
   render() {
+    const {
+      colors: { primary }
+    } = getTheme()
+
     const colors = {
-      active: '#6204EE',
+      active: primary,
       inactive: '#00000070'
     }
 

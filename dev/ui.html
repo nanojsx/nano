@@ -19,6 +19,7 @@
 
     <script>
       const { render, Link, jsx, UI, Component } = nanoJSX
+      const { getTheme, setTheme } = UI
       const {
         AppBar,
         Button,
@@ -35,6 +36,10 @@
         Tabs,
         Toolbar
       } = UI
+
+      let theme = getTheme()
+      theme.colors.primary = '#494924'
+      setTheme(theme)
 
       // a reference to the Pages Component
       let pagesRef
@@ -125,9 +130,14 @@
               <br />
 
               <!-- Use the built-in Link component -->
+              <!--
               <${Link} prefetch="hover" href="https://geckosio.github.io/">
                 <${Button}>External Link (with prefetch)</${Button}>
               </${Link}>
+              -->
+
+              <${Button}>Does Nothing</${Button}>
+              <${Button} onClick=${() => this.props.changeThemeColor()} outlined>Change Theme Color</${Button}>
 
               <br />
 
@@ -147,51 +157,60 @@
         }
       }
 
-      const App = () => {
-        return jsx`
-        <${Container}>
+      class App extends Component {
+        changeThemeColor() {
+          theme.colors.primary = '#' + (Math.random() * 0xffffff).toString(16).slice(0, 6).replace('.', '0')
+          console.log('coor', theme.colors.primary)
+          setTheme(theme)
+          this.update()
+        }
+
+        render() {
+          return jsx`
+          <${Container}>
           <${AppBar}>
-            <${Toolbar} actionClick=${() => Sheet.show(sheetLeft)} menu title="Home Page">
+          <${Toolbar} actionClick=${() => Sheet.show(sheetLeft)} menu title="Home Page">
 
-              <div class="toolbar_text">Text</div>
+          <div class="toolbar_text">Text</div>
 
-              <${Icon}
-                onClick=${e => {
-                  const { pageX: x, pageY: y } = e
-                  contextMenu.open({ position: { x, y }, list: Names })
-                }}
-                class="toolbar_icon"
-                color="white"
-                src="/dev/font-awesome/ellipsis-v-solid.svg" />
+          <${Icon}
+          onClick=${e => {
+            const { pageX: x, pageY: y } = e
+            contextMenu.open({ position: { x, y }, list: Names })
+          }}
+          class="toolbar_icon"
+          color="white"
+          src="/dev/font-awesome/ellipsis-v-solid.svg" />
 
-              <${Icon} class="toolbar_icon" color="white" src="/dev/font-awesome/heart-solid.svg" />
+          <${Icon} class="toolbar_icon" color="white" src="/dev/font-awesome/heart-solid.svg" />
 
-            </${Toolbar}>
+          </${Toolbar}>
 
-            <${Tabs}>
-              <${Tab}>first</${Tab}>
-              <${Tab}>second</${Tab}>
-              <${Tab}>third</${Tab}>
-            </${Tabs}>
+          <${Tabs}>
+          <${Tab}>first</${Tab}>
+          <${Tab}>second</${Tab}>
+          <${Tab}>third</${Tab}>
+          </${Tabs}>
 
           </${AppBar}>
 
           <div style="padding: 16px 16px 64px; margin-top: 56px; margin-bottom: 56px;">
             <!-- save the Pages reference in pagesRef -->
-            <${Pages} ref=${p => (pagesRef = p)}/>
-          </div>
+            <${Pages} changeThemeColor=${this.changeThemeColor.bind(this)} ref=${p => (pagesRef = p)}/>
+            </div>
 
-          <!-- call update on the Pages Component and pass the tab it to update/render -->
-          <${Navigation} onClick=${e => pagesRef.update(e.id)} >
+            <!-- call update on the Pages Component and pass the tab it to update/render -->
+            <${Navigation} onClick=${e => pagesRef.update(e.id)} >
             <${NavigationAction} label="Home"       icon="/dev/font-awesome/home-solid.svg"   active=${true} />
             <${NavigationAction} label="About"      icon="/dev/font-awesome/user-solid.svg"   active=${false} />
             <${NavigationAction} label="Favorites"  icon="/dev/font-awesome/heart-solid.svg"  active=${false} />
-         </${Navigation}>
+            </${Navigation}>
 
-        </${Container}>`
+            </${Container}>`
+        }
       }
 
-      render(App, document.getElementById('root'))
+      render(jsx`<${App}/>`, document.getElementById('root'))
     </script>
   </body>
 </html>

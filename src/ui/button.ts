@@ -1,5 +1,5 @@
 import { h, strToHash } from '../core'
-import { boxShadow, rippleEffect, userSelect, zIndex } from './_config'
+import { boxShadow, getTheme, rippleEffect, userSelect, zIndex } from './_config'
 import { addStylesToHead, lightenColor } from './_helpers'
 import { Icon } from './icon'
 
@@ -11,11 +11,15 @@ export const Button = (props: {
   [key: string]: any
 }) => {
   const {
+    colors: { primary, white }
+  } = getTheme()
+
+  const {
     children,
     outlined = false,
     text = false,
-    background = '#6200ee',
-    color = '#ffffff',
+    background = primary,
+    color = white,
     style = '',
     class: className = '',
     icon,
@@ -24,10 +28,11 @@ export const Button = (props: {
 
   const normal = !(outlined || text)
 
-  const bg = normal ? background : '#ffffff'
+  const bg = normal ? background : white
   const clr = normal ? color : background
   const hoverClr = normal ? lightenColor(bg, 10) : lightenColor(bg, -10)
   const rippleClr = normal ? lightenColor(bg, 50) : lightenColor(background, 50)
+  if (outlined) console.log(bg, hoverClr, rippleClr)
   const cssHash = strToHash(outlined.toString() + text.toString() + bg + clr + style)
 
   const ripple = rippleEffect(rippleClr, hoverClr)
@@ -45,7 +50,6 @@ export const Button = (props: {
       cursor: pointer;
 
       ${userSelect}
-      
 
       z-index: ${zIndex.button}
 
