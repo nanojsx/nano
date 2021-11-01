@@ -168,11 +168,14 @@
 
             </${Toolbar}>
 
-            <${Tabs}>
-              <${Tab}>first</${Tab}>
-              <${Tab}>second</${Tab}>
-              <${Tab}>third</${Tab}>
-            </${Tabs}>
+            <${Tabs} onClick=${e => {
+          console.log('Tab Click Event: ', JSON.stringify(e))
+          pagesRef.update('Tab Index: ' + e.index)
+        }}>
+            <${Tab}>first</${Tab}>
+            <${Tab}>second</${Tab}>
+            <${Tab}>third</${Tab}>
+          </${Tabs}>
 
           </${AppBar}>
 
