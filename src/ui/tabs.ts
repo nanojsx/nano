@@ -76,11 +76,11 @@ export class Tabs extends Component<TabsProps> {
 
   render() {
     const {
-      colors: { primary }
+      colors: { surface, onSurface, onSurfaceVariant }
     } = getTheme()
 
-    const hoverClr = lightenColor(primary, 10)
-    const rippleClr = lightenColor(primary, 50)
+    const hoverClr = lightenColor(surface, 10)
+    const rippleClr = lightenColor(surface, 50)
     const ripple = rippleEffect(rippleClr, hoverClr)
 
     const { scroll = false, children, active } = this.props
@@ -88,7 +88,7 @@ export class Tabs extends Component<TabsProps> {
 
     const styles = `
       .tabs_container-${cssHash} {
-        background: ${primary};
+        background: ${surface};
 
         width: 100%;
         height: 48px;
@@ -127,7 +127,7 @@ export class Tabs extends Component<TabsProps> {
         padding-top: 16px;
         font-size: 14px;
         text-transform: uppercase;
-        color: rgba(255, 255, 255, 0.75);
+        color: ${onSurfaceVariant};
         transition: color 0.2s;
       }
       
@@ -137,12 +137,12 @@ export class Tabs extends Component<TabsProps> {
         padding: 16px 32px;
         text-decoration: none;
         text-transform: uppercase;
-        color: rgba(255, 255, 255, 0.75);
+        color: ${onSurfaceVariant};
         transition: color 0.2s;
       }
 
       .tabs_item-${cssHash}.active a {
-        color: rgba(255, 255, 255, 1);
+        color: ${onSurface};
       }
 
       .tabs_item-${cssHash}:active {
@@ -156,7 +156,8 @@ export class Tabs extends Component<TabsProps> {
         }
       }
 
-      ${ripple.styles}
+      /* ripple is not available in material 3 */
+      /* ${ripple.styles} */
 
       .tabs_line-${cssHash} {
         border-bottom: 2px solid white;

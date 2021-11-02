@@ -74,18 +74,18 @@ export class Navigation extends Component<NavigationProps> {
 
   render() {
     const {
-      colors: { primary }
+      colors: { surface, onSurface, onSurfaceVariant }
     } = getTheme()
 
     const colors = {
-      active: primary,
-      inactive: '#00000070'
+      active: onSurface,
+      inactive: onSurfaceVariant
     }
 
     const styles = `
       #bottom_navigation_container {
 
-        background-color: white;
+        background-color: ${surface};
         position: fixed;
         bottom: 0;
         left: 0;

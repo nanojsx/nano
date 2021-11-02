@@ -70,8 +70,11 @@ export class AppBar extends Component<AppBarProps> {
   }
 
   render() {
-    const { colors } = getTheme()
-    const { background = colors.primary, color = colors.white } = this.props
+    const {
+      colors: { surface, onSurface, onSurfaceVariant }
+    } = getTheme()
+
+    const { background = surface, color = onSurface } = this.props
 
     const styles = `
     .appBar_container {

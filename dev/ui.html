@@ -37,9 +37,9 @@
         Toolbar
       } = UI
 
-      let theme = getTheme()
-      theme.colors.primary = '#494924'
-      setTheme(theme)
+      // let theme = getTheme()
+      // theme.colors.primary = '#494924'
+      // setTheme(theme)
 
       // a reference to the Pages Component
       let pagesRef
@@ -159,9 +159,9 @@
 
       class App extends Component {
         changeThemeColor() {
-          theme.colors.primary = '#' + (Math.random() * 0xffffff).toString(16).slice(0, 6).replace('.', '0')
-          setTheme(theme)
-          this.update()
+          // theme.colors.primary = '#' + (Math.random() * 0xffffff).toString(16).slice(0, 6).replace('.', '0')
+          // setTheme(theme)
+          // this.update()
         }
 
         render() {

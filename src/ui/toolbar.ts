@@ -1,3 +1,4 @@
+import { getTheme } from '.'
 import { Component } from '../component'
 import { h } from '../core'
 
@@ -22,6 +23,10 @@ export class Toolbar extends Component<ToolbarProps> {
   }
 
   render() {
+    const {
+      colors: { onSurface, onSurfaceVariant }
+    } = getTheme()
+
     const styles = `
       .toolbar_container {
         padding: 16px;
@@ -48,7 +53,7 @@ export class Toolbar extends Component<ToolbarProps> {
         -webkit-mask-size: cover;
         mask-size: cover; 
 
-        background-color: white;
+        background-color: ${onSurfaceVariant};
       }
 
       .toolbar_navigation_box {
@@ -66,7 +71,7 @@ export class Toolbar extends Component<ToolbarProps> {
         width: 20px;
         height: 2px;
         border-radius: 2px;
-        background: white;
+        background: ${onSurface};
         content: '';
       }
       .toolbar_hamburger_button::before {

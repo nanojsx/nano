@@ -1,9 +1,38 @@
 import { strToHash } from '../core'
 
+// black
+// surface: '#2B2734',
+// onSurface: '#E6E1E5'
+
+// https://m3.material.io/styles/color/the-color-system/tokens#7fd4440e-986d-443f-8b3a-4933bff16646
+// some colors are still missing
 let NANO_THEME = {
   colors: {
-    primary: '#6200EE',
-    white: 'white'
+    primary: '#276B57',
+    onPrimary: '#FFFFFF',
+
+    primaryContainer: '#7CF8D8',
+    onPrimaryContainer: '#062019',
+
+    secondary: '#4B635B',
+    onSecondary: '#FFFFFF',
+
+    secondaryContainer: '#CDE9DE',
+    onSecondaryContainer: '#081E2E',
+
+    surface: '#F2F0E0',
+    surfaceVariant: '#E7E0EC',
+    onSurface: '#1C1B1F',
+    onSurfaceVariant: '#49454E',
+
+    background: '#FFFBFE',
+    onBackground: '#1C1B1F',
+
+    outline: '#79747E',
+    shadow: '#000000',
+
+    white: 'white',
+    black: 'black'
   }
 }
 

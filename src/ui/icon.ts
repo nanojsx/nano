@@ -25,6 +25,7 @@ export class Icon extends Component<IconProps> {
     const {
       colors: { primary }
     } = getTheme()
+
     const { src, size = 16, active = true, color = primary, style = '', ...rest } = this.props
 
     // @ts-ignore
