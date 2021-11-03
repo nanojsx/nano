@@ -10,6 +10,7 @@ export const nodeToString = (node: Node) => {
 }
 
 function isDescendant(desc: ParentNode | null, root: Node): boolean {
+  // @ts-ignore
   return !!desc && (desc === root || isDescendant(desc.parentNode, root))
 }
 

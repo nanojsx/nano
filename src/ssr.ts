@@ -2,22 +2,18 @@ import { render } from './core'
 import { escapeHtml } from './helpers'
 import { _state } from './state'
 
-const detectSSR = () => {
+export const detectSSR = () => {
   const isDeno = typeof Deno !== 'undefined'
   const hasWindow = typeof window !== 'undefined' ? true : false
   return (typeof isSSR !== 'undefined' && isSSR) || isDeno || !hasWindow
 }
 
 globalThis.isSSR = detectSSR() === true ? true : undefined
-
 globalThis._nano = { isSSR, location: { pathname: '/' } }
 
-export const initSSR = (pathname: string = '/') => {
-  // set pathname
+export const initSSR = (pathname: string = '/', createDocument = true) => {
   _nano.location = { pathname }
-
-  // @ts-ignore
-  globalThis.document = isSSR ? new DocumentSSR() : window.document
+  if (createDocument) globalThis.document = isSSR ? (new DocumentSSR() as unknown as Document) : window.document
 }
 
 export const clearState = () => {
@@ -34,9 +30,10 @@ export const renderSSR = (component: any, options: { pathname?: string; clearSta
 }
 
 export class HTMLElementSSR {
-  ssr: string
-  tagName: string
-  isSelfClosing: boolean = false
+  public tagName: string
+  public ssr: string
+
+  private isSelfClosing: boolean = false
 
   constructor(tag: string) {
     this.tagName = tag
@@ -67,7 +64,7 @@ export class HTMLElementSSR {
   }
 
   get outerHTML() {
-    return this.innerText
+    return this.ssr
   }
 
   get innerHTML() {

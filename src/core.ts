@@ -101,13 +101,12 @@ export const render = (component: any, parent: HTMLElement | null = null, remove
         })
       else appendChildren(parent, _render(el))
     }
-    //@ts-ignore
-    if (parent.ssr) return parent.ssr
+    if (typeof isSSR !== 'undefined' && isSSR === true) return parent.outerHTML as any
     return parent
   }
   // returning one child or an array of children
   else {
-    if (typeof isSSR === 'boolean' && isSSR === true && !Array.isArray(el)) return [el]
+    if (typeof isSSR !== 'undefined' && isSSR === true && !Array.isArray(el)) return [el]
     return el
   }
 }
@@ -183,26 +182,12 @@ const renderClassComponent = (classComp: any): any => {
   // pass the component instance as ref
   if (props && props.ref) props.ref(Component)
 
-  if (typeof isSSR === 'undefined')
+  if (isSSR !== true)
     tick(() => {
       Component._didMount()
     })
 
   return el
-}
-
-/** @deprecated renderComponent() is deprecated, use _render() instead! */
-export const renderComponent = (_component: any): any => {
-  console.warn('DEPRECATED: renderComponent() is deprecated, use _render() instead!')
-
-  // this fixes some ssr issues when using fragments
-  // if (typeof isSSR === 'boolean' && isSSR === true && Array.isArray(el)) {
-  //   el = el
-  //     .map((e) => {
-  //       return _render(e)
-  //     })
-  //     .join('')
-  // }
 }
 
 const hNS = (tag: string) => document.createElementNS('http://www.w3.org/2000/svg', tag) as SVGElement
@@ -226,7 +211,7 @@ export const h = (tagNameOrComponent: any, props: any, ...children: any) => {
     if (0 !== p.indexOf('on')) return false
 
     // we return true if SSR, since otherwise it will get rendered
-    if (el.ssr) return true
+    if (typeof isSSR !== 'undefined' && isSSR === true) return true
 
     // check if the event is present in the element as object (null) or as function
     return typeof el[p] === 'object' || typeof el[p] === 'function'
@@ -255,7 +240,6 @@ export const h = (tagNameOrComponent: any, props: any, ...children: any) => {
   appendChildren(element, children)
 
   if (ref) ref(element)
-  // @ts-ignore
-  if (element.ssr) return element.ssr
+  if (typeof isSSR !== 'undefined' && isSSR === true) return element.outerHTML as any
   return element
 }

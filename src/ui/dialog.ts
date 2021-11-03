@@ -155,6 +155,7 @@ export class Dialog {
     if (!el) {
       el = document.createElement('div')
       el.id = this.defaultParentId
+      // @ts-ignore
       el.ariaHidden = 'true'
       document.body.appendChild(el)
     }

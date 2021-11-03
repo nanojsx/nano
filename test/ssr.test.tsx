@@ -39,6 +39,7 @@ test('should render without errors', () => {
   expect(div.ssr).toBe('<div id="root"><span>hello</span></div>')
 
   // others
+  expect(div.outerHTML).toBe('<div id="root"><span>hello</span></div>')
   expect(div.innerText).toBe('<span>hello</span>')
   expect(document.querySelector('#id')).toBeUndefined() // querySelector always return undefined in SSR
 
