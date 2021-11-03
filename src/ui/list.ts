@@ -1,6 +1,7 @@
 import { Component } from '../component'
 import { h, strToHash } from '../core'
 import { Icon } from './icon'
+import { userSelect } from './_config'
 import { addStylesToHead } from './_helpers'
 
 interface ListProps {
@@ -65,6 +66,7 @@ export class List extends Component<ListProps> {
         margin: 0px -16px;
         padding: 0px 16px;
         cursor: pointer;
+        ${userSelect}
       }
 
       .list-${this.cssHash} ul li span {

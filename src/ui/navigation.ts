@@ -1,6 +1,6 @@
 import { h } from '../core'
 import { Component } from '../component'
-import { boxShadow, zIndex } from './_config'
+import { boxShadow, userSelect, zIndex } from './_config'
 import { Icon } from './icon'
 import { getTheme } from './_config'
 
@@ -127,6 +127,7 @@ export class Navigation extends Component<NavigationProps> {
 
         cursor: pointer;
 
+        ${userSelect}
       }
 
       #bottom_navigation_container .bottom_navigation_action .bottom_navigation_action-icon-wrapper {

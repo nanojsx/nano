@@ -1,6 +1,7 @@
 import { getTheme } from '.'
 import { Component } from '../component'
 import { h } from '../core'
+import { userSelect } from './_config'
 
 const classes = {
   bar: 'toolbar_container',
@@ -54,6 +55,8 @@ export class Toolbar extends Component<ToolbarProps> {
         mask-size: cover; 
 
         background-color: ${onSurfaceVariant};
+
+        ${userSelect}
       }
 
       .toolbar_navigation_box {
@@ -62,6 +65,7 @@ export class Toolbar extends Component<ToolbarProps> {
         height: 16px;
         margin-right: 32px;
         cursor: pointer;
+        ${userSelect}
       }
 
       .toolbar_hamburger_button,
