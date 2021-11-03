@@ -39,6 +39,9 @@ export class NavigationAction extends Component<ActionProps> {
     if (this.props.active) actionClasses.push(classes.initialActive)
     else actionClasses.push(classes.inactive)
 
+    const icon = this.props.icon ? h(Icon, { size: 22, style: 'margin-bottom: 2px;', src: this.props.icon }) : null
+    const iconWrapper = h('div', { class: 'bottom_navigation_action-icon-wrapper' }, icon)
+
     return h(
       'div',
       {
@@ -49,7 +52,7 @@ export class NavigationAction extends Component<ActionProps> {
           this.props.onClick?.({ navigate: !!this.props.link, id: this.id, label: this.props.label, component: this })
         }
       },
-      this.props.icon ? h(Icon, { size: 22, style: 'margin-bottom: 2px;', src: this.props.icon }) : null,
+      this.props.icon ? iconWrapper : null,
       label
     )
   }
@@ -74,13 +77,8 @@ export class Navigation extends Component<NavigationProps> {
 
   render() {
     const {
-      colors: { surface, onSurface, onSurfaceVariant }
+      colors: { surface, onSurface, secondaryContainer }
     } = getTheme()
-
-    const colors = {
-      active: onSurface,
-      inactive: onSurfaceVariant
-    }
 
     const styles = `
       #bottom_navigation_container {
@@ -115,7 +113,7 @@ export class Navigation extends Component<NavigationProps> {
       }
 
       #bottom_navigation_container .bottom_navigation_action {
-        color: ${colors.active};
+        color: ${onSurface};
         font-size: 14px;
 
         min-width: 80px;
@@ -128,15 +126,28 @@ export class Navigation extends Component<NavigationProps> {
         align-items: center;
 
         cursor: pointer;
+
       }
 
-      #bottom_navigation_container .bottom_navigation_action_inactive{
-        color: ${colors.inactive};
+      #bottom_navigation_container .bottom_navigation_action .bottom_navigation_action-icon-wrapper {
+        background-color:${secondaryContainer};
+        padding: 2px 22px;
+        border-radius: 16px;
+      }
+
+      #bottom_navigation_container .bottom_navigation_action_inactive {
+        color: ${onSurface};
         font-size: 12px;
       }
 
-      #bottom_navigation_container .bottom_navigation_action_inactive i {
-        background-color: ${colors.inactive}
+      #bottom_navigation_container .bottom_navigation_action_inactive .bottom_navigation_action-icon-wrapper {
+        background: transparent;
+      }
+
+      #bottom_navigation_container i {
+        background-color: ${onSurface};
+        position: relative;
+        top: 2px;
       }
     `
 

@@ -24,6 +24,7 @@
         AppBar,
         Button,
         Dialog,
+        Fab,
         Icon,
         List,
         ListItem,
@@ -201,14 +202,20 @@
             <${Pages} changeThemeColor=${this.changeThemeColor.bind(this)} ref=${p => (pagesRef = p)}/>
             </div>
 
-            <!-- call update on the Pages Component and pass the tab it to update/render -->
-            <${Navigation} onClick=${e => pagesRef.update(e.id)} >
-            <${NavigationAction} label="Home"       icon="/dev/font-awesome/home-solid.svg"   active=${true} />
-            <${NavigationAction} label="About"      icon="/dev/font-awesome/user-solid.svg"   active=${false} />
-            <${NavigationAction} label="Favorites"  icon="/dev/font-awesome/heart-solid.svg"  active=${false} />
-            </${Navigation}>
+          <${Fab} primary offsetY=${150}><${Icon} src="/dev/font-awesome/user-solid.svg" color="white" size=${20} /></${Fab} />
+          
+          <${Fab} secondary offsetY=${72}><${Icon} src="/dev/font-awesome/home-solid.svg" color="black" size=${20} /></${Fab} />
 
-            </${Container}>`
+
+
+          <!-- call update on the Pages Component and pass the tab it to update/render -->
+          <${Navigation} onClick=${e => pagesRef.update(e.id)} >
+          <${NavigationAction} label="Home"       icon="/dev/font-awesome/home-solid.svg"   active=${true} />
+          <${NavigationAction} label="About"      icon="/dev/font-awesome/user-solid.svg"   active=${false} />
+          <${NavigationAction} label="Favorites"  icon="/dev/font-awesome/heart-solid.svg"  active=${false} />
+          </${Navigation}>
+
+          </${Container}>`
         }
       }
 
