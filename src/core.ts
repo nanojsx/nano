@@ -132,7 +132,7 @@ export const _render = (comp: any): any => {
   if (comp.tagName) return comp
 
   // Class Component
-  if (comp && comp.component && comp.component.isClass && comp.component.isClass()) return renderClassComponent(comp)
+  if (comp && comp.component && comp.component.isClass) return renderClassComponent(comp)
 
   // Functional Component
   if (comp.component && typeof comp.component === 'function') return renderFunctionalComponent(comp)

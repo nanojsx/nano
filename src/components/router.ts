@@ -3,6 +3,40 @@
 import { Component } from '../component'
 import { FC, _render, h } from '../core'
 
+class _Listener {
+  private _route: string
+  private _listeners: Map<string, Function> = new Map()
+
+  constructor() {
+    this._route = window.location.pathname
+
+    const event = () => {
+      const newRoute = window.location.pathname
+      this._listeners.forEach(fnc => {
+        fnc(newRoute, this._route)
+      })
+      this._route = newRoute
+    }
+
+    window.addEventListener('pushstate', event)
+    window.addEventListener('replacestate', event)
+  }
+
+  public use() {
+    const id = Math.random().toString(36).substring(2)
+    return {
+      subscribe: (fnc: (newPath: string, currPath: string) => void) => {
+        this._listeners.set(id, fnc)
+      },
+      cancel: () => {
+        this._listeners.delete(id)
+      }
+    }
+  }
+}
+
+export const Listener = new _Listener()
+
 const instances: Switch[] = []
 
 const register = (comp: Switch) => instances.push(comp)

@@ -66,7 +66,7 @@ export class Store {
   }
 
   public use() {
-    const id = Math.random().toString(36).substr(2, 9)
+    const id = Math.random().toString(36).substring(2, 9)
     const _this = this
     return {
       get state(): State {
