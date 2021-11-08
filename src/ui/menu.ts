@@ -9,7 +9,7 @@ interface MenuOptions {
 
 export class Menu {
   defaultParentId = 'menu_items_container'
-  cssHash = Math.random().toString(36).substr(2, 9)
+  cssHash = Math.random().toString(36).substring(2)
 
   // didUnmount() {
   //   const el = document.querySelector(`[data-css-hash*="${this.cssHash}"]`)

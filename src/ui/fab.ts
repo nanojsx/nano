@@ -27,7 +27,7 @@ export class Fab extends Component<FabProps> {
     } = this.props
 
     const height = mini ? 40 : extended ? 48 : 56
-    const cssHash = strToHash(extended.toString() + mini.toString() + center.toString() + left.toString()) // Math.random().toString(36).substr(2, 9)
+    const cssHash = strToHash(extended.toString() + mini.toString() + center.toString() + left.toString())
     const className = `fab-container-${cssHash}`
 
     const styles = `
