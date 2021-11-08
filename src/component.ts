@@ -59,17 +59,16 @@ export class Component<P extends Object = any, S = any> {
   }
 
   private _cancelAllSubscriptions() {
-    const hasProp = (obj: any, ...prop: string[]) => {
-      for (const p of prop) if (!Object.prototype.hasOwnProperty.call(obj, p)) return false
-      return true
-    }
-
-    Object.keys(this).forEach(k => {
-      const obj = (this as any)[k]
-      if (hasProp(obj, 'subscribe', 'cancel')) {
-        obj.cancel()
-      }
-    })
+    // const hasProp = (obj: any, ...prop: string[]) => {
+    //   for (const p of prop) if (!Object.prototype.hasOwnProperty.call(obj, p)) return false
+    //   return true
+    // }
+    // Object.keys(this).forEach(k => {
+    //   const obj = (this as any)[k]
+    //   if (hasProp(obj, 'subscribe', 'cancel')) {
+    //     obj.cancel()
+    //   }
+    // })
   }
 
   private _addNodeRemoveListener() {
@@ -86,12 +85,12 @@ export class Component<P extends Object = any, S = any> {
   private _didMount(): any {
     this._addNodeRemoveListener()
     this.didMount()
-    this._cancelAllSubscriptions()
   }
 
   private _didUnmount(): any {
     if (this._hasUnmounted) return
     this.didUnmount()
+    this._cancelAllSubscriptions()
     this._hasUnmounted = true
   }
 

@@ -25,7 +25,7 @@ class _Listener {
   public use() {
     const id = Math.random().toString(36).substring(2)
     return {
-      subscribe: (fnc: (newPath: string, currPath: string) => void) => {
+      subscribe: (fnc: (currPath: string, prevPath: string) => void) => {
         this._listeners.set(id, fnc)
       },
       cancel: () => {
@@ -54,7 +54,7 @@ const historyReplace = (path: string) => {
   window.dispatchEvent(new Event('replacestate'))
 }
 
-const matchPath = (
+export const matchPath = (
   pathname: string,
   options: { exact?: boolean; path: string; regex?: { [param: string]: RegExp } }
 ) => {
@@ -70,7 +70,7 @@ const matchPath = (
   }
 
   let match
-  let params = {}
+  let params: any = {}
 
   // path with params
   if (path.includes('/:')) {
