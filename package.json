@@ -68,7 +68,7 @@
     "@yandeu/prettier-config": "^0.0.2",
     "denoify": "^0.8.0",
     "eslint": "^7.21.0",
-    "five-server": "^0.0.28",
+    "five-server": "^0.0.30",
     "jest": "^27.0.6",
     "jsdom": "^17.0.0",
     "nodemon": "^2.0.7",
