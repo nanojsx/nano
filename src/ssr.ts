@@ -2,7 +2,7 @@ import { render } from './core'
 import { escapeHtml } from './helpers'
 import { _state } from './state'
 
-const detectSSR = () => {
+export const detectSSR = () => {
   const isDeno = typeof Deno !== 'undefined'
   const hasWindow = typeof window !== 'undefined' ? true : false
   return (typeof isSSR !== 'undefined' && isSSR) || isDeno || !hasWindow

@@ -2,13 +2,14 @@
 
 import { Component } from '../component'
 import { FC, _render, h } from '../core'
+import { detectSSR } from '../ssr'
 
 class _Listener {
   private _route: string
   private _listeners: Map<string, Function> = new Map()
 
   constructor() {
-    if (typeof isSSR !== 'undefined' && isSSR === true) return
+    if (detectSSR()) return
 
     this._route = window.location.pathname
 
