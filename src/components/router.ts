@@ -8,7 +8,7 @@ class _Listener {
   private _listeners: Map<string, Function> = new Map()
 
   constructor() {
-    if (typeof window === 'undefined') return
+    if (typeof isSSR !== 'undefined' && isSSR === true) return
 
     this._route = window.location.pathname
 
