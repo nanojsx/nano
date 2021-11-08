@@ -79,7 +79,7 @@ export class Store {
         this._listeners.set(id, fnc)
       },
       cancel: () => {
-        this._listeners.delete(id)
+        if (this._listeners.has(id)) this._listeners.delete(id)
       }
     }
   }
