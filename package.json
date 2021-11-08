@@ -66,7 +66,7 @@
     "@yandeu/eslint-config": "^0.0.2",
     "@yandeu/extract": "^0.0.3",
     "@yandeu/prettier-config": "^0.0.2",
-    "denoify": "^0.8.0",
+    "denoify": "^0.10.5",
     "eslint": "^7.21.0",
     "five-server": "^0.0.30",
     "jest": "^27.0.6",
