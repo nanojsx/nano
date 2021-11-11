@@ -94,8 +94,27 @@ test("should escape attribute's string value", () => {
   expect(html).toBe('<div id="&quot;hoge">hoge</div>')
 })
 
-test("should escape text node", () => {
+test('should escape text node', () => {
   const content = Nano.h('div', {}, '<span>span</span>')
   const html = renderSSR(content)
   expect(html).toBe('<div>&lt;span&gt;span&lt;/span&gt;</div>')
+})
+
+test('should render dangerouslySetInnerHtml without escaping', () => {
+  const code = `<div>should not escape</div>`
+  const App = () => {
+    return (
+      <div>
+        <div>hoge</div>
+        <Img src="some-url" placeholder="placeholder-url" />
+        <div dangerouslySetInnerHTML={{ __html: code }} />
+      </div>
+    )
+  }
+
+  const app = Nano.renderSSR(<App />)
+  const { body } = Helmet.SSR(app)
+
+  expect(body).toBe(`<div><div>hoge</div><img src="placeholder-url" /><div><div>should not escape</div></div></div>`)
+  expect(spy).not.toHaveBeenCalled()
 })

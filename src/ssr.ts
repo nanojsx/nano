@@ -78,6 +78,10 @@ export class HTMLElementSSR {
     return reg.exec(this.ssr)?.[2] ?? ''
   }
 
+  set innerHTML(text) {
+    this.ssr = text
+  }
+
   get innerText() {
     const reg = /(^<[^>]+>)(.+)?(<\/[a-z]+>$|\/>$)/gm
     return reg.exec(this.ssr)?.[2] ?? ''
