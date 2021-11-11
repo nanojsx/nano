@@ -89,7 +89,13 @@ test('should render without errors', async () => {
 })
 
 test("should escape attribute's string value", () => {
-  const content = Nano.h('div', { id: '"hoge' }, '<span>span</span>')
+  const content = Nano.h('div', { id: '"hoge' }, 'hoge')
   const html = renderSSR(content)
-  expect(html).toBe('<div id="&quot;hoge"><span>span</span></div>')
+  expect(html).toBe('<div id="&quot;hoge">hoge</div>')
+})
+
+test("should escape text node", () => {
+  const content = Nano.h('div', {}, '<span>span</span>')
+  const html = renderSSR(content)
+  expect(html).toBe('<div>&lt;span&gt;span&lt;/span&gt;</div>')
 })
