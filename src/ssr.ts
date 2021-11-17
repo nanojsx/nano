@@ -37,6 +37,7 @@ export class HTMLElementSSR {
   ssr: string
   tagName: string
   isSelfClosing: boolean = false
+  nodeType: null | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 = null
 
   constructor(tag: string) {
     this.tagName = tag
@@ -57,6 +58,8 @@ export class HTMLElementSSR {
       'track',
       'wbr'
     ]
+    
+    this.nodeType = 1
 
     if (selfClosing.indexOf(tag) >= 0) {
       this.ssr = `<${tag} />`
@@ -75,6 +78,10 @@ export class HTMLElementSSR {
     return reg.exec(this.ssr)?.[2] ?? ''
   }
 
+  set innerHTML(text) {
+    this.ssr = text
+  }
+
   get innerText() {
     const reg = /(^<[^>]+>)(.+)?(<\/[a-z]+>$|\/>$)/gm
     return reg.exec(this.ssr)?.[2] ?? ''
@@ -87,6 +94,10 @@ export class HTMLElementSSR {
 
   get attributes() {
     return { length: 1 }
+  }
+
+  toString() {
+    return this.ssr
   }
 
   setAttributeNS(name: string, value: string) {
@@ -150,7 +161,7 @@ export class DocumentSSR {
   }
 
   createTextNode(text: string) {
-    return text
+    return escapeHtml(text)
   }
 
   querySelector(_query: string) {

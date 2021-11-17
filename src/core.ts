@@ -101,8 +101,6 @@ export const render = (component: any, parent: HTMLElement | null = null, remove
         })
       else appendChildren(parent, _render(el))
     }
-    //@ts-ignore
-    if (parent.ssr) return parent.ssr
     return parent
   }
   // returning one child or an array of children
@@ -248,6 +246,11 @@ export const h = (tagNameOrComponent: any, props: any, ...children: any) => {
     // handle events
     else if (isEvent(element, p.toLowerCase()))
       element.addEventListener(p.toLowerCase().substring(2), (e: any) => props[p](e))
+    else if (p === 'dangerouslySetInnerHTML') {
+      const fragment = document.createElement("fragment")
+      fragment.innerHTML = props[p].__html
+      element.appendChild(fragment)
+    }
     else if (/className/i.test(p)) console.warn('You can use "class" instead of "className".')
     else if (typeof props[p] !== 'undefined') element.setAttribute(p, props[p])
   }
@@ -255,7 +258,5 @@ export const h = (tagNameOrComponent: any, props: any, ...children: any) => {
   appendChildren(element, children)
 
   if (ref) ref(element)
-  // @ts-ignore
-  if (element.ssr) return element.ssr
-  return element
+  return element as any
 }
