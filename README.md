@@ -26,6 +26,7 @@
   <a href="https://github.com/nanojsx/nano/actions?query=workflow%3ACI"><img src="https://img.shields.io/github/workflow/status/nanojsx/nano/CI/master?label=build&logo=github&style=flat-square"></a>
   <a href="https://github.com/nanojsx/nano/actions?query=workflow%3ACodeQL"><img alt="GitHub Workflow Status" src="https://img.shields.io/github/workflow/status/nanojsx/nano/CodeQL?label=CodeQL&logo=github&style=flat-square"></a>
   <a href="https://github.com/nanojsx/nano/commits/master"><img src="https://img.shields.io/github/last-commit/nanojsx/nano.svg?style=flat-square" alt="GitHub last commit"></a>
+  <a href="https://github.com/sponsors/yandeu"><img src="https://img.shields.io/github/sponsors/yandeu?style=flat-square" alt="Sponsors"></a>
   <a href="https://github.com/prettier/prettier"><img src="https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square" alt="code style: prettier"></a>
   <a href="https://www.typescriptlang.org/"><img src="https://img.shields.io/badge/built%20with-TypeScript-blue?style=flat-square"></a>
   <a href="https://codecov.io/gh/nanojsx/nano"><img src="https://img.shields.io/codecov/c/github/nanojsx/nano?logo=codecov&style=flat-square" alt="Codecov"/></a>
