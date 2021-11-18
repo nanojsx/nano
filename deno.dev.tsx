@@ -1,6 +1,6 @@
 // @deno-types="./typings/global.d.ts"
 import { h, Helmet, renderSSR, Component } from './deno_lib/mod.ts'
-import { Application, Router } from 'https://deno.land/x/oak@v7.0.0/mod.ts'
+import { Application, Router } from 'https://deno.land/x/oak@v10.0.0/mod.ts'
 
 const comments = ['Comment One', 'Comment Two']
 

@@ -8,7 +8,7 @@
  * test for https://crux.land/nanossr@0.0.1 and https://dash.deno.com/playground/example-nanossr
  */
 
-import { assertStringIncludes } from 'https://deno.land/std@0.113.0/testing/asserts.ts'
+import { assertStringIncludes } from 'https://deno.land/std@0.115.1/testing/asserts.ts'
 
 import { h } from './deno_lib/mod.ts'
 import { tw } from 'https://cdn.skypack.dev/twind'
