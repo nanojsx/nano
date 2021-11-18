@@ -20,7 +20,7 @@ const historyReplace = (path: string) => {
   window.dispatchEvent(new Event('replacestate'))
 }
 
-const matchPath = (
+export const matchPath = (
   pathname: string,
   options: { exact?: boolean; path: string; regex?: { [param: string]: RegExp } }
 ) => {
@@ -36,7 +36,7 @@ const matchPath = (
   }
 
   let match
-  let params = {}
+  let params: any = {}
 
   // path with params
   if (path.includes('/:')) {
@@ -172,4 +172,44 @@ export const Link: FC<{ to: string; replace?: boolean; children?: any }> = ({ to
   }
 
   return h('a', { href: to, onClick: (e: Event) => handleClick(e) }, children)
+}
+
+class CListener {
+  private _route: string
+  private _listeners: Map<string, Function> = new Map()
+
+  constructor() {
+    if (isSSR()) return
+
+    this._route = window.location.pathname
+
+    const event = () => {
+      const newRoute = window.location.pathname
+      this._listeners.forEach(fnc => {
+        fnc(newRoute, this._route)
+      })
+      this._route = newRoute
+    }
+
+    window.addEventListener('pushstate', event)
+    window.addEventListener('replacestate', event)
+  }
+
+  public use() {
+    const id = Math.random().toString(36).substring(2)
+    return {
+      subscribe: (fnc: (currPath: string, prevPath: string) => void) => {
+        this._listeners.set(id, fnc)
+      },
+      cancel: () => {
+        if (this._listeners.has(id)) this._listeners.delete(id)
+      }
+    }
+  }
+}
+
+let listener: CListener | undefined
+export const Listener = () => {
+  if (!listener) listener = new CListener()
+  return listener
 }
