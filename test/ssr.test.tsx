@@ -4,51 +4,13 @@
 
 import Nano, { Img, Helmet } from '../lib/index.js'
 import { initSSR, renderSSR } from '../lib/ssr.js'
-import { HTMLElementSSR } from '../lib/regexDom.js'
 
 const spy = jest.spyOn(global.console, 'error')
 
 describe('server side rendering', () => {
-  test('should render without errors', () => {
+  test('should render without errors', async () => {
     initSSR()
 
-    // @ts-ignore
-    const div = document.createElement('div') as HTMLElementSSR
-    expect(div.ssr).toBe('<div></div>')
-
-    div.setAttributeNS('id', 'root')
-    expect(div.ssr).toBe('<div id="root"></div>')
-
-    const ul = new HTMLElementSSR('ul')
-    const li_0 = new HTMLElementSSR('li')
-    const li_1 = new HTMLElementSSR('li')
-    li_0.innerText = 'one'
-    li_1.innerText = 'two'
-    ul.appendChild(li_0)
-    ul.appendChild(li_1)
-    div.appendChild(ul)
-    expect(div.ssr).toBe('<div id="root"><ul><li>one</li><li>two</li></ul></div>')
-
-    const children = ul.children
-    expect(children[0]).toBe('<li>one</li>')
-    expect(children[1]).toBe('<li>two</li>')
-    //@ts-ignore
-    ul.addEventListener('click', () => {})
-
-    const newChild = new HTMLElementSSR('span')
-    newChild.innerText = 'hello'
-    div.replaceChild(newChild)
-    expect(div.ssr).toBe('<div id="root"><span>hello</span></div>')
-
-    // others
-    expect(div.innerText).toBe('<span>hello</span>')
-    expect(document.querySelector('#id')).toBeUndefined() // querySelector always return undefined in SSR
-
-    // @ts-ignore
-    expect(document.createElementNS('URI', 'div').ssr).toBe('<div></div>')
-  })
-
-  test('should render without errors', async () => {
     const App = () => {
       return (
         <div>

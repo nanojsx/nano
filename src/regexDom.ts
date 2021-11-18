@@ -1,10 +1,10 @@
 import { escapeHtml } from './helpers'
 
-export class HTMLElementSSR {
-  ssr: string
-  tagName: string
-  isSelfClosing: boolean = false
-  nodeType: null | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 = null
+class HTMLElementSSR {
+  public tagName: string
+  public isSelfClosing: boolean = false
+  public nodeType: null | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 = null
+  private _ssr: string
 
   constructor(tag: string) {
     this.tagName = tag
@@ -29,71 +29,85 @@ export class HTMLElementSSR {
     this.nodeType = 1
 
     if (selfClosing.indexOf(tag) >= 0) {
-      this.ssr = `<${tag} />`
+      this._ssr = `<${tag} />`
       this.isSelfClosing = true
     } else {
-      this.ssr = `<${tag}></${tag}>`
+      this._ssr = `<${tag}></${tag}>`
     }
   }
 
   get outerHTML() {
-    return this.innerText
+    return this._ssr
   }
 
-  get innerHTML() {
+  get innerHTML(): string {
     const reg = /(^<[a-z]+>)([\s\S]*)(<\/[a-z]+>$)/gm
-    return reg.exec(this.ssr)?.[2] ?? ''
+    return reg.exec(this._ssr)?.[2] || ''
   }
 
   set innerHTML(text) {
-    this.ssr = text
+    this._ssr = text
   }
 
-  get innerText() {
+  get innerText(): string {
     const reg = /(^<[^>]+>)(.+)?(<\/[a-z]+>$|\/>$)/gm
-    return reg.exec(this.ssr)?.[2] ?? ''
+    return reg.exec(this._ssr)?.[2] || ''
   }
 
   set innerText(text) {
     const reg = /(^<[^>]+>)(.+)?(<\/[a-z]+>$|\/>$)/gm
-    this.ssr = this.ssr.replace(reg, `$1${text}$3`)
+    this._ssr = this._ssr.replace(reg, `$1${text}$3`)
   }
 
-  get attributes() {
-    return { length: 1 }
+  getAttribute(_name: any) {
+    return null
+  }
+
+  get classList() {
+    const element = this._ssr
+
+    const classesRegex = /^<\w+.+(\sclass=")([^"]+)"/gm
+
+    return {
+      add: (name: string) => {
+        this.setAttribute('class', name)
+      },
+      entries: {
+        get length(): number {
+          const classes = classesRegex.exec(element)
+          if (classes && classes[2]) return classes[2].split(' ').length
+          return 0
+        }
+      }
+    }
   }
 
   toString() {
-    return this.ssr
+    return this._ssr
   }
 
-  setAttributeNS(name: string, value: string) {
+  setAttributeNS(_namespace: string | null, name: string, value: string) {
     this.setAttribute(name, value)
   }
 
   setAttribute(name: string, value: string) {
     if (this.isSelfClosing)
-      this.ssr = this.ssr.replace(/(^<[a-z]+ )(.+)/gm, `$1${escapeHtml(name)}="${escapeHtml(value)}" $2`)
-    else this.ssr = this.ssr.replace(/(^<[^>]+)(.+)/gm, `$1 ${escapeHtml(name)}="${escapeHtml(value)}"$2`)
+      this._ssr = this._ssr.replace(/(^<[a-z]+ )(.+)/gm, `$1${escapeHtml(name)}="${escapeHtml(value)}" $2`)
+    else this._ssr = this._ssr.replace(/(^<[^>]+)(.+)/gm, `$1 ${escapeHtml(name)}="${escapeHtml(value)}"$2`)
+  }
+
+  append(child: any) {
+    this.appendChild(child)
   }
 
   appendChild(child: any) {
-    const append = child.ssr ? child.ssr : child
-
-    const index = this.ssr.lastIndexOf('</')
-
-    this.ssr = this.ssr.substring(0, index) + append + this.ssr.substring(index)
-  }
-
-  replaceChild(newChild: any, _oldChild?: any) {
-    this.innerText = newChild.ssr
+    const index = this._ssr.lastIndexOf('</')
+    this._ssr = this._ssr.substring(0, index) + child + this._ssr.substring(index)
   }
 
   get children() {
     const reg = /<([a-z]+)((?!<\/\1).)*<\/\1>/gms
-
     const array = []
-
     let match
 
     while ((match = reg.exec(this.innerHTML)) !== null) {
@@ -111,8 +125,8 @@ export class HTMLElementSSR {
 }
 
 export class DocumentSSR {
-  body: HTMLElementSSR
-  head: HTMLElementSSR
+  body: HTMLElement
+  head: HTMLElement
 
   constructor() {
     this.body = this.createElement('body')
@@ -120,11 +134,11 @@ export class DocumentSSR {
   }
 
   createElement(tag: string) {
-    return new HTMLElementSSR(tag)
+    return new HTMLElementSSR(tag) as unknown as HTMLElement
   }
 
   createElementNS(_URI: string, tag: string) {
-    return new HTMLElementSSR(tag)
+    return new HTMLElementSSR(tag) as unknown as HTMLElement
   }
 
   createTextNode(text: string) {
