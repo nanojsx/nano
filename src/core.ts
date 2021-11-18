@@ -1,4 +1,4 @@
-declare const isSSR: boolean
+export const isSSR = () => typeof _nano !== 'undefined' && _nano.isSSR === true
 
 export interface FC<P = {}> {
   (props: P): Element | void
@@ -105,7 +105,7 @@ export const render = (component: any, parent: HTMLElement | null = null, remove
   }
   // returning one child or an array of children
   else {
-    if (typeof isSSR === 'boolean' && isSSR === true && !Array.isArray(el)) return [el]
+    if (isSSR() && !Array.isArray(el)) return [el]
     return el
   }
 }
@@ -181,26 +181,12 @@ const renderClassComponent = (classComp: any): any => {
   // pass the component instance as ref
   if (props && props.ref) props.ref(Component)
 
-  if (typeof isSSR === 'undefined')
+  if (!isSSR())
     tick(() => {
       Component._didMount()
     })
 
   return el
-}
-
-/** @deprecated renderComponent() is deprecated, use _render() instead! */
-export const renderComponent = (_component: any): any => {
-  console.warn('DEPRECATED: renderComponent() is deprecated, use _render() instead!')
-
-  // this fixes some ssr issues when using fragments
-  // if (typeof isSSR === 'boolean' && isSSR === true && Array.isArray(el)) {
-  //   el = el
-  //     .map((e) => {
-  //       return _render(e)
-  //     })
-  //     .join('')
-  // }
 }
 
 const hNS = (tag: string) => document.createElementNS('http://www.w3.org/2000/svg', tag) as SVGElement
@@ -247,11 +233,10 @@ export const h = (tagNameOrComponent: any, props: any, ...children: any) => {
     else if (isEvent(element, p.toLowerCase()))
       element.addEventListener(p.toLowerCase().substring(2), (e: any) => props[p](e))
     else if (p === 'dangerouslySetInnerHTML') {
-      const fragment = document.createElement("fragment")
+      const fragment = document.createElement('fragment')
       fragment.innerHTML = props[p].__html
       element.appendChild(fragment)
-    }
-    else if (/className/i.test(p)) console.warn('You can use "class" instead of "className".')
+    } else if (/className/i.test(p)) console.warn('You can use "class" instead of "className".')
     else if (typeof props[p] !== 'undefined') element.setAttribute(p, props[p])
   }
 

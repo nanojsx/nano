@@ -3,7 +3,8 @@
  */
 
 import Nano, { Img, Helmet } from '../lib/index.js'
-import { initSSR, HTMLElementSSR, renderSSR } from '../lib/ssr.js'
+import { initSSR, renderSSR } from '../lib/ssr.js'
+import { HTMLElementSSR } from '../lib/regexDom.js'
 
 const spy = jest.spyOn(global.console, 'error')
 

@@ -1,3 +1,5 @@
+import { isSSR } from './core'
+
 type State = any
 
 export class Store {
@@ -14,7 +16,7 @@ export class Store {
    * @param storage Pass 'memory', 'local' or 'session'.
    */
   constructor(defaultState: Object, name: string = '', storage: 'memory' | 'local' | 'session' = 'memory') {
-    if (typeof isSSR !== 'undefined') storage = 'memory'
+    if (isSSR()) storage = 'memory'
 
     this._id = name
     this._storage = storage

@@ -3,9 +3,13 @@ interface ReadableStream<R> {
   getIterator(): any
 }
 
-declare var isSSR: boolean | undefined;
-declare var _nano: any;
-declare const Deno: any
+declare var _nano: {
+  document: Document
+  isSSR: true | undefined
+  location: { pathname: string }
+}
+
+declare var Deno: any
 
 declare namespace JSX {
   interface IntrinsicElements {
@@ -15,6 +19,6 @@ declare namespace JSX {
     render: any
   }
   interface ElementChildrenAttribute {
-    children: any;
+    children: any
   }
 }

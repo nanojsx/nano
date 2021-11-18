@@ -9,6 +9,12 @@ export const nodeToString = (node: Node) => {
   return tmpNode.innerHTML
 }
 
+export const detectSSR = (): boolean => {
+  const isDeno = typeof Deno !== 'undefined'
+  const hasWindow = typeof window !== 'undefined' ? true : false
+  return (typeof _nano !== 'undefined' && _nano.isSSR) || isDeno || !hasWindow
+}
+
 function isDescendant(desc: ParentNode | null, root: Node): boolean {
   return !!desc && (desc === root || isDescendant(desc.parentNode, root))
 }

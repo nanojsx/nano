@@ -1,7 +1,7 @@
 // inspired by https://codesandbox.io/s/build-own-react-router-v4-mpslz
 
 import { Component } from '../component'
-import { FC, _render, h } from '../core'
+import { FC, _render, h, isSSR } from '../core'
 
 const instances: Switch[] = []
 
@@ -108,7 +108,7 @@ export class Switch extends Component<{ fallback?: any; children?: any }> {
     for (let i = 0; i < this.props.children.length; i++) {
       const child = this.props.children[i]
       const { path, exact, regex } = child.props
-      const match = matchPath(typeof isSSR !== 'undefined' ? _nano.location.pathname : window.location.pathname, {
+      const match = matchPath(isSSR() ? _nano.location.pathname : window.location.pathname, {
         path,
         exact,
         regex
