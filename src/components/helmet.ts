@@ -35,7 +35,11 @@ export class Helmet extends Component {
 
     // clean the body from all matches
     const cleanBody = body.replace(reg, '')
-    return { body: cleanBody, head, footer }
+    return {
+      body: cleanBody,
+      head: head as unknown as string[],
+      footer: footer as unknown as string[]
+    }
   }
 
   didMount() {
