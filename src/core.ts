@@ -1,3 +1,5 @@
+import './core.types'
+
 export const isSSR = () => typeof _nano !== 'undefined' && _nano.isSSR === true
 
 export interface FC<P = {}> {
