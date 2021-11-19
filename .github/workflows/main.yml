@@ -36,6 +36,9 @@ jobs:
       - name: Build Packages
         run: npm run build
 
+      - name: Bundle Package
+        run: npm run bundle
+
       - name: Run Tests
         run: npm test
 
