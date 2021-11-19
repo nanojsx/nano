@@ -14,7 +14,11 @@ export class Component<P extends Object = any, S = any> {
     this.id = this._getHash()
   }
 
-  public static isClass() {
+  public static get isClass() {
+    return true
+  }
+
+  public get isClass() {
     return true
   }
 

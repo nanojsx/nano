@@ -39,7 +39,7 @@ export const defineAsCustomElements: (
           })
         )
         this.component = ref
-        this.isFunctionalComponent = !(component.isClass && component.isClass())
+        this.isFunctionalComponent = !component.isClass
         this.functionalComponentsProps = {}
 
         shadowRoot.append(el)

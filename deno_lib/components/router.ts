@@ -1,7 +1,7 @@
 // inspired by https://codesandbox.io/s/build-own-react-router-v4-mpslz
 
 import { Component } from '../component.ts'
-import { FC, _render, h } from '../core.ts'
+import { FC, _render, h, isSSR } from '../core.ts'
 
 const instances: Switch[] = []
 
@@ -20,7 +20,7 @@ const historyReplace = (path: string) => {
   window.dispatchEvent(new Event('replacestate'))
 }
 
-const matchPath = (
+export const matchPath = (
   pathname: string,
   options: { exact?: boolean; path: string; regex?: { [param: string]: RegExp } }
 ) => {
@@ -36,7 +36,7 @@ const matchPath = (
   }
 
   let match
-  let params = {}
+  let params: any = {}
 
   // path with params
   if (path.includes('/:')) {
@@ -108,7 +108,7 @@ export class Switch extends Component<{ fallback?: any; children?: any }> {
     for (let i = 0; i < this.props.children.length; i++) {
       const child = this.props.children[i]
       const { path, exact, regex } = child.props
-      const match = matchPath(typeof isSSR !== 'undefined' ? _nano.location.pathname : window.location.pathname, {
+      const match = matchPath(isSSR() ? _nano.location.pathname : window.location.pathname, {
         path,
         exact,
         regex
@@ -172,4 +172,44 @@ export const Link: FC<{ to: string; replace?: boolean; children?: any }> = ({ to
   }
 
   return h('a', { href: to, onClick: (e: Event) => handleClick(e) }, children)
+}
+
+class CListener {
+  private _route: string
+  private _listeners: Map<string, Function> = new Map()
+
+  constructor() {
+    if (isSSR()) return
+
+    this._route = window.location.pathname
+
+    const event = () => {
+      const newRoute = window.location.pathname
+      this._listeners.forEach(fnc => {
+        fnc(newRoute, this._route)
+      })
+      this._route = newRoute
+    }
+
+    window.addEventListener('pushstate', event)
+    window.addEventListener('replacestate', event)
+  }
+
+  public use() {
+    const id = Math.random().toString(36).substring(2)
+    return {
+      subscribe: (fnc: (currPath: string, prevPath: string) => void) => {
+        this._listeners.set(id, fnc)
+      },
+      cancel: () => {
+        if (this._listeners.has(id)) this._listeners.delete(id)
+      }
+    }
+  }
+}
+
+let listener: CListener | undefined
+export const Listener = () => {
+  if (!listener) listener = new CListener()
+  return listener
 }

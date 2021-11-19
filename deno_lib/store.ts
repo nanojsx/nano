@@ -1,3 +1,5 @@
+import { isSSR } from './core.ts'
+
 type State = any
 
 export class Store {
@@ -14,7 +16,7 @@ export class Store {
    * @param storage Pass 'memory', 'local' or 'session'.
    */
   constructor(defaultState: Object, name: string = '', storage: 'memory' | 'local' | 'session' = 'memory') {
-    if (typeof isSSR !== 'undefined') storage = 'memory'
+    if (isSSR()) storage = 'memory'
 
     this._id = name
     this._storage = storage
@@ -66,7 +68,7 @@ export class Store {
   }
 
   public use() {
-    const id = Math.random().toString(36).substr(2, 9)
+    const id = Math.random().toString(36).substring(2, 9)
     const _this = this
     return {
       get state(): State {
@@ -79,7 +81,7 @@ export class Store {
         this._listeners.set(id, fnc)
       },
       cancel: () => {
-        this._listeners.delete(id)
+        if (this._listeners.has(id)) this._listeners.delete(id)
       }
     }
   }

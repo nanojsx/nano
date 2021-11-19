@@ -1,4 +1,6 @@
-declare const isSSR: boolean
+import './core.types.ts'
+
+export const isSSR = () => typeof _nano !== 'undefined' && _nano.isSSR === true
 
 export interface FC<P = {}> {
   (props: P): Element | void
@@ -101,13 +103,11 @@ export const render = (component: any, parent: HTMLElement | null = null, remove
         })
       else appendChildren(parent, _render(el))
     }
-    //@ts-ignore
-    if (parent.ssr) return parent.ssr
     return parent
   }
   // returning one child or an array of children
   else {
-    if (typeof isSSR === 'boolean' && isSSR === true && !Array.isArray(el)) return [el]
+    if (isSSR() && !Array.isArray(el)) return [el]
     return el
   }
 }
@@ -132,7 +132,7 @@ export const _render = (comp: any): any => {
   if (comp.tagName) return comp
 
   // Class Component
-  if (comp && comp.component && comp.component.isClass && comp.component.isClass()) return renderClassComponent(comp)
+  if (comp && comp.component && comp.component.isClass) return renderClassComponent(comp)
 
   // Functional Component
   if (comp.component && typeof comp.component === 'function') return renderFunctionalComponent(comp)
@@ -183,26 +183,12 @@ const renderClassComponent = (classComp: any): any => {
   // pass the component instance as ref
   if (props && props.ref) props.ref(Component)
 
-  if (typeof isSSR === 'undefined')
+  if (!isSSR())
     tick(() => {
       Component._didMount()
     })
 
   return el
-}
-
-/** @deprecated renderComponent() is deprecated, use _render() instead! */
-export const renderComponent = (_component: any): any => {
-  console.warn('DEPRECATED: renderComponent() is deprecated, use _render() instead!')
-
-  // this fixes some ssr issues when using fragments
-  // if (typeof isSSR === 'boolean' && isSSR === true && Array.isArray(el)) {
-  //   el = el
-  //     .map((e) => {
-  //       return _render(e)
-  //     })
-  //     .join('')
-  // }
 }
 
 const hNS = (tag: string) => document.createElementNS('http://www.w3.org/2000/svg', tag) as SVGElement
@@ -248,14 +234,16 @@ export const h = (tagNameOrComponent: any, props: any, ...children: any) => {
     // handle events
     else if (isEvent(element, p.toLowerCase()))
       element.addEventListener(p.toLowerCase().substring(2), (e: any) => props[p](e))
-    else if (/className/i.test(p)) console.warn('You can use "class" instead of "className".')
+    else if (p === 'dangerouslySetInnerHTML') {
+      const fragment = document.createElement('fragment')
+      fragment.innerHTML = props[p].__html
+      element.appendChild(fragment)
+    } else if (/className/i.test(p)) console.warn('You can use "class" instead of "className".')
     else if (typeof props[p] !== 'undefined') element.setAttribute(p, props[p])
   }
 
   appendChildren(element, children)
 
   if (ref) ref(element)
-  // @ts-ignore
-  if (element.ssr) return element.ssr
-  return element
+  return element as any
 }

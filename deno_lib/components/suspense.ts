@@ -1,5 +1,5 @@
 import { Component } from '../component.ts'
-import { strToHash } from '../core.ts'
+import { isSSR, strToHash } from '../core.ts'
 
 interface Props {
   fallback: any
@@ -95,8 +95,7 @@ export class Suspense extends Component<Props> {
   }
 
   render() {
-    // @ts-ignore
-    if (typeof isSSR === 'undefined') {
+    if (!isSSR()) {
       const { cache = false } = this.props
       this.loadFromCache(cache)
       return !this.ready ? this.props.fallback : this.props.children
