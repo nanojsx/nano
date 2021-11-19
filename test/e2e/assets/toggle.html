@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="/bundle.slim.js"></script>
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="root">loading...</div>
+    <script>
+      const { render, h, Component } = nanoJSX
+
+      const Button = ({ clickHandler }) =>
+        h(
+          'button',
+          {
+            id: 'btn',
+            onClick: () => {
+              clickHandler()
+            }
+          },
+          'click me'
+        )
+
+      class App extends Component {
+        didMount() {
+          this.state = { show: false }
+        }
+
+        clickHandler() {
+          this.setState({ show: !this.state.show }, true)
+        }
+
+        render() {
+          const text = this.state?.show ? h('p', { id: 'text' }, 'Hidden Text') : null
+          return h('div', null, text, Button({ clickHandler: this.clickHandler.bind(this) }))
+        }
+      }
+
+      const node = render(h(App), document.getElementById('root'))
+    </script>
+  </body>
+</html>

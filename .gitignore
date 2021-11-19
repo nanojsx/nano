@@ -1,8 +1,11 @@
 bundles/nano.dev.min.js
 coverage
-dev/dev.js
-node_modules
-lib
-test/**/*.js
 debug.log
+dev/dev.js
+lib
+node_modules
 package-lock.json
+test/**/*.js
+tinyServer/*.d.ts
+tinyServer/*.js
+tinyServer/*.map
