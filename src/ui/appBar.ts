@@ -119,8 +119,17 @@ export class AppBar extends Component<AppBarProps> {
       align-items: center;      
     }
 
+    .appBar_container .toolbar_container .toolbar_left {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
     .appBar_container .toolbar_title {
       font-size: 20px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     `
 
