@@ -71,7 +71,7 @@ export class Helmet extends Component {
           titleTags[0].text = e.text
         } else {
           const titleTag = h('title', null, element.innerHTML) as HTMLTitleElement
-          parent.appendChild(titleTag)
+          appendChildren(parent, [titleTag], false)
         }
         return
       }
@@ -98,7 +98,7 @@ export class Helmet extends Component {
       }
 
       // add to dom
-      if (!exists) appendChildren(parent, [element])
+      if (!exists) appendChildren(parent, [element], false)
     })
   }
 
