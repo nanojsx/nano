@@ -19,7 +19,7 @@ class App extends Component {
 const app = renderSSR(<App />)
 const { body, head, footer } = Helmet.SSR(app)
 
-let html = `
+const html = `
 <!DOCTYPE html>
 <html lang="en">
   <head>

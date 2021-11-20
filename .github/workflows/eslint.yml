@@ -1,0 +1,22 @@
+# syntax: https://docs.github.com/en/actions/learn-github-actions/workflow-syntax-for-github-actions
+name: ESLint
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    name: Linting
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+      - run: rm -f package.json
+      - run: rm -f package-lock.json
+      - run: npm init -y
+      - run: npm i -D @yandeu/eslint-config
+      - run: npm i -D eslint
+      - run: node node_modules/.bin/eslint src --ext .ts,.tsx
