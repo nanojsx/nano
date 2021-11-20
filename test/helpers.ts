@@ -1,9 +1,14 @@
 export const wait = (ms: number = 100): Promise<void> => {
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     setTimeout(() => {
       resolve()
     }, ms)
   })
+}
+
+export const multiLineToSingleLine = (string: string, removeLeadingWhiteSpace = true) => {
+  if (removeLeadingWhiteSpace) string = string.replace(/^\s+/gm, '')
+  return string.replace(/\n\r|\n|\r/gm, '')
 }
 
 export const nodeToString = (node: any) => {

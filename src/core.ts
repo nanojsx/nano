@@ -32,10 +32,10 @@ export const strToHash = (s: string) => {
   return Math.abs(hash).toString(32)
 }
 
-export const appendChildren = (element: HTMLElement | SVGElement, children: HTMLElement[]) => {
+export const appendChildren = (element: HTMLElement | SVGElement, children: HTMLElement[], escape = true) => {
   // if the child is an html element
   if (!Array.isArray(children)) {
-    appendChildren(element, [children])
+    appendChildren(element, [children], escape)
     return
   }
 
@@ -44,16 +44,19 @@ export const appendChildren = (element: HTMLElement | SVGElement, children: HTML
 
   children.forEach(child => {
     // if child is an array of children, append them instead
-    if (Array.isArray(child)) appendChildren(element, child)
+    if (Array.isArray(child)) appendChildren(element, child, escape)
     else {
       // render the component
       const c = _render(child) as HTMLElement
 
       if (typeof c !== 'undefined') {
         // if c is an array of children, append them instead
-        if (Array.isArray(c)) appendChildren(element, c)
+        if (Array.isArray(c)) appendChildren(element, c, escape)
         // apply the component to parent element
-        else element.appendChild(c.nodeType == null ? document.createTextNode(c.toString()) : c)
+        else {
+          if (isSSR() && !escape) element.appendChild(c.nodeType == null ? (c.toString() as unknown as Node) : c)
+          else element.appendChild(c.nodeType == null ? document.createTextNode(c.toString()) : c)
+        }
       }
     }
   })
@@ -242,7 +245,9 @@ export const h = (tagNameOrComponent: any, props: any, ...children: any) => {
     else if (typeof props[p] !== 'undefined') element.setAttribute(p, props[p])
   }
 
-  appendChildren(element, children)
+  // these tags should not be escaped by default (in ssr)
+  const escape = !['noscript', 'script', 'style'].includes(tagNameOrComponent)
+  appendChildren(element, children, escape)
 
   if (ref) ref(element)
   return element as any
