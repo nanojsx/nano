@@ -9,7 +9,7 @@ declare var _nano: {
   location: { pathname: string }
 }
 
-declare var Deno: any
+declare namespace Deno {}
 
 declare namespace JSX {
   interface IntrinsicElements {

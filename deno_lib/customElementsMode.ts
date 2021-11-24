@@ -58,8 +58,11 @@ export const defineAsCustomElements: (
       }
 
       private removeChildren() {
-        for (const el of this.shadowRoot?.children ?? []) {
-          el.remove()
+        if (this.shadowRoot) {
+          const children = Array.from(this.shadowRoot?.children) || []
+          for (const el of children) {
+            el.remove()
+          }
         }
       }
 

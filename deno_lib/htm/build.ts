@@ -31,9 +31,9 @@ const PROP_APPEND = MODE_PROP_APPEND
 export const treeify = (built: any, fields: any) => {
   const _treeify = (built: any): any => {
     let tag = ''
-    let currentProps = null
+    let currentProps: any = null
     const props = []
-    const children = []
+    const children: any[] = []
 
     for (let i = 1; i < built.length; i++) {
       const type = built[i++]

@@ -175,7 +175,7 @@ export const Link: FC<{ to: string; replace?: boolean; children?: any }> = ({ to
 }
 
 class CListener {
-  private _route: string
+  private _route!: string
   private _listeners: Map<string, Function> = new Map()
 
   constructor() {
