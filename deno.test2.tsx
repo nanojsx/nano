@@ -10,7 +10,7 @@
 
 import { assertStringIncludes } from 'https://deno.land/std@0.115.1/testing/asserts.ts'
 
-import { h } from './deno_lib/mod.ts'
+import { h, FC } from './deno_lib/mod.ts'
 import { tw } from 'https://cdn.skypack.dev/twind'
 
 import { Helmet, renderSSR as nanoRender } from './deno_lib/mod.ts'
@@ -30,13 +30,19 @@ function setupSheet(twOptions: Record<string, any>) {
   return sheet
 }
 
-const html = ({ body, head, footer, styleTag }) => `
+interface MakeHtml {
+  body: string
+  head: string[]
+  footer: string[]
+  styleTag: string
+}
+const html = ({ body, head, footer, styleTag }: MakeHtml): string => `
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    ${head}
+    ${head.join('\n')}
     ${styleTag}
   </head>
   <body>
@@ -54,7 +60,7 @@ export function ssr(render: CallableFunction, options?: any) {
   return /*new Response*/ html({ body, head, footer, styleTag }) //, { headers: { 'content-type': 'text/html' } }
 }
 
-const Hello = props => (
+const Hello: FC<any> = props => (
   <div class={tw`bg-white flex h-screen`}>
     <h1 class={tw`text-5xl text-gray-600 m-auto mt-20`}>Hello {props.name}!</h1>
   </div>

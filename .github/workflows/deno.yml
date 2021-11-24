@@ -1,23 +1,7 @@
 # syntax: https://docs.github.com/en/actions/learn-github-actions/workflow-syntax-for-github-actions
 name: Deno
 
-on:
-  push:
-    paths-ignore:
-      - '.vscode/**'
-      - 'bundles/**'
-      - 'deno_lib/**'
-      - 'dev/**'
-      - 'readme/**'
-      - '**.md'
-  pull_request:
-    paths-ignore:
-      - '.vscode/**'
-      - 'bundles/**'
-      - 'deno_lib/**'
-      - 'dev/**'
-      - 'readme/**'
-      - '**.md'
+on: [push, pull_request]
 
 jobs:
   build:
@@ -26,7 +10,7 @@ jobs:
     strategy:
       matrix:
         deno: ['v1.x']
-        node-version: ['14.x']
+        node-version: ['16.x']
 
     name: Deno ${{ matrix.deno }}
 
@@ -47,15 +31,21 @@ jobs:
           deno-version: ${{ matrix.deno }}
 
       - name: Install Dependencies
-        run: npm install
-
-      - name: Build Packages
-        run: npm run build
+        run: |
+          rm -f package.json
+          rm -f package-lock.json
+          npm init -y
+          npm i -D typescript
+          npm i -D denoify
+          npm i -D rimraf
 
       - name: Denoify
-        run: npm run denoify
+        run: |
+          node_modules/.bin/rimraf deno_lib
+          node_modules/.bin/denoify
+          node_modules/.bin/rimraf deno_lib/bundles deno_lib/dev
 
       - name: Run Tests
         run: |
           deno --version
-          deno test --no-check -c tsconfig.deno.json deno.test.tsx deno.test2.tsx
+          deno test -c tsconfig.deno.json deno.test.tsx deno.test2.tsx

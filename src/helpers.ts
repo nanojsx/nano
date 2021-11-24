@@ -10,6 +10,7 @@ export const nodeToString = (node: Node) => {
 }
 
 export const detectSSR = (): boolean => {
+  // @ts-ignore
   const isDeno = typeof Deno !== 'undefined'
   const hasWindow = typeof window !== 'undefined' ? true : false
   return (typeof _nano !== 'undefined' && _nano.isSSR) || isDeno || !hasWindow

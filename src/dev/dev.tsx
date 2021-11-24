@@ -1,4 +1,4 @@
-import * as Nano from '../core'
+import { h, render } from '../core'
 import { Component } from '../component'
 
 class App extends Component {
@@ -7,4 +7,4 @@ class App extends Component {
   }
 }
 
-Nano.render(<App />, document.getElementById('root'))
+render(<App />, document.getElementById('root'))

@@ -1,23 +1,24 @@
 {
   "compilerOptions": {
+    "outDir": "./lib",
+    "rootDir": "./src",
+
     "target": "ES2015",
     "module": "commonjs",
-    "lib": ["DOM", "DOM.Iterable", "ES2019"],
+
     "jsx": "react",
-    "jsxFactory": "Nano.h",
+    "jsxFactory": "h",
+
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
-    "outDir": "./lib",
-    "rootDir": "./src",
+
     "strict": true,
+    "esModuleInterop": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "strictPropertyInitialization": false,
-    "typeRoots": [],
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true
+    "strictPropertyInitialization": false
   },
-  "include": ["src/**/*", "typings"],
-  "exclude": ["node_modules", "dist", "./deno_lib", "./mod.ts"]
+  "include": ["src/**/*"],
+  "exclude": ["node_module"]
 }

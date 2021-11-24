@@ -50,6 +50,7 @@ export class Tabs extends Component<TabsProps> {
       })
     }
 
+    // @ts-ignore
     tick(() => {
       adjustLine(this.items[this.active])
       scrollIntoView(this.items[this.active])

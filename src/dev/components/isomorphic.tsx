@@ -1,4 +1,4 @@
-import * as Nano from '../../core'
+import { h, FC } from '../../core'
 import { Component } from '../../component'
 
 /**
@@ -14,7 +14,7 @@ const fetchMock = (): Promise<string[]> =>
 interface CommentsProps {
   comments: string[]
 }
-const Comments: Nano.FC<CommentsProps> = ({ comments }) => {
+const Comments: FC<CommentsProps> = ({ comments }) => {
   console.log(comments)
   return (
     <ul>

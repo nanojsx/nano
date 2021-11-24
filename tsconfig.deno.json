@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
-    "lib": ["dom", "dom.iterable", "esnext", "deno.ns", "deno.unstable"],
-    "jsxFactory": "h",
-    "strictPropertyInitialization": false,
+    "lib": ["dom", "deno.ns"],
+    "jsxFactory": "h"
   }
 }

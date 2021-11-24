@@ -123,6 +123,7 @@ export class Component<P extends Object = any, S = any> {
     // listen for node removal
     this._addNodeRemoveListener()
 
+    // @ts-ignore
     tick(() => {
       this._skipUnmount = false
       if (!this.elements[0].isConnected) this._didUnmount()

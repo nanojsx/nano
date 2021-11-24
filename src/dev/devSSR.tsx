@@ -1,4 +1,4 @@
-import * as Nano from '../core'
+import { h } from '../core'
 import { renderSSR } from '../ssr'
 import { Component } from '../component'
 import { Helmet } from '../components/helmet'

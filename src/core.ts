@@ -187,6 +187,7 @@ const renderClassComponent = (classComp: any): any => {
   if (props && props.ref) props.ref(Component)
 
   if (!isSSR())
+    // @ts-ignore
     tick(() => {
       Component._didMount()
     })
