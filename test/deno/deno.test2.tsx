@@ -10,10 +10,10 @@
 
 import { assertStringIncludes } from 'https://deno.land/std@0.115.1/testing/asserts.ts'
 
-import { h, FC } from './deno_lib/mod.ts'
+import { h, FC } from '../../deno_lib/mod.ts'
 import { tw } from 'https://cdn.skypack.dev/twind'
 
-import { Helmet, renderSSR as nanoRender } from './deno_lib/mod.ts'
+import { Helmet, renderSSR as nanoRender } from '../../deno_lib/mod.ts'
 import { setup } from 'https://cdn.skypack.dev/twind'
 import { getStyleTag, virtualSheet } from 'https://cdn.skypack.dev/twind/sheets'
 import typography from 'https://cdn.skypack.dev/@twind/typography'

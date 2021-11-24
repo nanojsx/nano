@@ -13,7 +13,7 @@
     "lint": "eslint src --ext .ts,.tsx",
     "lint:fix": "eslint --fix src --ext .ts,.tsx",
     "deno": "deno run --allow-net -c tsconfig.deno.json deno.dev.tsx",
-    "deno:test": "deno test  -c tsconfig.deno.json deno.test.tsx deno.test2.tsx",
+    "deno:test": "deno test -c tsconfig.deno.json test/deno/**",
     "denoify": "rimraf deno_lib && denoify && rimraf deno_lib/bundles deno_lib/dev",
     "tsc": "npm run version && tsc --project tsconfig.json",
     "tsc:tinyServer": "npm run version && tsc --project tsconfig.json",
@@ -36,7 +36,7 @@
     "publish": "publish",
     "preReleaseHook": "prepareRelease",
     "prepareRelease": "npm run clean && npm i && npm run build && npm run bundle && npm run denoify && npm run test && npm run deno:test",
-    "test": "npm run clean:test && tsc --project test/tsconfig.json && jest \"test/.+\\.test.js$\" && npm run clean:test"
+    "test": "npm run clean:test && tsc --project tsconfig.test.json && jest \"test/.+\\.test.js$\" && npm run clean:test"
   },
   "repository": {
     "type": "git",
