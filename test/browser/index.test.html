@@ -11,21 +11,48 @@
         sendId = 0
         _description
         stats = { error: 0, warn: 0, success: 0 }
+        tests = []
 
         end() {
           const total = this.stats.error + this.stats.warn + this.stats.success
           const success = this.stats.success
-          this.sendToPuppeteer(this.indent + this.clr.green(`${success}/${total} passing\n`))
+          this.sendToPuppeteer('\n' + this.indent + this.clr.lightGreen(`${success}/${total} passing\n`))
+
+          setTimeout(() => {
+            const done = document.createElement('div')
+            done.innerText = 'done'
+            done.id = 'done'
+            document.body.appendChild(done)
+          }, 100)
+        }
+
+        async test() {
+          for (let i = 0; i < this.tests.length; i++) {
+            const { description, fnc } = this.tests[i]
+            this._description = description
+            await fnc()
+          }
+          this.end()
         }
 
         description(description, fnc) {
-          this._description = description
-          fnc()
+          this.tests.push({ description, fnc })
+        }
+
+        async wait(ms) {
+          return new Promise(resolve => {
+            setTimeout(() => {
+              resolve()
+            }, ms)
+          })
         }
 
         error(assertion, message) {
+          console.log(message)
+
           if (assertion === true) {
             this.stats.success++
+            this.sendSuccess(message)
           } else {
             this.stats.error++
             this.sendError(message, assertion)
@@ -45,18 +72,25 @@
 
         get clr() {
           return {
-            red: text => `\u001b[31m${text}\u001b[39m`,
-            green: text => `\u001b[32m${text}\u001b[39m`,
-            gray: text => `\u001b[90m${text}\u001b[39m`
+            red: text => `\u001b[31m${text}\u001b[0m`,
+            green: text => `\u001b[32m${text}\u001b[0m`,
+            lightGreen: text => `\u001b[32;1m${text}\u001b[0m`,
+            gray: text => `\u001b[90m${text}\u001b[0m`
           }
         }
 
         title(title) {}
 
+        sendSuccess(msg, assertion) {
+          const symbol = this.clr.lightGreen(this.sym.pass)
+          const message = this.clr.gray(msg)
+          this.sendToPuppeteer(`${this.indent}${symbol} ${message}`)
+        }
+
         sendError(msg, assertion) {
           const error = this.clr.red(`${this.sym.fail} ${msg}`)
-          const description = this.clr.gray(`> ${this._description}`)
-          this.sendToPuppeteer(`${this.indent}${error}\n${this.indent}${description}\n`)
+          const description = this.clr.gray(`${this.indent}${this._description}`)
+          this.sendToPuppeteer(`\n${this.indent}${error}\n${this.indent}${description}\n`)
         }
 
         sendToPuppeteer(msg) {
@@ -80,7 +114,7 @@
     </script>
 
     <script type="module">
-      test.description('Simple Test', () => {
+      test.description('Simple Test', async () => {
         const App = () => {
           return h('div', { id: 'root' }, h('h1', {}, 'Hello Nano'))
         }
@@ -90,10 +124,34 @@
         const hello = document.querySelector('h1')
         test.error(hello.innerText === 'Hello Nano', `Should get "Hello Nano", got ${hello.innerText}`)
       })
-    </script>
 
-    <script type="module">
-      test.end()
+      // similar to /test/nodejs/props.test.tsx
+      test.description('Props', async () => {
+        console.log('SingleName')
+        const SingleName = props => {
+          return h('li', null, `${props.name} - ${props.children}`)
+        }
+
+        const NameList = props => {
+          const list = props.names.map(name => h(SingleName, { name: name }, name))
+          return h('ul', null, list)
+        }
+
+        const Root = props => {
+          const h1 = h('h1', null, 'List of all names:')
+          return h('div', { id: 'name-list' }, h1, h(NameList, { ...props }))
+        }
+
+        const html = render(h(Root, { names: ['Doe', 'Suzanne'] }))
+
+        const h1 = html.querySelector('h1').innerText
+        const firstName = html.querySelector('ul').firstChild.outerHTML
+
+        test.error(h1 === 'List of all names:', `Should get "List of all names:", got ${h1}`)
+        test.error(firstName === '<li>Doe - Doe</li>', `Should get "<li>Doe - Doe</li>", got ${firstName}`)
+      })
+
+      test.test()
     </script>
   </body>
 </html>

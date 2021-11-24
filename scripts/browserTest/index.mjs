@@ -1,9 +1,9 @@
 import crypto from 'crypto'
-import path, { extname } from 'path'
 import puppeteer from 'puppeteer'
 import { createServer } from 'http'
 import { existsSync } from 'fs'
-import { mkdir, readFile, writeFile } from 'fs/promises'
+import { join, resolve } from 'path'
+import { mkdir, readdir, writeFile } from 'fs/promises'
 import { requestListener } from './requestListener.mjs'
 
 const args = process.argv.splice(2)
@@ -15,6 +15,8 @@ server.closeAsync = () => new Promise(resolve => server.close(() => resolve()))
 const browser = await puppeteer.launch()
 
 const main = async fileName => {
+  console.log(`\u001b[90m> ${fileName}\u001b[39m\n`)
+
   const page = await browser.newPage()
 
   // Enable both JavaScript and CSS coverage
@@ -24,7 +26,13 @@ const main = async fileName => {
   let url = `http://localhost:8080/${fileName.replace(/^\+/, '')}`
   await page.goto(url, { waitUntil: 'networkidle2' })
 
-  await page.waitForTimeout(500)
+  try {
+    await page.waitForSelector('#done', { timeout: 15_000 })
+  } catch (err) {
+    console.log('Error:', err.message)
+  }
+
+  await page.waitForTimeout(100)
 
   await page.coverage.stopJSCoverage()
 
@@ -34,7 +42,7 @@ const main = async fileName => {
 
   if (coverage) {
     const fileName = crypto.createHash('md5').update(JSON.stringify(coverage)).digest('hex')
-    await writeFile(path.resolve(`./.nyc_output/${fileName}.json`), JSON.stringify(coverage))
+    await writeFile(resolve(`./.nyc_output/${fileName}.json`), JSON.stringify(coverage))
   }
 
   await page.close()
@@ -46,7 +54,14 @@ server.listen(8080, async () => {
     if (!existsSync('coverage')) await mkdir('coverage', { recursive: true })
   }
 
-  await main('test/browser/index.test.html')
+  console.log('\n')
+
+  const DIR = 'test/browser'
+  const files = await readdir(join(resolve(), DIR))
+
+  for (let i = 0; i < files.length; i++) {
+    await main(`${DIR}/${files[i]}`)
+  }
 
   await browser.close()
   await server.closeAsync()

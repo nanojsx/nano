@@ -1,7 +1,7 @@
-import { mime } from './mime.mjs'
-import { spawn } from 'child_process'
 import path from 'path'
+import { mime } from './mime.mjs'
 import { readFile } from 'fs/promises'
+import { spawn } from 'child_process'
 
 let _messages = []
 const sendMessages = () => {

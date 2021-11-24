@@ -1,4 +1,4 @@
-import path, { extname } from 'path'
+import { extname } from 'path'
 
 // https://github.com/nanojsx/nano/blob/master/scripts/tinyServer/index.ts
 export const mime = fileName => {
