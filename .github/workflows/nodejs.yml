@@ -1,5 +1,5 @@
 # syntax: https://docs.github.com/en/actions/learn-github-actions/workflow-syntax-for-github-actions
-name: CI
+name: NodeJS
 
 on:
   push:
