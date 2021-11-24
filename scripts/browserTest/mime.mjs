@@ -1,6 +1,6 @@
 import path, { extname } from 'path'
 
-// https://github.com/nanojsx/nano/blob/master/tinyServer/index.ts
+// https://github.com/nanojsx/nano/blob/master/scripts/tinyServer/index.ts
 export const mime = fileName => {
   switch (extname(fileName)) {
     case '.css':

@@ -1,5 +1,5 @@
 import puppeteer, { Browser, Page } from 'puppeteer'
-import { TinyServer } from '../../tinyServer'
+import { TinyServer } from '../../scripts/tinyServer'
 
 const port = Math.floor(Math.random() * 6000 + 3000)
 const server = new TinyServer()

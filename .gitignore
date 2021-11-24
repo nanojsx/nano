@@ -9,6 +9,6 @@
 /node_modules
 /package-lock.json
 /test/**/*.js
-/tinyServer/*.d.ts
-/tinyServer/*.js
-/tinyServer/*.map
+/scripts/tinyServer/*.d.ts
+/scripts/tinyServer/*.js
+/scripts/tinyServer/*.map
