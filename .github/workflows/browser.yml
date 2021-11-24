@@ -1,0 +1,34 @@
+# syntax: https://docs.github.com/en/actions/learn-github-actions/workflow-syntax-for-github-actions
+name: Browser
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    name: Browser
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: NodeJS
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+
+      - name: Install
+        run: |
+          rm -f package.json
+          rm -f package-lock.json
+          npm init -y
+          npm i -D rimraf typescript puppeteer
+          npm i -D webpack webpack-cli ts-loader nyc coverage-istanbul-loader
+
+      - name: Test
+        run: |
+          node_modules/.bin/rimraf .nyc_output coverage
+          node_modules/.bin/webpack -c webpack/webpack.bundle.instrumented.js
+          node scripts/browserTest/index.mjs --coverage
+          node_modules/.bin/nyc report --reporter=html --reporter=lcov --reporter=text

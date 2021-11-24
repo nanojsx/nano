@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script>
+      class Tester {
+        sendId = 0
+        _description
+        stats = { error: 0, warn: 0, success: 0 }
+
+        end() {
+          const total = this.stats.error + this.stats.warn + this.stats.success
+          const success = this.stats.success
+          this.sendToPuppeteer(this.indent + this.clr.green(`${success}/${total} passing\n`))
+        }
+
+        description(description, fnc) {
+          this._description = description
+          fnc()
+        }
+
+        error(assertion, message) {
+          if (assertion === true) {
+            this.stats.success++
+          } else {
+            this.stats.error++
+            this.sendError(message, assertion)
+          }
+        }
+
+        get indent() {
+          return '  '
+        }
+
+        get sym() {
+          return {
+            fail: '✘',
+            pass: '✔'
+          }
+        }
+
+        get clr() {
+          return {
+            red: text => `\u001b[31m${text}\u001b[39m`,
+            green: text => `\u001b[32m${text}\u001b[39m`,
+            gray: text => `\u001b[90m${text}\u001b[39m`
+          }
+        }
+
+        title(title) {}
+
+        sendError(msg, assertion) {
+          const error = this.clr.red(`${this.sym.fail} ${msg}`)
+          const description = this.clr.gray(`> ${this._description}`)
+          this.sendToPuppeteer(`${this.indent}${error}\n${this.indent}${description}\n`)
+        }
+
+        sendToPuppeteer(msg) {
+          console.log(msg)
+          fetch('http://localhost:8080/data', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ text: msg, id: this.sendId++ })
+          })
+        }
+      }
+
+      const test = new Tester()
+    </script>
+
+    <script src="/bundles/nano.instrumented.min.js"></script>
+    <script>
+      const { h, render } = nanoJSX
+    </script>
+
+    <script type="module">
+      test.description('Simple Test', () => {
+        const App = () => {
+          return h('div', { id: 'root' }, h('h1', {}, 'Hello Nano'))
+        }
+
+        render(App, document.getElementById('root'))
+
+        const hello = document.querySelector('h1')
+        test.error(hello.innerText === 'Hello Nano', `Should get "Hello Nano", got ${hello.innerText}`)
+      })
+    </script>
+
+    <script type="module">
+      test.end()
+    </script>
+  </body>
+</html>

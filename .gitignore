@@ -1,4 +1,7 @@
+/.nyc_output
 /bundles/nano.dev.min.js
+/bundles/nano.instrumented.min.js
+/bundles/nano.instrumented.min.js.map
 /coverage
 /debug.log
 /dev/dev.js
