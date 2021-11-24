@@ -18,6 +18,6 @@
     "noUnusedLocals": false,
     "noUnusedParameters": false
   },
-  "include": ["test/**/*"],
+  "include": ["test/nodejs/**/*"],
   "exclude": ["node_modules", "**/*.spec.ts", "test/deno/**", "test/browser/**"]
 }
