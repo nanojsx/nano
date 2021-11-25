@@ -3,34 +3,43 @@ import { Component } from './component.ts'
 import { Fragment } from './fragment.ts'
 import { Helmet } from './components/helmet.ts'
 
-export const withStyles: any = (styles: any) => (WrappedComponent: any) => {
-  return class extends Component {
-    render() {
-      const { children, ...rest } = this.props
+interface ObjectHasToString {
+  toString: () => string
+}
+type Styles = string
+type FunctionReturnsString = () => string
+type WithStylesType = Styles | ObjectHasToString | FunctionReturnsString
 
-      const helmet = h(Helmet, null, h('style', null, styles.toString()))
+export const withStyles: any =
+  (...styles: WithStylesType[]) =>
+  (WrappedComponent: any) => {
+    return class extends Component {
+      render() {
+        const { children, ...rest } = this.props
 
-      const component =
-        children && children.length > 0
-          ? h(WrappedComponent, { ...rest }, children)
-          : h(WrappedComponent, { ...this.props })
+        const helmets: any[] = []
+        styles.forEach(style => {
+          if (typeof style === 'string') {
+            helmets.push(h(Helmet, null, h('style', null, style)))
+          } else if (typeof style === 'function') {
+            const _style = style()
+            if (typeof _style === 'string') {
+              helmets.push(h(Helmet, null, h('style', null, _style)))
+            }
+          } else if (typeof style === 'object') {
+            const _style = style.toString?.()
+            if (typeof _style === 'string') {
+              helmets.push(h(Helmet, null, h('style', null, _style)))
+            }
+          }
+        })
 
-      return h(Fragment, null, helmet, component)
+        const component =
+          children && children.length > 0
+            ? h(WrappedComponent, { ...rest }, children)
+            : h(WrappedComponent, { ...this.props })
 
-      // same in JSX
-      // return (
-      //   <Fragment>
-      //     <Helmet>
-      //       <style>{styles.toString()}</style>
-      //     </Helmet>
-
-      //     {children && children.length > 0 ? (
-      //       <WrappedComponent {...rest}>{children}</WrappedComponent>
-      //     ) : (
-      //       <WrappedComponent {...this.props} />
-      //     )}
-      //   </Fragment>
-      // )
+        return h(Fragment, null, ...helmets, component)
+      }
     }
   }
-}
