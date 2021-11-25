@@ -13,10 +13,11 @@
     "declarationMap": true,
     "sourceMap": true,
 
-    "strict": true,
     "esModuleInterop": true,
+    "moduleResolution": "node",
     "noUnusedLocals": true,
     "noUnusedParameters": true,
+    "strict": true,
     "strictPropertyInitialization": false
   },
   "include": ["src/**/*"],

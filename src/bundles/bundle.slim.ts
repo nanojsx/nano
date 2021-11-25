@@ -7,12 +7,14 @@ import { Component } from '../component'
 import { Fragment } from '../fragment'
 import { Store } from '../store'
 import { createContext } from '../context'
+import { withStyles } from '../withStyles'
 
 // tagged templates
 import { jsx } from '../jsx'
 
 export default {
   createContext,
+  withStyles,
   h,
   jsx,
   render,

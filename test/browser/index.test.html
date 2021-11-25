@@ -8,6 +8,8 @@
     <div id="root"></div>
     <script>
       class Tester {
+        _isAutomated = window.navigator.webdriver
+
         sendId = 0
         _description
         stats = { error: 0, warn: 0, success: 0 }
@@ -16,9 +18,9 @@
         end() {
           const total = this.stats.error + this.stats.warn + this.stats.success
           const success = this.stats.success
-          this.sendToPuppeteer('\n' + this.indent + this.clr.lightGreen(`${success}/${total} passing\n`))
 
           setTimeout(() => {
+            this.sendToPuppeteer('\n' + this.indent + this.clr.lightGreen(`${success}/${total} passing\n`))
             const done = document.createElement('div')
             done.innerText = 'done'
             done.id = 'done'
@@ -39,7 +41,7 @@
           this.tests.push({ description, fnc })
         }
 
-        async wait(ms) {
+        async wait(ms = 100) {
           return new Promise(resolve => {
             setTimeout(() => {
               resolve()
@@ -47,9 +49,7 @@
           })
         }
 
-        error(assertion, message) {
-          console.log(message)
-
+        error(assertion, message = 'No Description') {
           if (assertion === true) {
             this.stats.success++
             this.sendSuccess(message)
@@ -94,7 +94,11 @@
         }
 
         sendToPuppeteer(msg) {
-          console.log(msg)
+          if (!this._isAutomated) {
+            console.log(msg.replace(/;1/, ''))
+            return
+          }
+
           fetch('http://localhost:8080/data', {
             method: 'POST',
             headers: {
@@ -110,7 +114,7 @@
 
     <script src="/bundles/nano.instrumented.min.js"></script>
     <script>
-      const { h, render } = nanoJSX
+      const { h, render, Component, withStyles } = nanoJSX
     </script>
 
     <script type="module">
@@ -127,7 +131,6 @@
 
       // similar to /test/nodejs/props.test.tsx
       test.description('Props', async () => {
-        console.log('SingleName')
         const SingleName = props => {
           return h('li', null, `${props.name} - ${props.children}`)
         }
@@ -149,6 +152,30 @@
 
         test.error(h1 === 'List of all names:', `Should get "List of all names:", got ${h1}`)
         test.error(firstName === '<li>Doe - Doe</li>', `Should get "<li>Doe - Doe</li>", got ${firstName}`)
+      })
+
+      test.description('withStyles', async () => {
+        class AppA extends Component {
+          render() {
+            return h('div', null, h('p', { class: 'colored' }, 'with styles'))
+          }
+        }
+        const App = withStyles(
+          '.colored { background-color: lightblue; }',
+          () => '.colored { padding: 12px; border: 4px black solid; } ',
+          { toString: () => '.colored { font-family: monospace; }' }
+        )(AppA)
+
+        render(h(App), document.getElementById('root'))
+
+        await test.wait()
+
+        // get those 3 head elements
+        const head = Array.from(document.head.querySelectorAll('style')).slice(0, 3)
+        const colored = document.querySelector('.colored')
+
+        test.error(/^<style>.colored { background/.test(head[0].outerHTML), 'Should add styles')
+        test.error(/ily: monospace; }<\/style>$/.test(head[2].outerHTML), 'Should add styles')
       })
 
       test.test()

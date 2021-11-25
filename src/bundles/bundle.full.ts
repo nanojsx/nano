@@ -8,6 +8,7 @@ import { Component } from '../component'
 import { Fragment } from '../fragment'
 import { Store } from '../store'
 import { createContext } from '../context'
+import { withStyles } from '../withStyles'
 
 // built-in components
 import { Helmet } from '../components/helmet'
@@ -23,6 +24,7 @@ import * as UI from '../ui/index'
 
 export default {
   createContext,
+  withStyles,
   h,
   hydrate,
   hydrateLazy,
