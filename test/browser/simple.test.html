@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="/tester.js"></script>
+    <script src="/bundles/nano.instrumented.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script>
+      const { h, render, Component, withStyles } = nanoJSX
+    </script>
+
+    <script type="module">
+      Test.description('Simple Test', async () => {
+        const App = () => {
+          return h('div', { id: 'root' }, h('h1', {}, 'Hello Nano'))
+        }
+
+        render(App, document.getElementById('root'))
+
+        const hello = document.querySelector('h1')
+        Test.error(hello.innerText === 'Hello Nano', `Should get "Hello Nano", got ${hello.innerText}`)
+      })
+
+      // similar to /test/nodejs/props.test.tsx
+      Test.description('Props', async () => {
+        const SingleName = props => {
+          return h('li', null, `${props.name} - ${props.children}`)
+        }
+
+        const NameList = props => {
+          const list = props.names.map(name => h(SingleName, { name: name }, name))
+          return h('ul', null, list)
+        }
+
+        const Root = props => {
+          const h1 = h('h1', null, 'List of all names:')
+          return h('div', { id: 'name-list' }, h1, h(NameList, { ...props }))
+        }
+
+        const html = render(h(Root, { names: ['Doe', 'Suzanne'] }))
+
+        const h1 = html.querySelector('h1').innerText
+        const firstName = html.querySelector('ul').firstChild.outerHTML
+
+        Test.error(h1 === 'List of all names:', `Should get "List of all names:", got ${h1}`)
+        Test.error(firstName === '<li>Doe - Doe</li>', `Should get "<li>Doe - Doe</li>", got ${firstName}`)
+      })
+
+      Test.start()
+    </script>
+  </body>
+</html>

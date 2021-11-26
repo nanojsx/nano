@@ -5,6 +5,7 @@ import { existsSync } from 'fs'
 import { join, resolve } from 'path'
 import { mkdir, readdir, writeFile } from 'fs/promises'
 import { requestListener } from './requestListener.mjs'
+import { NYC } from './nyc.mjs'
 
 const args = process.argv.splice(2)
 const collectCoverage = args.includes('--coverage')
@@ -62,6 +63,8 @@ server.listen(8080, async () => {
   for (let i = 0; i < files.length; i++) {
     await main(`${DIR}/${files[i]}`)
   }
+
+  if (collectCoverage) NYC.report()
 
   await browser.close()
   await server.closeAsync()

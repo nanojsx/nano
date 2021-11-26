@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="/tester.js"></script>
+    <script src="/bundles/nano.instrumented.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script>
+      const { h, render, Component, withStyles } = nanoJSX
+    </script>
+
+    <script type="module">
+      Test.description('withStyles', async () => {
+        class AppA extends Component {
+          render() {
+            return h('div', null, h('p', { class: 'colored' }, 'with styles'))
+          }
+        }
+        const App = withStyles(
+          '.colored { background-color: lightblue; }',
+          () => '.colored { padding: 12px; border: 4px black solid; } ',
+          { toString: () => '.colored { font-family: monospace; }' }
+        )(AppA)
+
+        render(h(App), document.getElementById('root'))
+
+        await Test.wait()
+
+        // get those 3 head elements
+        const head = Array.from(document.head.querySelectorAll('style')).slice(0, 3)
+        const colored = document.querySelector('.colored')
+
+        Test.error(/^<style>.colored { background/.test(head[0].outerHTML), 'Should add styles')
+        Test.error(/ily: monospace; }<\/style>$/.test(head[2].outerHTML), 'Should add styles')
+      })
+
+      Test.start()
+    </script>
+  </body>
+</html>
