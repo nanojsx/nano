@@ -165,13 +165,19 @@ export const to = (to: string, replace: boolean = false) => {
   replace ? historyReplace(to) : historyPush(to)
 }
 
-export const Link: FC<{ to: string; replace?: boolean; children?: any }> = ({ to, replace, children }) => {
+interface LinkProps {
+  to: string
+  replace?: boolean
+  children?: any
+  [key: string]: any
+}
+export const Link: FC<LinkProps> = ({ to, replace, children, ...rest }) => {
   const handleClick = (event: Event) => {
     event.preventDefault()
     replace ? historyReplace(to) : historyPush(to)
   }
 
-  return h('a', { href: to, onClick: (e: Event) => handleClick(e) }, children)
+  return h('a', { href: to, onClick: (e: Event) => handleClick(e), ...rest }, children)
 }
 
 class CListener {
