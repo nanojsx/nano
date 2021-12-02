@@ -16,7 +16,7 @@ server.closeAsync = () => new Promise(resolve => server.close(() => resolve()))
 const browser = await puppeteer.launch()
 
 const main = async fileName => {
-  console.log(`\u001b[90m> ${fileName}\u001b[39m\n`)
+  console.log(`> ${fileName}`)
 
   const page = await browser.newPage()
 
@@ -41,7 +41,7 @@ const main = async fileName => {
     return window.__coverage__
   })
 
-  if (coverage) {
+  if (coverage && collectCoverage) {
     const fileName = crypto.createHash('md5').update(JSON.stringify(coverage)).digest('hex')
     await writeFile(resolve(`./.nyc_output/${fileName}.json`), JSON.stringify(coverage))
   }
@@ -64,7 +64,7 @@ server.listen(8080, async () => {
     await main(`${DIR}/${files[i]}`)
   }
 
-  if (collectCoverage) NYC.report()
+  // if (collectCoverage) NYC.report()
 
   await browser.close()
   await server.closeAsync()
