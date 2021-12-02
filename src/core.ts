@@ -69,6 +69,8 @@ const SVG = (props: any) => {
   const child = props.children[0] as SVGElement
   const attrs = child.attributes
 
+  if (isSSR()) return child
+
   const svg = hNS('svg') as SVGElement
   for (let i = attrs.length - 1; i >= 0; i--) {
     svg.setAttribute(attrs[i].name, attrs[i].value)
