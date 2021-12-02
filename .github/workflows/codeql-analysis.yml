@@ -4,12 +4,12 @@ name: 'CodeQL'
 on:
   push:
     paths:
-      - 'src/**'
       - '.github/**'
+      - 'src/**'
   pull_request:
     paths:
-      - 'src/**'
       - '.github/**'
+      - 'src/**'
 
 jobs:
   analyze:

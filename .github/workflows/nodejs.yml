@@ -3,16 +3,19 @@ name: NodeJS
 
 on:
   push:
-    branches:
-      - main
-      - master
     paths-ignore:
+      - '**.md'
       - '.vscode/**'
       - 'bundles/**'
-      - 'deno_lib/**'
       - 'dev/**'
       - 'readme/**'
+  pull_request:
+    paths-ignore:
       - '**.md'
+      - '.vscode/**'
+      - 'bundles/**'
+      - 'dev/**'
+      - 'readme/**'
 
 jobs:
   build:
@@ -46,6 +49,5 @@ jobs:
         run: npm test
 
       - name: Upload coverage to Codecov
+        if: ${{ github.ref == 'refs/heads/master' }}
         uses: codecov/codecov-action@v2
-        env:
-          CI: true
