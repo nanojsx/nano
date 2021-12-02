@@ -8,21 +8,23 @@ import { Fragment } from '../fragment'
 import { Store } from '../store'
 import { createContext } from '../context'
 import { withStyles } from '../withStyles'
+import * as Router from '../components/router'
 
 // tagged templates
 import { jsx } from '../jsx'
 
 export default {
+  Component,
+  Fragment,
+  Router,
+  Store,
   createContext,
-  withStyles,
   h,
   jsx,
   render,
-  tick,
   task,
-  Component,
-  Fragment,
-  Store
+  tick,
+  withStyles
 }
 
 // version

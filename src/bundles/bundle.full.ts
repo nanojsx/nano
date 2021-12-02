@@ -15,6 +15,7 @@ import { Helmet } from '../components/helmet'
 import { Link } from '../components/link'
 import { Img } from '../components/img'
 import { Visible } from '../components/visible'
+import * as Router from '../components/router'
 
 // tagged templates
 import { jsx } from '../jsx'
@@ -23,8 +24,16 @@ import { jsx } from '../jsx'
 import * as UI from '../ui/index'
 
 export default {
+  Component,
+  Fragment,
+  Helmet,
+  Img,
+  Link,
+  Router,
+  Store,
+  UI,
+  Visible,
   createContext,
-  withStyles,
   h,
   hydrate,
   hydrateLazy,
@@ -32,16 +41,9 @@ export default {
   nodeToString,
   removeAllChildNodes,
   render,
-  tick,
   task,
-  Component,
-  Fragment,
-  Helmet,
-  Img,
-  Link,
-  Store,
-  Visible,
-  UI
+  tick,
+  withStyles
 }
 
 // version
