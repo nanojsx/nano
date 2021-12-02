@@ -142,6 +142,10 @@ class Tester {
     }
   }
 
+  skip(assertion, message, comment = '') {
+    this.sendSkip(message)
+  }
+
   get indent() {
     return '  '
   }
@@ -149,7 +153,8 @@ class Tester {
   get sym() {
     return {
       fail: '✘',
-      pass: '✔'
+      pass: '✔',
+      skip: '⚙'
     }
   }
 
@@ -158,6 +163,7 @@ class Tester {
       red: text => `\u001b[31m${text}\u001b[0m`,
       green: text => `\u001b[32m${text}\u001b[0m`,
       lightGreen: text => `\u001b[32;1m${text}\u001b[0m`,
+      lightBlue: text => `\u001b[34;1m${text}\u001b[0m`,
       gray: text => `\u001b[90m${text}\u001b[0m`
     }
   }
@@ -174,6 +180,11 @@ class Tester {
     const error = this.clr.red(`${this.sym.fail} ${msg}`)
     const _comment = comment ? this.clr.gray(`\n${this.indent}  ${comment}`) : ''
     this.sendToServer(`${this.indent}${error}${_comment}`, 'error')
+  }
+
+  sendSkip(msg, assertion?) {
+    const message = this.clr.lightBlue(`${this.sym.skip} ${msg}`)
+    this.sendToServer(`${this.indent}${message}`)
   }
 
   get testerDocument() {
@@ -221,7 +232,9 @@ class Tester {
         .replace(/\r\n|\n|\r/gm, '')
         // eslint-disable-next-line no-control-regex
         .replace(/\x1b/g, '')
+        // colors from https://github.com/yandeu/favorite-terminal-colors
         .replace(/(\[32;1m)(.*?)(\[0m)/gm, replacer('#50FA7B'))
+        .replace(/(\[34;1m)(.*?)(\[0m)/gm, replacer('#8BE9FD'))
         .replace(/(\[31m)(.*?)(\[0m)/gm, replacer('#FF5555'))
         .replace(/(\[32m)(.*?)(\[0m)/gm, replacer('#2FD651'))
         .replace(/(\[90m)(.*?)(\[0m)/gm, replacer('#656B84'))
@@ -268,10 +281,10 @@ class Tester {
   }
 
   expect(assertion: any)
-  expect(type: 'error' | 'warn' | 'ignore', assertion: any)
-  expect(a: 'error' | 'warn' | 'ignore' | any, b?: any) {
-    const assertion = b || a
-    const type: 'error' | 'warn' | 'ignore' = b ? a : 'error'
+  expect(type: 'error' | 'warn' | 'skip', assertion: any)
+  expect(a: 'error' | 'warn' | 'skip' | any, b?: any) {
+    const assertion = typeof b !== 'undefined' ? b : a
+    const type: 'error' | 'warn' | 'skip' = typeof b !== 'undefined' ? a : 'error'
 
     let not = false
 
