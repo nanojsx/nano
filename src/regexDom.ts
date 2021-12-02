@@ -102,14 +102,13 @@ class HTMLElementSSR {
   get attributes() {
     const childrenless = this._ssr.match(/<.*>/)
 
-    if (!childrenless)
-      return []
+    if (!childrenless) return []
 
     const attrs = [...childrenless[0].matchAll(/([\w-]+?)="([^"]*)"/gm)].map(matches => matches[0])
 
     return attrs.map(attr => {
-      const [name, value] = attr.split("=")
-      return {name, value}
+      const [name, value] = attr.split('=')
+      return { name, value }
     })
   }
 
