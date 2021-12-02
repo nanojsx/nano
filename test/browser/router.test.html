@@ -18,14 +18,15 @@
 
     <script>
       const { h, render, Component, withStyles, Router, jsx } = nanoJSX
-      const { Route, Switch, to } = Router
+      const { Route, Switch, Link, to, Listener } = Router
+      const href = window.location.href
+      const pathname = window.location.pathname
+      const root = () => document.getElementById('root')
     </script>
 
     <script type="module">
       describe('Simple Router', async () => {
-        const root = () => document.getElementById('root')
-
-        const App = ({ path }) => {
+        let App = ({ path }) => {
           return jsx`        
             <${Switch}>
 							<${Route} exact path="/one">topic one</${Route}>
@@ -38,13 +39,71 @@
         await Test.wait()
         expect(root().firstChild.firstChild.textContent).toBe('topic overview')
 
-        to('/one')
+        to('/one', false)
         await Test.wait()
-        expect(root().firstChild.firstChild.textContent).toBe('topic one')
+        expect(root().firstChild.firstChild.textContent).toBe('topic one', 'Navigate to /one (historyPush)')
 
-        to('/two')
+        to('/two', true)
         await Test.wait()
-        expect(root().firstChild.firstChild.textContent).toBe('topic two')
+        expect(root().firstChild.firstChild.textContent).toBe('topic two', 'Navigate to /one (historyReplace)')
+
+        to(href)
+      })
+
+      describe('Router Link', async () => {
+        const App = ({ path }) => {
+          return jsx`
+            <div id="router-link">
+      				<${Link} to="/route-one">one</${Link}>
+      				<${Link} replace to="/route-two">two</${Link}>
+            </div>`
+        }
+
+        render(jsx`<${App}/>`, root())
+
+        await Test.wait()
+        const linkOne = document.getElementById('router-link').firstChild
+        const linkTwo = linkOne.nextSibling
+
+        await Test.wait()
+        linkOne.click()
+        expect(window.location.pathname).toBe('/route-one', 'Should navigate to /route-one (historyPush).')
+
+        await Test.wait()
+        linkTwo.click()
+        expect(window.location.pathname).toBe('/route-two', 'Should navigate to /route-two (historyReplace).')
+
+        to(href)
+      })
+
+      describe('Router Listener', async () => {
+        let current, previous
+
+        const listener = Listener()
+        const use = listener.use()
+
+        use.subscribe((currPath, prevPath) => {
+          current = currPath
+          previous = prevPath
+        })
+
+        to('/test')
+        await Test.wait()
+        expect(current).toBe('/test', 'Current path should have changed to /test.')
+        expect(previous).toBe(pathname, 'Previous path should be the same as the initial path.')
+
+        to('/test123')
+        await Test.wait()
+        expect(current).toBe('/test123')
+        expect(previous).toBe('/test')
+
+        use.cancel()
+        to('/hello')
+        await Test.wait()
+        expect(current).toBe('/test123', '"current" var should remain the same.')
+        expect(previous).toBe('/test', '"previous" var should remain the same.')
+
+        to(href)
       })
 
       Test.start()
