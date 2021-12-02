@@ -41,12 +41,15 @@ class HTMLElementSSR {
   }
 
   get innerHTML(): string {
-    const reg = /(^<[a-z]+>)([\s\S]*)(<\/[a-z]+>$)/gm
-    return reg.exec(this._ssr)?.[2] || ''
+    const reg = /(^<[^>]+>)(.*)(<\/[^>]+>$)/gs
+    const matches = reg.exec(this._ssr)
+    if (!matches || matches.length < 2) return ''
+    return matches[2]
   }
 
   set innerHTML(text) {
-    this._ssr = text
+    const reg = /(^<[^>]+>)(.*)(<\/[^>]+>$|\/>$)/gs
+    this._ssr = this._ssr.replace(reg, `$1${text}$3`)
   }
 
   get innerText(): string {
@@ -94,6 +97,20 @@ class HTMLElementSSR {
     if (this.isSelfClosing)
       this._ssr = this._ssr.replace(/(^<[a-z]+ )(.+)/gm, `$1${escapeHtml(name)}="${escapeHtml(value)}" $2`)
     else this._ssr = this._ssr.replace(/(^<[^>]+)(.+)/gm, `$1 ${escapeHtml(name)}="${escapeHtml(value)}"$2`)
+  }
+
+  get attributes() {
+    const childrenless = this._ssr.match(/<.*?>/)
+
+    if (!childrenless)
+      return []
+
+    const attrs = [...childrenless[0].matchAll(/([\w-]+?)="([^"]*)"/gm)].map(matches => matches[0])
+
+    return attrs.map(attr => {
+      const [name, value] = attr.split("=")
+      return {name, value: value.slice(1, -1)}
+    })
   }
 
   append(child: any) {
