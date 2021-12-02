@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="/tester.js"></script>
+    <script src="/bundles/nano.instrumented.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script>
+      const { h, render, Component, withStyles, jsx } = nanoJSX
+    </script>
+
+    <script type="module">
+      // similar to /test/nodejs/svg.test.tsx
+      Test.description('Inline SVG', async () => {
+        class SVGTest extends Component {
+          render() {
+            return jsx`
+              <div id="some-id">
+                <h2>Cool Inline SVG</h2>
+                <svg height="100" width="100">
+                  <circle cx="50" cy="50" fill="yellow" r="40" stroke="green" stroke-width="4"></circle>
+                </svg>
+              </div>`
+          }
+        }
+        render(jsx`<${SVGTest} />`, document.getElementById('root'))
+
+        Test.wait(100)
+
+        Test.error(
+          document.getElementById('some-id').outerHTML ===
+            '<div id="some-id"><h2>Cool Inline SVG</h2><svg width="100" height="100"><circle cx="50" cy="50" fill="yellow" r="40" stroke="green" stroke-width="4"></circle></svg></div>'
+        )
+
+        // clean
+        document.getAnimations('root').innerHTML = ''
+      })
+
+      Test.description('should render without errors', async () => {
+        const Hello = () => {
+          return jsx`
+            <h1>
+              <svg height="100" width="100" >
+                <circle cx="50" cy="50" fill="yellow" r="40" stroke="green" stroke-width="4" />
+              </svg>
+              Hello Nano App!
+            </h1>`
+        }
+
+        const res = render(jsx`<${Hello} />`)
+
+        await Test.wait()
+        Test.error(
+          res.outerHTML ===
+            '<h1><svg width="100" height="100"><circle cx="50" cy="50" fill="yellow" r="40" stroke="green" stroke-width="4"></circle></svg>Hello Nano App!</h1>'
+        )
+      })
+
+      Test.start()
+    </script>
+  </body>
+</html>
