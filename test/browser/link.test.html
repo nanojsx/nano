@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="/tester.js"></script>
+    <script src="/bundles/nano.instrumented.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script>
+      const { h, render, Component, withStyles, Link } = nanoJSX
+      const headLastChild = () => document.head.lastElementChild
+      const root = () => document.getElementById('root')
+      const href = window.location.href
+      const pathname = window.location.pathname
+    </script>
+
+    <script type="module">
+      describe('Prefetch', async () => {
+        const App = () => h(Link, { prefetch: true, href: 'https://nanojsx.github.io/' }, 'nanojsx.github.io')
+
+        render(App)
+
+        await Test.wait()
+
+        expect(headLastChild().outerHTML).toBe(
+          '<link rel="prefetch" href="https://nanojsx.github.io/" as="document">',
+          'Should add rel="prefetch" to <head>.'
+        )
+
+        headLastChild().remove()
+      })
+
+      describe('Prefetch (on hover)', async () => {
+        const App = () => h(Link, { prefetch: 'hover', href: 'https://nanojsx.github.io/' }, 'nanojsx.github.io')
+
+        render(App, root())
+
+        await Test.wait()
+
+        root().firstChild.dispatchEvent(new Event('mouseover'))
+
+        await Test.wait()
+
+        expect(headLastChild().outerHTML).toBe(
+          '<link rel="prefetch" href="https://nanojsx.github.io/" as="document">',
+          'Should add rel="prefetch" to <head>.'
+        )
+
+        headLastChild().remove()
+      })
+
+      describe('Prefetch (on visible)', async () => {
+        const App = () => h(Link, { prefetch: 'visible', href: 'https://nanojsx.github.io/' }, 'nanojsx.github.io')
+
+        render(App, root())
+
+        await Test.wait()
+
+        expect(headLastChild().outerHTML).toBe(
+          '<link rel="prefetch" href="https://nanojsx.github.io/" as="document">',
+          'Should add rel="prefetch" to <head>.'
+        )
+
+        headLastChild().remove()
+      })
+
+      describe('Back/Delay (TODO)', async () => {
+        const back = (Link, { back: true, href: 'https://nanojsx.github.io/' }, 'nanojsx.github.io')
+        const delay = (Link, { delay: 150, href: 'https://nanojsx.github.io/' }, 'nanojsx.github.io')
+
+        expect('skip', null).toBe(null, 'Should test "back"')
+        expect('skip', null).toBe(null, 'Should test "delay"')
+      })
+
+      Test.start()
+    </script>
+  </body>
+</html>
