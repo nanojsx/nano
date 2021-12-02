@@ -8,6 +8,8 @@ test('should render without errors', async () => {
 
   class Child extends Component {
     render() {
+      if (MyContext.get() === 'yannick') MyContext.set('aika')
+
       return (
         <MyContext.Consumer>
           {(value: any) => {
@@ -28,15 +30,30 @@ test('should render without errors', async () => {
     }
   }
 
-  const res = Nano.render(
+  // render
+  let res = Nano.render(
     <div id="root">
       <Parent name="suzanne" />
     </div>
   )
-
   await wait()
   expect(nodeToString(res)).toBe('<div id="root"><p>suzanne</p></div>')
   expect(spy).not.toHaveBeenCalled()
+
+  // render again and change the context in didMount()
+  res = Nano.render(
+    <div id="root">
+      <Parent name="yannick" />
+    </div>
+  )
+  await wait()
+  expect(nodeToString(res)).toBe('<div id="root"><p>aika</p></div>')
+  expect(spy).not.toHaveBeenCalled()
+
+  // set/get context outside components
+  expect(MyContext.get()).toBe('aika')
+  MyContext.set('tom')
+  expect(MyContext.get()).toBe('tom')
 })
 
 test('should render without errors', async () => {
