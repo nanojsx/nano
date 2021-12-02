@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="/tester.js"></script>
+    <script src="/bundles/nano.instrumented.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script>
+      const { h, render, Component, withStyles } = nanoJSX
+    </script>
+
+    <script type="module">
+      describe('Lifecycles', async () => {
+        const elements = []
+        let unmountCalls = 0
+
+        class Child extends Component {
+          didUnmount() {
+            unmountCalls++
+          }
+
+          render() {
+            return h('div', null, 'ChildClass')
+          }
+        }
+
+        class App extends Component {
+          state = { childOne: true }
+
+          didMount() {
+            this.setState({ childOne: false })
+            this.update()
+
+            setTimeout(() => {
+              this.setState({ childOne: '...' })
+              this.update()
+
+              setTimeout(() => {
+                this.setState({ childOne: this.isClass }, true)
+
+                setTimeout(() => {
+                  this.state = { childOne: 'test-state' }
+                  this.update()
+
+                  setTimeout(() => {
+                    this.update('some update')
+                  })
+                })
+              })
+            })
+          }
+
+          render_test(data) {
+            if (this.state.childOne === true) return h(Child)
+            else if (this.state.childOne === false) return h('div', null, 'ChildDiv')
+            else return h('p', null, data || this.state.childOne)
+          }
+
+          render(data) {
+            const el = this.render_test(data)
+            elements.push(render(el).innerText)
+            return el
+          }
+        }
+
+        render(h(App), document.getElementById('root'))
+
+        await Test.wait()
+        expect(App.isClass).toBe(true)
+        expect(elements[0]).toBe('ChildClass')
+        expect(elements[1]).toBe('ChildDiv')
+        expect(elements[2]).toBe('...')
+        expect(elements[0]).toBe('ChildClass')
+        expect(elements[4]).toBe('test-state')
+        expect(elements[5]).toBe('some update')
+        expect(unmountCalls).toBe(2)
+      })
+
+      Test.start(true)
+    </script>
+  </body>
+</html>
