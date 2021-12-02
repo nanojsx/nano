@@ -15,7 +15,7 @@
 
     <script type="module">
       // similar to /test/nodejs/svg.test.tsx
-      Test.description('Inline SVG', async () => {
+      describe('Inline SVG', async () => {
         class SVGTest extends Component {
           render() {
             return jsx`
@@ -40,7 +40,7 @@
         document.getAnimations('root').innerHTML = ''
       })
 
-      Test.description('should render without errors', async () => {
+      describe('should render without errors', async () => {
         const Hello = () => {
           return jsx`
             <h1>

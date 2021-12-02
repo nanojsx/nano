@@ -14,7 +14,7 @@
     </script>
 
     <script type="module">
-      Test.description('withStyles', async () => {
+      describe('withStyles', async () => {
         class AppA extends Component {
           render() {
             return h('div', null, h('p', { class: 'colored' }, 'with styles'))
@@ -34,8 +34,8 @@
         const head = Array.from(document.head.querySelectorAll('style')).slice(0, 3)
         const colored = document.querySelector('.colored')
 
-        Test.error(/^<style>.colored { background/.test(head[0].outerHTML), 'Should add styles')
-        Test.error(/ily: monospace; }<\/style>$/.test(head[2].outerHTML), 'Should add styles')
+        expect(/^<style>.colored { background/.test(head[0].outerHTML)).toBe(true, 'Should add styles')
+        expect(/ily: monospace; }<\/style>$/.test(head[2].outerHTML)).toBe(true, 'Should add styles')
       })
 
       Test.start()

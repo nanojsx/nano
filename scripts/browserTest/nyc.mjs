@@ -8,7 +8,7 @@ export const NYC = {
     else spawn('npx', ['nyc', 'instrument', filePath]).stdout.pipe(res)
   },
   report: () => {
-    if (isWin) spawn('powershell.exe', 'npx', 'nyc report --reporter=text'.split(' '), { stdio: 'inherit' })
+    if (isWin) spawn('powershell.exe', 'npx nyc report --reporter=text'.split(' '), { stdio: 'inherit' })
     else spawn('npx', 'nyc report --reporter=text'.split(' '), { stdio: 'inherit' })
   }
 }

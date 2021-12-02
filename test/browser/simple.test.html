@@ -14,7 +14,7 @@
     </script>
 
     <script type="module">
-      Test.description('Simple Test', async () => {
+      describe('Simple Test', async () => {
         const App = () => {
           return h('div', { id: 'root' }, h('h1', {}, 'Hello Nano'))
         }
@@ -26,7 +26,7 @@
       })
 
       // similar to /test/nodejs/props.test.tsx
-      Test.description('Props', async () => {
+      describe('Props', async () => {
         const SingleName = props => {
           return h('li', null, `${props.name} - ${props.children}`)
         }

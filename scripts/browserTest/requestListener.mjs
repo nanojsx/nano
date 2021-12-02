@@ -11,6 +11,8 @@ const __dirname = dirname(__filename)
 
 const testerJS = await readFile(join(__dirname, './tester.js'), { encoding: 'utf-8' })
 
+export const totalPasses = [0, 0]
+
 let _messages = []
 const sendMessages = () => {
   _messages
@@ -18,7 +20,21 @@ const sendMessages = () => {
       a.id - b.id
     })
     .forEach(m => {
-      console.log(m.text)
+      if (m.type === 'end') {
+        const match = m.text.match(/(\d+)\/(\d+).passing/m)
+        if (match) {
+          totalPasses[0] += parseInt(match[1])
+          totalPasses[1] += parseInt(match[2])
+        }
+      }
+
+      // log the text (with 2 spaces more)
+      console.log(
+        m.text
+          .split('\n')
+          .map(l => `  ${l}`)
+          .join('\n')
+      )
     })
 
   _messages = []

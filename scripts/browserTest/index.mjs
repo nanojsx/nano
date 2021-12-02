@@ -6,9 +6,17 @@ import { join, resolve } from 'path'
 import { mkdir, readdir, writeFile } from 'fs/promises'
 import { requestListener } from './requestListener.mjs'
 import { NYC } from './nyc.mjs'
+import { totalPasses } from './requestListener.mjs'
 
 const args = process.argv.splice(2)
 const collectCoverage = args.includes('--coverage')
+
+const ERROR_CODES = {
+  TEST_FAILED: 2,
+  HAS_ERROR: 3
+}
+
+let hasError = false
 
 const server = createServer(requestListener(collectCoverage))
 server.closeAsync = () => new Promise(resolve => server.close(() => resolve()))
@@ -21,7 +29,7 @@ const main = async fileName => {
   const page = await browser.newPage()
 
   // Enable both JavaScript and CSS coverage
-  await page.coverage.startJSCoverage()
+  if (collectCoverage) await page.coverage.startJSCoverage()
 
   // Navigate to page
   let url = `http://localhost:8080/${fileName.replace(/^\+/, '')}`
@@ -31,19 +39,22 @@ const main = async fileName => {
     await page.waitForSelector('#done', { timeout: 15_000 })
   } catch (err) {
     console.log('Error:', err.message)
+    hasError = true
   }
 
   await page.waitForTimeout(100)
 
-  await page.coverage.stopJSCoverage()
+  if (collectCoverage) {
+    await page.coverage.stopJSCoverage()
 
-  const coverage = await page.evaluate(() => {
-    return window.__coverage__
-  })
+    const coverage = await page.evaluate(() => {
+      return window.__coverage__
+    })
 
-  if (coverage && collectCoverage) {
-    const fileName = crypto.createHash('md5').update(JSON.stringify(coverage)).digest('hex')
-    await writeFile(resolve(`./.nyc_output/${fileName}.json`), JSON.stringify(coverage))
+    if (coverage) {
+      const fileName = crypto.createHash('md5').update(JSON.stringify(coverage)).digest('hex')
+      await writeFile(resolve(`./.nyc_output/${fileName}.json`), JSON.stringify(coverage))
+    }
   }
 
   await page.close()
@@ -64,8 +75,17 @@ server.listen(8080, async () => {
     await main(`${DIR}/${files[i]}`)
   }
 
+  console.log(`TOTAL: ${totalPasses[0]}/${totalPasses[1]} passes`)
+  console.log('\n')
+
+  // don't print the report automatically
   // if (collectCoverage) NYC.report()
 
   await browser.close()
   await server.closeAsync()
+
+  // exit on fail
+  if (totalPasses[0] !== totalPasses[1]) process.exit(ERROR_CODES.TEST_FAILED)
+  // exit on error
+  if (hasError) process.exit(ERROR_CODES.HAS_ERROR)
 })

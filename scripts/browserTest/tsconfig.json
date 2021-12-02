@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "target": "ES2017",
+    "module": "UMD",
+
+    "noImplicitAny": false,
+
+    "strict": true,
+    "skipLibCheck": true,
+    "typeRoots": []
+  },
+  "include": ["./**/*.ts"]
+}
