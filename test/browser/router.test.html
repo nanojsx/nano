@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="/tester.js"></script>
+    <script src="/scripts/browserTest/tester.js"></script>
+    <script src="/bundles/nano.instrumented.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <style>
+      #tester {
+        display: none;
+      }
+    </style>
+
+    <script>
+      const { h, render, Component, withStyles, Router, jsx } = nanoJSX
+      const { Route, Switch, to } = Router
+    </script>
+
+    <script type="module">
+      describe('Simple Router', async () => {
+        const root = () => document.getElementById('root')
+
+        const App = ({ path }) => {
+          return jsx`        
+            <${Switch}>
+							<${Route} exact path="/one">topic one</${Route}>
+							<${Route} exact path="/two">topic two</${Route}>
+							<${Route} path="/">topic overview</${Route}>
+            </${Switch}>`
+        }
+
+        render(jsx`<${App}/>`, root())
+        await Test.wait()
+        expect(root().firstChild.firstChild.textContent).toBe('topic overview')
+
+        to('/one')
+        await Test.wait()
+        expect(root().firstChild.firstChild.textContent).toBe('topic one')
+
+        to('/two')
+        await Test.wait()
+        expect(root().firstChild.firstChild.textContent).toBe('topic two')
+      })
+
+      Test.start()
+    </script>
+  </body>
+</html>
