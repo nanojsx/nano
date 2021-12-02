@@ -8,7 +8,16 @@ class Tester {
   stats = { error: 0, warn: 0, success: 0 }
   tests: { description: string; fnc: Function }[] = []
 
-  constructor() {
+  constructor() {}
+
+  toSingleLine(str: string) {
+    return str
+      .split(/\r\n|\n|\r/gm)
+      .map(l => l.trim())
+      .join('')
+  }
+
+  init(ui: boolean) {
     if (this._isAutomated) return
 
     window.addEventListener('DOMContentLoaded', () => {
@@ -23,6 +32,9 @@ class Tester {
       tester.style.minHeight = '100%'
       tester.style.boxSizing = 'border-box'
       document.body.appendChild(tester)
+
+      // show or hide UI
+      tester.style.display = ui ? 'unset' : 'none'
 
       const testerHud = this.createElement(
         'div',
@@ -67,13 +79,6 @@ class Tester {
     })
   }
 
-  toSingleLine(str: string) {
-    return str
-      .split(/\r\n|\n|\r/gm)
-      .map(l => l.trim())
-      .join('')
-  }
-
   end() {
     const total = this.stats.error + this.stats.warn + this.stats.success
     const success = this.stats.success
@@ -89,7 +94,9 @@ class Tester {
     }, 100)
   }
 
-  start() {
+  start(ui = true) {
+    this.init(ui)
+
     // TODO(yandeu): check indent for nested describe()
 
     window.addEventListener('load', async () => {

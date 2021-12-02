@@ -5,11 +5,11 @@ import { existsSync } from 'fs'
 import { join, resolve } from 'path'
 import { mkdir, readdir, writeFile } from 'fs/promises'
 import { requestListener } from './requestListener.mjs'
-import { NYC } from './nyc.mjs'
 import { totalPasses } from './requestListener.mjs'
 
 const args = process.argv.splice(2)
-const collectCoverage = args.includes('--coverage')
+const serve = args.includes('serve')
+const collectCoverage = args.includes('--coverage') && !serve
 
 const ERROR_CODES = {
   TEST_FAILED: 2,
@@ -18,12 +18,10 @@ const ERROR_CODES = {
 
 let hasError = false
 
-const server = createServer(requestListener(collectCoverage))
+const server = createServer(requestListener({ serve, collectCoverage }))
 server.closeAsync = () => new Promise(resolve => server.close(() => resolve()))
 
-const browser = await puppeteer.launch()
-
-const main = async fileName => {
+const main = async ({ fileName, browser }) => {
   console.log(`> ${fileName}`)
 
   const page = await browser.newPage()
@@ -61,6 +59,11 @@ const main = async fileName => {
 }
 
 server.listen(8080, async () => {
+  if (serve) {
+    console.log('Listen on http://localhost:8080/')
+    return
+  }
+
   if (collectCoverage) {
     if (!existsSync('.nyc_output')) await mkdir('.nyc_output', { recursive: true })
     if (!existsSync('coverage')) await mkdir('coverage', { recursive: true })
@@ -68,11 +71,13 @@ server.listen(8080, async () => {
 
   console.log('\n')
 
+  const browser = await puppeteer.launch()
+
   const DIR = 'test/browser'
   const files = await readdir(join(resolve(), DIR))
 
   for (let i = 0; i < files.length; i++) {
-    await main(`${DIR}/${files[i]}`)
+    await main({ fileName: `${DIR}/${files[i]}`, browser })
   }
 
   console.log(`TOTAL: ${totalPasses[0]}/${totalPasses[1]} passes`)

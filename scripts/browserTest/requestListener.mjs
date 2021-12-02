@@ -47,7 +47,7 @@ const queueMessages = message => {
   }, 100)
 }
 
-export const requestListener = collectCoverage => {
+export const requestListener = ({ serve, collectCoverage }) => {
   return async (req, res) => {
     if (req.method === 'POST') {
       let data = ''
