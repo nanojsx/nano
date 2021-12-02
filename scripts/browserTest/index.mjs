@@ -94,3 +94,7 @@ server.listen(8080, async () => {
   // exit on error
   if (hasError) process.exit(ERROR_CODES.HAS_ERROR)
 })
+
+process.on('SIGTERM', () => {
+  server.close()
+})
