@@ -7,17 +7,35 @@ import { types } from 'util'
 
 const { isPromise } = types
 
-export const makeHtml = (body: string) => `<!DOCTYPE html>
+const fontFamily = "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"
+
+export const escapeHtml = (unsafe: string) => {
+  if (unsafe && typeof unsafe === 'string')
+    return unsafe
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&apos;')
+  return unsafe
+}
+
+export const makeHtml = (body: string, more: { head?: string[] } = {}) => {
+  const { head = [] } = more
+
+  return `<!DOCTYPE html>
 <html>
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    ${head.join('\n')}
   </head>
   <body>
     ${body}
   </body>
 </html>`
+}
 
 // https://github.com/nginx/nginx/blob/master/conf/mime.types
 const mime = (fileName: string) => {
@@ -170,7 +188,7 @@ export class Router {
             route.path = route.path.replace(/\/:([^/]+)/gm, '\\/(?<$1>[^\\/]+)')
             route.path = new RegExp(`^${route.path}$`, 'gm')
           } catch (err: any) {
-            console.log('Warn:', err.message)
+            console.log('WARNING:', err.message)
           }
         }
         this._routes.push(route)
@@ -299,10 +317,10 @@ export class TinyServer {
   }
 }
 
-interface ExplorerConfig {
+interface ServeExplorerConfig {
   dotFiles?: boolean
 }
-export const Explorer = (config: ExplorerConfig = {}) => {
+export const ServeExplorer = (config: ServeExplorerConfig = {}) => {
   const { dotFiles = false } = config
 
   return async (req: Request, res: Response, next) => {
@@ -310,6 +328,12 @@ export const Explorer = (config: ExplorerConfig = {}) => {
 
     const stats = await stat(absolutePath)
 
+    // isFile()
+    if (await stats.isFile()) {
+      return res.send.file(absolutePath)
+    }
+
+    // isDirectory()
     if (await stats.isDirectory()) {
       let files = await readdir(absolutePath)
       if (!dotFiles) files = files.filter(f => !basename(f).startsWith('.'))
@@ -321,7 +345,7 @@ export const Explorer = (config: ExplorerConfig = {}) => {
             padding: 0;
           }
           body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: ${fontFamily};
             margin: 0;
             padding: 2.5% 5%;
           }
@@ -332,9 +356,21 @@ export const Explorer = (config: ExplorerConfig = {}) => {
           ul {
             display: flex;
             flex-direction: column;
+            list-style: none;
           }
           li {
             padding: 4px 0px;
+          }
+          li::before {
+            content: "\\2022";
+            color: black;
+            display: inline-block;
+            width: 1em;
+            margin-left: -1em;
+          }
+          li.directory::before {
+            font-weight:bold;
+            content: "/";
           }
           a {
             color: blue;
@@ -347,17 +383,19 @@ export const Explorer = (config: ExplorerConfig = {}) => {
         <h1>${req.url.split('/').join(' / ')}</h1>
         <ul>
           ${files
+            .sort((a: string, b: string) => {
+              if (!extname(a) && !extname(b)) return 0
+              if (!extname(a)) return -1
+              else return 1
+            })
             .map(f => {
               const url = `${req.url}/${f}`.replace(/\/+/gm, '/')
-              return `<li><a href="${url}">${f}</a></li>`
+              return `<li class="${!extname(f) ? 'directory' : ''}"><a href="${url}">${f}</a></li>`
             })
             .join('')}
         </ul>`
 
       return res.send.html(makeHtml(html))
-    } else if (await stats.isFile()) {
-      console.log('is file', absolutePath)
-      return res.send.file(absolutePath)
     }
 
     next()
@@ -374,7 +412,7 @@ export const Explorer = (config: ExplorerConfig = {}) => {
 
 // const main = async () => {
 //   const s = new TinyServer()
-//   s.r.use(Explorer())
+//   s.r.use(ServeExplorer())
 //   s.r.get('/user/:user/:id/hello', async ({ req, res }) => {
 //     // console.log('Params:', req.url, req.params)
 //     res.send.text(`user ${req.params.user}`)
