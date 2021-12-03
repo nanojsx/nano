@@ -1,11 +1,23 @@
 /* eslint-disable no-redeclare */
 import { createReadStream } from 'fs'
 import { createServer, IncomingMessage, Server, ServerResponse } from 'http'
-import { extname, join, resolve } from 'path'
-import { stat } from 'fs/promises'
+import { basename, extname, join, resolve } from 'path'
+import { readdir, stat } from 'fs/promises'
 import { types } from 'util'
 
 const { isPromise } = types
+
+export const makeHtml = (body: string) => `<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body>
+    ${body}
+  </body>
+</html>`
 
 // https://github.com/nginx/nginx/blob/master/conf/mime.types
 const mime = (fileName: string) => {
@@ -53,6 +65,9 @@ export class Response extends ServerResponse {
 
   public get send() {
     return {
+      html: (html: string) => {
+        this.__send(html, 'text/html')
+      },
       text: (text: string) => {
         this.__send(text, 'text/plain')
       },
@@ -186,9 +201,14 @@ export class Router {
         // is middleware
         if (route.isMiddleware) {
           if (pathMatches) {
-            const next = (err?: any) => console.log('FROM NEXT', err)
+            const next = (err?: any) => {} // console.log('FROM NEXT', err)
             const handle = (route.handler as ExpressHandler)(req, res, next)
-            if (isPromise(handle)) await handle
+            if (isPromise(handle))
+              try {
+                await handle
+              } catch (err) {
+                return next(err)
+              }
           }
         }
         // is route
@@ -279,6 +299,71 @@ export class TinyServer {
   }
 }
 
+interface ExplorerConfig {
+  dotFiles?: boolean
+}
+export const Explorer = (config: ExplorerConfig = {}) => {
+  const { dotFiles = false } = config
+
+  return async (req: Request, res: Response, next) => {
+    const absolutePath = join(resolve(), req.url)
+
+    const stats = await stat(absolutePath)
+
+    if (await stats.isDirectory()) {
+      let files = await readdir(absolutePath)
+      if (!dotFiles) files = files.filter(f => !basename(f).startsWith('.'))
+
+      const html = `
+        <style>
+          html {
+            margin: 0;
+            padding: 0;
+          }
+          body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 2.5% 5%;
+          }
+          h1 {
+            margin-left: 24px;
+            font-size: 26px;
+          }
+          ul {
+            display: flex;
+            flex-direction: column;
+          }
+          li {
+            padding: 4px 0px;
+          }
+          a {
+            color: blue;
+            text-decoration: none;
+          }
+          a:hover {
+            text-decoration: underline;
+          }
+        </style>
+        <h1>${req.url.split('/').join(' / ')}</h1>
+        <ul>
+          ${files
+            .map(f => {
+              const url = `${req.url}/${f}`.replace(/\/+/gm, '/')
+              return `<li><a href="${url}">${f}</a></li>`
+            })
+            .join('')}
+        </ul>`
+
+      return res.send.html(makeHtml(html))
+    } else if (await stats.isFile()) {
+      console.log('is file', absolutePath)
+      return res.send.file(absolutePath)
+    }
+
+    next()
+  }
+}
+
 /**
  * quick testing section
  */
@@ -289,6 +374,7 @@ export class TinyServer {
 
 // const main = async () => {
 //   const s = new TinyServer()
+//   s.r.use(Explorer())
 //   s.r.get('/user/:user/:id/hello', async ({ req, res }) => {
 //     // console.log('Params:', req.url, req.params)
 //     res.send.text(`user ${req.params.user}`)
