@@ -129,11 +129,14 @@ export type Context = {
   res: Response
 }
 
+export interface NextFunction {
+  (err?: any): void
+}
 export interface Handler {
   (ctx: Context): void | Promise<any>
 }
 export interface ExpressHandler {
-  (req: Request, res: Response, next: Function): void | Promise<any>
+  (req: Request, res: Response, next: NextFunction): void | Promise<any>
 }
 
 interface Route {
@@ -323,7 +326,7 @@ interface ServeExplorerConfig {
 export const ServeExplorer = (config: ServeExplorerConfig = {}) => {
   const { dotFiles = false } = config
 
-  return async (req: Request, res: Response, next) => {
+  return async (req: Request, res: Response, next: NextFunction) => {
     const absolutePath = join(resolve(), req.url)
 
     const stats = await stat(absolutePath)
