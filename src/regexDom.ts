@@ -1,6 +1,6 @@
 import { escapeHtml } from './helpers'
 
-class HTMLElementSSR {
+export class HTMLElementSSR {
   public tagName: string
   public isSelfClosing: boolean = false
   public nodeType: null | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 = null
@@ -137,7 +137,7 @@ export class DocumentSSR {
   }
 
   createElementNS(_URI: string, tag: string) {
-    return new HTMLElementSSR(tag) as unknown as HTMLElement
+    return this.createElement(tag)
   }
 
   createTextNode(text: string) {

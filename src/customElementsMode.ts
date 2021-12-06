@@ -1,8 +1,19 @@
-import { h, render, _render } from './core'
+import { h, isSSR, render, _render } from './core'
 
 interface CustomElementsParameters {
   mode?: 'open' | 'closed'
   delegatesFocus?: boolean
+}
+
+const defineAsCustomElementsSSR = (
+  component: any,
+  componentName: string,
+  _publicProps: string[] = [],
+  _options: any = {}
+) => {
+  if (!/^[a-zA-Z0-9]+-[a-zA-Z0-9]+$/.test(componentName))
+    console.log(`Error: WebComponent name "${componentName}" is invalid.`)
+  else _nano.customElements.set(componentName, component)
 }
 
 export const defineAsCustomElements: (
@@ -11,6 +22,11 @@ export const defineAsCustomElements: (
   publicProps: string[],
   params?: CustomElementsParameters
 ) => void = function (component, componentName, publicProps, { mode = 'closed', delegatesFocus = false } = {}) {
+  if (isSSR()) {
+    defineAsCustomElementsSSR(component, componentName, publicProps)
+    return
+  }
+
   customElements.define(
     componentName,
     class extends HTMLElement {
