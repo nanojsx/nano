@@ -7,6 +7,7 @@ declare var _nano: {
   document: Document
   isSSR: true | undefined
   location: { pathname: string }
+  customElements: Map<string, any>
 }
 
 declare namespace Deno {}

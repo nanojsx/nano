@@ -7,7 +7,7 @@ const initGlobalVar = () => {
   const isSSR = detectSSR() === true ? true : undefined
   const location = { pathname: '/' }
   const document = isSSR ? documentSSR() : window.document
-  globalThis._nano = { isSSR, location, document }
+  globalThis._nano = { isSSR, location, document, customElements: new Map() }
 }
 initGlobalVar()
 

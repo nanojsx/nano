@@ -1,4 +1,5 @@
 import './core.types.ts'
+import { HTMLElementSSR } from './regexDom.ts'
 
 export const isSSR = () => typeof _nano !== 'undefined' && _nano.isSSR === true
 
@@ -68,6 +69,8 @@ export const appendChildren = (element: HTMLElement | SVGElement, children: HTML
 const SVG = (props: any) => {
   const child = props.children[0] as SVGElement
   const attrs = child.attributes
+
+  if (isSSR()) return child
 
   const svg = hNS('svg') as SVGElement
   for (let i = attrs.length - 1; i >= 0; i--) {
@@ -144,7 +147,7 @@ export const _render = (comp: any): any => {
   if (Array.isArray(comp)) return comp.map(c => _render(c)).flat()
 
   // function
-  if (typeof comp === 'function') return _render(comp())
+  if (typeof comp === 'function' && !comp.isClass) return _render(comp())
 
   // if component is a HTMLElement (rare case)
   if (comp.component && comp.component.tagName && typeof comp.component.tagName === 'string')
@@ -158,6 +161,9 @@ export const _render = (comp: any): any => {
 
   // object
   if (typeof comp === 'object') return []
+
+  // sometimes in SSR
+  if (comp.isClass) return new comp().render()
 
   console.warn('Something unexpected happened with:', comp)
 }
@@ -199,6 +205,30 @@ const hNS = (tag: string) => document.createElementNS('http://www.w3.org/2000/sv
 
 // https://stackoverflow.com/a/42405694/12656855
 export const h = (tagNameOrComponent: any, props: any, ...children: any) => {
+  // render WebComponent in SSR
+  if (
+    isSSR() &&
+    typeof tagNameOrComponent === 'string' &&
+    tagNameOrComponent.includes('-') &&
+    _nano.customElements.has(tagNameOrComponent)
+  ) {
+    const customElement = _nano.customElements.get(tagNameOrComponent)
+    const component = _render({ component: customElement, props: { ...props, children: children } }) as HTMLElementSSR
+    // get the html tag and the innerText from string
+    // match[1]: HTMLTag
+    // match[2]: innerText
+    const match = component.toString().match(/^<(?<tag>[a-z]+)>(.*)<\/\k<tag>>$/)
+    if (match) {
+      const element = new HTMLElementSSR(match[1])
+      element.innerText = match[2]
+      // remove events like onClick from DOM
+      element.innerText = element.innerText.replace(/\son\w+={[^}]+}|\son\w+="[^}]+"/gm, '')
+      return element
+    } else {
+      return 'COULD NOT RENDER WEB-COMPONENT'
+    }
+  }
+
   // if tagNameOrComponent is a component
   if (typeof tagNameOrComponent !== 'string')
     return { component: tagNameOrComponent, props: { ...props, children: children } }
@@ -239,9 +269,13 @@ export const h = (tagNameOrComponent: any, props: any, ...children: any) => {
     else if (isEvent(element, p.toLowerCase()))
       element.addEventListener(p.toLowerCase().substring(2), (e: any) => props[p](e))
     else if (p === 'dangerouslySetInnerHTML') {
-      const fragment = document.createElement('fragment')
-      fragment.innerHTML = props[p].__html
-      element.appendChild(fragment)
+      if (!isSSR()) {
+        const fragment = document.createElement('fragment')
+        fragment.innerHTML = props[p].__html
+        element.appendChild(fragment)
+      } else {
+        element.innerHTML = props[p].__html
+      }
     } else if (/className/i.test(p)) console.warn('You can use "class" instead of "className".')
     else if (typeof props[p] !== 'undefined') element.setAttribute(p, props[p])
   }
