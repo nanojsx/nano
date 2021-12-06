@@ -2,6 +2,7 @@ const path = require('path')
 
 module.exports = {
   mode: 'development',
+  stats: 'errors-warnings',
   devtool: 'source-map',
   entry: './src/bundles/bundle.full.ts',
   output: {
