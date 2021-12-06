@@ -3,7 +3,7 @@
   "collectCoverageFrom": [
     "lib/**/*.js",
     "!lib/{bundles,dev,htm,ui}/**",
-    "!lib/mod.ts"
+    "!lib/mod.js"
   ],
   "maxConcurrency": 2,
   "maxWorkers": 2,
