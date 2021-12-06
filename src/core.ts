@@ -241,9 +241,13 @@ export const h = (tagNameOrComponent: any, props: any, ...children: any) => {
     else if (isEvent(element, p.toLowerCase()))
       element.addEventListener(p.toLowerCase().substring(2), (e: any) => props[p](e))
     else if (p === 'dangerouslySetInnerHTML') {
-      const fragment = document.createElement('fragment')
-      fragment.innerHTML = props[p].__html
-      element.appendChild(fragment)
+      if (!isSSR()) {
+        const fragment = document.createElement('fragment')
+        fragment.innerHTML = props[p].__html
+        element.appendChild(fragment)
+      } else {
+        element.innerHTML = props[p].__html
+      }
     } else if (/className/i.test(p)) console.warn('You can use "class" instead of "className".')
     else if (typeof props[p] !== 'undefined') element.setAttribute(p, props[p])
   }

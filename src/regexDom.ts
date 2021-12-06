@@ -37,16 +37,15 @@ class HTMLElementSSR {
   }
 
   get outerHTML() {
-    return this._ssr
+    return this.toString()
   }
 
   get innerHTML(): string {
-    const reg = /(^<[a-z]+>)([\s\S]*)(<\/[a-z]+>$)/gm
-    return reg.exec(this._ssr)?.[2] || ''
+    return this.innerText
   }
 
   set innerHTML(text) {
-    this._ssr = text
+    this.innerText = text
   }
 
   get innerText(): string {
