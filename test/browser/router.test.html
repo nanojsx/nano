@@ -18,7 +18,7 @@
 
     <script>
       const { h, render, Component, withStyles, Router, jsx } = nanoJSX
-      const { Route, Switch, Link, to, Listener } = Router
+      const { Route, Routes, Switch, Link, to, Listener } = Router
       const href = window.location.href
       const pathname = window.location.pathname
       const root = () => document.getElementById('root')
@@ -33,6 +33,31 @@
 							<${Route} exact path="/two">topic two</${Route}>
 							<${Route} path="/">topic overview</${Route}>
             </${Switch}>`
+        }
+
+        render(jsx`<${App}/>`, root())
+        await Test.wait()
+        expect(root().firstChild.firstChild.textContent).toBe('topic overview')
+
+        to('/one', false)
+        await Test.wait()
+        expect(root().firstChild.firstChild.textContent).toBe('topic one', 'Navigate to /one (historyPush)')
+
+        to('/two', true)
+        await Test.wait()
+        expect(root().firstChild.firstChild.textContent).toBe('topic two', 'Navigate to /one (historyReplace)')
+
+        to(href)
+      })
+
+      describe('Simple Router (Routes aka Switch)', async () => {
+        let App = ({ path }) => {
+          return jsx`        
+            <${Routes}>
+							<${Route} exact path="/one">topic one</${Route}>
+							<${Route} exact path="/two">topic two</${Route}>
+							<${Route} path="/">topic overview</${Route}>
+            </${Routes}>`
         }
 
         render(jsx`<${App}/>`, root())
