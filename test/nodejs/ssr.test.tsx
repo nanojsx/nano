@@ -76,6 +76,14 @@ describe('escape dangerous html', () => {
     expect(html).toBe('<div><h1>title</h1><p>des<ription</p></div>')
   })
 
+  test('should keep dangerous string (modern dangerouslySetInnerHTML)', () => {
+    const h1 = Nano.h('h1', {}, 'title')
+    const p = Nano.h('p', { innerHTML: { __dangerousHtml: 'des<ription' } })
+    const div = Nano.h('div', {}, h1, p)
+    const html = renderSSR(div)
+    expect(html).toBe('<div><h1>title</h1><p>des<ription</p></div>')
+  })
+
   test('should escape text node', () => {
     const content = Nano.h('div', {}, '<span>span</span>')
     const html = renderSSR(content)

@@ -268,7 +268,8 @@ export const h = (tagNameOrComponent: any, props: any, ...children: any) => {
     // handle events
     else if (isEvent(element, p.toLowerCase()))
       element.addEventListener(p.toLowerCase().substring(2), (e: any) => props[p](e))
-    else if (p === 'dangerouslySetInnerHTML') {
+    // dangerouslySetInnerHTML
+    else if (p === 'dangerouslySetInnerHTML' && props[p].__html) {
       if (!isSSR()) {
         const fragment = document.createElement('fragment')
         fragment.innerHTML = props[p].__html
@@ -276,7 +277,20 @@ export const h = (tagNameOrComponent: any, props: any, ...children: any) => {
       } else {
         element.innerHTML = props[p].__html
       }
-    } else if (/className/i.test(p)) console.warn('You can use "class" instead of "className".')
+    }
+    // modern dangerouslySetInnerHTML
+    else if (p === 'innerHTML' && props[p].__dangerousHtml) {
+      if (!isSSR()) {
+        const fragment = document.createElement('fragment')
+        fragment.innerHTML = props[p].__dangerousHtml
+        element.appendChild(fragment)
+      } else {
+        element.innerHTML = props[p].__dangerousHtml
+      }
+    }
+    // className
+    else if (/className/i.test(p)) console.warn('You can use "class" instead of "className".')
+    // setAttribute
     else if (typeof props[p] !== 'undefined') element.setAttribute(p, props[p])
   }
 
