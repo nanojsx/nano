@@ -125,6 +125,9 @@ export const _render = (comp: any): any => {
   // null
   if (comp == null) return []
 
+  // false
+  if (comp === false) return []
+
   // string
   if (typeof comp === 'string') return comp
 
