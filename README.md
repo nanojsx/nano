@@ -42,6 +42,10 @@
 - Check out the [sandbox](https://codepen.io/yandeu/pen/MWKMmbq)
 - Try the [deno example](https://github.com/nanojsx/nano-jsx-deno-example)
 
+## Video Tutorial
+
+<a href="https://www.youtube.com/playlist?list=PLC2Z8IWl1XDJI4Ah7ABolQ79AugF_eH1g"><img width="300" src="https://raw.githubusercontent.com/nanojsx/nano/master/readme/thumbnail.png" /></a>
+
 ## Features
 
 The best about Nano JSX is the **small bundle size**. It builds, although is sound crazy, bundles as small as svelte!
