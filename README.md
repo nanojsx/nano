@@ -31,6 +31,7 @@
   <a href="https://www.typescriptlang.org/"><img src="https://img.shields.io/badge/built%20with-TypeScript-blue?style=flat-square"></a>
   <a href="https://codecov.io/gh/nanojsx/nano"><img src="https://img.shields.io/codecov/c/github/nanojsx/nano?logo=codecov&style=flat-square" alt="Codecov"/></a>
   <img src="https://img.shields.io/node/v/nano-jsx.svg?style=flat-square" alt="Node version"/>
+  <a href="https://discord.gg/96PGJeB8xf"> <img src="https://img.shields.io/discord/912874504877912075?color=%237289da&label=discord&logo=discord" alt="Join our discord server!"></a>
 </p>
 
 <hr>
