@@ -1,7 +1,21 @@
 # syntax: https://docs.github.com/en/actions/learn-github-actions/workflow-syntax-for-github-actions
 name: Browser
 
-on: [push, pull_request]
+on:
+  push:
+    paths-ignore:
+      - '**.md'
+      - '.vscode/**'
+      - 'bundles/**'
+      - 'dev/**'
+      - 'readme/**'
+  pull_request:
+    paths-ignore:
+      - '**.md'
+      - '.vscode/**'
+      - 'bundles/**'
+      - 'dev/**'
+      - 'readme/**'
 
 jobs:
   build:
