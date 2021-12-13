@@ -1,7 +1,18 @@
+/**
+ * @jest-environment node
+ */
+
 import Nano, { Component, createContext, useContext } from '../../lib/index.js'
-import { wait, nodeToString } from './helpers.js'
+import { initSSR, renderSSR } from '../../lib/ssr.js'
+
+/**
+ * @description
+ * Same as "context.test.tsx" but for SSR.
+ */
 
 const spy = jest.spyOn(global.console, 'error')
+
+initSSR()
 
 test('should render without errors', async () => {
   const MyContext = createContext('john')
@@ -23,37 +34,31 @@ test('should render without errors', async () => {
   class Parent extends Component {
     render() {
       return (
-        <MyContext.Provider value={this.props.name}>
-          <Child />
-        </MyContext.Provider>
+        <div id="root">
+          <MyContext.Provider value={this.props.name}>
+            <Child />
+          </MyContext.Provider>
+        </div>
       )
     }
   }
 
   // render
-  let res = Nano.render(
-    <div id="root">
-      <Parent name="suzanne" />
-    </div>
-  )
-  await wait()
-  expect(nodeToString(res)).toBe('<div id="root"><p>suzanne</p></div>')
+  const defaultRender = renderSSR(<Parent name="suzanne" />)
+  expect(defaultRender).toBe('<div id="root"><p>suzanne</p></div>')
+
   expect(spy).not.toHaveBeenCalled()
 
   // render again and change the context in didMount()
-  res = Nano.render(
-    <div id="root">
-      <Parent name="yannick" />
-    </div>
-  )
-  await wait()
-  expect(nodeToString(res)).toBe('<div id="root"><p>aika</p></div>')
+  const changedRender = renderSSR(<Parent name="yannick" />)
+  expect(changedRender).toBe('<div id="root"><p>aika</p></div>')
+
   expect(spy).not.toHaveBeenCalled()
 
   // set/get context outside components
-  expect(MyContext.get()).toBe('aika')
+  expect(useContext(MyContext)).toBe('aika')
   MyContext.set('tom')
-  expect(MyContext.get()).toBe('tom')
+  expect(useContext(MyContext)).toBe('tom')
 
   expect(spy).not.toHaveBeenCalled()
 })
@@ -73,20 +78,16 @@ test('should render without errors', async () => {
 
   const Parent = (props: any) => {
     return (
-      <MyContext.Provider value={props.name}>
-        <Child />
-      </MyContext.Provider>
+      <div id="root">
+        <MyContext.Provider value={props.name}>
+          <Child />
+        </MyContext.Provider>
+      </div>
     )
   }
 
-  const res = Nano.render(
-    <div id="root">
-      <Parent name="john" />
-    </div>
-  )
-
-  await wait()
-  expect(nodeToString(res)).toBe('<div id="root"><p>john</p></div>')
+  const defaultRender = renderSSR(<Parent name="john" />)
+  expect(defaultRender).toBe('<div id="root"><p>john</p></div>')
   expect(spy).not.toHaveBeenCalled()
 })
 
@@ -94,8 +95,12 @@ test('should render without errors', async () => {
   const UserContext = createContext('Unknown')
 
   class Child extends Component {
-    render() {
+
+    willMount() {
       if (useContext(UserContext) === 'yannick') UserContext.set('aika')
+    }
+
+    render() {
       const value = useContext(UserContext)
 
       return <p>{value}</p>
@@ -105,31 +110,24 @@ test('should render without errors', async () => {
   class Parent extends Component {
     render() {
       return (
-        <UserContext.Provider value={this.props.name}>
-          <Child />
-        </UserContext.Provider>
+        <div id="root">
+          <UserContext.Provider value={this.props.name}>
+            <Child />
+          </UserContext.Provider>
+        </div>
       )
     }
   }
 
-  // render
-  let res = Nano.render(
-    <div id="root">
-      <Parent name="suzanne" />
-    </div>
-  )
-  await wait()
-  expect(nodeToString(res)).toBe('<div id="root"><p>suzanne</p></div>')
+  const defaultRender = renderSSR(<Parent name="suzanne" />)
+  expect(defaultRender).toBe('<div id="root"><p>suzanne</p></div>')
+
   expect(spy).not.toHaveBeenCalled()
 
-  // render again and change the context in didMount()
-  res = Nano.render(
-    <div id="root">
-      <Parent name="yannick" />
-    </div>
-  )
-  await wait()
-  expect(nodeToString(res)).toBe('<div id="root"><p>aika</p></div>')
+  // render again and change the context in willMount()
+  const changedRender = renderSSR(<Parent name="yannick" />)
+  expect(changedRender).toBe('<div id="root"><p>aika</p></div>')
+
   expect(spy).not.toHaveBeenCalled()
 
   // set/get context outside components
@@ -150,19 +148,15 @@ test('should render without errors', async () => {
 
   const Parent = (props: any) => {
     return (
-      <UserContext.Provider value={props.name}>
-        <Child />
-      </UserContext.Provider>
+      <div id="root">
+        <UserContext.Provider value={props.name}>
+          <Child />
+        </UserContext.Provider>
+      </div>
     )
   }
 
-  const res = Nano.render(
-    <div id="root">
-      <Parent name="john" />
-    </div>
-  )
-
-  await wait()
-  expect(nodeToString(res)).toBe('<div id="root"><p>john</p></div>')
+  const defaultRender = renderSSR(<Parent name="john" />)
+  expect(defaultRender).toBe('<div id="root"><p>john</p></div>')
   expect(spy).not.toHaveBeenCalled()
 })

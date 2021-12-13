@@ -14,8 +14,8 @@ export const createContext = (ctx: any) => {
 }
 
 export const useContext = (ctx: any) => {
-  let _ctx = ctx
-  if (_ctx && typeof(_ctx.get) == "function") {
+  const _ctx = ctx
+  if (_ctx && typeof _ctx.get === 'function') {
     return _ctx.get()
   }
 }
