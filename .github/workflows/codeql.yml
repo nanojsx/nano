@@ -1,15 +1,14 @@
-# syntax: https://docs.github.com/en/actions/learn-github-actions/workflow-syntax-for-github-actions
 name: 'CodeQL'
 
 on:
   push:
     paths:
-      - '.github/**'
       - 'src/**'
+      - '.github/**'
   pull_request:
     paths:
-      - '.github/**'
       - 'src/**'
+      - '.github/**'
 
 jobs:
   analyze:
@@ -24,7 +23,7 @@ jobs:
         uses: github/codeql-action/init@v1
         with:
           languages: typescript
-          config-file: ./.github/codeql/codeql-config.yml
+          config-file: ./.github/config/codeql.yml
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v1
