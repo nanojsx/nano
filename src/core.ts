@@ -224,8 +224,14 @@ export const h = (tagNameOrComponent: any, props: any, ...children: any) => {
     if (match) {
       const element = new HTMLElementSSR(match[1])
       element.innerText = match[2]
+
+      // eslint-disable-next-line no-inner-declarations
+      function replacer(match: string, p1: string, _offset: number, _string: string): string {
+        return match.replace(p1, '')
+      }
       // remove events like onClick from DOM
-      element.innerText = element.innerText.replace(/\son\w+={[^}]+}|\son\w+="[^}]+"/gm, '')
+      element.innerText = element.innerText.replace(/<\w+[^>]*(\s(on\w*)="[^"]*")/gm, replacer)
+
       return element
     } else {
       return 'COULD NOT RENDER WEB-COMPONENT'
