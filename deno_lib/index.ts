@@ -20,7 +20,7 @@ export { nodeToString, task } from './helpers.ts'
 export { renderSSR } from './ssr.ts'
 export { Fragment } from './fragment.ts'
 export { Store } from './store.ts'
-export { createContext } from './context.ts'
+export { createContext, useContext } from './context.ts'
 export { withStyles } from './withStyles.ts'
 export { defineAsCustomElements } from './customElementsMode.ts'
 

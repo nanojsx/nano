@@ -12,3 +12,10 @@ export const createContext = (ctx: any) => {
     set: (ctx: any) => (_ctx = ctx)
   }
 }
+
+export const useContext = (ctx: any) => {
+  const _ctx = ctx
+  if (_ctx && typeof _ctx.get === 'function') {
+    return _ctx.get()
+  }
+}

@@ -143,6 +143,9 @@ export const _render = (comp: any): any => {
   // Class Component
   if (comp && comp.component && comp.component.isClass) return renderClassComponent(comp)
 
+  // Class Component (Uninitialized)
+  if (comp.isClass) return renderClassComponent({ component: comp, props: {} })
+
   // Functional Component
   if (comp.component && typeof comp.component === 'function') return renderFunctionalComponent(comp)
 
@@ -165,9 +168,6 @@ export const _render = (comp: any): any => {
   // object
   if (typeof comp === 'object') return []
 
-  // sometimes in SSR
-  if (comp.isClass) return new comp().render()
-
   console.warn('Something unexpected happened with:', comp)
 }
 
@@ -186,7 +186,7 @@ const renderClassComponent = (classComp: any): any => {
   component.prototype._getHash = () => hash
 
   const Component = new component(props)
-  Component.willMount()
+  if (!isSSR()) Component.willMount()
 
   let el = Component.render()
   el = _render(el)
@@ -224,8 +224,14 @@ export const h = (tagNameOrComponent: any, props: any, ...children: any) => {
     if (match) {
       const element = new HTMLElementSSR(match[1])
       element.innerText = match[2]
+
+      // eslint-disable-next-line no-inner-declarations
+      function replacer(match: string, p1: string, _offset: number, _string: string): string {
+        return match.replace(p1, '')
+      }
       // remove events like onClick from DOM
-      element.innerText = element.innerText.replace(/\son\w+={[^}]+}|\son\w+="[^}]+"/gm, '')
+      element.innerText = element.innerText.replace(/<\w+[^>]*(\s(on\w*)="[^"]*")/gm, replacer)
+
       return element
     } else {
       return 'COULD NOT RENDER WEB-COMPONENT'
@@ -271,7 +277,8 @@ export const h = (tagNameOrComponent: any, props: any, ...children: any) => {
     // handle events
     else if (isEvent(element, p.toLowerCase()))
       element.addEventListener(p.toLowerCase().substring(2), (e: any) => props[p](e))
-    else if (p === 'dangerouslySetInnerHTML') {
+    // dangerouslySetInnerHTML
+    else if (p === 'dangerouslySetInnerHTML' && props[p].__html) {
       if (!isSSR()) {
         const fragment = document.createElement('fragment')
         fragment.innerHTML = props[p].__html
@@ -279,7 +286,20 @@ export const h = (tagNameOrComponent: any, props: any, ...children: any) => {
       } else {
         element.innerHTML = props[p].__html
       }
-    } else if (/className/i.test(p)) console.warn('You can use "class" instead of "className".')
+    }
+    // modern dangerouslySetInnerHTML
+    else if (p === 'innerHTML' && props[p].__dangerousHtml) {
+      if (!isSSR()) {
+        const fragment = document.createElement('fragment')
+        fragment.innerHTML = props[p].__dangerousHtml
+        element.appendChild(fragment)
+      } else {
+        element.innerHTML = props[p].__dangerousHtml
+      }
+    }
+    // className
+    else if (/className/i.test(p)) console.warn('You can use "class" instead of "className".')
+    // setAttribute
     else if (typeof props[p] !== 'undefined') element.setAttribute(p, props[p])
   }
 
