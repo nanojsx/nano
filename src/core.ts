@@ -143,6 +143,9 @@ export const _render = (comp: any): any => {
   // Class Component
   if (comp && comp.component && comp.component.isClass) return renderClassComponent(comp)
 
+  // Class Component (Uninitialized)
+  if (comp.isClass) return renderClassComponent({ component: comp, props: {} })
+
   // Functional Component
   if (comp.component && typeof comp.component === 'function') return renderFunctionalComponent(comp)
 
@@ -164,9 +167,6 @@ export const _render = (comp: any): any => {
 
   // object
   if (typeof comp === 'object') return []
-
-  // sometimes in SSR
-  if (comp.isClass) return new comp().render()
 
   console.warn('Something unexpected happened with:', comp)
 }
