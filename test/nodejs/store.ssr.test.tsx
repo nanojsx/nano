@@ -13,7 +13,9 @@ test('should render without errors', async () => {
   class App extends Component {
     store = myStore.use()
 
-    willMount() {
+    constructor(props: any) {
+      super(props)
+
       expect(myStore.state.name).toBe('Hulk')
 
       myStore.setState({ name: 'Thor' })

@@ -186,7 +186,7 @@ const renderClassComponent = (classComp: any): any => {
   component.prototype._getHash = () => hash
 
   const Component = new component(props)
-  Component.willMount()
+  if (!isSSR()) Component.willMount()
 
   let el = Component.render()
   el = _render(el)

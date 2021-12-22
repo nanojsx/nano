@@ -95,8 +95,8 @@ test('should render without errors', async () => {
   const UserContext = createContext('Unknown')
 
   class Child extends Component {
-
-    willMount() {
+    constructor(props: any) {
+      super(props)
       if (useContext(UserContext) === 'yannick') UserContext.set('aika')
     }
 
@@ -124,7 +124,7 @@ test('should render without errors', async () => {
 
   expect(spy).not.toHaveBeenCalled()
 
-  // render again and change the context in willMount()
+  // render again and change the context in constructor()
   const changedRender = renderSSR(<Parent name="yannick" />)
   expect(changedRender).toBe('<div id="root"><p>aika</p></div>')
 
