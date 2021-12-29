@@ -5,6 +5,13 @@
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
   "type": "commonjs",
+  "exports": {
+    ".": "./lib/index.js",
+    "./hooks/useState":"./lib/hooks/useState.js",
+    "./htm": "./lib/htm.js",
+    "./jsx-runtime": "./lib/jsx-runtime/index.js",
+    "./ui": "./lib/ui/index.js"
+  },
   "scripts": {
     "start": "npm run dev",
     "version": "extract version src/version.ts && prettier --write src/version.ts",
