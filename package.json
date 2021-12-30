@@ -5,12 +5,12 @@
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
   "type": "commonjs",
-  "exports": {
-    ".": "./lib/index.js",
-    "./hooks/useState":"./lib/hooks/useState.js",
-    "./htm": "./lib/htm.js",
-    "./jsx-runtime": "./lib/jsx-runtime/index.js",
-    "./ui": "./lib/ui/index.js"
+  "browser": {
+    "./lib/index.js": "./lib/index.js",
+    "./lib/hooks/useState":"./lib/hooks/useState.js",
+    "./lib/htm": "./lib/htm.js",
+    "./lib/jsx-runtime": "./lib/jsx-runtime/index.js",
+    "./lib/ui": "./lib/ui/index.js"
   },
   "scripts": {
     "start": "npm run dev",
