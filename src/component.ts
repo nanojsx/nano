@@ -7,6 +7,7 @@ export class Component<P extends Object = any, S = any> {
   public id: string
   private _elements: HTMLElement[] = []
   private _skipUnmount = false
+  private _preUpdate = false
   private _hasUpdated = false
   private _hasUnmounted = false
 
@@ -75,6 +76,12 @@ export class Component<P extends Object = any, S = any> {
     this.didMount()
   }
 
+  private _willUpdate(): any {
+    if (!this._preUpdate) return
+    this.willUpdate()
+    this._preUpdate = false
+  }
+
   private _didUpdate(): any {
     if (!this._hasUpdated) return
     this.didUpdate()
@@ -89,6 +96,7 @@ export class Component<P extends Object = any, S = any> {
 
   public willMount(): any {}
   public didMount(): any {}
+  public willUpdate(): any {}
   public didUpdate(): any {}
   public didUnmount(): any {}
 
@@ -97,6 +105,8 @@ export class Component<P extends Object = any, S = any> {
   /** Will forceRender the component */
   public update(update?: any) {
     this._skipUnmount = true
+    this._preUpdate = true
+    this._willUpdate()
     // get all current rendered node elements
     const oldElements = [...this.elements]
 

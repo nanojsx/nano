@@ -155,7 +155,7 @@ test('should render without errors', async () => {
 })
 
 test('should render without errors', async () => {
-  const app = { mount: 0, didupdate: 0, unmount: 0 }
+  const app = { mount: 0, willupdate: 0, didupdate: 0, unmount: 0 }
 
   class App extends Component {
     constructor(props: any) {
@@ -180,6 +180,10 @@ test('should render without errors', async () => {
       }, 900)
     }
 
+    willUpdate() {
+      app.willupdate++
+    }
+
     didUpdate() {
       app.didupdate++
     }
@@ -196,18 +200,21 @@ test('should render without errors', async () => {
   await wait()
   expect(res.innerHTML).toBe('<div><ul><li>default</li><li>default</li></ul></div>')
   expect(app.mount).toBe(1)
+  expect(app.willupdate).toBe(0)
   expect(app.didupdate).toBe(0)
   expect(app.unmount).toBe(0)
 
   await wait(400)
   expect(res.innerHTML).toBe('<div><ul><li>nano</li><li>jsx</li></ul></div>')
   expect(app.mount).toBe(1)
+  expect(app.willupdate).toBe(1)
   expect(app.didupdate).toBe(1)
   expect(app.unmount).toBe(0)
 
   await wait(700)
   expect(res.innerHTML).toBe('<div><ul><li>clean</li><li>code</li></ul></div>')
   expect(app.mount).toBe(1)
+  expect(app.willupdate).toBe(2)
   expect(app.didupdate).toBe(2)
   expect(app.unmount).toBe(0)
 
