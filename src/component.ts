@@ -7,6 +7,7 @@ export class Component<P extends Object = any, S = any> {
   public id: string
   private _elements: HTMLElement[] = []
   private _skipUnmount = false
+  private _hasUpdated = false
   private _hasUnmounted = false
 
   constructor(props: P) {
@@ -74,6 +75,12 @@ export class Component<P extends Object = any, S = any> {
     this.didMount()
   }
 
+  private _didUpdate(): any {
+    if (!this._hasUpdated) return
+    this.didUpdate()
+    this._hasUpdated = false
+  }
+
   private _didUnmount(): any {
     if (this._hasUnmounted) return
     this.didUnmount()
@@ -82,6 +89,7 @@ export class Component<P extends Object = any, S = any> {
 
   public willMount(): any {}
   public didMount(): any {}
+  public didUpdate(): any {}
   public didUnmount(): any {}
 
   public render(_update?: any): HTMLElement | void {}
@@ -125,8 +133,10 @@ export class Component<P extends Object = any, S = any> {
 
     // @ts-ignore
     tick(() => {
+      this._hasUpdated = true
       this._skipUnmount = false
       if (!this.elements[0].isConnected) this._didUnmount()
+      else this._didUpdate()
     })
   }
 
