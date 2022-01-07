@@ -8,7 +8,7 @@
   "browser": {
     "./lib/index.js": "./lib/index.js",
     "./lib/hooks/useState":"./lib/hooks/useState.js",
-    "./lib/htm": "./lib/htm.js",
+    "./lib/htm": "./lib/htm/index.js",
     "./lib/jsx-runtime": "./lib/jsx-runtime/index.js",
     "./lib/ui": "./lib/ui/index.js"
   },
