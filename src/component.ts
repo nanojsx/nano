@@ -7,8 +7,6 @@ export class Component<P extends Object = any, S = any> {
   public id: string
   private _elements: HTMLElement[] = []
   private _skipUnmount = false
-  private _preUpdate = false
-  private _hasUpdated = false
   private _hasUnmounted = false
 
   constructor(props: P) {
@@ -77,15 +75,11 @@ export class Component<P extends Object = any, S = any> {
   }
 
   private _willUpdate(): any {
-    if (!this._preUpdate) return
     this.willUpdate()
-    this._preUpdate = false
   }
 
   private _didUpdate(): any {
-    if (!this._hasUpdated) return
     this.didUpdate()
-    this._hasUpdated = false
   }
 
   private _didUnmount(): any {
@@ -105,7 +99,6 @@ export class Component<P extends Object = any, S = any> {
   /** Will forceRender the component */
   public update(update?: any) {
     this._skipUnmount = true
-    this._preUpdate = true
     this._willUpdate()
     // get all current rendered node elements
     const oldElements = [...this.elements]
@@ -143,7 +136,6 @@ export class Component<P extends Object = any, S = any> {
 
     // @ts-ignore
     tick(() => {
-      this._hasUpdated = true
       this._skipUnmount = false
       if (!this.elements[0].isConnected) this._didUnmount()
       else this._didUpdate()

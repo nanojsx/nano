@@ -211,7 +211,7 @@ test('should render without errors', async () => {
   expect(app.didupdate).toBe(1)
   expect(app.unmount).toBe(0)
 
-  await wait(700)
+  await wait(1000)
   expect(res.innerHTML).toBe('<div><ul><li>clean</li><li>code</li></ul></div>')
   expect(app.mount).toBe(1)
   expect(app.willupdate).toBe(2)
