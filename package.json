@@ -12,6 +12,7 @@
     "format:check": "prettier --check src",
     "lint": "eslint src --ext .ts,.tsx",
     "lint:fix": "eslint --fix src --ext .ts,.tsx",
+    "docs": "rimraf docs && npx typedoc --name \"Nano JSX API\" --excludePrivate --readme none",
     "deno": "deno run --allow-net -c tsconfig.deno.json deno.dev.tsx",
     "denoify": "rimraf deno_lib && denoify && rimraf deno_lib/bundles deno_lib/dev",
     "tsc": "npm run version && tsc --project tsconfig.json",

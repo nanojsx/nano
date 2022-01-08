@@ -1,0 +1,15 @@
+{
+  "entryPoints": [
+    "src/core.ts",
+    "src/component.ts",
+    "src/fragment.ts",
+    "src/components/index.ts",
+    "src/hooks/index.ts",
+    "src/store.ts",
+    "src/ssr.ts",
+    "src/context.ts",
+    "src/withStyles.ts",
+    "src/version.ts"
+  ],
+  "out": "docs"
+}
