@@ -5,6 +5,14 @@
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
   "type": "commonjs",
+  "browser": {
+    "./lib/index.js": "./lib/index.js",
+    "./lib/hooks":"./lib/hooks/index.js",
+    "./lib/htm": "./lib/htm/index.js",
+    "./lib/jsx-runtime": "./lib/jsx-runtime/index.js",
+    "./lib/ui": "./lib/ui/index.js",
+    "./lib/components": "./lib/components/index.js"
+  },
   "scripts": {
     "start": "npm run dev",
     "version": "extract version src/version.ts && prettier --write src/version.ts",
