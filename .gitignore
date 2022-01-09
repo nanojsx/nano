@@ -10,6 +10,3 @@
 /package-lock.json
 /test/**/*.js
 /scripts/browserTest/tester.js
-/scripts/tinyServer/*.d.ts
-/scripts/tinyServer/*.js
-/scripts/tinyServer/*.map

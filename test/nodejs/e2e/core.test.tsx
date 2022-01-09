@@ -1,8 +1,8 @@
 import puppeteer, { Browser, Page } from 'puppeteer'
-import { TinyServer } from '../../../scripts/tinyServer'
+import { TinyServerHttp } from 'tiny-http2-server'
 
 const port = Math.floor(Math.random() * 6000 + 3000)
-const server = new TinyServer()
+const server = new TinyServerHttp()
 
 server.r.get('/index.html', async ({ res }) => res.send.file('test/nodejs/e2e/assets/index.html'))
 server.r.get('/toggle.html', async ({ res }) => res.send.file('test/nodejs/e2e/assets/toggle.html'))

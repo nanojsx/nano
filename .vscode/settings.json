@@ -1,6 +1,3 @@
 {
-  "typescript.tsdk": "node_modules/typescript/lib",
-  "files.exclude": {
-    "scripts/tinyServer/*{.js,.d.ts,.map}": true
-  }
+  "typescript.tsdk": "node_modules/typescript/lib"
 }
