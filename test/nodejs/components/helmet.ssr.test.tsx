@@ -2,7 +2,7 @@
  * @jest-environment node
  */
 
-import Nano, { Helmet } from '../../../lib/index.js'
+import Nano, { Helmet, Fragment } from '../../../lib/index.js'
 import { initSSR } from '../../../lib/ssr.js'
 
 const spy = jest.spyOn(global.console, 'error')
@@ -18,13 +18,13 @@ const getHeadFromApp = (Content: any) => {
     </div>
   )
   const app = Nano.renderSSR(<App />)
-  const { body, head, footer } = Helmet.SSR(app)
-  return head
+  const helmet = Helmet.SSR(app)
+  return helmet
 }
 
 describe('<Helmet> Node.js', () => {
   test('application/ld+json', async () => {
-    const head = getHeadFromApp(
+    const { head } = getHeadFromApp(
       <script type="application/ld+json">{`
     {
       "@context": "https://schema.org/",
@@ -47,7 +47,7 @@ describe('<Helmet> Node.js', () => {
   })
 
   test('<style>', async () => {
-    const head = getHeadFromApp(
+    const { head } = getHeadFromApp(
       <style>{`
     @import url("https://fonts.googleapis.com/css?family=Montserrat:400,700|Roboto:100,300,400");
 
@@ -66,9 +66,22 @@ describe('<Helmet> Node.js', () => {
   })
 
   test('<noscript>', async () => {
-    const head = getHeadFromApp(<noscript>{'<link rel="stylesheet" type="text/css" href="foo.css" />'}</noscript>)
+    const { head } = getHeadFromApp(<noscript>{'<link rel="stylesheet" type="text/css" href="foo.css" />'}</noscript>)
 
     expect(head[0]).toContain('<noscript><link rel="stylesheet" type="text/css" href="foo.css" /></noscript>')
+    expect(spy).not.toHaveBeenCalled()
+  })
+
+  test('html and body attributes', async () => {
+    const { attributes } = getHeadFromApp(
+      <Fragment>
+        <html lang="en" amp />
+        <body class="body-class" />
+      </Fragment>
+    )
+
+    expect(attributes.html.toString()).toBe('lang="en" amp="true"')
+    expect(attributes.body.toString()).toBe('class="body-class"')
     expect(spy).not.toHaveBeenCalled()
   })
 })

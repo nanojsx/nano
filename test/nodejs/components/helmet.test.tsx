@@ -54,6 +54,7 @@ describe('<Helmet> Browser', () => {
 
     await wait()
     expect(document.getElementsByTagName('HTML')[0].getAttribute('lang')).toBe('en')
+    expect(document.getElementsByTagName('HTML')[0].getAttribute('amp')).toBe('true')
     expect(document.head.innerHTML).toBe(
       '<meta name="description" content="Nano-JSX application"><title>My Plain Title or dynamic title</title><link rel="canonical" href="http://mysite.com/example">'
     )
