@@ -153,3 +153,70 @@ test('should render without errors', async () => {
 
   expect(spy).not.toHaveBeenCalled()
 })
+
+test('should render without errors', async () => {
+  const app = { mount: 0, willupdate: 0, didupdate: 0, unmount: 0 }
+
+  class App extends Component {
+    constructor(props: any) {
+      super(props)
+      this.id = 'update-test'
+      this.state = ({ name: 'default', description: 'default' })
+    }
+
+    didMount() {
+      app.mount++
+
+      setTimeout(() => {
+        this.setState({ name: 'nano', description: 'jsx' }, true)
+      }, 300)
+
+      setTimeout(() => {
+        this.setState({ name: 'ultra', description: 'lightweight' }, false)
+      }, 600)
+
+      setTimeout(() => {
+        this.setState({ name: 'clean', description: 'code' }, true)
+      }, 900)
+    }
+
+    willUpdate() {
+      app.willupdate++
+    }
+
+    didUpdate() {
+      app.didupdate++
+    }
+
+    render() {
+      return (
+        <div><ul><li>{this.state.name}</li><li>{this.state.description}</li></ul></div>
+      )
+    }
+  }
+
+  const res = Nano.render(<App />, document.body)
+
+  await wait()
+  expect(res.innerHTML).toBe('<div><ul><li>default</li><li>default</li></ul></div>')
+  expect(app.mount).toBe(1)
+  expect(app.willupdate).toBe(0)
+  expect(app.didupdate).toBe(0)
+  expect(app.unmount).toBe(0)
+
+  await wait(400)
+  expect(res.innerHTML).toBe('<div><ul><li>nano</li><li>jsx</li></ul></div>')
+  expect(app.mount).toBe(1)
+  expect(app.willupdate).toBe(1)
+  expect(app.didupdate).toBe(1)
+  expect(app.unmount).toBe(0)
+
+  await wait(1000)
+  expect(res.innerHTML).toBe('<div><ul><li>clean</li><li>code</li></ul></div>')
+  expect(app.mount).toBe(1)
+  expect(app.willupdate).toBe(2)
+  expect(app.didupdate).toBe(2)
+  expect(app.unmount).toBe(0)
+
+  expect(spy).not.toHaveBeenCalled()
+})

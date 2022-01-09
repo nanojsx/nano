@@ -74,6 +74,14 @@ export class Component<P extends Object = any, S = any> {
     this.didMount()
   }
 
+  private _willUpdate(): any {
+    this.willUpdate()
+  }
+
+  private _didUpdate(): any {
+    this.didUpdate()
+  }
+
   private _didUnmount(): any {
     if (this._hasUnmounted) return
     this.didUnmount()
@@ -82,6 +90,8 @@ export class Component<P extends Object = any, S = any> {
 
   public willMount(): any {}
   public didMount(): any {}
+  public willUpdate(): any {}
+  public didUpdate(): any {}
   public didUnmount(): any {}
 
   public render(_update?: any): HTMLElement | void {}
@@ -89,6 +99,7 @@ export class Component<P extends Object = any, S = any> {
   /** Will forceRender the component */
   public update(update?: any) {
     this._skipUnmount = true
+    this._willUpdate()
     // get all current rendered node elements
     const oldElements = [...this.elements]
 
@@ -127,6 +138,7 @@ export class Component<P extends Object = any, S = any> {
     tick(() => {
       this._skipUnmount = false
       if (!this.elements[0].isConnected) this._didUnmount()
+      else this._didUpdate()
     })
   }
 
