@@ -1,6 +1,14 @@
 import { Component } from '../component.ts'
 import { appendChildren, h, isSSR } from '../core.ts'
 
+class Attributes extends Map {
+  toString() {
+    let string = ''
+    for (const [key, value] of this) string += ` ${key}="${value}"`
+    return string.trim()
+  }
+}
+
 export class Helmet extends Component {
   static SSR(body: string) {
     const reg = /(<helmet\b[^>]*>)((.|\n)*?)(<\/helmet>)/gm
@@ -8,6 +16,10 @@ export class Helmet extends Component {
     // collect all elements
     const head: HTMLElement[] = []
     const footer: HTMLElement[] = []
+    const attributes = {
+      html: new Attributes(),
+      body: new Attributes()
+    }
 
     // get what's in the head
     if (typeof document !== 'undefined' && document.head) {
@@ -24,7 +36,27 @@ export class Helmet extends Component {
     let result!: any
     while ((result = reg.exec(body)) !== null) {
       const first = result[1]
-      const second = result[2]
+      let second = result[2]
+
+      const regHTML = /<html\s([^>]+)><\/html>/gm
+      const regBody = /<body\s([^>]+)><\/body>/gm
+      const regAttr = /(\w+)="([^"]+)"/gm
+      let res = null
+
+      // extract html attributes
+      body.match(regHTML)?.forEach(h => {
+        second = second.replace(h, '')
+        while ((res = regAttr.exec(h)) !== null) {
+          attributes.html.set(res[1], res[2])
+        }
+      })
+      // extract body attributes
+      body.match(regBody)?.forEach(b => {
+        second = second.replace(b, '')
+        while ((res = regAttr.exec(b)) !== null) {
+          attributes.body.set(res[1], res[2])
+        }
+      })
 
       const toHead = first.includes('data-placement="head"')
 
@@ -38,7 +70,8 @@ export class Helmet extends Component {
     return {
       body: cleanBody,
       head: head as unknown as string[],
-      footer: footer as unknown as string[]
+      footer: footer as unknown as string[],
+      attributes
     }
   }
 
