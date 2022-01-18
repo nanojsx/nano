@@ -207,7 +207,7 @@ const renderClassComponent = (classComp: any): any => {
 const hNS = (tag: string) => document.createElementNS('http://www.w3.org/2000/svg', tag) as SVGElement
 
 // https://stackoverflow.com/a/42405694/12656855
-export const h = (tagNameOrComponent: any, props: any, ...children: any) => {
+export const h = (tagNameOrComponent: any, props: any, ...children: any[]) => {
   // render WebComponent in SSR
   if (
     isSSR() &&
