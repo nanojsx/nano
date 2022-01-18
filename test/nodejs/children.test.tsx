@@ -52,3 +52,34 @@ test('should render without errors', async () => {
   )
   expect(spy).not.toHaveBeenCalled()
 })
+
+test('Children as Component', async () => {
+  const Child = () => <h1>Hello</h1>
+  const Root = (props: any) => <div id="root">{props.children}</div>
+  const html = Nano.render(
+    <Root>
+      <Child />
+    </Root>
+  )
+  await wait()
+  expect(html.outerHTML).toBe('<div id="root"><h1>Hello</h1></div>')
+  expect(spy).not.toHaveBeenCalled()
+})
+
+test('Children as Props', async () => {
+  const Child = () => <h1>Hello</h1>
+  const Root = (props: any) => <div id="root">{props.children}</div>
+  const html = Nano.render(<Root children={Child} />)
+  await wait()
+  expect(html.outerHTML).toBe('<div id="root"><h1>Hello</h1></div>')
+  expect(spy).not.toHaveBeenCalled()
+})
+
+test('Children as Props (Array)', async () => {
+  const Child = () => <h1>Hello</h1>
+  const Root = (props: any) => <div id="root">{props.children}</div>
+  const html = Nano.render(<Root children={[Child]} />)
+  await wait()
+  expect(html.outerHTML).toBe('<div id="root"><h1>Hello</h1></div>')
+  expect(spy).not.toHaveBeenCalled()
+})

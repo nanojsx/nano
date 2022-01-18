@@ -9,4 +9,5 @@
 /node_modules
 /package-lock.json
 /test/**/*.js
+/test.jsx-runtime/**/*.js
 /scripts/browserTest/tester.js

@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "outDir": "",
+    "rootDir": "",
+
+    "target": "ES2015",
+    "module": "commonjs",
+
+    "jsx": "react-jsx",
+    "jsxImportSource": "../../lib"
+  },
+  "include": ["test.jsx-runtime/**/*"]
+}
