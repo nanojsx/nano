@@ -77,6 +77,9 @@ export class Helmet extends Component {
 
   didMount() {
     this.props.children.forEach((element: HTMLElement) => {
+      // return if it is not an html element
+      if (!(element instanceof HTMLElement)) return
+
       const parent = this.props.footer ? document.body : document.head
       const tag = element.tagName
       let attrs: string[] = []
