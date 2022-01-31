@@ -222,3 +222,13 @@ export const Listener = () => {
   if (!listener) listener = new CListener()
   return listener
 }
+
+/** Pass "this.props.route.path" to it. */
+export const parseParamsFromPath = (path: string): { [param: string]: string } => {
+  let params = {}
+  const _pathname = isSSR() ? _nano.location.pathname.split('/') : window.location.pathname.split('/')
+  path.split('/').forEach((p, i) => {
+    if (p.startsWith(':')) params = { ...params, [p.slice(1)]: _pathname[i] }
+  })
+  return params
+}
