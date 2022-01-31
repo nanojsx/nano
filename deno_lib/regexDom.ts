@@ -49,12 +49,12 @@ export class HTMLElementSSR {
   }
 
   get innerText(): string {
-    const reg = /(^<[^>]+>)(.+)?(<\/[a-z]+>$|\/>$)/gm
+    const reg = /(^<[^>]+>)(.+)?(<\/[a-z0-9]+>$|\/>$)/gm
     return reg.exec(this._ssr)?.[2] || ''
   }
 
   set innerText(text) {
-    const reg = /(^<[^>]+>)(.+)?(<\/[a-z]+>$|\/>$)/gm
+    const reg = /(^<[^>]+>)(.+)?(<\/[a-z0-9]+>$|\/>$)/gm
     this._ssr = this._ssr.replace(reg, `$1${text}$3`)
   }
 
@@ -91,7 +91,7 @@ export class HTMLElementSSR {
 
   setAttribute(name: string, value: string) {
     if (this.isSelfClosing)
-      this._ssr = this._ssr.replace(/(^<[a-z]+ )(.+)/gm, `$1${escapeHtml(name)}="${escapeHtml(value)}" $2`)
+      this._ssr = this._ssr.replace(/(^<[a-z0-9]+ )(.+)/gm, `$1${escapeHtml(name)}="${escapeHtml(value)}" $2`)
     else this._ssr = this._ssr.replace(/(^<[^>]+)(.+)/gm, `$1 ${escapeHtml(name)}="${escapeHtml(value)}"$2`)
   }
 
@@ -105,7 +105,7 @@ export class HTMLElementSSR {
   }
 
   get children() {
-    const reg = /<([a-z]+)((?!<\/\1).)*<\/\1>/gms
+    const reg = /<([a-z0-9]+)((?!<\/\1).)*<\/\1>/gms
     const array = []
     let match
 

@@ -207,7 +207,18 @@ const renderClassComponent = (classComp: any): any => {
 const hNS = (tag: string) => document.createElementNS('http://www.w3.org/2000/svg', tag) as SVGElement
 
 // https://stackoverflow.com/a/42405694/12656855
-export const h = (tagNameOrComponent: any, props: any, ...children: any) => {
+export const h = (tagNameOrComponent: any, props: any = {}, ...children: any[]) => {
+  // if children is passed as props, merge with ...children
+  if (props && props.children) {
+    if (Array.isArray(children)) {
+      if (Array.isArray(props.children)) children = [...props.children, ...children]
+      else children.push(props.children)
+    } else {
+      if (Array.isArray(props.children)) children = props.children
+      else children = [props.children]
+    }
+  }
+
   // render WebComponent in SSR
   if (
     isSSR() &&

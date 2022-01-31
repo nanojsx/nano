@@ -9,11 +9,12 @@ export { Component } from './component.ts'
 export * from './components/index.ts'
 
 // export some defaults (Nano)
-import { h, render, hydrate } from './core.ts'
+import { h, render, hydrate, isSSR } from './core.ts'
 import { renderSSR } from './ssr.ts'
-export default { h, render, hydrate, renderSSR }
+export default { h, render, hydrate, renderSSR, isSSR }
 
 // other
+export { isSSR }
 export { jsx } from './jsx.ts'
 export { hydrateLazy } from './lazy.ts'
 export { nodeToString, task } from './helpers.ts'

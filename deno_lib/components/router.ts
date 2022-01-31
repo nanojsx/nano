@@ -20,10 +20,19 @@ const historyReplace = (path: string) => {
   window.dispatchEvent(new Event('replacestate'))
 }
 
-export const matchPath = (
-  pathname: string,
-  options: { exact?: boolean; path: string; regex?: { [param: string]: RegExp } }
-) => {
+export interface MatchPathOptions {
+  exact?: boolean
+  path: string
+  regex?: { [param: string]: RegExp }
+}
+export type MatchPathResult = {
+  path: string | null
+  url: string
+  isExact: boolean
+  params: { [param: string]: string }
+} | null
+
+export const matchPath = (pathname: string, options: MatchPathOptions): MatchPathResult => {
   const { exact = false, regex } = options
   let { path } = options
 
@@ -31,7 +40,8 @@ export const matchPath = (
     return {
       path: null,
       url: pathname,
-      isExact: true
+      isExact: true,
+      params: {}
     }
   }
 
@@ -221,4 +231,14 @@ let listener: CListener | undefined
 export const Listener = () => {
   if (!listener) listener = new CListener()
   return listener
+}
+
+/** Pass "this.props.route.path" to it. */
+export const parseParamsFromPath = (path: string): { [param: string]: string } => {
+  let params = {}
+  const _pathname = isSSR() ? _nano.location.pathname.split('/') : window.location.pathname.split('/')
+  path.split('/').forEach((p, i) => {
+    if (p.startsWith(':')) params = { ...params, [p.slice(1)]: _pathname[i] }
+  })
+  return params
 }

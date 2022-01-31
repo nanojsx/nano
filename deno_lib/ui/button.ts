@@ -37,7 +37,7 @@ export const Button = (props: {
       color: ${clr};
       background: ${bg};
       border-radius: 4px;
-      display: inline-block;
+      display: inline-flex;
       font-size: 14px;
       padding: 10px 16px;
       margin: 0px 0px 1em 0px;
