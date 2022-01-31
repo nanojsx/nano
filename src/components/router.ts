@@ -20,10 +20,19 @@ const historyReplace = (path: string) => {
   window.dispatchEvent(new Event('replacestate'))
 }
 
-export const matchPath = (
-  pathname: string,
-  options: { exact?: boolean; path: string; regex?: { [param: string]: RegExp } }
-) => {
+export interface MatchPathOptions {
+  exact?: boolean
+  path: string
+  regex?: { [param: string]: RegExp }
+}
+export type MatchPathResult = {
+  path: string | null
+  url: string
+  isExact: boolean
+  params: { [param: string]: string }
+} | null
+
+export const matchPath = (pathname: string, options: MatchPathOptions): MatchPathResult => {
   const { exact = false, regex } = options
   let { path } = options
 
@@ -31,7 +40,8 @@ export const matchPath = (
     return {
       path: null,
       url: pathname,
-      isExact: true
+      isExact: true,
+      params: {}
     }
   }
 
