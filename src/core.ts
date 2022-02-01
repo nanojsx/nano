@@ -1,5 +1,4 @@
 import './core.types'
-import { HTMLElementSSR } from './regexDom'
 
 export const isSSR = () => typeof _nano !== 'undefined' && _nano.isSSR === true
 
@@ -9,11 +8,7 @@ export interface FC<P = {}> {
 }
 
 /** Creates a new Microtask using Promise() */
-export const tick = typeof Promise == 'function' ? Promise.prototype.then.bind(Promise.resolve()) : setTimeout
-
-// const isDOMElement = (element: any) => {
-//   return element && element.tagName && typeof element.tagName === 'string'
-// }
+export const tick = Promise.prototype.then.bind(Promise.resolve()) as (cb: Function) => any
 
 export const removeAllChildNodes = (parent: HTMLElement) => {
   while (parent.firstChild) {
@@ -81,10 +76,6 @@ const SVG = (props: any) => {
   return svg as any
 }
 
-export const hydrate = (component: any, parent: HTMLElement | null = null, removeChildNodes = true) => {
-  return render(component, parent, removeChildNodes)
-}
-
 /** Returns the populated parent if available else  one child or an array of children */
 export const render = (component: any, parent: HTMLElement | null = null, removeChildNodes = true) => {
   let el = _render(component)
@@ -118,21 +109,14 @@ export const render = (component: any, parent: HTMLElement | null = null, remove
   }
 }
 
+export const hydrate = render
+
 export const _render = (comp: any): any => {
-  // undefined
-  if (typeof comp === 'undefined') return []
+  // null, false, undefined
+  if (comp === null || comp === false || typeof comp === 'undefined') return []
 
-  // null
-  if (comp == null) return []
-
-  // false
-  if (comp === false) return []
-
-  // string
-  if (typeof comp === 'string') return comp
-
-  // number
-  if (typeof comp === 'number') return comp.toString()
+  // string, number
+  if (typeof comp === 'string' || typeof comp === 'number') return comp.toString()
 
   // SVGElement
   if (comp.tagName && comp.tagName.toLowerCase() === 'svg') return SVG({ children: [comp] })
@@ -196,7 +180,6 @@ const renderClassComponent = (classComp: any): any => {
   if (props && props.ref) props.ref(Component)
 
   if (!isSSR())
-    // @ts-ignore
     tick(() => {
       Component._didMount()
     })
@@ -220,33 +203,10 @@ export const h = (tagNameOrComponent: any, props: any = {}, ...children: any[]) 
   }
 
   // render WebComponent in SSR
-  if (
-    isSSR() &&
-    typeof tagNameOrComponent === 'string' &&
-    tagNameOrComponent.includes('-') &&
-    _nano.customElements.has(tagNameOrComponent)
-  ) {
-    const customElement = _nano.customElements.get(tagNameOrComponent)
-    const component = _render({ component: customElement, props: { ...props, children: children } }) as HTMLElementSSR
-    // get the html tag and the innerText from string
-    // match[1]: HTMLTag
-    // match[2]: innerText
-    const match = component.toString().match(/^<(?<tag>[a-z]+)>(.*)<\/\k<tag>>$/)
-    if (match) {
-      const element = new HTMLElementSSR(match[1])
-      element.innerText = match[2]
-
-      // eslint-disable-next-line no-inner-declarations
-      function replacer(match: string, p1: string, _offset: number, _string: string): string {
-        return match.replace(p1, '')
-      }
-      // remove events like onClick from DOM
-      element.innerText = element.innerText.replace(/<\w+[^>]*(\s(on\w*)="[^"]*")/gm, replacer)
-
-      return element
-    } else {
-      return 'COULD NOT RENDER WEB-COMPONENT'
-    }
+  if (isSSR() && _nano.ssrTricks.isWebComponent(tagNameOrComponent)) {
+    const element = _nano.ssrTricks.renderWebComponent(tagNameOrComponent, props, children, _render)
+    if (element === null) return `ERROR: "<${tagNameOrComponent} />"`
+    else return element
   }
 
   // if tagNameOrComponent is a component
