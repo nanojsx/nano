@@ -1,18 +1,10 @@
 {
   "name": "nano-jsx",
-  "version": "0.0.29",
+  "version": "0.0.30-dev.0",
   "description": "SSR first, lightweight 1kB JSX library.",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
   "type": "commonjs",
-  "browser": {
-    "./lib/index.js": "./lib/index.js",
-    "./lib/hooks": "./lib/hooks/index.js",
-    "./lib/htm": "./lib/htm/index.js",
-    "./lib/jsx-runtime": "./lib/jsx-runtime/index.js",
-    "./lib/ui": "./lib/ui/index.js",
-    "./lib/components": "./lib/components/index.js"
-  },
   "scripts": {
     "start": "npm run dev",
     "version": "extract version src/version.ts && prettier --write src/version.ts",
@@ -22,7 +14,7 @@
     "lint:fix": "eslint --fix src --ext .ts,.tsx",
     "deno": "deno run --allow-net -c tsconfig.deno.json deno.dev.tsx",
     "denoify": "rimraf deno_lib && denoify && rimraf deno_lib/bundles deno_lib/dev",
-    "tsc": "npm run version && tsc --project tsconfig.json",
+    "tsc": "npm run version && tsc --project tsconfig.json && tsc --project tsconfig.esm.json",
     "build": "npm run tsc",
     "bundle": "webpack --config webpack/webpack.bundle.prod.js",
     "dev": "npm run build && npm-run-all --parallel dev:*",
@@ -33,7 +25,7 @@
     "ssr": "tsc --project tsconfig.json && npm-run-all --parallel ssr:*",
     "ssr:tsc": "tsc --project tsconfig.json --watch",
     "ssr:nodemon": "nodemon lib/dev/devSSR.js",
-    "clean": "rimraf lib",
+    "clean": "rimraf lib && rimraf esm",
     "clean:test": "rimraf \"test/**/*.js\"",
     "publish": "publish",
     "preReleaseHook": "prepareRelease",

@@ -5,6 +5,7 @@
 /coverage
 /debug.log
 /dev/dev.js
+/esm
 /lib
 /node_modules
 /package-lock.json
