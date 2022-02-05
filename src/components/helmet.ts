@@ -11,7 +11,7 @@ class Attributes extends Map {
 
 export class Helmet extends Component {
   static SSR(body: string) {
-    const reg = /(<helmet\b[^>]*>)((.|\n)*?)(<\/helmet>)/gm
+    const reg = /(<helmet\b[^>]*>)((.|\r\n|\n|\r)*?)(<\/helmet>)/gm
 
     // collect all elements
     const head: HTMLElement[] = []
@@ -35,6 +35,7 @@ export class Helmet extends Component {
 
     let result!: any
     while ((result = reg.exec(body)) !== null) {
+      console.log('found')
       const first = result[1]
       let second = result[2]
 
