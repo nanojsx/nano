@@ -35,7 +35,6 @@ export class Helmet extends Component {
 
     let result!: any
     while ((result = reg.exec(body)) !== null) {
-      console.log('found')
       const first = result[1]
       let second = result[2]
 
