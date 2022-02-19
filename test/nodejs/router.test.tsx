@@ -4,6 +4,60 @@ import * as Router from '../../lib/components/router.js'
 
 const spy = jest.spyOn(global.console, 'error')
 
+afterEach(() => {
+  document.getElementsByTagName('html')[0].innerHTML = ''
+  window.history.pushState({}, '', '/')
+})
+
+test('render routes from array', async () => {
+  const Home = () => <h1>Home</h1>
+  const About = () => <h1>About</h1>
+
+  const routes = [
+    {
+      path: '/',
+      exact: true,
+      Comp: Home
+    },
+    {
+      path: '/about',
+      exact: false,
+      Comp: About
+    }
+  ]
+
+  const App = () => {
+    return (
+      <Router.Switch fallback={() => <div>404 (not found)</div>}>
+        {routes.map(({ exact, path, Comp }) => {
+          return (
+            <Router.Route exact={exact} path={path}>
+              <Comp />
+            </Router.Route>
+          )
+        })}
+      </Router.Switch>
+    )
+  }
+
+  const res = Nano.render(<App />, document.body)
+
+  await wait(100)
+  expect(nodeToString(res)).toBe('<body><div><h1>Home</h1></div></body>')
+
+  await wait(100)
+  Router.to('/about')
+
+  await wait(100)
+  expect(nodeToString(res)).toBe('<body><div><h1>About</h1></div></body>')
+
+  await wait(100)
+  Router.to('/404')
+
+  await wait(100)
+  expect(nodeToString(res)).toBe('<body><div><div>404 (not found)</div></div></body>')
+})
+
 test('should render without errors', async () => {
   class Children extends Component {
     render() {
