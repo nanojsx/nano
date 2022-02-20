@@ -14,7 +14,7 @@
     "lint:fix": "eslint --fix src --ext .ts,.tsx",
     "deno": "deno run --allow-net -c tsconfig.deno.json deno.dev.tsx",
     "denoify": "rimraf deno_lib && denoify && rimraf deno_lib/bundles deno_lib/dev",
-    "tsc": "npm run version && tsc --project tsconfig.json && tsc --project tsconfig.esm.json",
+    "tsc": "npm run version && tsc --project tsconfig.json && tsc --project tsconfig.esm.json && node ./scripts/esmPackage.mjs",
     "build": "npm run tsc",
     "bundle": "webpack --config webpack/webpack.bundle.prod.js",
     "dev": "npm run build && npm-run-all --parallel dev:*",
