@@ -1,5 +1,5 @@
 import { h, Helmet, renderSSR, Component } from './deno_lib/mod.ts'
-import { Application, Router } from 'https://deno.land/x/oak@v10.0.0/mod.ts'
+import { Application, Router } from 'https://deno.land/x/oak@v10.2.1/mod.ts'
 
 const comments = ['Comment One', 'Comment Two']
 
@@ -61,8 +61,8 @@ const app = new Application()
 app.use(router.routes())
 app.use(router.allowedMethods())
 
-app.addEventListener('listen', ({ hostname, port, secure }) => {
-  console.log(`Listening on: ${secure ? 'https://' : 'http://'}${hostname ?? 'localhost'}:${port}`)
+app.addEventListener('listen', ({ port }) => {
+  console.log(`Listening on: http://localhost:${port}`)
 })
 
 await app.listen({ port: 5000 })
