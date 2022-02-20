@@ -1,5 +1,5 @@
-import { Component } from '../component'
-import { appendChildren, h, isSSR } from '../core'
+import { Component } from '../component.js'
+import { appendChildren, h, isSSR } from '../core.js'
 
 class Attributes extends Map {
   toString() {

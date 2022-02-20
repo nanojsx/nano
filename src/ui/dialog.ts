@@ -1,6 +1,6 @@
-import { h } from '../core'
-import { boxShadow, zIndex } from './_config'
-import { Button } from './button'
+import { h } from '../core.js'
+import { boxShadow, zIndex } from './_config.js'
+import { Button } from './button.js'
 
 // Dialog just like just like: https://material.io/components/dialogs
 

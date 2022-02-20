@@ -1,7 +1,7 @@
-import { Component } from '../component'
-import { h, strToHash } from '../core'
-import { boxShadow, userSelect, zIndex } from './_config'
-import { addStylesToHead } from './_helpers'
+import { Component } from '../component.js'
+import { h, strToHash } from '../core.js'
+import { boxShadow, userSelect, zIndex } from './_config.js'
+import { addStylesToHead } from './_helpers.js'
 
 interface FabProps {
   onClick?: (e: MouseEvent) => void

@@ -1,6 +1,6 @@
-import { Component } from '../component'
-import { h, strToHash } from '../core'
-import { addStylesToHead } from './_helpers'
+import { Component } from '../component.js'
+import { h, strToHash } from '../core.js'
+import { addStylesToHead } from './_helpers.js'
 
 interface IconProps {
   src: string

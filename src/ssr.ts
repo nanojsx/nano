@@ -1,7 +1,7 @@
-import { isSSR, render } from './core'
-import { documentSSR } from './regexDom'
-import { _state } from './state'
-import { detectSSR } from './helpers'
+import { isSSR, render } from './core.js'
+import { documentSSR } from './regexDom.js'
+import { _state } from './state.js'
+import { detectSSR } from './helpers.js'
 
 // functions that should only be available on the server-side
 const ssrTricks = {

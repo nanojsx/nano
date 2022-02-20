@@ -1,6 +1,6 @@
-import { Component } from '../component'
-import { h } from '../core'
-import { boxShadow, zIndex } from './_config'
+import { Component } from '../component.js'
+import { h } from '../core.js'
+import { boxShadow, zIndex } from './_config.js'
 
 const classes = {
   container: 'appBar_container',

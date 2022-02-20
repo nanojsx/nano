@@ -4,10 +4,10 @@ module.exports = {
   mode: 'production',
   stats: 'errors-warnings',
   entry: {
-    core: './src/bundles/bundle.core.ts',
-    slim: './src/bundles/bundle.slim.ts',
-    full: './src/bundles/bundle.full.ts',
-    ui: './src/bundles/bundle.ui.ts'
+    core: './lib/bundles/bundle.core.js',
+    slim: './lib/bundles/bundle.slim.js',
+    full: './lib/bundles/bundle.full.js',
+    ui: './lib/bundles/bundle.ui.js'
   },
   output: {
     filename: 'nano.[name].min.js',
@@ -16,9 +16,6 @@ module.exports = {
     libraryExport: 'default'
   },
   resolve: {
-    extensions: ['.ts', '.tsx', '.js']
-  },
-  module: {
-    rules: [{ test: /\.tsx?$/, loader: 'ts-loader' }]
+    extensions: ['.js']
   }
 }

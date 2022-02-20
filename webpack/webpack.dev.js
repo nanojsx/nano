@@ -4,15 +4,15 @@ module.exports = {
   mode: 'development',
   stats: 'errors-warnings',
   devtool: 'inline-source-map',
-  entry: './src/dev/dev.tsx',
+  entry: './lib/dev/dev.js',
   output: {
     filename: 'dev.js',
     path: path.resolve(__dirname, '../dev')
   },
   resolve: {
-    extensions: ['.ts', '.tsx', '.js']
-  },
-  module: {
-    rules: [{ test: /\.tsx?$/, loader: 'ts-loader' }]
+    extensions: ['.js']
   }
+  // module: {
+  //   rules: [{ test: /\.tsx?$/, loader: 'ts-loader' }]
+  // }
 }

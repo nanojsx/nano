@@ -1,5 +1,5 @@
-import { Component } from '../component'
-import { h } from '../core'
+import { Component } from '../component.js'
+import { h } from '../core.js'
 
 const classes = {
   bar: 'toolbar_container',

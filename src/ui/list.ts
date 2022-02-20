@@ -1,7 +1,7 @@
-import { Component } from '../component'
-import { h, strToHash } from '../core'
-import { Icon } from './icon'
-import { addStylesToHead } from './_helpers'
+import { Component } from '../component.js'
+import { h, strToHash } from '../core.js'
+import { Icon } from './icon.js'
+import { addStylesToHead } from './_helpers.js'
 
 interface ListProps {
   small?: boolean

@@ -1,7 +1,7 @@
-import { Component } from '../component'
-import { h } from '../core'
-import { Button } from './button'
-import { zIndex } from './_config'
+import { Component } from '../component.js'
+import { h } from '../core.js'
+import { Button } from './button.js'
+import { zIndex } from './_config.js'
 
 interface BannerAction {
   name: string

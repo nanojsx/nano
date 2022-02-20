@@ -1,7 +1,7 @@
-import { Component } from '../component'
-import { Helmet } from './helmet'
-import { h } from '../core'
-import { Fragment } from '../fragment'
+import { Component } from '../component.js'
+import { Helmet } from './helmet.js'
+import { h } from '../core.js'
+import { Fragment } from '../fragment.js'
 
 interface Props {
   [key: string]: any

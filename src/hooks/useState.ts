@@ -1,4 +1,4 @@
-import { _state } from '../state'
+import { _state } from '../state.js'
 
 export const useState = <T>(state: T, id: string): readonly [T, (state: T) => void] => {
   const s = {

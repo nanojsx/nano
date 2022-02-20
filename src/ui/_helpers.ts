@@ -1,4 +1,4 @@
-import { h } from '../core'
+import { h } from '../core.js'
 
 // https://gist.github.com/renancouto/4675192
 export const lightenColor = (color: string, percent: number) => {

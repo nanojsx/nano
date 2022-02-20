@@ -1,7 +1,7 @@
-import { Component } from '../component'
-import { h, render, strToHash, tick } from '../core'
-import { rippleEffect, userSelect } from './_config'
-import { addStylesToHead } from './_helpers'
+import { Component } from '../component.js'
+import { h, render, strToHash, tick } from '../core.js'
+import { rippleEffect, userSelect } from './_config.js'
+import { addStylesToHead } from './_helpers.js'
 
 interface TabsProps {
   onClick?: any

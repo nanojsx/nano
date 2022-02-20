@@ -1,6 +1,6 @@
 /* eslint-disable prefer-const */
-export { Fragment } from '../fragment'
-import { h } from '../core'
+export { Fragment } from '../fragment.js'
+import { h } from '../core.js'
 
 const createNode: (type: any, props: any, key: string, source?: string, self?: string) => any = function (type, props) {
   let { children = [], ..._props } = props

@@ -1,5 +1,5 @@
-import { h, FC } from '../../core'
-import { Component } from '../../component'
+import { h, FC } from '../../core.js'
+import { Component } from '../../component.js'
 
 /**
  * This Component work on the client and the server.

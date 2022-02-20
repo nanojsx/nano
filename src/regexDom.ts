@@ -1,4 +1,4 @@
-import { escapeHtml } from './helpers'
+import { escapeHtml } from './helpers.js'
 
 export class HTMLElementSSR {
   public tagName: string

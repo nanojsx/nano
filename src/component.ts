@@ -1,6 +1,6 @@
-import { onNodeRemove } from './helpers'
-import { tick, _render } from './core'
-import { _state } from './state'
+import { onNodeRemove } from './helpers.js'
+import { tick, _render } from './core.js'
+import { _state } from './state.js'
 
 export class Component<P extends Object = any, S = any> {
   public props: P

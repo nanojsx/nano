@@ -1,5 +1,5 @@
-import { h, render } from '../core'
-import { Component } from '../component'
+import { h, render } from '../core.js'
+import { Component } from '../component.js'
 
 export class Visible extends Component {
   isVisible = false

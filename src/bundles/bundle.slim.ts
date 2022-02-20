@@ -1,17 +1,17 @@
 // core
-import { h, render, tick } from '../core'
-import { task } from '../helpers'
+import { h, render, tick } from '../core.js'
+import { task } from '../helpers.js'
 
 // useful tools
-import { Component } from '../component'
-import { Fragment } from '../fragment'
-import { Store } from '../store'
-import { createContext } from '../context'
-import { withStyles } from '../withStyles'
-import * as Router from '../components/router'
+import { Component } from '../component.js'
+import { Fragment } from '../fragment.js'
+import { Store } from '../store.js'
+import { createContext } from '../context.js'
+import { withStyles } from '../withStyles.js'
+import * as Router from '../components/router.js'
 
 // tagged templates
-import { jsx } from '../jsx'
+import { jsx } from '../jsx.js'
 
 export default {
   Component,
@@ -28,5 +28,5 @@ export default {
 }
 
 // version
-export { printVersion } from '../helpers'
-export { VERSION } from '../version'
+export { printVersion } from '../helpers.js'
+export { VERSION } from '../version.js'

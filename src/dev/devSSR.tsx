@@ -1,7 +1,7 @@
-import { h } from '../core'
-import { renderSSR } from '../ssr'
-import { Component } from '../component'
-import { Helmet } from '../components/helmet'
+import { h } from '../core.js'
+import { renderSSR } from '../ssr.js'
+import { Component } from '../component.js'
+import { Helmet } from '../components/helmet.js'
 
 // @ts-ignore
 import fs from 'fs'

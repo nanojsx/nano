@@ -1,7 +1,7 @@
-import { h, strToHash } from '../core'
-import { boxShadow, rippleEffect, userSelect, zIndex } from './_config'
-import { addStylesToHead, lightenColor } from './_helpers'
-import { Icon } from './icon'
+import { h, strToHash } from '../core.js'
+import { boxShadow, rippleEffect, userSelect, zIndex } from './_config.js'
+import { addStylesToHead, lightenColor } from './_helpers.js'
+import { Icon } from './icon.js'
 
 export const Button = (props: {
   outlined?: boolean

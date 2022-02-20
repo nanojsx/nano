@@ -43,8 +43,9 @@ jobs:
       - name: Prepare
         run: |
           node_modules/.bin/rimraf .nyc_output coverage
-          node_modules/.bin/webpack -c webpack/webpack.bundle.instrumented.js
+          node_modules/.bin/tsc -p tsconfig.json
           node_modules/.bin/tsc -p scripts/browserTest/tsconfig.json
+          node_modules/.bin/webpack -c webpack/webpack.bundle.instrumented.js
 
       - name: Test
         run: |

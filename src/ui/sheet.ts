@@ -1,7 +1,7 @@
-import { Component } from '../component'
-import { h, render, strToHash } from '../core'
-import { boxShadow, zIndex } from './_config'
-import { addStylesToHead } from './_helpers'
+import { Component } from '../component.js'
+import { h, render, strToHash } from '../core.js'
+import { boxShadow, zIndex } from './_config.js'
+import { addStylesToHead } from './_helpers.js'
 
 interface SheetProps {
   height?: string

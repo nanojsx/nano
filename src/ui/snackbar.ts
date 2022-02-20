@@ -1,5 +1,5 @@
-import { h } from '../core'
-import { boxShadow, zIndex } from './_config'
+import { h } from '../core.js'
+import { boxShadow, zIndex } from './_config.js'
 
 // snackbar just like just like: https://material.io/components/snackbars
 

@@ -1,4 +1,4 @@
-import { h, isSSR, render, _render } from './core'
+import { h, isSSR, render, _render } from './core.js'
 
 interface CustomElementsParameters {
   mode?: 'open' | 'closed'

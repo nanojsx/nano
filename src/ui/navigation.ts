@@ -1,7 +1,7 @@
-import { h } from '../core'
-import { Component } from '../component'
-import { boxShadow, zIndex } from './_config'
-import { Icon } from './icon'
+import { h } from '../core.js'
+import { Component } from '../component.js'
+import { boxShadow, zIndex } from './_config.js'
+import { Icon } from './icon.js'
 
 interface NavigationProps {
   parentId?: string

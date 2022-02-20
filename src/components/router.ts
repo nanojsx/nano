@@ -1,7 +1,7 @@
 // inspired by https://codesandbox.io/s/build-own-react-router-v4-mpslz
 
-import { Component } from '../component'
-import { FC, _render, h, isSSR } from '../core'
+import { Component } from '../component.js'
+import { FC, _render, h, isSSR } from '../core.js'
 
 const instances: Switch[] = []
 

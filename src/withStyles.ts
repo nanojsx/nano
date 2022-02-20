@@ -1,7 +1,7 @@
-import { h } from './core'
-import { Component } from './component'
-import { Fragment } from './fragment'
-import { Helmet } from './components/helmet'
+import { h } from './core.js'
+import { Component } from './component.js'
+import { Fragment } from './fragment.js'
+import { Helmet } from './components/helmet.js'
 
 interface ObjectHasToString {
   toString: () => string

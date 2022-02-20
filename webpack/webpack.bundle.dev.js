@@ -4,7 +4,7 @@ module.exports = {
   mode: 'development',
   stats: 'errors-warnings',
   devtool: 'inline-source-map',
-  entry: './src/bundles/bundle.full.ts',
+  entry: './lib/bundles/bundle.full.js',
   output: {
     filename: 'nano.dev.min.js',
     path: path.resolve(__dirname, '../bundles'),
@@ -12,9 +12,6 @@ module.exports = {
     libraryExport: 'default'
   },
   resolve: {
-    extensions: ['.ts', '.tsx', '.js']
-  },
-  module: {
-    rules: [{ test: /\.tsx?$/, loader: 'ts-loader' }]
+    extensions: ['.js']
   }
 }

@@ -1,4 +1,4 @@
-import { VERSION } from './version'
+import { VERSION } from './version.js'
 
 /** Creates a new Task using setTimeout() */
 export const task = (task: () => void) => setTimeout(task, 0)

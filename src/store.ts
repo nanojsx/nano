@@ -1,4 +1,4 @@
-import { isSSR } from './core'
+import { isSSR } from './core.js'
 
 type State = any
 

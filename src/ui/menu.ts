@@ -1,6 +1,6 @@
-import { h, removeAllChildNodes, render } from '../core'
-import { boxShadow, zIndex } from './_config'
-import { addStylesToHead } from './_helpers'
+import { h, removeAllChildNodes, render } from '../core.js'
+import { boxShadow, zIndex } from './_config.js'
+import { addStylesToHead } from './_helpers.js'
 
 interface MenuOptions {
   position: { x: number; y: number }

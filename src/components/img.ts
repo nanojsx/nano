@@ -1,5 +1,5 @@
-import { Component } from '../component'
-import { h, strToHash } from '../core'
+import { Component } from '../component.js'
+import { h, strToHash } from '../core.js'
 
 interface Props {
   [key: string]: any

@@ -1,5 +1,5 @@
-import { Component } from '../component'
-import { isSSR, strToHash } from '../core'
+import { Component } from '../component.js'
+import { isSSR, strToHash } from '../core.js'
 
 interface Props {
   fallback: any
