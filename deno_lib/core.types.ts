@@ -8,6 +8,10 @@ declare var _nano: {
   isSSR: true | undefined
   location: { pathname: string }
   customElements: Map<string, any>
+  ssrTricks: {
+    isWebComponent: (tagNameOrComponent: any) => boolean
+    renderWebComponent: (tagNameOrComponent: any, props: any, children: any, _render: any) => any
+  }
 }
 
 declare namespace Deno {}

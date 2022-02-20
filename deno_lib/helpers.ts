@@ -17,6 +17,7 @@ export const detectSSR = (): boolean => {
 }
 
 function isDescendant(desc: ParentNode | null, root: Node): boolean {
+  // @ts-ignore
   return !!desc && (desc === root || isDescendant(desc.parentNode, root))
 }
 

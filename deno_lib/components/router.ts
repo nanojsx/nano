@@ -115,6 +115,9 @@ export class Switch extends Component<{ fallback?: any; children?: any }> {
   findChild() {
     this.match = { index: -1, path: '' }
 
+    // flatten children
+    this.props.children = this.props.children.flat()
+
     for (let i = 0; i < this.props.children.length; i++) {
       const child = this.props.children[i]
       const { path, exact, regex } = child.props

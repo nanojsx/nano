@@ -150,7 +150,7 @@ export class Dialog {
   }
 
   private getParentElement(parentId: string) {
-    let el = document.getElementById(parentId || this.defaultParentId)
+    let el = document.getElementById(parentId || this.defaultParentId) as any
 
     if (!el) {
       el = document.createElement('div')
@@ -159,7 +159,7 @@ export class Dialog {
       document.body.appendChild(el)
     }
 
-    return el
+    return el as HTMLDivElement
   }
 
   private handleKeydown(event: KeyboardEvent) {
