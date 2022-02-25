@@ -8,7 +8,8 @@ test('should render without errors', async () => {
     <button
       onClick={() => {
         console.log('click')
-      }}>
+      }}
+    >
       click me
     </button>
   )
