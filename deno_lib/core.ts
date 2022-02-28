@@ -226,7 +226,7 @@ export const h = (tagNameOrComponent: any, props: any = {}, ...children: any[]) 
     if (0 !== p.indexOf('on')) return false
 
     // we return true if SSR, since otherwise it will get rendered
-    if (el.ssr) return true
+    if (el._ssr) return true
 
     // check if the event is present in the element as object (null) or as function
     return typeof el[p] === 'object' || typeof el[p] === 'function'
