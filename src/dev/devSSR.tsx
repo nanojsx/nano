@@ -1,3 +1,5 @@
+import 'source-map-support/register'
+
 import { h } from '../core.js'
 import { renderSSR } from '../ssr.js'
 import { Component } from '../component.js'
