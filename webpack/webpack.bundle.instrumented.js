@@ -13,5 +13,11 @@ module.exports = {
   },
   resolve: {
     extensions: ['.js']
+  },
+  module: {
+    rules: [
+      { test: /\.jsx?$/, use: ['coverage-istanbul-loader'] }
+      // { test: /\.tsx?$/, use: ['coverage-istanbul-loader', 'ts-loader'] }
+    ]
   }
 }
