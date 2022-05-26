@@ -27,7 +27,7 @@
     <script type="module">
       describe('Simple Router', async () => {
         let Hello = ({ route }) => {
-          return jsx`<div>${route.params.name}</div>`
+          return jsx`<div>${route.pathname}-${route.params.name}</div>`
         }
 
         let App = ({ path }) => {
@@ -54,7 +54,7 @@
 
         to('/hello/world', true)
         await Test.wait()
-        expect(root().firstChild.firstChild.firstChild.textContent).toBe('hello world', 'Navigate to /hello/world')
+        expect(root().firstChild.firstChild.textContent).toBe('/hello/world-world', 'Navigate to /hello/world')
 
         to(href)
       })
