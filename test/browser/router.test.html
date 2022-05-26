@@ -26,12 +26,17 @@
 
     <script type="module">
       describe('Simple Router', async () => {
+        let Hello = ({ route }) => {
+          return jsx`<div>${route.params.name}</div>`
+        }
+
         let App = ({ path }) => {
           return jsx`        
             <${Switch}>
-							<${Route} exact path="/one">topic one</${Route}>
-							<${Route} exact path="/two">topic two</${Route}>
-							<${Route} path="/">topic overview</${Route}>
+              <${Route} exact path="/one">topic one</${Route}>
+              <${Route} exact path="/two">topic two</${Route}>
+              <${Route} path="/hello/:name"><${Hello} /></${Route}>
+              <${Route} path="/">topic overview</${Route}>
             </${Switch}>`
         }
 
@@ -46,6 +51,10 @@
         to('/two', true)
         await Test.wait()
         expect(root().firstChild.firstChild.textContent).toBe('topic two', 'Navigate to /one (historyReplace)')
+
+        to('/hello/world', true)
+        await Test.wait()
+        expect(root().firstChild.firstChild.firstChild.textContent).toBe('hello world', 'Navigate to /hello/world')
 
         to(href)
       })
