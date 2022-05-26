@@ -213,6 +213,13 @@ export const h = (tagNameOrComponent: any, props: any = {}, ...children: any[]) 
   if (typeof tagNameOrComponent !== 'string')
     return { component: tagNameOrComponent, props: { ...props, children: children } }
 
+  // custom message if document is not defined in SSR
+  try {
+    if (isSSR() && typeof tagNameOrComponent === 'string' && !document) throw new Error('document is not defined')
+  } catch (err: any) {
+    console.log('ERROR:', err.message, '\n > Please read: https://github.com/nanojsx/nano/issues/106')
+  }
+
   let ref
 
   const element =

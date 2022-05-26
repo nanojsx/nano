@@ -170,9 +170,12 @@ export const Route: FC<{ path: string; exact?: boolean; regex?: { [param: string
   regex,
   children
 }) => {
-  // pass the path as props to the children
+  // lookup pathname and parameters
+  const pathname = isSSR() ? _nano.location.pathname : window.location.pathname
+  const params = parseParamsFromPath(path)
+  // pass the route as props to the children
   children.forEach((child: any) => {
-    if (child.props) child.props = { ...child.props, route: { path, regex } }
+    if (child.props) child.props = { ...child.props, route: { path, regex, pathname, params } }
   })
   return children
 }
