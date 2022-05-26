@@ -76,6 +76,8 @@ test('should render without errors', async () => {
     }
   }
 
+  let Hello = (p:any)=> (<div>hello {p.route.params.name}</div>)
+
   class App extends Component {
     didMount() {
       setTimeout(() => Router.to('/about'), 200)
@@ -83,7 +85,8 @@ test('should render without errors', async () => {
       setTimeout(() => Router.to('/children/two'), 600)
       setTimeout(() => Router.to('/'), 800)
       setTimeout(() => Router.to('/abc123'), 1000)
-      setTimeout(() => Router.to('/nothing'), 1200)
+      setTimeout(() => Router.to('/hello/world'), 1200)
+      setTimeout(() => Router.to('/nothing'), 1400)
     }
 
     render() {
@@ -101,6 +104,9 @@ test('should render without errors', async () => {
             </Router.Route>
             <Router.Route path="/children">
               <Children />
+            </Router.Route>
+            <Router.Route path="/hello/:name">
+              <Hello />
             </Router.Route>
           </Router.Switch>
         </div>
@@ -131,6 +137,9 @@ test('should render without errors', async () => {
 
   await wait(200)
   expect(nodeToString(res)).toBe('<body><div id="root"><div><div>Regex Route</div></div></div></body>')
+
+  await wait(200)
+  expect(nodeToString(res)).toBe('<body><div id="root"><div><div>hello world</div></div></div></body>')
 
   await wait(200)
   expect(nodeToString(res)).toBe('<body><div id="root"><div><div>404: Page Not Found</div></div></div></body>')

@@ -25,6 +25,8 @@ test('should render without errors', () => {
     }
   }
 
+  let Hello = (p:any)=> (<div>hello {p.route.params.name}</div>)
+
   class App extends Component {
     render() {
       return (
@@ -41,6 +43,9 @@ test('should render without errors', () => {
             </Router.Route>
             <Router.Route path="/children">
               <Children />
+            </Router.Route>
+            <Router.Route path="/hello/:name">
+              <Hello />
             </Router.Route>
           </Router.Switch>
         </div>
@@ -65,6 +70,9 @@ test('should render without errors', () => {
 
   const regexRoute = renderSSR(<App />, { pathname: '/abc123' })
   expect(regexRoute).toBe('<div id="root"><div><div>Regex Route</div></div></div>')
+
+  const routeParams = renderSSR(<App />, { pathname: '/hello/world' })
+  expect(routeParams).toBe('<div id="root"><div><div>hello world</div></div></div>')
 
   const notFound = renderSSR(<App />, { pathname: '/nothing' })
   expect(notFound).toBe('<div id="root"><div><div>404: Page Not Found</div></div></div>')
