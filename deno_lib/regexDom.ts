@@ -55,7 +55,8 @@ export class HTMLElementSSR {
 
   set innerText(text) {
     const reg = /(^<[^>]+>)(.+)?(<\/[a-z0-9]+>$|\/>$)/gm
-    this._ssr = this._ssr.replace(reg, `$1${text}$3`)
+    const replacer = (_match: string, p1: string, _p2: string, p3: string) => [p1, text, p3].join('')
+    this._ssr = this._ssr.replace(reg, replacer)
   }
 
   getAttribute(_name: any) {
@@ -90,9 +91,13 @@ export class HTMLElementSSR {
   }
 
   setAttribute(name: string, value: string) {
-    if (this.isSelfClosing)
-      this._ssr = this._ssr.replace(/(^<[a-z0-9]+ )(.+)/gm, `$1${escapeHtml(name)}="${escapeHtml(value)}" $2`)
-    else this._ssr = this._ssr.replace(/(^<[^>]+)(.+)/gm, `$1 ${escapeHtml(name)}="${escapeHtml(value)}"$2`)
+    const replacer1 = (_match: string, p1: string, p2: string) =>
+      `${p1}${escapeHtml(name)}="${escapeHtml(value)}" ${p2}`
+    const replacer2 = (_match: string, p1: string, p2: string) =>
+      `${p1} ${escapeHtml(name)}="${escapeHtml(value)}"${p2}`
+
+    if (this.isSelfClosing) this._ssr = this._ssr.replace(/(^<[a-z0-9]+ )(.+)/gm, replacer1)
+    else this._ssr = this._ssr.replace(/(^<[^>]+)(.+)/gm, replacer2)
   }
 
   append(child: any) {
