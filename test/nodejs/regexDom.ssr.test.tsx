@@ -3,8 +3,32 @@
  */
 
 import { initSSR } from '../../lib/ssr.js'
+import { DocumentSSR, HTMLElementSSR } from '../../lib/regexDom.js'
 
 const spy = jest.spyOn(global.console, 'error')
+
+test('set innerText', () => {
+  const div = new HTMLElementSSR('div')
+
+  div.innerText = 'hello'
+  expect(div.outerHTML).toBe('<div>hello</div>')
+
+  div.innerText = '<p>hello</p>'
+  expect(div.outerHTML).toBe('<div><p>hello</p></div>')
+
+  div.innerText = '<p>I payed $199 for my new SSD.</p>'
+  expect(div.outerHTML).toBe('<div><p>I payed $199 for my new SSD.</p></div>')
+})
+
+test('setAttribute', () => {
+  let div = new HTMLElementSSR('div')
+  div.setAttribute('name', 'value')
+  expect(div.outerHTML).toBe('<div name="value"></div>')
+
+  div = new HTMLElementSSR('div')
+  div.setAttribute('amount', '$199')
+  expect(div.outerHTML).toBe('<div amount="$199"></div>')
+})
 
 test('should behave like "normal" DOM Document', () => {
   initSSR()
