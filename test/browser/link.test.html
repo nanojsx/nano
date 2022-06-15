@@ -4,6 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="/tester.js"></script>
+    <script src="/scripts/browserTest/tester.js"></script>
     <script src="/bundles/nano.instrumented.min.js"></script>
   </head>
   <body>
@@ -24,6 +25,8 @@
         render(App)
 
         await Test.wait()
+
+        console.log(headLastChild())
 
         expect(headLastChild().outerHTML).toBe(
           '<link rel="prefetch" href="https://nanojsx.github.io/" as="document">',

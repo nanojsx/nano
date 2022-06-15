@@ -99,7 +99,7 @@ class Tester {
 
     // TODO(yandeu): check indent for nested describe()
 
-    window.addEventListener('load', async () => {
+    const _start = async () => {
       for (let i = 0; i < this.tests.length; i++) {
         const { description, fnc } = this.tests[i]
 
@@ -117,7 +117,12 @@ class Tester {
         await fnc()
       }
       this.end()
-    })
+    }
+
+    // wait for five-server to connect
+    const five = document.querySelector('[data-id="five-server"]')
+    if (five) five.addEventListener('connected', _start)
+    else window.addEventListener('load', _start)
   }
 
   describe(description, fnc) {
