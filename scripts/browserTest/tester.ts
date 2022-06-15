@@ -1,3 +1,4 @@
+/* eslint-disable prefer-template */
 /* eslint-disable no-dupe-class-members */
 class Tester {
   // https://developer.mozilla.org/en-US/docs/Web/API/Navigator/webdriver
@@ -39,7 +40,7 @@ class Tester {
       const testerHud = this.createElement(
         'div',
         null,
-        this.createElement('div', 'passes'),
+        this.createElement('div', 'tests'),
         this.createElement('div', 'failures'),
         this.createElement('div', 'duration')
       )
@@ -79,10 +80,17 @@ class Tester {
     })
   }
 
-  end() {
+  end(startTime: number) {
     const total = this.stats.error + this.stats.warn + this.stats.success
     const success = this.stats.success
     const passing = this.clr.lightGreen(`${success}/${total} passing`)
+    const duration = new Date().getTime() - startTime
+
+    const hud = document.getElementById('tester-hud')
+    if (hud) {
+      const stats = [total.toString(), this.stats.error.toString(), duration.toString() + 'ms']
+      Array.from(hud.children).forEach((c, i) => (c.innerHTML = c.innerHTML + ' ' + stats[i]))
+    }
 
     setTimeout(() => {
       this.sendToServer(`\n${this.indent}${passing}\n`, 'end')
@@ -98,6 +106,8 @@ class Tester {
     this.init(ui)
 
     // TODO(yandeu): check indent for nested describe()
+
+    const startTime = new Date().getTime()
 
     const _start = async () => {
       for (let i = 0; i < this.tests.length; i++) {
@@ -116,7 +126,7 @@ class Tester {
 
         await fnc()
       }
-      this.end()
+      this.end(startTime)
     }
 
     // wait for five-server to connect
