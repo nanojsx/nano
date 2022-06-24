@@ -62,4 +62,4 @@ jobs:
       - name: Run Tests
         run: |
           deno --version
-          deno test --no-check -c tsconfig.deno.json test/deno/**
+          deno test -c tsconfig.deno.json test/deno/**
