@@ -41,7 +41,7 @@
     "test:jsx-runtime:client": "tsc --project tsconfig.test.jsx-runtime.json && jest --coverage=false \"test.jsx-runtime/.+\\.test.js$\"",
     "test:jsx-runtime:server": "tsc --project tsconfig.test.jsx-runtime.json && node test.jsx-runtime/nodejs/server.js",
     "test:browser": "rimraf .nyc_output coverage && webpack -c webpack/webpack.bundle.instrumented.js && tsc -p scripts/browserTest/tsconfig.json && node scripts/browserTest/index.mjs --coverage && npx nyc report --exclude \"src/{bundles,dev,htm,ui}/**\" --exclude \"src/mod.ts\" --reporter=text --reporter=html --reporter=lcov",
-    "test:deno": "deno test -c tsconfig.deno.json test/deno"
+    "test:deno": "deno test --no-check -c tsconfig.deno.json test/deno"
   },
   "repository": {
     "type": "git",
