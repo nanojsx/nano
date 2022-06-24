@@ -5,6 +5,12 @@
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
   "type": "commonjs",
+  "exports": {
+    ".": "./lib/index.js",
+    "./jsx-runtime": "./jsx-runtime/index.js",
+    "./esm/jsx-runtime": "./esm/jsx-runtime/index.js",
+    "./*": "./*"
+  },
   "scripts": {
     "start": "npm run dev",
     "version": "extract version src/version.ts && prettier --write src/version.ts",
