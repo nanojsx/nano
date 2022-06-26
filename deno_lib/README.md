@@ -92,3 +92,23 @@ The best about Nano JSX is the **small bundle size**. It builds, although is sou
 ## Documentation
 
 Checkout the [website](http://nanojsx.io/) to find out more!
+
+---
+
+## Development Section
+
+### Run browser tests (visually)
+
+```bash
+# install dependencies
+npm install
+
+# create instrumented bundle
+npx webpack -c webpack/webpack.bundle.instrumented.js
+
+# transpile browserTest library
+npx tsc -p scripts/browserTest/tsconfig.json
+
+# open browser to run the tests
+npx five-server . --open=test/browser
+```
