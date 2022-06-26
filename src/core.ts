@@ -1,4 +1,4 @@
-/// <reference path="./types.d.ts" />
+import './types.js'
 
 export const isSSR = () => typeof _nano !== 'undefined' && _nano.isSSR === true
 
