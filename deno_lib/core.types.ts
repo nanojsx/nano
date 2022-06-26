@@ -29,3 +29,5 @@ declare global {
     }
   }
 }
+// This export keeps the backward compatibility with the module resolution system in deno < 1.23 version.
+export {}
