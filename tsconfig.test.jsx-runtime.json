@@ -7,7 +7,9 @@
     "module": "commonjs",
 
     "jsx": "react-jsx",
-    "jsxImportSource": "../../lib"
+    "jsxImportSource": "../../lib",
+
+    "skipLibCheck": true
   },
   "include": ["test.jsx-runtime/**/*"]
 }
