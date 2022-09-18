@@ -126,9 +126,12 @@ export class Component<P extends Object = any, S = any> {
 
     // remove all elements
     oldElements.forEach((child: HTMLElement) => {
-      child.remove()
-      // @ts-ignore
-      child = null
+      // wee keep the element if it is the same, for example if passed as a child
+      if (!this.elements.includes(child)) {
+        child.remove()
+        // @ts-ignore
+        child = null
+      }
     })
 
     // listen for node removal
