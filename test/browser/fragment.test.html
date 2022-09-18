@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="/tester.js"></script>
+    <script src="/scripts/browserTest/tester.js"></script>
+    <script src="/bundles/nano.instrumented.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script>
+      const { h, render, Component, Fragment } = nanoJSX
+    </script>
+
+    <script type="module">
+      describe('Fragment', async () => {
+        class ComponentWithFragment extends Component {
+          value = 0
+
+          changeValue(newValue) {
+            this.value += newValue
+            this.update()
+          }
+
+          render() {
+            return h(
+              Fragment,
+              null,
+              h('div', null, 'Counter: ', h('span', { id: 'counter_value' }, this.value)),
+              h('button', { id: 'button_1', onClick: () => this.changeValue(1) }),
+              h('button', { id: 'button_2', onClick: () => this.changeValue(-1) }),
+              this.props.children
+            )
+
+            // return (
+            //   <Fragment>
+            //     <div>
+            //       Counter: <span id="counter_value">{this.value}</span>
+            //     </div>
+            //     <button id="button_1" onClick={() => this.changeValue(1)}>
+            //       Increment
+            //     </button>
+            //     <button id="button_2" onClick={() => this.changeValue(-1)}>
+            //       Decrement
+            //     </button>
+            //     {this.props.children}
+            //   </Fragment>
+            // )
+          }
+        }
+
+        class App extends Component {
+          render() {
+            const title = `Hello ${this.props.name} JSX!`
+
+            return h('div', null, h(ComponentWithFragment, null, h('h1', null, title)))
+
+            // return (
+            //   <div>
+            //     <ComponentWithFragment>
+            //       <h1>{title}</h1>
+            //     </ComponentWithFragment>
+            //   </div>
+            // )
+          }
+        }
+
+        render(h(App, { name: 'Nano' }), document.getElementById('root'))
+
+        await Test.wait()
+
+        const btn1 = document.getElementById('button_1')
+        btn1.click()
+        btn1.click()
+        btn1.click()
+
+        const h1 = document.querySelector('h1')
+        const counter = document.getElementById('counter_value')
+        const root = document.getElementById('root')
+
+        expect(root.firstChild.children.length).toBe(4)
+        expect(App.isClass).toBe(true)
+        expect(counter.innerText).toBe('3')
+        expect(h1.innerText).toBe('Hello Nano JSX!')
+      })
+
+      Test.start(true)
+    </script>
+  </body>
+</html>
