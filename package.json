@@ -72,7 +72,7 @@
     "@yandeu/extract": "^0.0.3",
     "@yandeu/prettier-config": "0.0.3",
     "coverage-istanbul-loader": "^3.0.5",
-    "denoify": "^0.11.0",
+    "denoify": "^1.2.0",
     "eslint": "^8.2.0",
     "five-server": "^0.1.2",
     "jest": "^29.0.3",
