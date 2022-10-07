@@ -103,6 +103,9 @@ Checkout the [website](http://nanojsx.io/) to find out more!
 # install dependencies
 npm install
 
+# build
+npm run build
+
 # create instrumented bundle
 npx webpack -c webpack/webpack.bundle.instrumented.js
 
