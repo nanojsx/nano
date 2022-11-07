@@ -67,7 +67,7 @@
   "homepage": "http://nanojsx.io/",
   "devDependencies": {
     "@types/jest": "^29.0.3",
-    "@types/node": "^16.3.1",
+    "@types/node": "^18.11.9",
     "@yandeu/eslint-config": "^0.0.3",
     "@yandeu/extract": "^0.0.3",
     "@yandeu/prettier-config": "0.0.3",
@@ -82,7 +82,7 @@
     "npm-run-all": "^4.1.5",
     "prettier": "^2.2.1",
     "publish-cli": "^1.7.0",
-    "puppeteer": "^18.2.1",
+    "puppeteer": "^19.2.2",
     "rimraf": "^3.0.2",
     "source-map-support": "^0.5.21",
     "tiny-http2-server": "^0.0.2",
