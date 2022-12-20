@@ -165,6 +165,13 @@ export class Switch extends Component<{ fallback?: any; children?: any }> {
 // alias for <Switch />
 export class Routes extends Switch {}
 
+export interface RouteProps {
+  path: string
+  regex: { [param: string]: RegExp }
+  pathname: string
+  params: { [param: string]: string }
+}
+
 export const Route: FC<{ path: string; exact?: boolean; regex?: { [param: string]: RegExp }; children?: any }> = ({
   path,
   regex,
