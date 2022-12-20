@@ -1,10 +1,8 @@
 import { isSSR } from './core.js'
 
-type State = any
-
-export class Store {
-  private _state: any
-  private _prevState: any
+export class Store<S = any> {
+  private _state: S
+  private _prevState: S
   private _listeners: Map<string, Function> = new Map()
   private _storage: 'memory' | 'local' | 'session'
   private _id: string
@@ -34,7 +32,7 @@ export class Store {
     } else Storage.setItem(this._id, JSON.stringify(defaultState))
   }
 
-  private persist(newState: any) {
+  private persist(newState: S) {
     if (this._storage === 'memory') return
     const Storage = this._storage === 'local' ? localStorage : sessionStorage
     Storage.setItem(this._id, JSON.stringify(newState))
@@ -42,17 +40,18 @@ export class Store {
 
   /** Clears the state of the whole store. */
   public clear() {
+    // @ts-ignore
     this._state = this._prevState = undefined
 
     if (this._storage === 'local') localStorage.removeItem(this._id)
     else if (this._storage === 'session') sessionStorage.removeItem(this._id)
   }
 
-  public setState(newState: any) {
+  public setState(newState: S) {
     this.state = newState
   }
 
-  public set state(newState: any) {
+  public set state(newState: S) {
     this._prevState = this._state
     this._state = newState
 
@@ -63,7 +62,7 @@ export class Store {
     })
   }
 
-  public get state(): State {
+  public get state(): S {
     return this._state
   }
 
@@ -71,13 +70,13 @@ export class Store {
     const id = Math.random().toString(36).substring(2, 9)
     const _this = this
     return {
-      get state(): State {
+      get state(): S {
         return _this.state
       },
-      setState: (newState: State) => {
+      setState: (newState: S) => {
         this.state = newState
       },
-      subscribe: (fnc: (newState: State, prevState: State) => void) => {
+      subscribe: (fnc: (newState: S, prevState: S) => void) => {
         this._listeners.set(id, fnc)
       },
       cancel: () => {
