@@ -8,6 +8,7 @@
   "exports": {
     ".": "./lib/index.js",
     "./jsx-runtime": "./jsx-runtime/index.js",
+    "./lib/jsx-runtime": "./lib/jsx-runtime/index.js",
     "./esm/jsx-runtime": "./esm/jsx-runtime/index.js",
     "./*": "./*"
   },
