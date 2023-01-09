@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="/tester.js"></script>
+    <script src="/scripts/browserTest/tester.js"></script>
+    <script src="/bundles/nano.instrumented.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script>
+      const { h, render, Component, withStyles } = nanoJSX
+      const root = document.getElementById('root')
+    </script>
+
+    <script type="module">
+      describe('className', async () => {
+        const App = () =>
+          h('div', { id: 'wrapper' }, [h('h1', { class: 'title' }, 'Title'), h('p', { class: 'text' }, 'Text')])
+        render(App, root, false)
+        const div = root
+        Test.error(
+          div.innerHTML === '<div id="wrapper"><h1 class="title">Title</h1><p class="text">Text</p></div>',
+          `Should render className as class.`
+        )
+      })
+
+      Test.start()
+    </script>
+  </body>
+</html>

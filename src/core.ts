@@ -276,7 +276,7 @@ export const h = (tagNameOrComponent: any, props: any = {}, ...children: any[]) 
       }
     }
     // className
-    else if (/className/i.test(p)) console.warn('You can use "class" instead of "className".')
+    else if (/^className$/i.test(p)) element.setAttribute('class', props[p])
     // setAttribute
     else if (typeof props[p] !== 'undefined') element.setAttribute(p, props[p])
   }
