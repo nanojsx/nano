@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="/tester.js"></script>
+    <script src="/scripts/browserTest/tester.js"></script>
+    <script src="/bundles/nano.instrumented.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script>
+      const { h, render, Component, defineAsCustomElements, Fragment } = nanoJSX
+      const root = document.getElementById('root')
+    </script>
+
+    <script type="module">
+      describe('customElement', async () => {
+        class CustomElementTest extends Component {
+          render() {
+            /* prettier-ignore */
+            return h("div", null,
+              h('h1', null, 'title'),
+              "bye",
+              this.props.children
+            )
+          }
+        }
+
+        defineAsCustomElements(CustomElementTest, 'my-custom-element', [], { mode: 'open' })
+
+        const App = () => h('div', null, h('my-custom-element', null, 'hello'))
+
+        render(App, root, false)
+
+        const myCustomElement = document.querySelector('my-custom-element')
+
+        Test.error(root.innerHTML === '<div><my-custom-element>hello</my-custom-element></div>')
+
+        Test.error(myCustomElement?.shadowRoot?.innerHTML === '<div><div><h1>title</h1>bye</div></div>')
+      })
+
+      Test.start()
+    </script>
+  </body>
+</html>

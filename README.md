@@ -106,6 +106,9 @@ npm install
 # build
 npm run build
 
+# bundle
+npm run bundle
+
 # create instrumented bundle
 npx webpack -c webpack/webpack.bundle.instrumented.js
 
