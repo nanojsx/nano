@@ -124,8 +124,8 @@ export const _render = (comp: any): any => {
   // HTMLElement
   if (comp.tagName) return comp
 
-  // TEXTNode
-  if (comp && comp.nodeType === Node.TEXT_NODE) return comp
+  // TEXTNode (Node.TEXT_NODE === 3)
+  if (comp && comp.nodeType === 3) return comp
 
   // Class Component
   if (comp && comp.component && comp.component.isClass) return renderClassComponent(comp)
