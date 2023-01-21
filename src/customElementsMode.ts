@@ -35,7 +35,7 @@ export const defineAsCustomElements: (
 
         if (shadow) {
           this.attachShadow(shadow);
-          this.$root = this.$root as ShadowRoot;
+          this.$root = this.shadowRoot as ShadowRoot;
         } else {
           this.$root = this;
         }
