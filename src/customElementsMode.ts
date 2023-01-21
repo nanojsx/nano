@@ -26,7 +26,7 @@ export const defineAsCustomElements: (
     componentName,
     class extends HTMLElement {
       component: any
-      $root: ShadowRoot|HTMLElement;
+      $root: ShadowRoot | HTMLElement
       private isFunctionalComponent: boolean
       private functionalComponentsProps: any
 
@@ -34,10 +34,10 @@ export const defineAsCustomElements: (
         super()
 
         if (shadow) {
-          this.attachShadow(shadow);
-          this.$root = this.shadowRoot as ShadowRoot;
+          this.attachShadow(shadow)
+          this.$root = this.shadowRoot as ShadowRoot
         } else {
-          this.$root = this;
+          this.$root = this
         }
 
         let ref
@@ -56,7 +56,7 @@ export const defineAsCustomElements: (
         this.component = ref
         this.isFunctionalComponent = !component.isClass
         this.functionalComponentsProps = {}
-        this.appendEl(el);
+        this.appendEl(el)
         // ------------------------------------------
 
         if (!this.isFunctionalComponent) {
@@ -76,15 +76,15 @@ export const defineAsCustomElements: (
       private buildEl(contents: any) {
         // because nano-jsx update needs parentElement, we need
         // to wrap the element in a div when using shadow mode
-        return h(!!this.shadowRoot ? 'div' : 'template', null, contents);
+        return h(this.shadowRoot ? 'div' : 'template', null, contents)
       }
 
       private appendEl(el: any) {
-        if (!!this.shadowRoot) {
-          el.dataset.wcRoot = true;
-          this.$root.append(el);
+        if (this.shadowRoot) {
+          el.dataset.wcRoot = true
+          this.$root.append(el)
         } else {
-          this.$root.append(...el.childNodes);
+          this.$root.append(...el.childNodes)
         }
       }
 
@@ -104,7 +104,7 @@ export const defineAsCustomElements: (
         } else {
           this.removeChildren()
           this.functionalComponentsProps[name] = newValue
-          
+
           const el = this.buildEl(
             _render({
               component,
