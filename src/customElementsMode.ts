@@ -81,7 +81,7 @@ export const defineAsCustomElements: (
 
       private appendEl(el: any) {
         if (this.shadowRoot) {
-          el.dataset.wcRoot = true
+          // el.dataset.wcRoot = true
           this.$root.append(el)
         } else {
           this.$root.append(...el.childNodes)
