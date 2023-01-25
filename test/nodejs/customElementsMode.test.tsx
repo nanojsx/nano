@@ -10,7 +10,7 @@ afterEach(async () => {
   await wait()
 })
 
-test('should render as web components', async () => {
+test('should render as web components (without shadow DOM)', async () => {
   class Test extends Component {
     render() {
       return <div>test</div>
@@ -21,7 +21,9 @@ test('should render as web components', async () => {
   document.body.innerHTML = '<nano-test1></nano-test1>'
 
   await wait()
-  expect(document.body.outerHTML).toBe('<body><nano-test1></nano-test1></body>')
+  const comp = document.querySelector('nano-test1')
+  expect(comp?.outerHTML).toBe('<nano-test1><div>test</div></nano-test1>')
+  expect(comp?.shadowRoot).toBeNull()
   expect(spy).not.toHaveBeenCalled()
 })
 
