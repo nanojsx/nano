@@ -1,6 +1,6 @@
 import { h, isSSR, render, _render } from './core.js'
 
-interface CustomElementsParameters {
+export interface CustomElementsParameters {
   mode?: 'open' | 'closed'
   delegatesFocus?: boolean
 }

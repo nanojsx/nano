@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="/tester.js"></script>
+    <script src="/scripts/browserTest/tester.js"></script>
+    <script src="/bundles/nano.instrumented.min.js"></script>
+    <script>
+      const { h, render, Component, defineAsCustomElements, Fragment } = nanoJSX
+      const root = document.getElementById('root')
+    </script>
+
+    <script type="module">
+      class CustomElementTest extends Component {
+        render() {
+          /* prettier-ignore */
+          return h("div", null,
+              h('h1', null, 'title'),
+              "bye",
+              this.props.children, // renders nothing
+              this.props.hello, // renders 123
+            )
+        }
+      }
+
+      const SlotTest = () => {
+        return h('p', null, 'Hello: ', h('slot', { name: 'username' }))
+      }
+
+      defineAsCustomElements(CustomElementTest, 'my-custom-element', ['hello'], { mode: 'open' })
+      defineAsCustomElements(SlotTest, 'slot-test', [], { mode: 'open' })
+    </script>
+  </head>
+  <body>
+    <div id="root">
+      <my-custom-element hello="123">invisible</my-custom-element>
+      <slot-test><span slot="username">John Doe</span></slot-test>
+    </div>
+
+    <script type="module">
+      describe('my-custom-element', async () => {
+        const myCustomElement = document.querySelector('my-custom-element')
+        Test.error(myCustomElement.innerHTML === 'invisible', 'Should show text "invisible"')
+        Test.error(
+          myCustomElement?.shadowRoot?.innerHTML === '<div><div><h1>title</h1>bye123</div></div>',
+          'Shadow should contain "title" and "bye123"'
+        )
+      })
+
+      describe('slot-test', async () => {
+        const myCustomElement = document.querySelector('slot-test')
+        Test.error(myCustomElement.innerHTML === '<span slot="username">John Doe</span>', 'Should show span')
+        Test.error(
+          myCustomElement?.shadowRoot?.innerHTML === '<div><p>Hello: <slot name="username"></slot></p></div>',
+          'Hello: John Doe'
+        )
+      })
+
+      Test.start()
+    </script>
+  </body>
+</html>
