@@ -17,6 +17,9 @@ import { Img } from '../components/img.js'
 import { Visible } from '../components/visible.js'
 import * as Router from '../components/router.js'
 
+// customElement
+import { defineAsCustomElements } from '../customElementsMode.js'
+
 // tagged templates
 import { jsx } from '../jsx.js'
 
@@ -43,7 +46,8 @@ export default {
   render,
   task,
   tick,
-  withStyles
+  withStyles,
+  defineAsCustomElements
 }
 
 // version
