@@ -124,6 +124,9 @@ export const _render = (comp: any): any => {
   // HTMLElement
   if (comp.tagName) return comp
 
+  // TEXTNode (Node.TEXT_NODE === 3)
+  if (comp && comp.nodeType === 3) return comp
+
   // Class Component
   if (comp && comp.component && comp.component.isClass) return renderClassComponent(comp)
 
@@ -134,7 +137,7 @@ export const _render = (comp: any): any => {
   if (comp.component && typeof comp.component === 'function') return renderFunctionalComponent(comp)
 
   // Array (render each child and return the array) (is probably a fragment)
-  if (Array.isArray(comp)) return comp.map(c => _render(c)).flat()
+  if (Array.isArray(comp)) return (comp.map(c => _render(c)) as any).flat()
 
   // function
   if (typeof comp === 'function' && !comp.isClass) return _render(comp())
@@ -276,13 +279,13 @@ export const h = (tagNameOrComponent: any, props: any = {}, ...children: any[]) 
       }
     }
     // className
-    else if (/className/i.test(p)) console.warn('You can use "class" instead of "className".')
+    else if (/^className$/i.test(p)) element.setAttribute('class', props[p])
     // setAttribute
     else if (typeof props[p] !== 'undefined') element.setAttribute(p, props[p])
   }
 
   // these tags should not be escaped by default (in ssr)
-  const escape = !['noscript', 'script', 'style'].includes(tagNameOrComponent)
+  const escape = !(['noscript', 'script', 'style'] as any).includes(tagNameOrComponent)
   appendChildren(element, children, escape)
 
   if (ref) ref(element)

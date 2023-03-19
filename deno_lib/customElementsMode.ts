@@ -1,10 +1,5 @@
 import { h, isSSR, render, _render } from './core.ts'
 
-interface CustomElementsParameters {
-  mode?: 'open' | 'closed'
-  delegatesFocus?: boolean
-}
-
 const defineAsCustomElementsSSR = (
   component: any,
   componentName: string,
@@ -20,8 +15,8 @@ export const defineAsCustomElements: (
   component: any,
   componentName: string,
   publicProps: string[],
-  params?: CustomElementsParameters
-) => void = function (component, componentName, publicProps, { mode = 'closed', delegatesFocus = false } = {}) {
+  shadow?: ShadowRootInit
+) => void = function (component, componentName, publicProps, shadow) {
   if (isSSR()) {
     defineAsCustomElementsSSR(component, componentName, publicProps)
     return
@@ -31,34 +26,39 @@ export const defineAsCustomElements: (
     componentName,
     class extends HTMLElement {
       component: any
+      $root: ShadowRoot | HTMLElement
       private isFunctionalComponent: boolean
       private functionalComponentsProps: any
 
       constructor() {
         super()
 
-        const shadowRoot = this.attachShadow({ mode, delegatesFocus })
+        if (shadow) {
+          this.attachShadow(shadow)
+          this.$root = this.shadowRoot as ShadowRoot
+        } else {
+          this.$root = this
+        }
 
         let ref
-        const children = Array.from(this.children).map(c => render(c))
 
-        // because nano-jsx update need parentElement, so DocumentFragment is not usable...
-        const el = h(
-          'div',
-          null,
+        const el = this.buildEl(
           _render({
             component,
             props: {
-              children: children,
-              ref: (r: any) => (ref = r)
+              ref: (r: any) => (ref = r),
+              children: Array.from(this.children).map(c => render(c))
             }
           })
         )
+
+        // ------------------------------ first render
         this.component = ref
         this.isFunctionalComponent = !component.isClass
         this.functionalComponentsProps = {}
+        this.appendEl(el)
+        // ------------------------------------------
 
-        shadowRoot.append(el)
         if (!this.isFunctionalComponent) {
           this.component.updatePropsValue = (name: string, value: any) => {
             // @ts-ignore
@@ -73,9 +73,24 @@ export const defineAsCustomElements: (
         return publicProps
       }
 
-      private removeChildren() {
+      private buildEl(contents: any) {
+        // because nano-jsx update needs parentElement, we need
+        // to wrap the element in a div when using shadow mode
+        return h(this.shadowRoot ? 'div' : 'template', null, contents)
+      }
+
+      private appendEl(el: any) {
         if (this.shadowRoot) {
-          const children = Array.from(this.shadowRoot?.children) || []
+          // el.dataset.wcRoot = true
+          this.$root.append(el)
+        } else {
+          this.$root.append(...el.childNodes)
+        }
+      }
+
+      private removeChildren() {
+        if (this.$root) {
+          const children = Array.from(this.$root?.children) || []
           for (const el of children) {
             el.remove()
           }
@@ -89,9 +104,8 @@ export const defineAsCustomElements: (
         } else {
           this.removeChildren()
           this.functionalComponentsProps[name] = newValue
-          const el = h(
-            'div',
-            null,
+
+          const el = this.buildEl(
             _render({
               component,
               props: {
@@ -101,7 +115,8 @@ export const defineAsCustomElements: (
               }
             })
           )
-          this.shadowRoot!.append(el)
+
+          this.appendEl(el)
         }
       }
     }
