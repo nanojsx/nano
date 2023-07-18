@@ -38,7 +38,7 @@
     "preReleaseHook": "prepareRelease",
     "prepareRelease": "npm run clean && npm i && npm run build && npm run bundle && npm run denoify && npm run test && npm run test:deno && npm run test:browser",
     "test": "npm run test:nodejs && npm run test:jsx-runtime:client && npm run test:jsx-runtime:server",
-    "test:nodejs": "npm run clean:test && tsc --project tsconfig.test.json && jest \"test/.+\\.test.js$\" && npm run clean:test",
+    "test:nodejs": "npm run clean:test && tsc --project tsconfig.test.json && node ./test/scripts.mjs add-jest-environment && jest \"test/.+\\.test.js$\" && npm run clean:test",
     "test:jsx-runtime:client": "tsc --project tsconfig.test.jsx-runtime.json && jest --coverage=false \"test.jsx-runtime/.+\\.test.js$\"",
     "test:jsx-runtime:server": "tsc --project tsconfig.test.jsx-runtime.json && node test.jsx-runtime/nodejs/server.js",
     "test:browser": "rimraf .nyc_output coverage && webpack -c webpack/webpack.bundle.instrumented.js && tsc -p scripts/browserTest/tsconfig.json && node scripts/browserTest/index.mjs --coverage && npx nyc report --exclude \"src/{bundles,dev,htm,ui}/**\" --exclude \"src/mod.ts\" --reporter=text --reporter=html --reporter=lcov",
@@ -69,9 +69,9 @@
   "devDependencies": {
     "@types/jest": "^29.0.3",
     "@types/node": "^18.11.9",
-    "@yandeu/eslint-config": "^0.0.3",
+    "@yandeu/eslint-config": "^0.0.4",
     "@yandeu/extract": "^0.0.3",
-    "@yandeu/prettier-config": "0.0.3",
+    "@yandeu/prettier-config": "^0.0.4",
     "coverage-istanbul-loader": "^3.0.5",
     "denoify": "^1.2.0",
     "eslint": "^8.2.0",
@@ -81,19 +81,19 @@
     "jsdom": "^20.0.0",
     "nodemon": "^2.0.7",
     "npm-run-all": "^4.1.5",
-    "prettier": "^2.2.1",
+    "prettier": "^3.0.0",
     "publish-cli": "^1.7.0",
     "puppeteer": "19.0.0",
     "rimraf": "^3.0.2",
     "source-map-support": "^0.5.21",
     "tiny-http2-server": "^0.0.2",
     "ts-loader": "^9.2.3",
-    "typescript": "^4.1.3",
+    "typescript": "^5.1.6",
     "webpack": "^5.12.3",
     "webpack-cli": "^4.3.1"
   },
   "engines": {
-    "node": ">=12"
+    "node": ">=16"
   },
   "funding": "https://github.com/sponsors/yandeu"
 }
