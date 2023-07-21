@@ -70,12 +70,38 @@
         headLastChild().remove()
       })
 
-      describe('Back/Delay (TODO)', async () => {
-        const back = (Link, { back: true, href: 'https://nanojsx.github.io/' }, 'nanojsx.github.io')
-        const delay = (Link, { delay: 150, href: 'https://nanojsx.github.io/' }, 'nanojsx.github.io')
+      describe('Delay', async () => {
+        const App = () => h(Link, { delay: 1000, href: 'https://nanojsx.github.io/' }, 'nanojsx.github.io')
 
-        expect('skip', null).toBe(null, 'Should test "back"')
-        expect('skip', null).toBe(null, 'Should test "delay"')
+        render(App, root())
+
+        await Test.wait()
+
+        /** @type {HTMLLinkElement} */
+        const link = root()?.firstChild
+        link.click()
+
+        await Test.wait(2000)
+
+        expect(window.__gotohref__).toBe('https://nanojsx.github.io/')
+      })
+
+      describe('Back (target.href)', async () => {
+        const App = () => h(Link, { back: true, href: 'https://nanojsx.github.io/' }, 'nanojsx.github.io')
+
+        render(App, root())
+
+        await Test.wait()
+
+        /** @type {HTMLLinkElement} */
+        const link = root()?.firstChild
+        link.click()
+
+        expect(window.__gotohref__).toBe('https://nanojsx.github.io/')
+      })
+
+      describe('Back (window.history.back)', async () => {
+        expect('skip', null).toBe(null, 'Should test "window.history.back()"')
       })
 
       Test.start()
