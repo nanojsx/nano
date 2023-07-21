@@ -1,3 +1,5 @@
+// @ts-check
+
 import { extname } from 'path'
 
 export const mime = fileName => {

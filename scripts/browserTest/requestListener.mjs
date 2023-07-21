@@ -1,7 +1,8 @@
+// @ts-check
+
 import path from 'path'
 import { mime } from './mime.mjs'
 import { readFile } from 'fs/promises'
-import { spawn } from 'child_process'
 import { dirname, join } from 'path'
 import { fileURLToPath } from 'url'
 import { NYC } from './nyc.mjs'
@@ -13,12 +14,12 @@ const testerJS = await readFile(join(__dirname, './tester.js'), { encoding: 'utf
 
 export const totalPasses = [0, 0]
 
+/** @type {Array<{text:string, id: number, type?: string}>} */
 let _messages = []
+
 const sendMessages = () => {
   _messages
-    .sort((a, b) => {
-      a.id - b.id
-    })
+    .sort((a, b) => a.id - b.id)
     .forEach(m => {
       if (m.type === 'end') {
         const match = m.text.match(/(\d+)\/(\d+).passing/m)
@@ -39,6 +40,7 @@ const sendMessages = () => {
 
   _messages = []
 }
+
 const queueMessages = message => {
   _messages.push(message)
 

@@ -1,3 +1,5 @@
+// @ts-check
+
 import crypto from 'crypto'
 import puppeteer from 'puppeteer'
 import { createServer } from 'http'
@@ -19,15 +21,45 @@ const ERROR_CODES = {
 let hasError = false
 
 const server = createServer(requestListener({ serve, collectCoverage }))
-server.closeAsync = () => new Promise(resolve => server.close(() => resolve()))
+server.closeAsync = () => /** @type {Promise<void>} */(new Promise(resolve => server.close(() => resolve())))
 
+/**
+ *  @param {{fileName:string, browser:puppeteer.Browser}} param0 
+ */
 const main = async ({ fileName, browser }) => {
   console.log(`> ${fileName}`)
 
   const page = await browser.newPage()
+  await page.setRequestInterception(true);
 
   // Enable both JavaScript and CSS coverage
   if (collectCoverage) await page.coverage.startJSCoverage()
+
+  /** @type {Array<puppeteer.HTTPRequest>} */
+  const requests = [];
+
+  // Blocks all window.location.href requests
+  page.on('request', async request => {
+    let isNavRequest = request.isNavigationRequest() && request.frame() === page.mainFrame();
+    if (!isNavRequest) {
+      request.continue();
+      return;
+    }
+
+    requests.push(request);
+    if (requests.length == 1) {
+      request.continue();
+      return;
+    }
+
+    request.abort('aborted');
+
+    const url = requests[requests.length - 1].url()
+    await page.evaluate((url) => {
+      window.__gotohref__ = url;
+    }, url);
+
+  });
 
   // Navigate to page
   let url = `http://localhost:8080/${fileName.replace(/^\+/, '')}`

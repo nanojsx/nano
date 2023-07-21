@@ -1,3 +1,5 @@
+// @ts-check
+
 import { spawn } from 'child_process'
 
 const isWin = process.platform === 'win32'
