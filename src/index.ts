@@ -18,7 +18,7 @@ export { isSSR }
 export { jsx } from './jsx.js'
 export { hydrateLazy } from './lazy.js'
 export { nodeToString, task } from './helpers.js'
-export { renderSSR } from './ssr.js'
+export { renderSSR, initSSR } from './ssr.js'
 export { Fragment } from './fragment.js'
 export { Store } from './store.js'
 export { createContext, useContext } from './context.js'
