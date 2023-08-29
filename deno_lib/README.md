@@ -1,6 +1,11 @@
 <p align="center">
   <a href="http://nanojsx.io/">
-    <img src="https://raw.githubusercontent.com/nanojsx/nano/master/readme/nano-jsx-logo.svg" alt="Nano JSX Logo" width="350"/>
+  <!-- https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#specifying-the-theme-an-image-is-shown-to -->
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/nanojsx/nano/master/readme/nano-jsx-logo-dark.svg">
+    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/nanojsx/nano/master/readme/nano-jsx-logo.svg">
+    <img alt="Nano JSX Logo" src="https://raw.githubusercontent.com/nanojsx/nano/master/readme/nano-jsx-logo.svg">
+  </picture>
   </a>
 </p>
 
@@ -35,6 +40,12 @@
 </p>
 
 <hr>
+
+## News
+
+nano-jsx is now at v0.1.x 🎉  
+This means, no breaking changes till v0.2.x  
+[Tweet about it!](http://twitter.com/share?text=nano-jsx%20has%20reached%20v0.1!&url=https://nanojsx.io/)
 
 ## Getting Started
 

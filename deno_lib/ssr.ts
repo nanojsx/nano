@@ -56,7 +56,9 @@ export const renderSSR = (component: any, options: { pathname?: string; clearSta
   initSSR(pathname)
   if (clearState) _state.clear()
 
-  return render(component, null, true).join('') as string
+  const tmp = render(component, null, true) as string | string[]
+  if (Array.isArray(tmp)) return tmp.join('')
+  else return Array.from(tmp).join('')
 }
 
 export const clearState = () => {
