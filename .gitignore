@@ -11,3 +11,4 @@
 /test/**/*.js
 /test.jsx-runtime/**/*.js
 /scripts/browserTest/tester.js
+/deno.lock
