@@ -13,12 +13,15 @@ const args = process.argv.splice(2)
 const serve = args.includes('serve')
 const collectCoverage = args.includes('--coverage') && !serve
 
+
 const ERROR_CODES = {
   TEST_FAILED: 2,
   HAS_ERROR: 3
 }
 
 let hasError = false
+
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
 
 const server = createServer(requestListener({ serve, collectCoverage }))
 server.closeAsync = () => /** @type {Promise<void>} */(new Promise(resolve => server.close(() => resolve())))
@@ -72,7 +75,7 @@ const main = async ({ fileName, browser }) => {
     hasError = true
   }
 
-  await page.waitForTimeout(100)
+  await sleep(100)
 
   if (collectCoverage) {
     await page.coverage.stopJSCoverage()

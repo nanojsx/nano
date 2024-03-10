@@ -22,7 +22,7 @@ if (arg0 === "add-jest-environment") {
   const str = "/**\n* @jest-environment node\n*/\n\n"
 
   for await (const f of getFiles("test")) {
-    if (/ssr\.test\.js/.test(f)) {
+    if (/ssr\.test\.js/.test(f) || /e2e\/core\.test\.js/.test(f)) {
       const file = await readFile(f, { encoding: "utf-8" })
       await writeFile(f, str + file, { encoding: "utf-8" })
     }

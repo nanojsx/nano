@@ -69,9 +69,9 @@ export const requestListener = ({ serve, collectCoverage }) => {
         const filePath = path.join(path.resolve(), req.url)
         const contentType = mime(req.url)
 
-        // /tester.js
+        // tester.js
         if (req.url === '/tester.js') {
-          res.writeHead(200, { 'Content-Type': contentType }).end(testerJS)
+          return res.writeHead(200, { 'Content-Type': contentType }).end(testerJS)
         }
         // Will instrument all javascript files not containing "instrumented"
         else if (collectCoverage && contentType === 'application/javascript' && !/instrumented/.test(filePath)) {
@@ -87,7 +87,9 @@ export const requestListener = ({ serve, collectCoverage }) => {
           return res.writeHead(200, { 'Content-Type': contentType }).end(file)
         }
       } catch (err) {
-        console.log('Error:', err.message)
+        if(!err.message.endsWith(".ico'")) {
+          console.log('Error:', err.message)
+        }
         return res.writeHead(500).end()
       }
     }

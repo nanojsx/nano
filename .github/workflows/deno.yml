@@ -24,7 +24,7 @@ jobs:
     strategy:
       matrix:
         deno: ['v1.x']
-        node-version: ['16.x']
+        node-version: ['18.x']
 
     name: Deno ${{ matrix.deno }}
 
