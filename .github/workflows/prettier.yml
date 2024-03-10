@@ -10,10 +10,10 @@ jobs:
     name: Format
 
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '20'
       - run: rm -f package.json
       - run: rm -f package-lock.json
       - run: npm init -y
