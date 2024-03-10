@@ -49,12 +49,14 @@ test('should render without errors', async () => {
         <div
           ref={(node: HTMLDivElement) => {
             ref1 = nodeToString(node)
-          }}>
+          }}
+        >
           <p
             id="text-id"
             ref={(node: HTMLParagraphElement) => {
               ref2 = nodeToString(node)
-            }}>
+            }}
+          >
             some text
           </p>
         </div>

@@ -118,10 +118,13 @@ test('should render without errors', async () => {
     }
 
     didMount() {
-      setTimeout(() => {
-        this.state = { ...this.state, number: (this.state.number += 0.1) }
-        this.update()
-      }, Math.random() * 1000 + 200)
+      setTimeout(
+        () => {
+          this.state = { ...this.state, number: (this.state.number += 0.1) }
+          this.update()
+        },
+        Math.random() * 1000 + 200
+      )
     }
 
     render() {
@@ -161,7 +164,7 @@ test('should render without errors', async () => {
     constructor(props: any) {
       super(props)
       this.id = 'update-test'
-      this.state = ({ name: 'default', description: 'default' })
+      this.state = { name: 'default', description: 'default' }
     }
 
     didMount() {
@@ -190,7 +193,12 @@ test('should render without errors', async () => {
 
     render() {
       return (
-        <div><ul><li>{this.state.name}</li><li>{this.state.description}</li></ul></div>
+        <div>
+          <ul>
+            <li>{this.state.name}</li>
+            <li>{this.state.description}</li>
+          </ul>
+        </div>
       )
     }
   }

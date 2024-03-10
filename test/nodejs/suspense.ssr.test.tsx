@@ -19,13 +19,7 @@ test('should render without errors', async () => {
   }
 
   const Comments: FC<{ comments?: string[] }> = ({ comments }) => {
-    return (
-      <ul>
-        {comments?.map(c => (
-          <li>{c}</li>
-        ))}
-      </ul>
-    )
+    return <ul>{comments?.map(c => <li>{c}</li>)}</ul>
   }
 
   const Loading = () => <div>loading...</div>

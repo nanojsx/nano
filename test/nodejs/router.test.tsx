@@ -76,7 +76,7 @@ test('should render without errors', async () => {
     }
   }
 
-  let Hello = (p:any)=> (<div>hello {p.route.params.name}</div>)
+  let Hello = (p: any) => <div>hello {p.route.params.name}</div>
 
   class App extends Component {
     didMount() {

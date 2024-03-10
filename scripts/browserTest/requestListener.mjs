@@ -87,7 +87,7 @@ export const requestListener = ({ serve, collectCoverage }) => {
           return res.writeHead(200, { 'Content-Type': contentType }).end(file)
         }
       } catch (err) {
-        if(!err.message.endsWith(".ico'")) {
+        if (!err.message.endsWith(".ico'")) {
           console.log('Error:', err.message)
         }
         return res.writeHead(500).end()

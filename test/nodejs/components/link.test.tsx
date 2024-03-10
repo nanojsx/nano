@@ -56,7 +56,8 @@ test('should render Link Component ("hover" and back)', async () => {
             }, 100)
           }}
           prefetch="hover"
-          href="http://geckos.io/">
+          href="http://geckos.io/"
+        >
           Link to geckos.io
         </Link>
         <Link back href="http://enable3d.io/">

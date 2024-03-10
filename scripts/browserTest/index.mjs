@@ -13,7 +13,6 @@ const args = process.argv.splice(2)
 const serve = args.includes('serve')
 const collectCoverage = args.includes('--coverage') && !serve
 
-
 const ERROR_CODES = {
   TEST_FAILED: 2,
   HAS_ERROR: 3
@@ -21,48 +20,47 @@ const ERROR_CODES = {
 
 let hasError = false
 
-const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
+const sleep = ms => new Promise(r => setTimeout(r, ms))
 
 const server = createServer(requestListener({ serve, collectCoverage }))
-server.closeAsync = () => /** @type {Promise<void>} */(new Promise(resolve => server.close(() => resolve())))
+server.closeAsync = () => /** @type {Promise<void>} */ (new Promise(resolve => server.close(() => resolve())))
 
 /**
- *  @param {{fileName:string, browser:puppeteer.Browser}} param0 
+ *  @param {{fileName:string, browser:puppeteer.Browser}} param0
  */
 const main = async ({ fileName, browser }) => {
   console.log(`> ${fileName}`)
 
   const page = await browser.newPage()
-  await page.setRequestInterception(true);
+  await page.setRequestInterception(true)
 
   // Enable both JavaScript and CSS coverage
   if (collectCoverage) await page.coverage.startJSCoverage()
 
   /** @type {Array<puppeteer.HTTPRequest>} */
-  const requests = [];
+  const requests = []
 
   // Blocks all window.location.href requests
   page.on('request', async request => {
-    let isNavRequest = request.isNavigationRequest() && request.frame() === page.mainFrame();
+    let isNavRequest = request.isNavigationRequest() && request.frame() === page.mainFrame()
     if (!isNavRequest) {
-      request.continue();
-      return;
+      request.continue()
+      return
     }
 
-    requests.push(request);
+    requests.push(request)
     if (requests.length == 1) {
-      request.continue();
-      return;
+      request.continue()
+      return
     }
 
-    request.abort('aborted');
+    request.abort('aborted')
 
     const url = requests[requests.length - 1].url()
-    await page.evaluate((url) => {
-      window.__gotohref__ = url;
-    }, url);
-
-  });
+    await page.evaluate(url => {
+      window.__gotohref__ = url
+    }, url)
+  })
 
   // Navigate to page
   let url = `http://localhost:8080/${fileName.replace(/^\+/, '')}`
