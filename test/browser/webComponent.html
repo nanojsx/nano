@@ -43,7 +43,7 @@
         const myCustomElement = document.querySelector('my-custom-element')
         Test.error(myCustomElement.innerHTML === 'invisible', 'Should show text "invisible"')
         Test.error(
-          myCustomElement?.shadowRoot?.innerHTML === '<div><div><h1>title</h1>bye123</div></div>',
+          myCustomElement?.shadowRoot?.innerHTML === '<div><h1>title</h1>bye123</div>',
           'Shadow should contain "title" and "bye123"'
         )
       })
@@ -52,7 +52,7 @@
         const myCustomElement = document.querySelector('slot-test')
         Test.error(myCustomElement.innerHTML === '<span slot="username">John Doe</span>', 'Should show span')
         Test.error(
-          myCustomElement?.shadowRoot?.innerHTML === '<div><p>Hello: <slot name="username"></slot></p></div>',
+          myCustomElement?.shadowRoot?.innerHTML === '<p>Hello: <slot name="username"></slot></p>',
           'Hello: John Doe'
         )
       })
