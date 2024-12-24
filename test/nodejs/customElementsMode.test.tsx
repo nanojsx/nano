@@ -40,7 +40,7 @@ test('should render with correct content', async () => {
   await wait()
 
   const comp = document.querySelector('nano-test2')
-  expect(comp?.shadowRoot?.innerHTML).toEqual('<div><div>test text</div></div>')
+  expect(comp?.shadowRoot?.innerHTML).toEqual('<div>test text</div>')
   expect(spy).not.toHaveBeenCalled()
 })
 
@@ -65,7 +65,7 @@ test('should render with props', async () => {
   await wait()
 
   const comp = document.querySelector('nano-test3')
-  expect(comp?.shadowRoot?.innerHTML).toEqual('<div><div>test : fuga</div></div>')
+  expect(comp?.shadowRoot?.innerHTML).toEqual('<div>test : fuga</div>')
   expect(spy).not.toHaveBeenCalled()
 })
 
@@ -90,11 +90,11 @@ test('should update render result with props change', async () => {
   await wait()
 
   const comp = document.querySelector('nano-test4')
-  expect(comp?.shadowRoot?.innerHTML).toEqual('<div><div>test : fuga</div></div>')
+  expect(comp?.shadowRoot?.innerHTML).toEqual('<div>test : fuga</div>')
 
   document.body.innerHTML = '<nano-test4 value="hoge"></nano-test4>'
   const compChanged = document.querySelector('nano-test4')
-  expect(compChanged?.shadowRoot?.innerHTML).toEqual('<div><div>test : hoge</div></div>')
+  expect(compChanged?.shadowRoot?.innerHTML).toEqual('<div>test : hoge</div>')
   expect(spy).not.toHaveBeenCalled()
 })
 
@@ -123,10 +123,10 @@ test('should change render result with state change', async () => {
   await wait()
 
   const comp = document.querySelector('nano-test5')
-  expect(comp?.shadowRoot?.innerHTML).toEqual('<div><div><div>Counter: 0</div><button>Increment</button></div></div>')
+  expect(comp?.shadowRoot?.innerHTML).toEqual('<div><div>Counter: 0</div><button>Increment</button></div>')
 
   comp?.shadowRoot?.querySelector('button')?.click()
-  expect(comp?.shadowRoot?.innerHTML).toEqual('<div><div><div>Counter: 1</div><button>Increment</button></div></div>')
+  expect(comp?.shadowRoot?.innerHTML).toEqual('<div><div>Counter: 1</div><button>Increment</button></div>')
   expect(spy).not.toHaveBeenCalled()
 })
 
@@ -163,17 +163,17 @@ test('should keep state with props change', async () => {
 
   const comp = document.querySelector('nano-test6')
   expect(comp?.shadowRoot?.innerHTML).toEqual(
-    '<div><div><div>Counter: 0</div><div>props: 1</div><button>Increment</button></div></div>'
+    '<div><div>Counter: 0</div><div>props: 1</div><button>Increment</button></div>'
   )
 
   comp?.shadowRoot?.querySelector('button')?.click()
   expect(comp?.shadowRoot?.innerHTML).toEqual(
-    '<div><div><div>Counter: 1</div><div>props: 1</div><button>Increment</button></div></div>'
+    '<div><div>Counter: 1</div><div>props: 1</div><button>Increment</button></div>'
   )
   // @ts-ignore
   comp.attributes.value?.value = 2
   expect(comp?.shadowRoot?.innerHTML).toEqual(
-    '<div><div><div>Counter: 1</div><div>props: 2</div><button>Increment</button></div></div>'
+    '<div><div>Counter: 1</div><div>props: 2</div><button>Increment</button></div>'
   )
   expect(spy).not.toHaveBeenCalled()
 })
@@ -190,10 +190,10 @@ test('should render also with functional component', async () => {
   await wait()
 
   const comp = document.querySelector('nano-test7')
-  expect(comp?.shadowRoot?.innerHTML).toEqual('<div><p>hoge</p></div>')
+  expect(comp?.shadowRoot?.innerHTML).toEqual('<p>hoge</p>')
   // @ts-ignore
   comp.attributes.value?.value = 'bar'
-  expect(comp?.shadowRoot?.innerHTML).toEqual('<div><p>bar</p></div>')
+  expect(comp?.shadowRoot?.innerHTML).toEqual('<p>bar</p>')
   expect(spy).not.toHaveBeenCalled()
 })
 
@@ -225,6 +225,6 @@ test('should render also with slot', async () => {
   await wait()
 
   const comp = document.querySelector('nano-test8')
-  expect(comp?.shadowRoot?.innerHTML).toEqual('<div><div><header>nano jsx</header><main><p>hoge</p></main></div></div>')
+  expect(comp?.shadowRoot?.innerHTML).toEqual('<div><header>nano jsx</header><main><p>hoge</p></main></div>')
   expect(spy).not.toHaveBeenCalled()
 })
