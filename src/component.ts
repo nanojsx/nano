@@ -114,7 +114,7 @@ export class Component<P extends Object = any, S = any> {
     // console.log('new: ', this.elements)
 
     // get valid parent node
-    const parent = oldElements[0].parentElement as HTMLElement
+    const parent = oldElements[0].parentNode
 
     // make sure we have a parent
     if (!parent) console.warn('Component needs a parent element to get updated!')

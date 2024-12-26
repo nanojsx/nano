@@ -74,18 +74,11 @@ export const defineAsCustomElements: (
       }
 
       private buildEl(contents: any) {
-        // because nano-jsx update needs parentElement, we need
-        // to wrap the element in a div when using shadow mode
-        return h(this.shadowRoot ? 'div' : 'template', null, contents)
+        return h('template', null, contents)
       }
 
       private appendEl(el: any) {
-        if (this.shadowRoot) {
-          // el.dataset.wcRoot = true
-          this.$root.append(el)
-        } else {
-          this.$root.append(...el.childNodes)
-        }
+        this.$root.append(...el.childNodes)
       }
 
       private removeChildren() {
