@@ -75,25 +75,25 @@
     "coverage-istanbul-loader": "^3.0.5",
     "denoify": "^1.2.0",
     "eslint": "^8.2.0",
-    "five-server": "^0.3.2",
+    "five-server": "^0.4.0",
     "jest": "^29.0.3",
     "jest-environment-jsdom": "^29.0.3",
-    "jsdom": "^24.0.0",
+    "jsdom": "^25.0.1",
     "nodemon": "^3.1.0",
     "npm-run-all": "^4.1.5",
     "prettier": "^3.0.0",
     "publish-cli": "^1.7.0",
-    "puppeteer": "^22.4.1",
-    "rimraf": "^3.0.2",
+    "puppeteer": "^23.11.1",
+    "rimraf": "^5.0.10",
     "source-map-support": "^0.5.21",
     "tiny-http2-server": "^0.0.2",
     "ts-loader": "^9.2.3",
     "typescript": "^5.1.6",
     "webpack": "^5.12.3",
-    "webpack-cli": "^4.3.1"
+    "webpack-cli": "^6.0.1"
   },
   "engines": {
-    "node": ">=16"
+    "node": ">=18"
   },
   "funding": "https://github.com/sponsors/yandeu"
 }

@@ -3,7 +3,7 @@
     "outDir": "",
     "rootDir": "",
 
-    "target": "ES2015",
+    "target": "ES2018",
     "module": "commonjs",
 
     "jsx": "react-jsx",
@@ -11,5 +11,6 @@
 
     "skipLibCheck": true
   },
-  "include": ["test.jsx-runtime/**/*"]
+  "include": ["test.jsx-runtime/**/*"],
+  "exclude": ["node_modules", "**/*.spec.ts"]
 }

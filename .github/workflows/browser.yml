@@ -37,7 +37,7 @@ jobs:
           rm -f package.json
           rm -f package-lock.json
           npm init -y
-          npm i -D rimraf typescript@5.1.6 puppeteer
+          npm i -D rimraf typescript puppeteer
           npm i -D webpack webpack-cli ts-loader nyc coverage-istanbul-loader
 
       - name: Prepare
