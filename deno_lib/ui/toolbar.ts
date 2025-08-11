@@ -123,17 +123,17 @@ export class Toolbar extends Component<ToolbarProps> {
           h('div', { class: 'toolbar_hamburger_button' })
         )
       : back
-        ? h(
-            'div',
-            {
-              class: 'toolbar_button_wrapper',
-              onClick: actionClick
-            },
-            h('div', {
-              class: 'toolbar_back_button'
-            })
-          )
-        : null
+      ? h(
+          'div',
+          {
+            class: 'toolbar_button_wrapper',
+            onClick: actionClick
+          },
+          h('div', {
+            class: 'toolbar_back_button'
+          })
+        )
+      : null
 
     const navigation = navigationAction ? h('div', { class: 'toolbar_navigation_box' }, navigationAction) : null
 

@@ -27,7 +27,7 @@
   <a href="https://www.npmjs.com/package/nano-jsx"><img src="https://img.shields.io/badge/available%20on-npmjs.com-lightgrey.svg?logo=node.js&logoColor=339933&labelColor=white&style=flat-square"></a>
   <a href="https://deno.land/x/nano_jsx"><img src="https://img.shields.io/badge/available%20on-deno.land/x-lightgrey.svg?logo=deno&labelColor=black&style=flat-square"></a>
   <br/><br/>
-  <img src="https://img.badgesize.io/nanojsx/nano/master/bundles/nano.core.min.js?compression=gzip&style=flat-square" alt="gzip size">
+  <img src="https://badgen.net/badgesize/gzip/nanojsx/nano/master/bundles/nano.core.min.js?style=flat-square" alt="gzip size">
   <a href="https://github.com/nanojsx/nano/actions?query=workflow%3ANodeJS"><img src="https://img.shields.io/github/actions/workflow/status/nanojsx/nano/nodejs.yml?branch=master&label=NodeJS&logo=github&style=flat-square"></a>
   <a href="https://github.com/nanojsx/nano/actions?query=workflow%3ADeno"><img alt="GitHub Workflow Status" src="https://img.shields.io/github/actions/workflow/status/nanojsx/nano/deno.yml?branch=master&label=Deno&logo=github&style=flat-square"></a>
   <a href="https://github.com/nanojsx/nano/commits/master"><img src="https://img.shields.io/github/last-commit/nanojsx/nano.svg?style=flat-square" alt="GitHub last commit"></a>

@@ -1,12 +1,9 @@
 import { h, isSSR, render, _render } from './core.ts'
-import { Component } from './component.ts'
 
-type ComponentType<P extends object> = Component<P> | ((props: P) => any)
-
-const defineAsCustomElementsSSR = <P extends object>(
-  component: ComponentType<P>,
-  componentName: `${string}-${string}`,
-  _publicProps: (keyof P)[] = [],
+const defineAsCustomElementsSSR = (
+  component: any,
+  componentName: string,
+  _publicProps: string[] = [],
   _options: any = {}
 ) => {
   if (!/^[a-zA-Z0-9]+-[a-zA-Z0-9]+$/.test(componentName))
@@ -14,10 +11,10 @@ const defineAsCustomElementsSSR = <P extends object>(
   else _nano.customElements.set(componentName, component)
 }
 
-export const defineAsCustomElements: <P extends object>(
-  component: ComponentType<P>,
-  componentName: `${string}-${string}`,
-  publicProps: (keyof P)[],
+export const defineAsCustomElements: (
+  component: any,
+  componentName: string,
+  publicProps: string[],
   shadow?: ShadowRootInit
 ) => void = function (component, componentName, publicProps, shadow) {
   if (isSSR()) {
@@ -30,8 +27,8 @@ export const defineAsCustomElements: <P extends object>(
     class extends HTMLElement {
       component: any
       $root: ShadowRoot | HTMLElement
-      private readonly isFunctionalComponent: boolean
-      private readonly functionalComponentsProps: any
+      private isFunctionalComponent: boolean
+      private functionalComponentsProps: any
 
       constructor() {
         super()
@@ -57,7 +54,7 @@ export const defineAsCustomElements: <P extends object>(
 
         // ------------------------------ first render
         this.component = ref
-        this.isFunctionalComponent = !('isClass' in component)
+        this.isFunctionalComponent = !component.isClass
         this.functionalComponentsProps = {}
         this.appendEl(el)
         // ------------------------------------------
@@ -77,11 +74,18 @@ export const defineAsCustomElements: <P extends object>(
       }
 
       private buildEl(contents: any) {
-        return h('template', null, contents)
+        // because nano-jsx update needs parentElement, we need
+        // to wrap the element in a div when using shadow mode
+        return h(this.shadowRoot ? 'div' : 'template', null, contents)
       }
 
       private appendEl(el: any) {
-        this.$root.append(...el.childNodes)
+        if (this.shadowRoot) {
+          // el.dataset.wcRoot = true
+          this.$root.append(el)
+        } else {
+          this.$root.append(...el.childNodes)
+        }
       }
 
       private removeChildren() {
