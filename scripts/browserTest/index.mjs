@@ -104,7 +104,7 @@ server.listen(8080, async () => {
 
   console.log('\n')
 
-  const browser = await puppeteer.launch()
+  const browser = await puppeteer.launch({ args: ['--no-sandbox'] })
 
   const DIR = 'test/browser'
   const files = await readdir(join(resolve(), DIR))

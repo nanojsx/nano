@@ -13,7 +13,7 @@ let browser: Browser, page: Page
 
 beforeAll(async () => {
   await server.listen(port)
-  browser = await puppeteer.launch()
+  browser = await puppeteer.launch({ args: ['--no-sandbox'] })
   page = await browser.newPage()
 })
 
