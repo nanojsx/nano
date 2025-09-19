@@ -4,7 +4,7 @@ import { hydrateLazy } from '../lazy.js'
 import { nodeToString, task } from '../helpers.js'
 
 // useful tools
-import { Component } from '../component.js'
+import { Component, renderComponentGetReference } from '../component.js'
 import { Fragment } from '../fragment.js'
 import { Store } from '../store.js'
 import { createContext } from '../context.js'
@@ -47,7 +47,8 @@ export default {
   task,
   tick,
   withStyles,
-  defineAsCustomElements
+  defineAsCustomElements,
+  renderComponentGetReference
 }
 
 // version

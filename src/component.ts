@@ -1,5 +1,5 @@
 import { onNodeRemove } from './helpers.js'
-import { tick, _render } from './core.js'
+import { tick, _render, render, h, FC } from './core.js'
 import { _state } from './state.js'
 
 export class Component<P extends Object = any, S = any> {
@@ -146,4 +146,39 @@ export class Component<P extends Object = any, S = any> {
   }
 
   private _getHash(): any {}
+}
+
+/**
+ * Renders a class component and returns its reference.
+ * 
+ * @param C Class Component
+ * @param props Properties
+ * @param children Children
+ * @param parent HTMLElement
+ * @returns Reference to Class Component
+ * 
+ * @example
+  const componentReference = await renderComponentGetReference(
+      App, // Component
+      { name: 'Joe' }, // Props
+      [Child, 'Some text', child], // Children (Component, string, FC)
+      parentElement // HTMLElement
+  )
+      
+  componentReference.hello()
+  componentReference.setState({ age: 40 })
+  componentReference.update()
+  parentElement.remove()
+ */
+export function renderComponentGetReference<T extends Component>(
+  C: { new (props: any): T },
+  props: any,
+  children: Array<typeof Component | FC | string>,
+  parent: HTMLElement
+): Promise<T> {
+  return new Promise(resolve => {
+    render(h(C, { ...props, ref: (el: any) => resolve(el) }, ...children), parent)
+    // This is the same as the above, but written in JSX.
+    // render(<C {...props} ref={(el: any) => resolve(el)} />, parent)
+  })
 }
