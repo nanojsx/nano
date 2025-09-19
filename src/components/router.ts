@@ -225,6 +225,7 @@ class CListener {
 
     window.addEventListener('pushstate', event)
     window.addEventListener('replacestate', event)
+    window.addEventListener('popstate', event)
   }
 
   public use() {
