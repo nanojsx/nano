@@ -215,22 +215,23 @@ class CListener {
 
     this._route = window.location.pathname
 
-    const event = () => {
+    const event = (e: Event) => {
       const newRoute = window.location.pathname
       this._listeners.forEach(fnc => {
-        fnc(newRoute, this._route)
+        fnc(newRoute, this._route, e)
       })
       this._route = newRoute
     }
 
     window.addEventListener('pushstate', event)
     window.addEventListener('replacestate', event)
+    window.addEventListener('popstate', event)
   }
 
   public use() {
     const id = Math.random().toString(36).substring(2)
     return {
-      subscribe: (fnc: (currPath: string, prevPath: string) => void) => {
+      subscribe: (fnc: (currPath: string, prevPath: string, event: Event) => void) => {
         this._listeners.set(id, fnc)
       },
       cancel: () => {

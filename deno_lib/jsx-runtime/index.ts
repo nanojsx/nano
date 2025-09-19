@@ -11,3 +11,4 @@ const createNode: (type: any, props: any, key: string, source?: string, self?: s
 export { createNode as jsx }
 export { createNode as jsxs }
 export { createNode as jsxDev }
+export { createNode as jsxDEV }

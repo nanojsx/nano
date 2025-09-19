@@ -43,9 +43,16 @@
 
 ## News
 
-nano-jsx is now at v0.1.x 🎉  
-This means, no breaking changes till v0.2.x  
-[Tweet about it!](http://twitter.com/share?text=nano-jsx%20has%20reached%20v0.1!&url=https://nanojsx.io/)
+nano-jsx is now at v0.2.x 🎉  
+This means, no breaking changes till v0.3.x  
+[Tweet about it!](http://twitter.com/share?text=nano-jsx%20has%20reached%20v0.2!&url=https://nanojsx.io/)
+
+## Changes in v0.2.0
+
+- Breaking Change: Fix Shadow DOM DIV wrapping. [#146](https://github.com/nanojsx/nano/pull/146) (@hbroer)
+- Breaking Change: Improve Router Listener. [#115](https://github.com/nanojsx/nano/issues/115)
+- Added Bun.js support. [#151](https://github.com/nanojsx/nano/pull/151) (@lanten)
+- Added renderComponentGetReference function. [cbe51e3](https://github.com/nanojsx/nano/commit/cbe51e3c37cd494a31070244ac20e9bb16121592)
 
 ## Getting Started
 
