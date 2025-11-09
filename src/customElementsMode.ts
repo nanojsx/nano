@@ -1,9 +1,12 @@
 import { h, isSSR, render, _render } from './core.js'
+import { Component } from './component'
 
-const defineAsCustomElementsSSR = (
-  component: any,
-  componentName: string,
-  _publicProps: string[] = [],
+type ComponentType<P extends object> = Component<P> | ((props: P) => any)
+
+const defineAsCustomElementsSSR = <P extends object>(
+  component: ComponentType<P>,
+  componentName: `${string}-${string}`,
+  _publicProps: (keyof P)[] = [],
   _options: any = {}
 ) => {
   if (!/^[a-zA-Z0-9]+-[a-zA-Z0-9]+$/.test(componentName))
@@ -11,10 +14,10 @@ const defineAsCustomElementsSSR = (
   else _nano.customElements.set(componentName, component)
 }
 
-export const defineAsCustomElements: (
-  component: any,
-  componentName: string,
-  publicProps: string[],
+export const defineAsCustomElements: <P extends object>(
+  component: ComponentType<P>,
+  componentName: `${string}-${string}`,
+  publicProps: (keyof P)[],
   shadow?: ShadowRootInit
 ) => void = function (component, componentName, publicProps, shadow) {
   if (isSSR()) {
@@ -27,8 +30,8 @@ export const defineAsCustomElements: (
     class extends HTMLElement {
       component: any
       $root: ShadowRoot | HTMLElement
-      private isFunctionalComponent: boolean
-      private functionalComponentsProps: any
+      private readonly isFunctionalComponent: boolean
+      private readonly functionalComponentsProps: any
 
       constructor() {
         super()
@@ -54,7 +57,7 @@ export const defineAsCustomElements: (
 
         // ------------------------------ first render
         this.component = ref
-        this.isFunctionalComponent = !component.isClass
+        this.isFunctionalComponent = !('isClass' in component)
         this.functionalComponentsProps = {}
         this.appendEl(el)
         // ------------------------------------------
