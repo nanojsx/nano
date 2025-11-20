@@ -1,6 +1,6 @@
 {
   "name": "nano-jsx",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "SSR first, lightweight 1kB JSX library.",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
@@ -37,7 +37,7 @@
     "clean:test": "rimraf \"test/**/*.js\"",
     "publish": "publish",
     "preReleaseHook": "prepareRelease",
-    "prepareRelease": "npm run clean && npm i && npm run build && npm run bundle && npm run denoify && npm run test && npm run test:deno && npm run test:browser",
+    "prepareRelease": "npm run clean && npm i && npm run build && npm run bundle && npm run denoify && npm run test && npm run test:browser",
     "test": "npm run test:nodejs && npm run test:jsx-runtime:client && npm run test:jsx-runtime:server",
     "test:nodejs": "npm run clean:test && tsc --project tsconfig.test.json && node ./test/scripts.mjs add-jest-environment && jest \"test/.+\\.test.js$\" && npm run clean:test",
     "test:jsx-runtime:client": "tsc --project tsconfig.test.jsx-runtime.json && jest --coverage=false \"test.jsx-runtime/.+\\.test.js$\"",

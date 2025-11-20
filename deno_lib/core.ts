@@ -247,9 +247,11 @@ export const h = (tagNameOrComponent: any, props: any = {}, ...children: any[]) 
     // style object to style string
     if (p === 'style' && typeof props[p] === 'object') {
       const styles = Object.keys(props[p])
-        .map(k => `${k}:${props[p][k]}`)
+        .map(k => {
+          const key = k.replace(/[A-Z]/g, match => `-${match.toLowerCase()}`)
+          return `${key}:${props[p][k]}`
+        })
         .join(';')
-        .replace(/[A-Z]/g, match => `-${match.toLowerCase()}`)
       props[p] = `${styles};`
     }
 
