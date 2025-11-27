@@ -2,6 +2,7 @@ import Nano, { Component } from '../../lib/index.js'
 import { wait, nodeToString } from './helpers.js'
 
 const spy = jest.spyOn(global.console, 'error')
+const spyWarn = jest.spyOn(global.console, 'warn')
 
 afterEach(async () => {
   // reset jsdom document
@@ -104,6 +105,7 @@ test('should render without errors', async () => {
   expect(() => test.update()).toThrow()
   expect(test.test()).toBe('yeah')
   expect(spy).not.toHaveBeenCalled()
+  expect(spyWarn).toHaveBeenCalled()
 })
 
 test('should render without errors', async () => {

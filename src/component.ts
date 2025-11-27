@@ -114,10 +114,14 @@ export class Component<P extends Object = any, S = any> {
     // console.log('new: ', this.elements)
 
     // get valid parent node
-    const parent = oldElements[0].parentNode
+    const parent = oldElements[0]?.parentNode
 
     // make sure we have a parent
-    if (!parent) console.warn('Component needs a parent element to get updated!')
+    if (!parent) {
+      const msg = 'Component needs a parent element to get updated! (No previous elements found to update from)'
+      console.warn(msg)
+      throw new Error(msg)
+    }
 
     // add all new node elements
     this.elements.forEach((child: HTMLElement) => {
